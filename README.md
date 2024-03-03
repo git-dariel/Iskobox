@@ -4,7 +4,7 @@
 
 - Dariel Avila
 - Joshua Flores
-- Jason pogi Ocampo
+- Jason Ocampo
 
 ## Description of the system
 
