@@ -1,16 +1,16 @@
-import axios from "axios";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaLock, FaRegIdCard } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function SignIn() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignIn = () => {
-    if (username === "" || password === "") {
+    if (email === "" || password === "") {
       toast("Please fill in all fields", {
         icon: "⚠️",
         style: {
@@ -21,29 +21,29 @@ export default function SignIn() {
       });
       return;
     }
-    axios
-      .post("http://localhost:8000/faculty-login", {
-        username: username,
-        password: password,
-      })
-      .then((response) => {
-        if (response.data.message) {
-          toast(response.data.message, {
-            icon: "⚠️",
-            style: {
-              borderRadius: "10px",
-              background: "#333",
-              color: "#fff",
-            },
-          });
-        } else {
-          navigate("/dashboard");
-        }
-
-        console.log(response);
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        navigate("/dashboard");
       })
       .catch((error) => {
-        console.log(error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        toast(errorMessage, {
+          icon: "⚠️",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+        console.error(
+          "Error signing in with password and email",
+          errorCode,
+          errorMessage
+        );
       });
   };
 
@@ -80,9 +80,9 @@ export default function SignIn() {
                 <FaRegIdCard className="text-black m-2" />
                 <input
                   type="text"
-                  name="username"
-                  placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
+                  name="email"
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
                   className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
                 />
               </div>

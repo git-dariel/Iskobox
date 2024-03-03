@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { FaRegIdCard, FaLock } from "react-icons/fa";
 import { MdOutlineLocalPhone } from "react-icons/md";
 import { MdEmail } from "react-icons/md";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { db } from "../../../firebase";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
-export default function SignUp() {
-  const [username, setUsername] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+const SignUp = () => {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,8 +18,8 @@ export default function SignUp() {
     e.preventDefault();
 
     if (
-      username === "" ||
-      phoneNumber === "" ||
+      firstname === "" ||
+      lastname === "" ||
       email === "" ||
       password === ""
     ) {
@@ -33,15 +35,22 @@ export default function SignUp() {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/faculty-register",
-        {
-          username: username,
-          phone_number: phoneNumber,
-          email: email,
-          password: password,
-        }
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
+
+      // Firestore document reference
+      const userRef = doc(db, "users", userCredential.user.uid);
+      await setDoc(userRef, {
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+      });
+
+      //Success Toast
       toast("Registration Successful", {
         icon: "👏",
         style: {
@@ -50,15 +59,25 @@ export default function SignUp() {
           color: "#fff",
         },
       });
-      setUsername("");
-      setPhoneNumber("");
+
+      // Clear input fields after successful registration
+      setFirstname("");
+      setLastname("");
       setEmail("");
       setPassword("");
-      console.log(response);
     } catch (error) {
-      console.log(error);
+      console.error(error.message);
+      toast.error("Registration Failed", {
+        icon: "❌",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
       <title>SignIn</title>
@@ -94,9 +113,10 @@ export default function SignUp() {
                 <FaRegIdCard className="text-black m-2" />
                 <input
                   type="text"
-                  name="username"
-                  placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
+                  name="firstname"
+                  placeholder="Firstname"
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
                   className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
                 />
               </div>
@@ -105,9 +125,10 @@ export default function SignUp() {
                 <MdOutlineLocalPhone className="text-black m-2" />
                 <input
                   type="text"
-                  name="phone_number"
-                  placeholder="Contact"
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  name="lastname"
+                  placeholder="Lastname"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
                   className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
                 />
               </div>
@@ -118,6 +139,7 @@ export default function SignUp() {
                   type="text"
                   name="email"
                   placeholder="Email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
                 />
@@ -131,23 +153,13 @@ export default function SignUp() {
                   type="password"
                   name="password"
                   placeholder="Password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
                 />
               </div>
 
-              {/* remember me */}
-              <div className="flex justify-between w-64 mb-5">
-                <label className="flex items-center text-xs  ">
-                  <input type="checkbox" name="remember" className="mr-1" />
-                  Remember
-                </label>
-                <a href="#" className="text-xs">
-                  Forgot Password
-                </a>
-              </div>
-
-              {/* SignIn Button */}
+              {/* SignUp Button */}
               <button
                 variant={"default"}
                 onClick={handleSubmit}
@@ -181,4 +193,6 @@ export default function SignUp() {
       <Toaster position="top-center" reverseOrder={true} />
     </div>
   );
-}
+};
+
+export default SignUp;
