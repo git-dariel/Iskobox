@@ -1,6 +1,6 @@
 # Getting Started with Sharehub
 
-## Colaborators
+## Collaborators
 
 - Dariel Avila
 - Joshua Flores
