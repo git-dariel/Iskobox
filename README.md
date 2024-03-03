@@ -8,7 +8,7 @@
 
 ## Description of the system
 
-BSIT ShareHub is a centralized platform designed to streamline the admissions process, improve efficiency, and empower informed decision-making
+ShareHub is a centralized platform designed to streamline the admissions process, improve efficiency, and empower informed decision-making
 
 ## Tech Stack | Tools
 
