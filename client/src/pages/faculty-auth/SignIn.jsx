@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { FaLock, FaRegIdCard } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Logo from "./LOGO.png";
+
+import { FaLock } from "react-icons/fa";
+import { AiOutlineMail } from "react-icons/ai";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -31,7 +34,7 @@ export default function SignIn() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        toast(errorMessage, {
+        toast("Invalid Input", {
           icon: "⚠️",
           style: {
             borderRadius: "10px",
@@ -48,97 +51,79 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
-      <title>SignIn</title>
-
+    <div className="w-screen h-full bg-white p-0 m-0">
       {/* MainBox */}
-      <div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        {/* FOrm */}
-        <div className="bg-black text-yellow-500 rounded-2xl shadow-2xl flex w-2/3 max-w-4xl">
-          {/* SignInBox */}
-          <div className="w-3/5 p-5">
-            <div className="flex text-left font-bold rounded pb-5">
-              <div className="border-2 border-yellow-500 text-yellow-500 pl-2 pr-1 rounded-s-md hover:text-black hover:bg-yellow-500">
-                Share
-              </div>
-              <div className="border-2 border-yellow-500 bg-yellow-500 text-black pr-2 rounded-tr-md rounded-br-md">
-                Hub
-              </div>
-            </div>
-            {/* Sign In Header */}
-            <h2 className="text-3xl font-bold mb-2">Sign In to Account</h2>
-            {/* line */}
-            <div className="border-2 w-10 border-yellow-500 inline-block mb-2"></div>
-            {/* Paragrahp */}
-            <p className="mb-5 px-16 text-center">
-              "Log in to unlock seamless file-sharing collaboration"
-            </p>
-
-            {/* form */}
-            <div className="flex flex-col items-center ">
-              <div className="rounded flex bg-yellow-500 w-64 p-2  items-center mb-5">
-                <FaRegIdCard className="text-black m-2" />
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
+      <div className="flex justify-end ">
+        <div className="border max-h-full mb-10 mt-10 border-gray-600 inline-block "></div>
+        <div className=" flex items-center w-1/3 h-screen bg-white justify-center">
+          {/* FOrm */}
+          <div className=" bg-white ">
+            {/* SignInBox */}
+            <div className="w-full">
+              {/* form */}
+              <div className="flex  md:gap-4 flex-col items-left ">
+                {/* logo */}
+                <img
+                  src={Logo}
+                  draggable="false"
+                  className="no-select w-52 h-9 mb-4"
                 />
+
+                {/* email */}
+                <div className="flex bg-white w-72 items-center border-2 border-gray-700">
+                  <AiOutlineMail className="text-gray-700 m-2" />
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="EMAIL"
+                    onChange={(e) => setEmail(e.target.value)}
+                    className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700 focus:border-none focus:outline-none"
+                  />
+                </div>
+
+                {/* password */}
+                <div className="flex bg-white w-72  items-center border-2 border-gray-700">
+                  <FaLock className="text- m-2 text-gray-700" />
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="PASSWORD"
+                    onChange={(e) => setPassword(e.target.value)}
+                    className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700 focus:border-none focus:outline-none"
+                  />
+                </div>
+
+                {/* SignIn Button */}
+                <div className=" w-72 text-center rounded-xl bg-amber-500 text-white mt-4 shadow-md shadow-gray-400">
+                  <button
+                    variant={"default"}
+                    onClick={handleSignIn}
+                    className=" px-12 py-2 inline-block font-semibold"
+                  >
+                    SIGN IN
+                  </button>
+                </div>
+
+                {/* remember me */}
+                <div className="flex justify-end">
+                  <a href="#" className=" text-gray-700 mb-2">
+                    Forgot Password
+                  </a>
+                </div>
+                <div>
+                  <p className="">Don't have an account</p>
+                  <div className="flex flex-row md:gap-1">
+                    <p className=""> account ?</p>
+                    <Link to="/signup">
+                      <button className="text-indigo-500">Sign Up</button>
+                    </Link>
+                  </div>
+                </div>
               </div>
-
-              {/* password */}
-
-              <div className="rounded flex bg-yellow-500 w-64 p-2  items-center mb-2">
-                <FaLock className="text-black m-2" />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
-                />
-              </div>
-              {/* <p className="text-red-500 text-center">{loginStatus}</p> */}
-
-              {/* remember me */}
-              <div className="flex justify-between w-64 mb-5">
-                <label className="flex items-center text-xs  ">
-                  <input type="checkbox" name="remember" className="mr-1" />
-                  Remember
-                </label>
-                <a href="#" className="text-xs">
-                  Forgot Password
-                </a>
-              </div>
-
-              {/* SignIn Button */}
-              <button
-                variant={"default"}
-                onClick={handleSignIn}
-                className="border-2 border-yellow-500 text-yellow-500 rounded-full px-12 py-2 inline-block font-semibold hover:bg-yellow-500 hover:text-black"
-              >
-                Sign In
-              </button>
             </div>
           </div>
 
           {/* SignUpBox */}
-          <div className="w-2/5 bg-yellow-500 text-black rounded-tr-2xl rounded-br-2xl py-36 px-12">
-            {/* Header */}
-            <h2 className="text-3xl font-bold mb-2"> Hi! Welcome</h2>
-            {/* line */}
-            <div className="border-2 w-10 border-black inline-block mb-2"></div>
-            {/*  */}
-            <p className="mb-10">
-              Fill up the personal information and start your journey with us.
-            </p>
-            <Link to="/signup">
-              <button className="border-2 border-black text-black rounded-full px-12 py-2 inline-block font-semibold hover:bg-black hover:text-yellow-500">
-                Sign Up
-              </button>
-            </Link>
-          </div>
         </div>
       </div>
       <Toaster position="top-center" reverseOrder={true} />
