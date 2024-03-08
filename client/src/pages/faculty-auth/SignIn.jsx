@@ -51,10 +51,12 @@ export default function SignIn() {
   };
 
   return (
-    <div className="w-screen h-full bg-white p-0 m-0">
+    <div className="w-screen h-full bg-white p-0 m-0 select-none">
       {/* MainBox */}
       <div className="flex justify-end ">
+        {/* Line */}
         <div className="border max-h-full mb-10 mt-10 border-gray-600 inline-block "></div>
+        {/* form size and position */}
         <div className=" flex items-center w-1/3 h-screen bg-white justify-center">
           {/* FOrm */}
           <div className=" bg-white ">
@@ -104,26 +106,24 @@ export default function SignIn() {
                   </button>
                 </div>
 
-                {/* remember me */}
+           
                 <div className="flex justify-end">
                   <a href="#" className=" text-gray-700 mb-2">
                     Forgot Password
                   </a>
                 </div>
                 <div>
-                  <p className="">Don't have an account</p>
+                  <p className="">Don't have an</p>
                   <div className="flex flex-row md:gap-1">
                     <p className=""> account ?</p>
                     <Link to="/signup">
-                      <button className="text-indigo-500">Sign Up</button>
+                      <button className="text-indigo-500 border-b border-indigo-500">Sign Up</button>
                     </Link>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* SignUpBox */}
         </div>
       </div>
       <Toaster position="top-center" reverseOrder={true} />

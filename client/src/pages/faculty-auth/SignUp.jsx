@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { FaRegIdCard, FaLock } from "react-icons/fa";
-import { MdOutlineLocalPhone } from "react-icons/md";
+import { AiOutlineNumber } from "react-icons/ai";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { db } from "../../../firebase";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import Logo from "./LOGO.png";
 
 const SignUp = () => {
   const [firstname, setFirstname] = useState("");
@@ -79,116 +80,126 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
-      <title>SignIn</title>
-
+    <div className="w-screen h-full bg-white p-0 m-0 select-none">
       {/* MainBox */}
-      <div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        {/* FOrm */}
-        <div className="bg-black text-yellow-500 rounded-2xl shadow-2xl flex w-2/3 max-w-4xl">
-          {/* SignInBox */}
-          <div className="w-3/5 p-5">
-            <div className="flex text-left font-bold rounded pb-5">
-              <div className="border-2 border-yellow-500 text-yellow-500 pl-2 pr-1 rounded-s-md hover:text-black hover:bg-yellow-500">
-                Share
-              </div>
-              <div className="border-2 border-yellow-500 bg-yellow-500 text-black pr-2 rounded-tr-md rounded-br-md">
-                Hub
+      <div className="flex justify-start">
+        {/* position*/}
+        <div className="flex items-center w-2/4 h-screen bg-white justify-center">
+          {/* form*/}
+          <div className="  bg-white">
+            {/* signup box*/}
+            <div className="w-full">
+              <div className="flex  md:gap-4 flex-col items-left">
+                {/* Logo */}
+                <img
+                  src={Logo}
+                  draggable="false"
+                  className="no-select w-52 h-9 mb-4 pointer-events-none"
+                />
+                {/* Name Section */}
+                <div>
+                  {/* name label */}
+                  <div className="flex flex-row md:gap-2 mb-2">
+                    <FaRegIdCard className="text-gray-700 text-xl mt-1 " />
+                    <p className="text-gray-700 text-xl">Name</p>
+                  </div>
+                  {/* first name */}
+                  <div className="flex flex-row md:gap-2">
+                    <div className="flex bg-white w-60 items-center border-2 border-gray-700">
+                      <input
+                        type="text"
+                        name="firstname"
+                        placeholder="First Name"
+                        value={firstname}
+                        onChange={(e) => setFirstname(e.target.value)}
+                        className=" p-2 bg-transparent text-sm flex placeholder-gray-700 text-gray-700focus:border-none focus:outline-none"
+                      />
+                    </div>
+                    {/* Last Name */}
+                    <div className="flex bg-white w-60 items-center border-2 border-gray-700">
+                      <input
+                        type="text"
+                        name="lastname"
+                        placeholder="Last Name"
+                        value={lastname}
+                        onChange={(e) => setLastname(e.target.value)}
+                        className=" p-2 bg-transparent text-sm flex placeholder-gray-700 text-gray-700 focus:border-none focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* Information Section */}
+                <div>
+                  {/* Information Label */}
+                  <div className="flex flex-row md:gap-2 mb-2">
+                    <FaRegIdCard className="text-gray-700 text-xl mt-1 " />
+                    <p className="text-gray-700 text-xl">Information</p>
+                  </div>
+                  {/* ID Number */}
+                  <div className="flex bg-white  items-center border-2 border-gray-700">
+                    <AiOutlineNumber className="text-gray-700 m-2" />
+                    <input
+                      type="text"
+                      name="idnumber"
+                      placeholder="ID Number"
+                      // value={lastname}
+                      // onChange={(e) => (e.target.value)}
+                      className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700focus:border-none focus:outline-none"
+                    />
+                  </div>
+                </div>
+                <div className="flex bg-white items-center border-2 border-gray-700">
+                  <MdEmail className="text-gray-700 m-2" />
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700 focus:border-none focus:outline-none"
+                  />
+                </div>
+
+                {/* password */}
+                <div className="flex bg-white  items-center border-2 border-gray-700">
+                  <FaLock className="text-gray-700 m-2" />
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700 focus:border-none focus:outline-none"
+                  />
+                </div>
+
+                {/* SignUp Button */}
+                <p className="text-gray-700 text-xs mt-10 pl-2">
+                  By clicking Sign Up, you agree to our Terms, Privacy Policy
+                  and Cookies Policy.{" "}
+                </p>
+                <div className="text-center rounded-xl bg-amber-500 text-white shadow-md shadow-gray-400">
+                  <button
+                    variant={"default"}
+                    onClick={handleSubmit}
+                    className="px-12 py-2 inline-block font-semibold"
+                  >
+                    SIGN UP
+                  </button>
+                </div>
+                <div className="flex justify-end md:gap-2">
+                  <p className="text-gray-700">Already have an account? </p>
+                  <Link to="/signin">
+                    <button className="text-indigo-500 border-b border-indigo-500 ">
+                      Sign In
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
-            {/* Sign In Header */}
-            <h2 className="text-3xl font-bold mb-2">
-              Sign Up to Create Account
-            </h2>
-            {/* line */}
-            <div className="border-2 w-10 border-yellow-500 inline-block mb-2"></div>
-            {/* Paragrahp */}
-            <p className="mb-5 px-16 text-center">
-              "Sign Up to unlock seamless file-sharing collaboration"
-            </p>
-
-            {/* form */}
-            <div className="flex flex-col items-center ">
-              <div className="rounded flex bg-yellow-500 w-64 p-2  items-center mb-5">
-                <FaRegIdCard className="text-black m-2" />
-                <input
-                  type="text"
-                  name="firstname"
-                  placeholder="Firstname"
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
-                  className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
-                />
-              </div>
-
-              <div className="rounded flex bg-yellow-500 w-64 p-2  items-center mb-5">
-                <MdOutlineLocalPhone className="text-black m-2" />
-                <input
-                  type="text"
-                  name="lastname"
-                  placeholder="Lastname"
-                  value={lastname}
-                  onChange={(e) => setLastname(e.target.value)}
-                  className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
-                />
-              </div>
-
-              <div className="rounded flex bg-yellow-500 w-64 p-2  items-center mb-5">
-                <MdEmail className="text-black m-2" />
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
-                />
-              </div>
-
-              {/* password */}
-
-              <div className="rounded flex bg-yellow-500 w-64 p-2  items-center mb-2">
-                <FaLock className="text-black m-2" />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className=" bg-transparent text-sm flex placeholder-black text-black focus:border-none focus:outline-none"
-                />
-              </div>
-
-              {/* SignUp Button */}
-              <button
-                variant={"default"}
-                onClick={handleSubmit}
-                className="border-2 border-yellow-500 text-yellow-500 rounded-full px-12 py-2 inline-block font-semibold hover:bg-yellow-500 hover:text-black"
-              >
-                Sign Up
-              </button>
-            </div>
-          </div>
-
-          {/* SignUpBox */}
-          <div className="w-2/5 bg-yellow-500 text-black rounded-tr-2xl rounded-br-2xl py-36 px-12">
-            {/* Header */}
-            <h2 className="text-3xl font-bold mb-2"> Hi! Welcome</h2>
-            {/* line */}
-            <div className="border-2 w-10 border-black inline-block mb-2"></div>
-            {/*  */}
-            <p className="mb-10">
-              "Seamlessly sign in for swift file sharing, ensuring efficiency
-              and collaboration with our streamlined and user-friendly platform.
-              Join now!"
-            </p>
-            <Link to="/signin">
-              <button className="border-2 border-black text-black rounded-full px-12 py-2 inline-block font-semibold hover:bg-black hover:text-yellow-500">
-                Sign In
-              </button>
-            </Link>
           </div>
         </div>
+        <div className="border max-h-full mb-10 mt-10 border-gray-600 inline-block"></div>
       </div>
       <Toaster position="top-center" reverseOrder={true} />
     </div>
