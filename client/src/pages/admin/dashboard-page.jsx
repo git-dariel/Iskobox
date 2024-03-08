@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import FolderPage from "./FolderPage";
-import NavBar from "././NavBar";
-import SideBar from "././SideBar";
-import SideBarItem from "././SideBarItem";
+import FolderPage from "./folder-page";
+import NavBar from "../../components/home/home-navbar";
+import SideBar from "../../components/home/home-sidebar";
+import SideBarItem from "../../components/home/sidebar-item";
 import { FaFolder } from "react-icons/fa";
 
 export default function Dashboard() {

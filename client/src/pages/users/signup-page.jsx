@@ -4,10 +4,10 @@ import { AiOutlineNumber } from "react-icons/ai";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { db } from "../../../firebase";
+import { db } from "../../database/firebase-connection";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import Logo from "./LOGO.png";
+import Logo from "../../assets/LOGO.png";
 
 const SignUp = () => {
   const [firstname, setFirstname] = useState("");

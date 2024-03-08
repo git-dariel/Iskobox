@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { db } from "../../../firebase";
+import { db } from "../../database/firebase-connection";
 import { collection, addDoc } from "firebase/firestore";
 
 export default function AddFolderButton() {

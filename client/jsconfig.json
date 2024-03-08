@@ -5,6 +5,10 @@
     "baseUrl": "./src",
     "paths": { "@/*": ["*"] }
   },
-  "include": ["src/**/*.js", "src/**/*.jsx"],
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/database/firebase-connection.js"
+  ],
   "exclude": ["node_modules", "dist"]
 }

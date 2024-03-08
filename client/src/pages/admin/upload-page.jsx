@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import UploadForm from "./UploadForm";
+import UploadForm from "../../components/home/upload-form";
 import toast, { Toaster } from "react-hot-toast";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import LimitReached from "../main/LimitReached";
-import FilePrev from "./FilePrev";
+import LimitReached from "../../utils/limit-reached";
+import FilePrev from "../../utils/file-prev";
 
 function UploadForm() {
   const [file, setFile] = useState();

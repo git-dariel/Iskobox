@@ -5,9 +5,10 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  getDoc,
   query,
   where,
-  updateDoc
+  updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { File, FileText, FolderCog, Image, Trash, X } from "lucide-react";
@@ -15,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import toast, { Toaster } from "react-hot-toast";
 import Modal from "react-modal";
-import { db, storage } from "../../../firebase";
+import { db, storage } from "../../database/firebase-connection";
 import { RiFolderAddLine } from "react-icons/ri";
 import { RiFileAddLine } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
@@ -53,29 +54,38 @@ function FolderPage() {
   }, []);
 
   const updateFolderUsageChartData = async () => {
-    // Helper function to recursively count files for a given folder
-    const countFilesInFolder = async (folderId) => {
-      let fileCount = 0;
-      const qFiles = query(collection(db, "files"), where("folderId", "==", folderId));
-      const filesSnapshot = await getDocs(qFiles);
-      fileCount += filesSnapshot.docs.length; // Count files directly under this folder
-  
-      // Now, find and process all subfolders
-      const qSubfolders = query(collection(db, "folders"), where("parentId", "==", folderId));
-      const subfoldersSnapshot = await getDocs(qSubfolders);
-      for (const subfolderDoc of subfoldersSnapshot.docs) {
-        const subfolderId = subfolderDoc.id;
-        const subfolderFileCount = await countFilesInFolder(subfolderId); // Recursive call
-        fileCount += subfolderFileCount;
+    // Fetch all folders and files at once to reduce Firestore reads
+    const allFoldersSnapshot = await getDocs(collection(db, "folders"));
+    const allFilesSnapshot = await getDocs(collection(db, "files"));
+
+    // Convert snapshots to maps for quick access
+    const allFolders = new Map();
+    allFoldersSnapshot.forEach((doc) => {
+      allFolders.set(doc.id, { ...doc.data(), id: doc.id, fileCount: 0 });
+    });
+
+    // Count files for each folder
+    allFilesSnapshot.forEach((doc) => {
+      const folderId = doc.data().folderId;
+      if (allFolders.has(folderId)) {
+        allFolders.get(folderId).fileCount += 1;
       }
-      
-      console.log(`Folder ID: ${folderId}, File Count: ${fileCount}`);
+    });
+
+    // Recursive function to count files including subfolders, now using local data
+    const countFilesInFolder = (folderId) => {
+      let fileCount = allFolders.get(folderId).fileCount;
+      for (const [id, folder] of allFolders) {
+        if (folder.parentId === folderId) {
+          fileCount += countFilesInFolder(id); // Recursive call
+        }
+      }
       return fileCount;
     };
-    
-      // Function to process a single folder
-    const processFolder = async (folder) => {
-      const totalFiles = await countFilesInFolder(folder.id);
+
+    // Process folders to calculate usage data
+    const processFolder = (folder) => {
+      const totalFiles = countFilesInFolder(folder.id);
       const maxFileCount = 3; // Adjust based on your application's logic
       const usagePercentage = Math.min((totalFiles / maxFileCount) * 100, 100);
 
@@ -86,16 +96,10 @@ function FolderPage() {
       };
     };
 
-      // Process root folders
-    const rootFoldersData = await Promise.all(folders.map(folder => processFolder(folder)));
+    // Process all folders and subfolders
+    const folderUsageData = Array.from(allFolders.values()).map(processFolder);
 
-    // Process subfolders if any
-    let subFoldersData = [];
-    if (currentFolder && currentFolder.subfolders) {
-      subFoldersData = await Promise.all(currentFolder.subfolders.map(folder => processFolder(folder)));
-    }
-  
-    setFolderUsageChartData([...rootFoldersData, ...subFoldersData]);
+    setFolderUsageChartData(folderUsageData);
   };
 
   const fetchAllFiles = async () => {
@@ -190,21 +194,27 @@ function FolderPage() {
 
   const fetchSubfoldersAndFiles = async (folderId) => {
     // Fetch subfolders
-    const qFolders = query(collection(db, "folders"), where("parentId", "==", folderId));
+    const qFolders = query(
+      collection(db, "folders"),
+      where("parentId", "==", folderId)
+    );
     const querySnapshotFolders = await getDocs(qFolders);
     const subfoldersArray = querySnapshotFolders.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-  
+
     // Fetch files
-    const qFiles = query(collection(db, "files"), where("folderId", "==", folderId));
+    const qFiles = query(
+      collection(db, "files"),
+      where("folderId", "==", folderId)
+    );
     const querySnapshotFiles = await getDocs(qFiles);
     const filesArray = querySnapshotFiles.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-  
+
     // Update state
     setCurrentFolder((prevState) => ({
       ...prevState,
@@ -427,23 +437,25 @@ function FolderPage() {
   const handleEditFolder = async (e) => {
     e.preventDefault();
     if (!editingFolder || editedFolderName.trim() === "") return;
-  
+
     try {
       const folderRef = doc(db, "folders", editingFolder.id);
       await updateDoc(folderRef, {
         name: editedFolderName,
       });
-  
+
       // Update the local state to reflect the change
       setFolders((prevFolders) =>
         prevFolders.map((folder) =>
-          folder.id === editingFolder.id ? { ...folder, name: editedFolderName } : folder
+          folder.id === editingFolder.id
+            ? { ...folder, name: editedFolderName }
+            : folder
         )
       );
       if (currentFolder && currentFolder.id === editingFolder.id) {
         setCurrentFolder((prev) => ({ ...prev, name: editedFolderName }));
       }
-  
+
       toast("Folder name updated successfully", {
         icon: "✅",
         style: {
@@ -456,7 +468,7 @@ function FolderPage() {
       console.error("Error updating folder name: ", error);
       toast.error("Error updating folder name");
     }
-  
+
     setEditModalOpen(false);
   };
 
@@ -490,11 +502,19 @@ function FolderPage() {
                           100 - data.usagePercentage,
                         ],
                         backgroundColor: [
-                          "rgba(54, 162, 235, 0.6)",
+                          data.usagePercentage >= 100
+                            ? "rgba(255, 99, 132, 0.6)" // Red for full
+                            : data.usagePercentage > 60
+                            ? "rgba(255, 159, 64, 0.6)" // Orange for quite full
+                            : "rgba(54, 162, 235, 0.6)", // Blue for not full
                           "rgba(201, 203, 207, 0.6)",
                         ],
                         borderColor: [
-                          "rgba(54, 162, 235, 1)",
+                          data.usagePercentage >= 100
+                            ? "rgba(255, 99, 132, 1)"
+                            : data.usagePercentage > 75
+                            ? "rgba(255, 159, 64, 1)"
+                            : "rgba(54, 162, 235, 1)",
                           "rgba(201, 203, 207, 1)",
                         ],
                         borderWidth: 1,
@@ -502,10 +522,15 @@ function FolderPage() {
                     ],
                   }}
                   options={{
-                    circumference: 180,
-                    rotation: -90,
+                    circumference: 360, // Changed to 360 for full circle
+                    rotation: 270, // Adjusted for starting point to be at the top
                     cutout: "80%",
                     maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        display: false, // Optionally hide the legend if you want
+                      },
+                    },
                   }}
                 />
               </div>
@@ -578,12 +603,17 @@ function FolderPage() {
         </div>
 
         <div className="mx-12 text-center mb-5">
-            {/* Folder List */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-5">
-              {(currentFolder ? currentFolder.subfolders : folders).map((folder) => {
+          {/* Folder List */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-5">
+            {(currentFolder ? currentFolder.subfolders : folders).map(
+              (folder) => {
                 // Find the usage data for this folder
-                const usageData = folderUsageChartData.find(data => data.folderName === folder.name);
-                const filePercentage = usageData ? usageData.usagePercentage.toFixed(0) : '0'; // Default to '0' if not found
+                const usageData = folderUsageChartData.find(
+                  (data) => data.folderName === folder.name
+                );
+                const filePercentage = usageData
+                  ? usageData.usagePercentage.toFixed(0)
+                  : "0"; // Default to '0' if not found
 
                 return (
                   <div
@@ -613,7 +643,6 @@ function FolderPage() {
                           setEditedFolderName(folder.name);
                           setEditModalOpen(true);
                         }}
-                        
                       >
                         <FaRegEdit className="w-4 h-4" />
                       </button>
@@ -633,9 +662,10 @@ function FolderPage() {
                     </div>
                   </div>
                 );
-              })}
-            </div>
+              }
+            )}
           </div>
+        </div>
       </div>
 
       {/* Files List */}
@@ -786,46 +816,46 @@ function FolderPage() {
         </div>
       </Modal>
 
-        {/* Modal for editing a folder name */}
+      {/* Modal for editing a folder name */}
       <Modal
-          isOpen={isEditModalOpen}
-          onRequestClose={() => setEditModalOpen(false)}
-          contentLabel="Edit Folder Name"
-          className="fixed inset-0 overflow-y-auto"
-        >
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full p-4">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                Edit Folder Name
-              </h3>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  className="border p-2 mb-4 w-full"
-                  placeholder="Enter new folder name"
-                  value={editedFolderName}
-                  onChange={(e) => setEditedFolderName(e.target.value)}
-                />
-              </div>
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none mr-2"
-                  onClick={handleEditFolder}
-                >
-                  Save
-                </button>
-                <button
-                  type="button"
-                  className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none"
-                  onClick={() => setEditModalOpen(false)}
-                >
-                  Cancel
-                </button>
-              </div>
+        isOpen={isEditModalOpen}
+        onRequestClose={() => setEditModalOpen(false)}
+        contentLabel="Edit Folder Name"
+        className="fixed inset-0 overflow-y-auto"
+      >
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full p-4">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              Edit Folder Name
+            </h3>
+            <div className="mt-2">
+              <input
+                type="text"
+                className="border p-2 mb-4 w-full"
+                placeholder="Enter new folder name"
+                value={editedFolderName}
+                onChange={(e) => setEditedFolderName(e.target.value)}
+              />
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none mr-2"
+                onClick={handleEditFolder}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none"
+                onClick={() => setEditModalOpen(false)}
+              >
+                Cancel
+              </button>
             </div>
           </div>
-        </Modal>
+        </div>
+      </Modal>
       <Toaster position="top-center" reverseOrder={false} />
     </div>
   );

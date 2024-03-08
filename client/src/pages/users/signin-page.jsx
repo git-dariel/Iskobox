@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import Logo from "./LOGO.png";
+import Logo from "../../assets/LOGO.png";
 
 import { FaLock } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
@@ -106,7 +106,6 @@ export default function SignIn() {
                   </button>
                 </div>
 
-           
                 <div className="flex justify-end">
                   <a href="#" className=" text-gray-700 mb-2">
                     Forgot Password
@@ -117,7 +116,9 @@ export default function SignIn() {
                   <div className="flex flex-row md:gap-1">
                     <p className=""> account ?</p>
                     <Link to="/signup">
-                      <button className="text-indigo-500 border-b border-indigo-500">Sign Up</button>
+                      <button className="text-indigo-500 border-b border-indigo-500">
+                        Sign Up
+                      </button>
                     </Link>
                   </div>
                 </div>
