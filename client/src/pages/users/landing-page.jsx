@@ -1,5 +1,5 @@
-import Header from "../../components/landing-page/Header";
-import Hero from "../../components/landing-page/Hero";
+import Header from "../../components/landing-page/header";
+import Hero from "../../components/landing-page/hero";
 import AboutUs from "../../components/landing-page/about-us";
 import Footer from "../../components/landing-page/footer";
 
