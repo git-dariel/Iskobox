@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+<<<<<<< Updated upstream:client/src/pages/users/signin-page.jsx
 import Logo from "../../assets/LOGO.png";
+=======
+>>>>>>> Stashed changes:client/src/pages/faculty-auth/SignIn.jsx
 
+
+import Logo from "./LOGO.png";
 import { FaLock } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 

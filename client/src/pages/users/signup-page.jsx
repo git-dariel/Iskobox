@@ -182,7 +182,7 @@ const SignUp = () => {
                   <button
                     variant={"default"}
                     onClick={handleSubmit}
-                    className="px-12 py-2 inline-block font-semibold"
+                    className="px-12 py-2 inline-block font-semibold "
                   >
                     SIGN UP
                   </button>
