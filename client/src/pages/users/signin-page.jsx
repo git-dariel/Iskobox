@@ -29,7 +29,7 @@ export default function SignIn() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        navigate("/dashboard");
+        navigate("/home");
       })
       .catch((error) => {
         const errorCode = error.code;
