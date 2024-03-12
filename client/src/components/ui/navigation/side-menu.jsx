@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { FaFolder } from "react-icons/fa";
 import { TbFolders, TbFolderSymlink } from "react-icons/tb";
 import { GoPin } from "react-icons/go";
-import { ChevronUp} from 'lucide-react';
-import { folders } from '@/dummy-data/data';
+import { ChevronUp } from 'lucide-react';
+import { folders } from '@/utils/data';
 
 const SideMenu = () => {
   // State to track the open/close status of sections
@@ -22,16 +22,16 @@ const SideMenu = () => {
         <span className="mx-5 w-full font-bold text-xl text-gray-800">ShareHub</span>
       </div>
       <div className="flex flex-col flex-1 relative">
-        <nav className="flex-1 py-4 bg-gray-100 overflow-y-auto" style={{maxHeight:"90vh"}}>
+        <nav className="flex-1 py-4 bg-gray-100 overflow-y-auto" style={{ maxHeight: "90vh" }}>
           {/* Pinned Folders */}
           <div>
             <h2 className="px-4 py-2 text-gray-800 font-semibold text-sm flex justify-between items-center cursor-pointer border-b" onClick={() => setPinnedOpen(!pinnedOpen)}>
-               <span className="flex items-center"><GoPin className="h-4 w-4 mr-2" /> Pinned</span> {pinnedOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronUp className="h-4 w-4 transform rotate-180 transition-all duration-100 ease-in-out" />}
+              <span className="flex items-center"><GoPin className="h-4 w-4 mr-2" /> Pinned</span> {pinnedOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronUp className="h-4 w-4 transform rotate-180 transition-all duration-100 ease-in-out" />}
             </h2>
             {pinnedOpen && (
               pinnedFolders.map(folder => (
                 <Link key={folder.id} to={`/folder/${folder.id}`} className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200">
-                  <FaFolder className="h-4 w-4 mr-2" /> 
+                  <FaFolder className="h-4 w-4 mr-2" />
                   {folder.name}
                 </Link>
               ))
@@ -45,7 +45,7 @@ const SideMenu = () => {
             {recentOpen && (
               recentFolders.map(folder => (
                 <Link key={folder.id} to={`/folder/${folder.id}`} className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200">
-                  <FaFolder className="h-4 w-4 mr-2" /> 
+                  <FaFolder className="h-4 w-4 mr-2" />
                   {folder.name}
                 </Link>
               ))
@@ -59,7 +59,7 @@ const SideMenu = () => {
             {allFoldersOpen && (
               folders.map(folder => (
                 <Link key={folder.id} to={`/folder/${folder.id}`} className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200">
-                  <FaFolder className="h-4 w-4 mr-2" /> 
+                  <FaFolder className="h-4 w-4 mr-2" />
                   {folder.name}
                 </Link>
               ))
