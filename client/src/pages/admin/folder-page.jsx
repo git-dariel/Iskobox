@@ -1,25 +1,23 @@
-import "chart.js/auto";
+import { handleBreadcrumbClick, handleFolderDoubleClick } from "@/helpers/folder-helpers";
+import { deleteFile, fetchAllFiles, uploadFile } from "@/services/file-service";
 import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  getDoc,
-  query,
-  where,
-  updateDoc,
-} from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { File, FileText, FolderCog, Image, Trash, X } from "lucide-react";
+  addFolder,
+  deleteFolder,
+  fetchFolderDetails,
+  fetchFolders,
+  updateFolderName,
+} from "@/services/folder-service";
+import "chart.js/auto";
+import { collection, getDocs } from "firebase/firestore";
+import { FolderCog, Trash, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import toast, { Toaster } from "react-hot-toast";
-import Modal from "react-modal";
-import { db, storage } from "../../database/firebase-connection";
-import { RiFolderAddLine } from "react-icons/ri";
-import { RiFileAddLine } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
+import { RiFileAddLine, RiFolderAddLine } from "react-icons/ri";
+import Modal from "react-modal";
+import { db } from "../../database/firebase-connection";
+import { getFileIcon, isImageFile, truncateFileName } from "../../helpers/file-helpers";
 
 function FolderPage() {
   const [folders, setFolders] = useState([]);
@@ -36,9 +34,10 @@ function FolderPage() {
 
   useEffect(() => {
     const fetchInitialDataAndUpdateChart = async () => {
-      await fetchFolders(); // Fetch folders and implicitly update state
-      await fetchAllFiles(); // Fetch files and implicitly update state
-      updateFolderUsageChartData(); // Call this after the states are updated
+      const fetchedFolders = await fetchFolders();
+      setFolders(fetchedFolders);
+      await fetchFiles();
+      updateFolderUsageChartData();
     };
 
     fetchInitialDataAndUpdateChart();
@@ -53,12 +52,11 @@ function FolderPage() {
     fetchFolders();
   }, []);
 
+  // Update the Folder Data
   const updateFolderUsageChartData = async () => {
-    // Fetch all folders and files at once to reduce Firestore reads
     const allFoldersSnapshot = await getDocs(collection(db, "folders"));
     const allFilesSnapshot = await getDocs(collection(db, "files"));
 
-    // Convert snapshots to maps for quick access
     const allFolders = new Map();
     allFoldersSnapshot.forEach((doc) => {
       allFolders.set(doc.id, { ...doc.data(), id: doc.id, fileCount: 0 });
@@ -72,21 +70,19 @@ function FolderPage() {
       }
     });
 
-    // Recursive function to count files including subfolders, now using local data
     const countFilesInFolder = (folderId) => {
       let fileCount = allFolders.get(folderId).fileCount;
       for (const [id, folder] of allFolders) {
         if (folder.parentId === folderId) {
-          fileCount += countFilesInFolder(id); // Recursive call
+          fileCount += countFilesInFolder(id);
         }
       }
       return fileCount;
     };
-
-    // Process folders to calculate usage data
     const processFolder = (folder) => {
       const totalFiles = countFilesInFolder(folder.id);
-      const maxFileCount = 3; // Adjust based on your application's logic
+      // Adjust based on your application's logic
+      const maxFileCount = 3; 
       const usagePercentage = Math.min((totalFiles / maxFileCount) * 100, 100);
 
       return {
@@ -95,290 +91,64 @@ function FolderPage() {
         usagePercentage,
       };
     };
-
-    // Process all folders and subfolders
     const folderUsageData = Array.from(allFolders.values()).map(processFolder);
-
     setFolderUsageChartData(folderUsageData);
   };
 
-  const fetchAllFiles = async () => {
-    const q = query(collection(db, "files"));
-    const querySnapshot = await getDocs(q);
-    const filesArray = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setFiles(filesArray);
-  };
-
-  function getFileIcon(fileName) {
-    const extension = fileName.split(".").pop().toLowerCase();
-    switch (extension) {
-      case "jpg":
-      case "jpeg":
-      case "png":
-      case "gif":
-        return <Image className="w-12 h-12 text-gray-500" />;
-      case "pdf":
-        // Use the File icon as a fallback for PDFs
-        return <File className="w-12 h-12 text-red-500" />;
-      case "doc":
-      case "docx":
-        return <FileText className="w-12 h-12 text-blue-500" />;
-      // Add more cases as needed
-      default:
-        return <File className="w-12 h-12 text-gray-500" />;
-    }
-  }
-
-  function isImageFile(fileName) {
-    const extension = fileName.split(".").pop().toLowerCase();
-    return ["jpg", "jpeg", "png", "gif"].includes(extension);
-  }
-
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0]; // Get the file
-    if (!file || !currentFolder) return;
-
-    const storageRef = ref(storage, `folders/${currentFolder.id}/${file.name}`);
-    try {
-      // Upload the file to Firebase Storage
-      const snapshot = await uploadBytes(storageRef, file);
-
-      // Get the URL to the uploaded file
-      const url = await getDownloadURL(snapshot.ref);
-
-      // Save a reference to the file in Firestore
-      const filesCollectionRef = collection(db, "files");
-      const docRef = await addDoc(filesCollectionRef, {
-        name: file.name,
-        folderId: currentFolder.id,
-        url: url,
-      });
-
-      // Update local state to show the file immediately
-      const newFile = {
-        id: docRef.id,
-        name: file.name,
-        folderId: currentFolder.id,
-        url: url,
-      };
-      setFiles((prevFiles) => [...prevFiles, newFile]);
-      updateFolderUsageChartData();
-
-      toast("File uploaded successfully", {
-        icon: "👏",
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
-      });
-    } catch (error) {
-      console.error("Error uploading file: ", error);
-      toast.error("Error uploading file");
-    }
-  };
-
-  const fetchFolderDetails = async (folderId) => {
-    const folderDocRef = doc(db, "folders", folderId);
-    const folderDoc = await getDoc(folderDocRef);
-    if (folderDoc.exists()) {
-      return { id: folderDoc.id, ...folderDoc.data() };
-    } else {
-      console.log("No such folder!");
-      return null; // Handle the case where the folder doesn't exist
-    }
-  };
-
-  const fetchSubfoldersAndFiles = async (folderId) => {
-    // Fetch subfolders
-    const qFolders = query(
-      collection(db, "folders"),
-      where("parentId", "==", folderId)
-    );
-    const querySnapshotFolders = await getDocs(qFolders);
-    const subfoldersArray = querySnapshotFolders.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    // Fetch files
-    const qFiles = query(
-      collection(db, "files"),
-      where("folderId", "==", folderId)
-    );
-    const querySnapshotFiles = await getDocs(qFiles);
-    const filesArray = querySnapshotFiles.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    // Update state
-    setCurrentFolder((prevState) => ({
-      ...prevState,
-      subfolders: subfoldersArray,
-    }));
-    setFiles(filesArray);
-  };
-
-  //fetching the folders from firebase
-  const fetchFolders = async () => {
-    const q = query(collection(db, "folders"), where("parentId", "==", null));
-    const querySnapshot = await getDocs(q);
-    const foldersArray = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      subfolders: [], // Initialize subfolders as empty
-    }));
-    setFolders(foldersArray);
-  };
-
+  // Add Folder
   const handleAddFolder = async (e) => {
     e.preventDefault();
     if (newFolderName.trim() !== "") {
-      const isDuplicate = currentFolder?.subfolders?.some(
-        (folder) => folder.name === newFolderName
-      );
+      const folderData = {
+        name: newFolderName,
+        parentId: currentFolder ? currentFolder.id : null,
+      };
 
-      if (!isDuplicate) {
-        // Prepare new folder data
-        const newFolderData = {
-          name: newFolderName,
-          parentId: currentFolder ? currentFolder.id : null, // Set parentId if it's a subfolder
-        };
-
-        try {
-          // Add new folder to Firestore
-          const docRef = await addDoc(collection(db, "folders"), newFolderData);
-          const newFolder = { id: docRef.id, ...newFolderData, subfolders: [] };
-
-          // Update local state
-          if (currentFolder) {
-            // If it's a subfolder, add it to the current folder's subfolders
-            const updatedSubfolders = [...currentFolder.subfolders, newFolder];
-            setCurrentFolder({
-              ...currentFolder,
-              subfolders: updatedSubfolders,
-            });
-          } else {
-            // If it's a root folder, add it to the folders array
-            setFolders((prevFolders) => [...prevFolders, newFolder]);
-          }
-          updateFolderUsageChartData();
-
-          toast("Folder Created Successfully", {
-            icon: "👏",
-            style: {
-              borderRadius: "10px",
-              background: "#333",
-              color: "#fff",
-            },
+      try {
+        const newFolder = await addFolder(folderData);
+        if (currentFolder) {
+          const updatedSubfolders = [...currentFolder.subfolders, newFolder];
+          setCurrentFolder({
+            ...currentFolder,
+            subfolders: updatedSubfolders,
           });
-          setNewFolderName("");
-          setModalOpen(false);
-        } catch (error) {
-          console.error("Error adding document: ", error);
+        } else {
+          setFolders((prevFolders) => [...prevFolders, newFolder]);
         }
-      } else {
-        alert(
-          "Folder with the same name already exists. Please choose a different name."
-        );
+        toast("Folder Created Successfully", {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+        updateFolderUsageChartData();
+        setNewFolderName("");
+        setModalOpen(false);
+      } catch (error) {
+        console.error("Error adding folder: ", error);
+        toast.error("Error adding folder");
       }
     }
   };
 
-  const handleFolderDoubleClick = async (folder) => {
-    // update the folder path for UI breadcrumbs
-    if (currentFolder) {
-      setFolderPath([...folderPath, folder.name]);
-    } else {
-      setFolderPath((prevPath) => [
-        ...prevPath,
-        { id: folder.id, name: folder.name },
-      ]);
-    }
-    setCurrentFolder(folder);
-
-    //Fetch subfolders
-    const foldersCollectionRef = collection(db, "folders");
-    const q = query(foldersCollectionRef, where("parentId", "==", folder.id));
-    const querySnapshot = await getDocs(q);
-    const subfoldersArray = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      subfolders: [], // Assuming subfolders are not nested further for simplicity
-    }));
-
-    setCurrentFolder((prevState) => ({
-      ...prevState,
-      subfolders: subfoldersArray,
-    }));
-
-    // Fetch files for the current folder
-    const filesCollectionRef = collection(db, "files");
-    const qFiles = query(
-      filesCollectionRef,
-      where("folderId", "==", folder.id)
-    );
-    const querySnapshotFiles = await getDocs(qFiles);
-    const filesArray = querySnapshotFiles.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setFiles(filesArray);
-  };
-
-  const handleBreadcrumbClick = async (index) => {
-    // Navigate to root
-    if (index === 0) {
-      setCurrentFolder(null);
-      setFolderPath([]);
-      setFiles([]); // Ensure files list is cleared
-      fetchFolders(); // Fetch and display root folders
-      updateFolderUsageChartData();
-      fetchAllFiles();
-      return;
-    }
-
-    // Navigate based on breadcrumb index
-    const newPath = folderPath.slice(0, index + 1);
-    setFolderPath(newPath);
-
-    const clickedFolderId = newPath[index].id;
-    const clickedFolderDetails = await fetchFolderDetails(clickedFolderId);
-    if (clickedFolderDetails) {
-      setCurrentFolder(clickedFolderDetails);
-      fetchSubfoldersAndFiles(clickedFolderId);
-    } else {
-      // Handle case where folder details could not be fetched
-      console.error("Failed to fetch folder details.");
-    }
-  };
-
-  const deleteFolder = async (folderId) => {
+  // Delete the Folder
+  const handleDeleteFolder = async (event, folderId) => {
+    event.stopPropagation();
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this folder?"
     );
     if (isConfirmed) {
       try {
-        await deleteDoc(doc(db, "folders", folderId));
-
-        // If it's a subfolder, update the currentFolder's subfolders state
-        if (currentFolder) {
-          const updatedSubfolders = currentFolder.subfolders.filter(
-            (folder) => folder.id !== folderId
-          );
-          setCurrentFolder({ ...currentFolder, subfolders: updatedSubfolders });
-        } else {
-          // If it's a root folder, update the folders state
-          setFolders((prevFolders) =>
-            prevFolders.filter((folder) => folder.id !== folderId)
-          );
+        await deleteFolder(folderId);
+        if (currentFolder && currentFolder.id === folderId) {
+          setCurrentFolder(null);
         }
+        setFolders((prevFolders) =>
+          prevFolders.filter((folder) => folder.id !== folderId)
+        );
         updateFolderUsageChartData();
-
         toast("Folder deleted successfully", {
           icon: "🗑️",
           style: {
@@ -389,20 +159,93 @@ function FolderPage() {
         });
       } catch (error) {
         console.error("Error deleting folder: ", error);
-        toast.error("Error deleting folder");
       }
-    } else {
-      console.log("Folder deletion cancelled.");
     }
   };
 
-  const deleteFile = async (fileId) => {
+  // Update the Folder Nane
+  const handleUpdateFolderName = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!editingFolder || editedFolderName.trim() === "") return;
+
+    try {
+      await updateFolderName(editingFolder.id, editedFolderName);
+      setFolders((prevFolders) =>
+        prevFolders.map((folder) =>
+          folder.id === editingFolder.id
+            ? { ...folder, name: editedFolderName }
+            : folder
+        )
+      );
+      if (currentFolder && currentFolder.id === editingFolder.id) {
+        setCurrentFolder((prev) => ({ ...prev, name: editedFolderName }));
+      }
+      toast("Folder name updated successfully", {
+        icon: "✅",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+      setEditModalOpen(false);
+      setEditingFolder(null);
+      setEditedFolderName("");
+    } catch (error) {
+      console.error("Error updating the folder name: ", error);
+    }
+  };
+
+  // Fetch folder details
+  const handleFetchFolderDetails = async (folderId) => {
+    try {
+      const folderDetails = await fetchFolderDetails(folderId);
+      if (folderDetails) {
+        setCurrentFolder(folderDetails);
+      } else {
+        console.error("Failed to fetch folder details.");
+      }
+    } catch (error) {
+      console.error("Error fetching folder details: ", error);
+    }
+  };
+
+  // Fetch all files
+  const fetchFiles = async () => {
+    const filesArray = await fetchAllFiles();
+    setFiles(filesArray);
+  };
+
+  // Add File
+  const handleAddFile = async (e) => {
+    const file = e.target.files[0];
+    if (!file || !currentFolder) return;
+    try {
+      const newFile = await uploadFile(file, currentFolder.id);
+      setFiles((prevFiles) => [...prevFiles, newFile]);
+      updateFolderUsageChartData();
+      toast("File uploaded successfully", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    } catch (error) {
+      console.error("Error adding file: ", error);
+    }
+  };
+
+  // Delete file
+  const handleDeleteFile = async (fileId) => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this file?"
     );
     if (isConfirmed) {
       try {
-        await deleteDoc(doc(db, "files", fileId));
+        await deleteFile(fileId);
         setFiles((prevFiles) => prevFiles.filter((file) => file.id !== fileId));
         updateFolderUsageChartData();
         toast("File deleted successfully", {
@@ -415,61 +258,28 @@ function FolderPage() {
         });
       } catch (error) {
         console.error("Error deleting file: ", error);
-        toast.error("Error deleting file");
       }
     }
   };
 
-  function truncateFileName(fileName, maxLength = 20) {
-    if (fileName.length <= maxLength) return fileName;
-    const extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-    const baseName = fileName.substring(0, fileName.lastIndexOf("."));
-    if (baseName.length <= maxLength - (extension.length + 3)) {
-      return fileName;
-    }
-    return `${baseName.substring(
-      0,
-      maxLength - (extension.length + 3)
-    )}...${extension}`;
-  }
+  // Double Click
+  const onFolderDoubleClick = async (folder) => {
+    await handleFolderDoubleClick(folder, setCurrentFolder, setFolderPath, db, setFiles);
+  };
 
-  //Update the foldername
-  const handleEditFolder = async (e) => {
-    e.preventDefault();
-    if (!editingFolder || editedFolderName.trim() === "") return;
-
-    try {
-      const folderRef = doc(db, "folders", editingFolder.id);
-      await updateDoc(folderRef, {
-        name: editedFolderName,
-      });
-
-      // Update the local state to reflect the change
-      setFolders((prevFolders) =>
-        prevFolders.map((folder) =>
-          folder.id === editingFolder.id
-            ? { ...folder, name: editedFolderName }
-            : folder
-        )
-      );
-      if (currentFolder && currentFolder.id === editingFolder.id) {
-        setCurrentFolder((prev) => ({ ...prev, name: editedFolderName }));
-      }
-
-      toast("Folder name updated successfully", {
-        icon: "✅",
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
-      });
-    } catch (error) {
-      console.error("Error updating folder name: ", error);
-      toast.error("Error updating folder name");
-    }
-
-    setEditModalOpen(false);
+  // Navigation
+  const breadcrumbClickHandler = async (index) => {
+    await handleBreadcrumbClick(
+      index,
+      folderPath,
+      setCurrentFolder,
+      setFolderPath,
+      setFiles,
+      fetchFolders,
+      updateFolderUsageChartData, 
+      fetchAllFiles, 
+      handleFetchFolderDetails,
+    );
   };
 
   return (
@@ -576,7 +386,7 @@ function FolderPage() {
             <span
               style={{ color: "blue" }}
               className="breadcrumb-item cursor-pointer"
-              onClick={() => handleBreadcrumbClick(0)}
+              onClick={() => breadcrumbClickHandler(0)}
             >
               Root
             </span>
@@ -586,7 +396,7 @@ function FolderPage() {
                 <span
                   style={{ color: "blue" }}
                   className="breadcrumb-item cursor-pointer"
-                  onClick={() => handleBreadcrumbClick(index + 1)}
+                  onClick={() => breadcrumbClickHandler(index + 1)}
                 >
                   {folder.name}
                 </span>
@@ -598,7 +408,7 @@ function FolderPage() {
             type="file"
             id="fileInput"
             style={{ display: "none" }}
-            onChange={handleFileChange}
+            onChange={handleAddFile}
           />
         </div>
 
@@ -619,7 +429,7 @@ function FolderPage() {
                   <div
                     key={folder.id}
                     className="group cursor-pointer p-4 border border-gray-200 rounded-lg hover:shadow-lg flex flex-col items-center justify-center space-y-2"
-                    onClick={() => handleFolderDoubleClick(folder)}
+                    onDoubleClick={() => onFolderDoubleClick(folder)}
                   >
                     <div className="bg-blue-100 p-4 rounded-full">
                       <FolderCog className="w-8 h-8 text-blue-500" />
@@ -637,7 +447,7 @@ function FolderPage() {
                         type="button"
                         className="bg-blue-500 text-white p-1 rounded hover:bg-blue-600 focus:outline-none mx-1"
                         title="Edit Folder"
-                        onClick={(eveny) => {
+                        onClick={(event) => {
                           event.stopPropagation();
                           setEditingFolder(folder);
                           setEditedFolderName(folder.name);
@@ -651,10 +461,9 @@ function FolderPage() {
                       <button
                         type="button"
                         className="bg-red-500 text-white p-1 rounded hover:bg-red-600 focus:outline-none mx-1"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          deleteFolder(folder.id);
-                        }}
+                        onClick={(event) =>
+                          handleDeleteFolder(event, folder.id)
+                        }
                         title="Delete Folder"
                       >
                         <Trash className="w-4 h-4" />
@@ -688,7 +497,7 @@ function FolderPage() {
                       </span>
                     </div>
                     <button
-                      onClick={() => deleteFile(file.id)}
+                      onClick={() => handleDeleteFile(file.id)}
                       className="text-red-500 hover:text-red-600"
                       title="Delete File"
                     >
@@ -841,7 +650,7 @@ function FolderPage() {
               <button
                 type="button"
                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none mr-2"
-                onClick={handleEditFolder}
+                onClick={(event) => handleUpdateFolderName(event)}
               >
                 Save
               </button>
