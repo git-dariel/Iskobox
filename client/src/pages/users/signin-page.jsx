@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-<<<<<<< Updated upstream:client/src/pages/users/signin-page.jsx
+//Updated upstream:client/src/pages/users/signin-page.jsx
 import Logo from "../../assets/LOGO.png";
-=======
->>>>>>> Stashed changes:client/src/pages/faculty-auth/SignIn.jsx
+// Stashed changes:client/src/pages/faculty-auth/SignIn.jsx
 
-
-import Logo from "./LOGO.png";
 import { FaLock } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 
@@ -101,7 +98,7 @@ export default function SignIn() {
                 </div>
 
                 {/* SignIn Button */}
-                <div className=" w-72 text-center rounded-xl bg-amber-500 text-white mt-4 shadow-md shadow-gray-400">
+                <div className=" cursor-pointer w-72 text-center rounded-xl bg-amber-500 text-white mt-4 shadow-md shadow-gray-400">
                   <button
                     variant={"default"}
                     onClick={handleSignIn}
