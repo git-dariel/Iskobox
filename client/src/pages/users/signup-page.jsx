@@ -12,18 +12,14 @@ import Logo from "../../assets/LOGO.png";
 const SignUp = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [idNumber, setIdNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      firstname === "" ||
-      lastname === "" ||
-      email === "" ||
-      password === ""
-    ) {
+    if (firstname === "" || lastname === "" || idNumber === "" || email === "" || password === "") {
       toast("Please fill in all fields", {
         icon: "⚠️",
         style: {
@@ -43,15 +39,13 @@ const SignUp = () => {
         password
       );
 
-      // Firestore document reference
       const userRef = doc(db, "users", userCredential.user.uid);
       await setDoc(userRef, {
         firstname: firstname,
         lastname: lastname,
+        idNumber: idNumber,
         email: email,
       });
-
-      //Success Toast
       toast("Registration Successful", {
         icon: "👏",
         style: {
@@ -60,10 +54,9 @@ const SignUp = () => {
           color: "#fff",
         },
       });
-
-      // Clear input fields after successful registration
       setFirstname("");
       setLastname("");
+      setFacultyId("");
       setEmail("");
       setPassword("");
     } catch (error) {
@@ -142,8 +135,8 @@ const SignUp = () => {
                       type="text"
                       name="idnumber"
                       placeholder="ID Number"
-                      // value={lastname}
-                      // onChange={(e) => (e.target.value)}
+                      value={idNumber}
+                      onChange={(e) => setIdNumber(e.target.value)}
                       className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700focus:border-none focus:outline-none"
                     />
                   </div>
@@ -178,15 +171,15 @@ const SignUp = () => {
                   By clicking Sign Up, you agree to our Terms, Privacy Policy
                   and Cookies Policy.{" "}
                 </p>
-                <div className="text-center rounded-xl bg-amber-500 text-white shadow-md shadow-gray-400">
-                  <button
-                    variant={"default"}
-                    onClick={handleSubmit}
-                    className="px-12 py-2 inline-block font-semibold "
-                  >
-                    SIGN UP
-                  </button>
-                </div>
+
+                <button
+                  variant={"default"}
+                  onClick={handleSubmit}
+                  className="px-12 py-2 inline-block font-semibold text-center rounded-xl bg-amber-500 text-white shadow-md shadow-gray-400 cursor-pointer"
+                >
+                  SIGN UP
+                </button>
+
                 <div className="flex justify-end md:gap-2">
                   <p className="text-gray-700">Already have an account? </p>
                   <Link to="/signin">
