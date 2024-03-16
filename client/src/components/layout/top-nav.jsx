@@ -1,7 +1,7 @@
-import UserProfile from "@/pages/users/user-profile";
+import UserProfile from "@/components/users/user-profile";
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchForm from "../search";
+import SearchForm from "../common/searchbars/search";
 
 const TopNavigation = () => {
   return (
@@ -36,7 +36,7 @@ const TopNavigation = () => {
           </div>
           {/* Add any additional elements like user profile, notifications, etc. */}
           <SearchForm />
-          <div className="hidden sm:flex sm:items-center sm:ml-6">
+          <div className="sm:flex sm:items-center sm:ml-6">
             <UserProfile />
           </div>
         </div>

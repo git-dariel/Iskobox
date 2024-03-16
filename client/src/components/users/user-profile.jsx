@@ -1,27 +1,39 @@
-import dummyProfile from '@/utils/data';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from React Router
-
+import { dummyProfile } from '../../test/mocked-data/user';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom'; 
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { name, email, menuItems } = dummyProfile;
+  const dropdownRef = useRef(null); // Ref for the dropdown menu
+  const { name, email, avatarSrc, menuItems } = dummyProfile;
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  // Close dropdown when user clicks outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       {/* Toggle Profile */}
       <button
         id="avatarButton"
         type="button"
         onClick={toggleDropdown}
       >
-        <img src="https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-1/418782011_3598003387134419_4388420038133548678_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFP0-u_t7dUJQSe3c0K738bDyyzb0mVKZUPLLNvSZUplfJ-9_LgR3S91HgQ0QQnbuMX4EDNRGVVHiGELeTRJgO5&_nc_ohc=WKQqnmH3fB8AX9i7IGj&_nc_ht=scontent.fmnl3-2.fna&oh=00_AfAyd-zioGG21hZHTfL6_p_TpFJmF0Gs0NgaC4UnPJMpQg&oe=65EFCD07"
-          alt="User dropdown"
-          className='rounded-full' />
+        <img src={avatarSrc} alt="User dropdown" className='rounded-full h-10 border-gray-300 border-4 hover:border-blue-200 transition-all ease-in-out duration-150 active:border-blue-300' />
       </button>
 
       {/* Dropdown menu */}
@@ -43,7 +55,7 @@ const UserDropdown = () => {
           ))}
         </ul>
         <div className="py-1">
-          <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+          <Link to="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
             Sign out
           </Link>
         </div>

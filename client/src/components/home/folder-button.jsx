@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/common/buttons/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/common/dialogs/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { db } from "../../database/firebase-connection";

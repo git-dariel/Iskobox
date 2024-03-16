@@ -4,7 +4,7 @@ import { FaFolder } from "react-icons/fa";
 import { TbFolders, TbFolderSymlink } from "react-icons/tb";
 import { GoPin } from "react-icons/go";
 import { ChevronUp } from 'lucide-react';
-import { folders } from '@/utils/data';
+import { folders } from '@/test/mocked-data/folder.data';
 
 const SideMenu = () => {
   // State to track the open/close status of sections
@@ -22,7 +22,7 @@ const SideMenu = () => {
         <span className="mx-5 w-full font-bold text-xl text-gray-800">ShareHub</span>
       </div>
       <div className="flex flex-col flex-1 relative">
-        <nav className="flex-1 py-4 bg-gray-100 overflow-y-auto" style={{ maxHeight: "90vh" }}>
+        <nav className="flex-1 py-4 bg-gray-100 overflow-y-auto" style={{ maxHeight: "92vh" }}>
           {/* Pinned Folders */}
           <div>
             <h2 className="px-4 py-2 text-gray-800 font-semibold text-sm flex justify-between items-center cursor-pointer border-b" onClick={() => setPinnedOpen(!pinnedOpen)}>
