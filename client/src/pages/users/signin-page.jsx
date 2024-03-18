@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-//Updated upstream:client/src/pages/users/signin-page.jsx
 import Logo from "../../assets/LOGO.png";
-// Stashed changes:client/src/pages/faculty-auth/SignIn.jsx
+import { loginUser } from "@/services/user-service";
 
-import { FaLock } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
+import { FaLock } from "react-icons/fa";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (email === "" || password === "") {
       toast("Please fill in all fields", {
         icon: "⚠️",
@@ -26,30 +24,20 @@ export default function SignIn() {
       });
       return;
     }
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/home");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        toast("Invalid Input", {
-          icon: "⚠️",
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-          },
-        });
-        console.error(
-          "Error signing in with password and email",
-          errorCode,
-          errorMessage
-        );
+    try {
+      await loginUser(email, password);
+      navigate("/home");
+    } catch (error) {
+      toast("Invalid Input", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
       });
+    }
+
   };
 
   return (

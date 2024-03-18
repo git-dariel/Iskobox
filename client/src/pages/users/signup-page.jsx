@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { FaRegIdCard, FaLock } from "react-icons/fa";
+import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineNumber } from "react-icons/ai";
+import { FaLock, FaRegIdCard } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
-import { db } from "../../database/firebase-connection";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import Logo from "../../assets/LOGO.png";
+import { registerUser } from "@/services/user-service";
 
 const SignUp = () => {
   const [firstname, setFirstname] = useState("");
@@ -32,33 +30,31 @@ const SignUp = () => {
     }
 
     try {
-      const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      const userRef = doc(db, "users", userCredential.user.uid);
-      await setDoc(userRef, {
-        firstname: firstname,
-        lastname: lastname,
-        idNumber: idNumber,
-        email: email,
-      });
-      toast("Registration Successful", {
-        icon: "👏",
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
-      });
-      setFirstname("");
-      setLastname("");
-      setFacultyId("");
-      setEmail("");
-      setPassword("");
+      const registrationSuccessful = await registerUser(email, password, firstname, lastname, idNumber);
+      if (registrationSuccessful) {
+        toast("Registration Successful", {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+        setFirstname("");
+        setLastname("");
+        setIdNumber("");
+        setEmail("");
+        setPassword("");
+      } else {
+        toast("User already exists!", {
+          icon: "⚠️",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+      }
     } catch (error) {
       console.error(error.message);
       toast.error("Registration Failed", {
@@ -182,7 +178,7 @@ const SignUp = () => {
 
                 <div className="flex justify-end md:gap-2">
                   <p className="text-gray-700">Already have an account? </p>
-                  <Link to="/signin">
+                  <Link to="/">
                     <button className="text-indigo-500 border-b border-indigo-500 ">
                       Sign In
                     </button>
