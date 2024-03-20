@@ -3,7 +3,7 @@ import { doc, setDoc, collection, query, where, getDocs } from "firebase/firesto
 import { db } from "../database/firebase-connection";
 
 // register a user
-export async function registerUser(email, password, firstname, lastname, idNumber) {
+export async function registerUser(email, password, firstname, lastname, idNumber, role) {
     try {
         const auth = getAuth();
         const usersRef = collection(db, "users");
@@ -21,6 +21,7 @@ export async function registerUser(email, password, firstname, lastname, idNumbe
             firstname,
             lastname,
             idNumber,
+            role,
             email,
         })
 

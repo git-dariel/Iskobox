@@ -5,19 +5,21 @@ import { FaLock, FaRegIdCard } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/LOGO.png";
+import { MdWork } from "react-icons/md";
 import { registerUser } from "@/services/user-service";
 
 const SignUp = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [idNumber, setIdNumber] = useState("");
+  const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (firstname === "" || lastname === "" || idNumber === "" || email === "" || password === "") {
+    if (firstname === "" || lastname === "" || idNumber === "" || role === "" || email === "" || password === "") {
       toast("Please fill in all fields", {
         icon: "⚠️",
         style: {
@@ -30,7 +32,7 @@ const SignUp = () => {
     }
 
     try {
-      const registrationSuccessful = await registerUser(email, password, firstname, lastname, idNumber);
+      const registrationSuccessful = await registerUser(email, password, firstname, lastname, idNumber, role);
       if (registrationSuccessful) {
         toast("Registration Successful", {
           icon: "👏",
@@ -45,6 +47,7 @@ const SignUp = () => {
         setIdNumber("");
         setEmail("");
         setPassword("");
+        setRole("");
       } else {
         toast("User already exists!", {
           icon: "⚠️",
@@ -136,7 +139,23 @@ const SignUp = () => {
                       className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700focus:border-none focus:outline-none"
                     />
                   </div>
+
                 </div>
+
+                {/* role */}
+                <div className="flex bg-white  items-center border-2 border-gray-700">
+                  <MdWork className="text-gray-700 m-2" />
+                  <input
+                    type="text"
+                    name="role"
+                    placeholder="Role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700focus:border-none focus:outline-none"
+                  />
+                </div>
+
+                {/* email */}
                 <div className="flex bg-white items-center border-2 border-gray-700">
                   <MdEmail className="text-gray-700 m-2" />
                   <input
