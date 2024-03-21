@@ -1,42 +1,32 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
-import { db } from "../database/firebase-connection";
+import { createFirestoreFunctionsForCollection } from "./folder-template-service";
 
-// get the program folders
-export const fetchFoldersProgram = async (parentId = null) => {
-    const q = query(collection(db, "programs-folder"), where("parentId", "==", parentId));
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        subfolders: [],
-    }));
+// Create Program Collection
+const programFolderOperations = createFirestoreFunctionsForCollection("program-folder");
+
+// Fetch Folders
+export const fetchProgramFolders = async () => {
+    const folders = await programFolderOperations.fetchDocuments();
+    console.log(folders);
 }
 
-// add folder to program
-export const addFolderProgram = async (folderData) => {
-    const docRef = await addDoc(collection(db, "programs-folder"), folderData);
-    return { id: docRef.id, ...folderData, subfolders: [] };
+// Add Program Folder
+export const addNewProgramFolder = async (newFolderData) => {
+    const newFolder = await programFolderOperations.addDocument(newFolderData);
+    console.log(newFolder);
 }
 
-// delete folder for program
-export const deleteFolderProgram = async (folderId) => {
-    await deleteDoc(doc, "programs-folder", folderId);
+// Delete Program Folder
+export const deleteProgramFolder = async (folderId) => {
+    await programFolderOperations.deleteDocument(folderId);
 }
 
-// update the program folder
-export const updateFolderProgramDetails = async (folderId, newName) => {
-    const folderRef = doc(db, "programs-folder", folderId);
-    await updateDoc(folderRef, { name: newName });
+// Update Program Folder
+export const updateProgramFolder = async (folderId, newValues) => {
+    await programFolderOperations.updateDocumentDetails(folderId, newValues);
 }
 
-// get the program folder details
-export const fetchFolderProgramDetails = async (folderId) => {
-    const folderDocRef = doc(db, "programs-folder", folderId);
-    const folderDoc = await getDoc(folderDocRef);
-    if (folderDoc.exists()) {
-        return { id: folderDoc.id, ...folderDoc.data() };
-    } else {
-        console.log("No such folder!");
-        return null;
-    }
+// Get Program Folder Details
+export const getProgramFolderDetails = async (folderId) => {
+    const folderDetails = await programFolderOperations.getBoardFolderDetails(folderId);
+    console.log(folderDetails);
 }
