@@ -42,4 +42,5 @@ export const createFirestoreFunctionsForCollection = (collectionName) => ({
             return null;
         }
     },
+
 });
