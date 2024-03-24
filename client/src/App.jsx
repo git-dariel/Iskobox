@@ -1,26 +1,63 @@
 import { Route, Routes } from "react-router-dom";
-import SignIn from "./pages/users/signin-page";
-import SignUp from "./pages/users/signup-page";
+import { AuthProvider } from "./helpers/auth.context";
+import ProtectedRoute from "./helpers/protected-routes";
 import Dashboard from "./pages/dashboard";
-import LandingPage from "./pages/users/landing-page";
 import Home from "./pages/home";
-import Workspace from "./pages/workspace";
 import Profile from "./pages/profile";
 import Settings from "./pages/settings";
+import SignIn from "./pages/users/signin-page";
+import SignUp from "./pages/users/signup-page";
+import Workspace from "./pages/workspace";
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/workspace" element={<Workspace />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/workspace"
+          element={
+            <ProtectedRoute>
+              <Workspace />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 

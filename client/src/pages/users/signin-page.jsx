@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/LOGO.png";
 import { loginUser } from "@/services/user-service";
-
+import { useAuth } from "@/helpers/auth.context";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaLock } from "react-icons/fa";
 
@@ -11,6 +11,13 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/home");
+    }
+  }, [currentUser, navigate]);
 
   const handleSignIn = async () => {
     if (email === "" || password === "") {
@@ -26,7 +33,6 @@ export default function SignIn() {
     }
     try {
       await loginUser(email, password);
-      navigate("/home");
     } catch (error) {
       toast("Invalid Input", {
         icon: "⚠️",
@@ -37,7 +43,6 @@ export default function SignIn() {
         },
       });
     }
-
   };
 
   return (
