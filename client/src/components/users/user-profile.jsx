@@ -1,7 +1,6 @@
 import { dummyProfile } from "../../test/mocked-data/user";
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/helpers/auth.context";
+import { Link } from "react-router-dom";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +35,7 @@ const UserDropdown = () => {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative ml-4" ref={dropdownRef}>
       {/* Toggle Profile */}
       <button id="avatarButton" type="button" onClick={toggleDropdown}>
         <img
