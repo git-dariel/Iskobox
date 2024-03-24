@@ -1,6 +1,7 @@
 import { dummyProfile } from "../../test/mocked-data/user";
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/helpers/auth.context";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,7 @@ const UserDropdown = () => {
     try {
       await logout();
       navigate("/");
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -48,9 +49,8 @@ const UserDropdown = () => {
       {/* Dropdown menu */}
       <div
         id="userDropdown"
-        className={`z-10 absolute top-full right-0 mt-2 ${
-          isOpen ? "" : "hidden"
-        } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+        className={`z-10 absolute top-full right-0 mt-2 ${isOpen ? "" : "hidden"
+          } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
       >
         <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
           <div>{name}</div>
