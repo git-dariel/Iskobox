@@ -32,7 +32,7 @@ const UserDropdown = () => {
     try {
       await logout();
       navigate("/");
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -42,15 +42,16 @@ const UserDropdown = () => {
         <img
           src={avatarSrc}
           alt="User dropdown"
-          className="rounded-full h-10 border-gray-300 border-4 hover:border-blue-200 transition-all ease-in-out duration-150 active:border-blue-300"
+          className="rounded-full min-w-10 min-h-10 border-gray-300 border-4 hover:border-blue-200 transition-all ease-in-out duration-150 active:border-blue-300"
         />
       </button>
 
       {/* Dropdown menu */}
       <div
         id="userDropdown"
-        className={`z-10 absolute top-full right-0 mt-2 ${isOpen ? "" : "hidden"
-          } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+        className={`z-10 absolute top-full right-0 mt-2 ${
+          isOpen ? "" : "hidden"
+        } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
       >
         <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
           <div>{name}</div>

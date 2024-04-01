@@ -14,8 +14,11 @@ const TopNavigation = () => {
   const location = useLocation();
 
   return (
-    <div className="bg-gray-100 shadow-lg z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-1 lg:px-2">
+    <div
+      className="bg-[#f8fafd]"
+      // style={{ boxShadow: "0 4px 2px -2px gray" }}
+    >
+      <div className="min-w-full mx-auto px-4 sm:px-1 lg:px-2">
         <div className="flex justify-between h-16 items-center">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
@@ -40,7 +43,7 @@ const TopNavigation = () => {
           </div>
           {/* Additional elements */}
           <SearchForm />
-          <div className="hidden sm:flex sm:items-center sm:ml-6">
+          <div className="flex items-center ml-6">
             <Notification />
             <UserProfile />
           </div>
