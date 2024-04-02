@@ -1,20 +1,29 @@
-import SideMenu from '@/components/layout/side-menu'
-import TopNavigation from '@/components/layout/top-nav'
-import React from 'react'
+import Header from "@/components/home/home.header";
+import SideMenu from "@/components/layout/side-menu";
+import TopNavigation from "@/components/layout/top-nav";
+import React from "react";
 
 const Home = () => {
   return (
-    <div className='flex h-screen bg-gray-300'>
-        <SideMenu/>
-        <div className="flex flex-col flex-1 ">
-            <TopNavigation/>
-            <div className="flex flex-col flex-1 p-4 overflow-y-auto items-center justify-center">
-                {/* Main Content */}
-                <h1>Home component/content here</h1>
+    <div className="flex h-screen mx-1 bg-[#f8fafd]">
+      <SideMenu />
+      <div className="flex flex-col flex-1 ">
+        <TopNavigation />
+        <div className="flex flex-col flex-1">
+          {/* Main Content */}
+          <div
+            className="flex flex-col flex-1"
+            style={{ scrollbarWidth: "thin" }}
+          >
+            <Header />
+            <div className="flex flex-col flex-1 bg-white">
+              {/* File view component here */}
             </div>
+          </div>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
