@@ -1,12 +1,12 @@
 import { handleBreadcrumbClick, handleFolderDoubleClick } from "@/helpers/folder-helpers";
-import { deleteFile, fetchAllFiles, uploadFile } from "@/services/file-service";
+import { deleteFile, fetchAllFiles, uploadFile } from "@/services/files/file-service";
 import {
   addFolder,
   deleteFolder,
   fetchFolderDetails,
   fetchFolders,
   updateFolderName,
-} from "@/services/folder-service";
+} from "@/services/folders/folder.service";
 import "chart.js/auto";
 import { collection, getDocs } from "firebase/firestore";
 import { FolderCog, Trash, X } from "lucide-react";

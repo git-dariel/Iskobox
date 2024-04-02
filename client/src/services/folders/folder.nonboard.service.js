@@ -1,4 +1,4 @@
-import { createFirestoreFunctionsForCollection } from "./folder-template-service";
+import { createFirestoreFunctionsForCollection } from "./folder.template.service";
 
 // Create Non-Board Collection
 const nonBoardFolderOperations = createFirestoreFunctionsForCollection("non-board-folder");

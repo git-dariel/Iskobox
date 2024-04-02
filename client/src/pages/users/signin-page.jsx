@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/LOGO.png";
-import { loginUser } from "@/services/user-service";
+import { loginUser } from "@/services/users/user-service";
 import { useAuth } from "@/helpers/auth.context";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaLock } from "react-icons/fa";

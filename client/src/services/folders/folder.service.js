@@ -1,5 +1,5 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
-import { db } from "../database/firebase-connection";
+import { db } from "../../database/firebase-connection";
 
 // get the folders
 export const fetchFolders = async (parentId = null) => {

@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/LOGO.png";
 import { MdWork } from "react-icons/md";
-import { registerUser } from "@/services/user-service";
+import { registerUser } from "@/services/users/user-service";
 
 const SignUp = () => {
   const [firstname, setFirstname] = useState("");

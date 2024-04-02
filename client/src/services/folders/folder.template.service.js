@@ -1,5 +1,5 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
-import { db } from "../database/firebase-connection";
+import { db } from "../../database/firebase-connection";
 
 // Higher-order function to create functions for any collection
 export const createFirestoreFunctionsForCollection = (collectionName) => ({

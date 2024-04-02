@@ -1,4 +1,4 @@
-import { createFirestoreFunctionsForCollection } from "./folder-template-service";
+import { createFirestoreFunctionsForCollection } from "./folder.template.service";
 
 // Create Program Collection
 const programFolderOperations = createFirestoreFunctionsForCollection("program-folder");

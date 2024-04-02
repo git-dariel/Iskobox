@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../database/firebase-connection";
+import { db } from "../../database/firebase-connection";
 
 // register a user
 export async function registerUser(email, password, firstname, lastname, idNumber, role) {
