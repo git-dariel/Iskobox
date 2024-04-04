@@ -1,5 +1,12 @@
-import { handleBreadcrumbClick, handleFolderDoubleClick } from "@/helpers/folder-helpers";
-import { deleteFile, fetchAllFiles, uploadFile } from "@/services/files/file-service";
+import {
+  handleBreadcrumbClick,
+  handleFolderDoubleClick,
+} from "@/helpers/folder-helpers";
+import {
+  deleteFile,
+  fetchAllFiles,
+  uploadFile,
+} from "@/services/files/file-service";
 import {
   addFolder,
   deleteFolder,
@@ -17,7 +24,11 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiFileAddLine, RiFolderAddLine } from "react-icons/ri";
 import Modal from "react-modal";
 import { db } from "../../database/firebase-connection";
-import { getFileIcon, isImageFile, truncateFileName } from "../../helpers/file-helpers";
+import {
+  getFileIcon,
+  isImageFile,
+  truncateFileName,
+} from "../../helpers/file-helpers";
 
 function FolderPage() {
   const [folders, setFolders] = useState([]);
@@ -82,7 +93,7 @@ function FolderPage() {
     const processFolder = (folder) => {
       const totalFiles = countFilesInFolder(folder.id);
       // Adjust based on your application's logic
-      const maxFileCount = 3; 
+      const maxFileCount = 3;
       const usagePercentage = Math.min((totalFiles / maxFileCount) * 100, 100);
 
       return {
@@ -264,7 +275,13 @@ function FolderPage() {
 
   // Double Click
   const onFolderDoubleClick = async (folder) => {
-    await handleFolderDoubleClick(folder, setCurrentFolder, setFolderPath, db, setFiles);
+    await handleFolderDoubleClick(
+      folder,
+      setCurrentFolder,
+      setFolderPath,
+      db,
+      setFiles
+    );
   };
 
   // Navigation
@@ -276,9 +293,9 @@ function FolderPage() {
       setFolderPath,
       setFiles,
       fetchFolders,
-      updateFolderUsageChartData, 
-      fetchAllFiles, 
-      handleFetchFolderDetails,
+      updateFolderUsageChartData,
+      fetchAllFiles,
+      handleFetchFolderDetails
     );
   };
 

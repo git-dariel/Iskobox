@@ -5,18 +5,20 @@ import SideBar from "../../components/home/home-sidebar";
 import SideBarItem from "../../components/home/sidebar-item";
 import { FaFolder } from "react-icons/fa";
 
-export default function Dashboard() {
+function DashboardContent() {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <div>
-      <NavBar />
-      <div className="flex">
+      {/* <NavBar />
+      <div className="flex relative">
         <SideBar expanded={expanded} setExpanded={setExpanded}>
           <SideBarItem icon={<FaFolder />} text="Folder" expanded={expanded} />
-        </SideBar>
-        <FolderPage />
-      </div>
+        </SideBar> */}
+      <FolderPage />
+      {/* </div> */}
     </div>
   );
 }
+
+export default DashboardContent;

@@ -49,7 +49,7 @@ const UserDropdown = () => {
       {/* Dropdown menu */}
       <div
         id="userDropdown"
-        className={`z-10 absolute top-full right-0 mt-2 ${
+        className={`z-20 absolute top-full right-0 mt-2 ${
           isOpen ? "" : "hidden"
         } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
       >
