@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlineFile } from "react-icons/ai";
-import { RiFolderLine } from "react-icons/ri";
 import { fetchFolders } from "../../services/folders/folder.service";
 import { fetchAllFiles } from "../../services/files/file-service";
+import FileItem from "./file.item";
+import FolderItem from "./folder.item";
 
 const FileView = ({ selectedView, isGridView }) => {
   const [files, setFiles] = useState([]);
@@ -16,21 +16,6 @@ const FileView = ({ selectedView, isGridView }) => {
     }
   }, [selectedView]);
 
-  const renderItem = (item) => {
-    const Icon = selectedView === "files" ? AiOutlineFile : RiFolderLine;
-    return (
-      <div
-        key={item.id}
-        className={`${
-          isGridView ? "w-1/4 p-2" : "w-full p-2"
-        } text-sm flex items-center space-x-2 border-b border-gray-200 hover:bg-gray-100`}
-      >
-        <Icon className="h-8 w-8 text-gray-600" />
-        <span className="truncate">{item.name}</span>
-      </div>
-    );
-  };
-
   return (
     <div className="mt-4">
       {selectedView === "files" && (
@@ -43,7 +28,9 @@ const FileView = ({ selectedView, isGridView }) => {
               isGridView ? "flex flex-wrap" : ""
             } border-y border-gray-200`}
           >
-            {files.map(renderItem)}
+            {files.map((file) => (
+              <FileItem key={file.id} file={file} isGridView={isGridView} />
+            ))}
           </div>
         </div>
       )}
@@ -56,7 +43,13 @@ const FileView = ({ selectedView, isGridView }) => {
               isGridView ? "flex flex-wrap" : ""
             } border-y border-gray-200`}
           >
-            {folders.map(renderItem)}
+            {folders.map((folder) => (
+              <FolderItem
+                key={folder.id}
+                folder={folder}
+                isGridView={isGridView}
+              />
+            ))}
           </div>
         </div>
       )}

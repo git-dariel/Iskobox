@@ -5,15 +5,22 @@ import TopNavigation from "@/components/layout/top-nav";
 import React, { useState } from "react";
 
 const Home = () => {
-  const [selectedView, setSelectedView] = useState("files");
-  const [isGridView, setIsGridView] = useState(false);
+  const [selectedView, setSelectedView] = useState(
+    localStorage.getItem("selectedView") || "files"
+  );
+  const [isGridView, setIsGridView] = useState(
+    localStorage.getItem("isGridView") === "true" || false
+  );
 
   const handleViewChange = (view) => {
     setSelectedView(view);
+    localStorage.setItem("selectedView", view);
   };
 
   const toggleView = () => {
-    setIsGridView(!isGridView);
+    const newGridView = !isGridView;
+    setIsGridView(newGridView);
+    localStorage.setItem("isGridView", newGridView.toString());
   };
 
   return (
