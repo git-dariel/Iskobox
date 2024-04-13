@@ -16,13 +16,8 @@ export const handleFolderDoubleClick = async (
   });
   setCurrentFolder(folder);
 
-<<<<<<< HEAD
   const foldersCollectionRef = collection(db, "folders");
   const q = query(foldersCollectionRef, where("parentId", "==", folder.id));
-=======
-  const foldersCollectionRef = collection(db, 'folders');
-  const q = query(foldersCollectionRef, where('parentId', '==', folder.id));
->>>>>>> 4926007cf0f71b5e77dc28d956795968c1588b04
   const querySnapshot = await getDocs(q);
   const subfoldersArray = querySnapshot.docs.map((doc) => ({
     id: doc.id,
@@ -35,13 +30,8 @@ export const handleFolderDoubleClick = async (
     subfolders: subfoldersArray,
   }));
 
-<<<<<<< HEAD
   const filesCollectionRef = collection(db, "files");
   const qFiles = query(filesCollectionRef, where("folderId", "==", folder.id));
-=======
-  const filesCollectionRef = collection(db, 'files');
-  const qFiles = query(filesCollectionRef, where('folderId', '==', folder.id));
->>>>>>> 4926007cf0f71b5e77dc28d956795968c1588b04
   const querySnapshotFiles = await getDocs(qFiles);
   const filesArray = querySnapshotFiles.docs.map((doc) => ({
     id: doc.id,
@@ -80,10 +70,6 @@ export const handleBreadcrumbClick = async (
   if (clickedFolderDetails) {
     setCurrentFolder(clickedFolderDetails);
   } else {
-<<<<<<< HEAD
     console.error("Failed to fetch folder details.");
-=======
-    console.error('Failed to fetch folder details.');
->>>>>>> 4926007cf0f71b5e77dc28d956795968c1588b04
   }
 };
