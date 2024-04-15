@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const ContextMenu = ({ xPos, yPos, options, onClose }) => {
+const ContextMenu = ({ xPos, yPos, options, onClose, handleOptionClick }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -16,12 +16,6 @@ const ContextMenu = ({ xPos, yPos, options, onClose }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
-
-  const handleOptionClick = (option) => {
-    // Handle option click action here
-    console.log(`${option} clicked`);
-    onClose(); // Close the context menu after option clicked
-  };
 
   return (
     <div

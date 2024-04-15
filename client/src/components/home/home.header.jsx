@@ -24,6 +24,8 @@ const Header = ({
             selectedButton={selectedButton}
             handleButtonClick={handleButtonClick}
           />
+          <div className="bg-gray-200 w-full">Tool 1</div>
+
           <div>
             <ToggleViewButton isGridView={isGridView} toggleView={toggleView} />
           </div>

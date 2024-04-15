@@ -1,15 +1,26 @@
-// FolderItem.jsx
-import React from "react";
-import { RiFolderLine } from "react-icons/ri";
+import React, { useState } from "react";
+import { RiFolderLine, RiFolderOpenLine } from "react-icons/ri";
 
-const FolderItem = ({ folder, isGridView }) => {
+const FolderItem = ({ folder, isGridView, onDoubleClick }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleDoubleClick = () => {
+    setIsOpen(!isOpen);
+    onDoubleClick(folder.id);
+  };
+
   return (
     <div
       className={`${
-        isGridView ? "w-1/4 p-2" : "w-full p-2"
-      } text-sm flex items-center space-x-2 border-b border-gray-200 hover:bg-gray-100`}
+        isGridView ? "flex-col m-2 p-2 border" : "w-full border-y"
+      } text-sm flex  items-center space-x-2 border-gray-200 hover:bg-gray-100`}
+      onDoubleClick={handleDoubleClick}
     >
-      <RiFolderLine className="h-8 w-8 text-gray-600" />
+      {isOpen ? (
+        <RiFolderOpenLine className="h-8 w-8 text-gray-600" />
+      ) : (
+        <RiFolderLine className="h-8 w-8 text-gray-600" />
+      )}
       <span className="truncate">{folder.name}</span>
     </div>
   );

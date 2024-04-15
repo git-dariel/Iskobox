@@ -3,11 +3,26 @@ import { fetchFolders } from "../../services/folders/folder.service";
 import { fetchAllFiles } from "../../services/files/file-service";
 import FileItem from "./file.item";
 import FolderItem from "./folder.item";
+import SampleCreatedFolder from "./sample.folder.view";
 
 const FileView = ({ selectedView, isGridView }) => {
   const [files, setFiles] = useState([]);
   const [folders, setFolders] = useState([]);
+  const [openedFolders, setOpenedFolders] = useState([]);
 
+  const handleFolderDoubleClick = (folderId) => {
+    if (!openedFolders.includes(folderId)) {
+      setOpenedFolders([...openedFolders, folderId]);
+      console.log("Open folder:", folderId);
+    }
+  };
+
+  const handleCreateNewFolder = (parentId) => {
+    // Implement your folder creation logic here, using parentId as the parent folder ID
+    console.log("Create new folder in folder:", parentId);
+  };
+
+  // toggle view
   useEffect(() => {
     if (selectedView === "files") {
       fetchAllFiles().then((data) => setFiles(data));
@@ -25,8 +40,10 @@ const FileView = ({ selectedView, isGridView }) => {
           </div>
           <div
             className={`${
-              isGridView ? "flex flex-wrap" : ""
-            } border-y border-gray-200`}
+              isGridView
+                ? "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
+                : " "
+            } `}
           >
             {files.map((file) => (
               <FileItem key={file.id} file={file} isGridView={isGridView} />
@@ -37,20 +54,24 @@ const FileView = ({ selectedView, isGridView }) => {
 
       {selectedView === "folders" && (
         <div>
-          <h2 className="text-sm m-2">Name</h2>
+          {/* <h2 className="text-sm m-2">Name</h2> */}
           <div
             className={`${
-              isGridView ? "flex flex-wrap" : ""
-            } border-y border-gray-200`}
+              isGridView
+                ? "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
+                : " "
+            } `}
           >
             {folders.map((folder) => (
               <FolderItem
                 key={folder.id}
                 folder={folder}
                 isGridView={isGridView}
+                onDoubleClick={handleFolderDoubleClick}
               />
             ))}
           </div>
+          {/* <SampleCreatedFolder /> */}
         </div>
       )}
     </div>

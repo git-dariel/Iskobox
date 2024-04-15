@@ -1,4 +1,3 @@
-import ContextMenu from "@/components/contextmenu/add.menu";
 import React, { useState, useRef } from "react";
 import { IoAdd } from "react-icons/io5";
 import {
@@ -6,6 +5,8 @@ import {
   MdOutlineUploadFile,
   MdDriveFolderUpload,
 } from "react-icons/md";
+import ContextMenu from "@/components/contextmenu/add.menu";
+import NewFolderForm from "@/components/modals/new.folder";
 
 const AddNewButton = () => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
@@ -13,6 +14,7 @@ const AddNewButton = () => {
     x: 0,
     y: 0,
   });
+  const [showNewFolderForm, setShowNewFolderForm] = useState(false);
   const buttonRef = useRef(null);
 
   const options = [
@@ -34,6 +36,16 @@ const AddNewButton = () => {
     setIsContextMenuOpen(false);
   };
 
+  const handleOptionClick = (option) => {
+    if (option.label === "New Folder") {
+      setShowNewFolderForm(true);
+    } else {
+      // Handle other options here
+      console.log(`${option.label} clicked`);
+    }
+    setIsContextMenuOpen(false);
+  };
+
   return (
     <>
       <button
@@ -49,7 +61,11 @@ const AddNewButton = () => {
           yPos={contextMenuPosition.y}
           options={options}
           onClose={closeContextMenu}
+          handleOptionClick={handleOptionClick} // Pass the function down to ContextMenu
         />
+      )}
+      {showNewFolderForm && (
+        <NewFolderForm onClose={() => setShowNewFolderForm(false)} />
       )}
     </>
   );
