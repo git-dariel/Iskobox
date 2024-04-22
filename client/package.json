@@ -33,8 +33,10 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.21.3",
     "recharts": "^2.12.3",
+    "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.6",
