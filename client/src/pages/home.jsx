@@ -3,6 +3,7 @@ import Header from "@/components/home/home.header";
 import SideMenu from "@/components/layout/side-menu";
 import TopNavigation from "@/components/layout/top-nav";
 import React, { useState } from "react";
+import FolderPage from "./admin/folder-page";
 
 const Home = () => {
   const [selectedView, setSelectedView] = useState(
@@ -28,24 +29,7 @@ const Home = () => {
       <SideMenu />
       <div className="flex flex-col flex-1 ">
         <TopNavigation />
-        <div className="flex flex-col flex-1">
-          {/* Main Content */}
-          <div
-            className="flex flex-col flex-1"
-            style={{ scrollbarWidth: "thin" }}
-          >
-            <Header
-              selectedButton={selectedView}
-              handleButtonClick={handleViewChange}
-              isGridView={isGridView}
-              toggleView={toggleView}
-            />
-            <div className="flex flex-col flex-1 bg-white">
-              {/* File view component here */}
-              <FileView selectedView={selectedView} isGridView={isGridView} />
-            </div>
-          </div>
-        </div>
+        <FolderPage/>
       </div>
     </div>
   );

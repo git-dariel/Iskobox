@@ -7,15 +7,16 @@ export const handleFolderDoubleClick = async (
   db,
   setFiles
 ) => {
-  setFolderPath((currentFolderPath) => {
-    if (setCurrentFolder) {
-      return [...currentFolderPath, folder.name];
-    } else {
-      return [...currentFolderPath, { id: folder.id, name: folder.name }];
-    }
-  });
+  // Update the folder path
+  setFolderPath((currentFolderPath) => [
+    ...currentFolderPath,
+    { id: folder.id, name: folder.name },
+  ]);
+
+  // Set the current folder
   setCurrentFolder(folder);
 
+  // Fetch subfolders
   const foldersCollectionRef = collection(db, "folders");
   const q = query(foldersCollectionRef, where("parentId", "==", folder.id));
   const querySnapshot = await getDocs(q);
@@ -25,11 +26,13 @@ export const handleFolderDoubleClick = async (
     subfolders: [],
   }));
 
+  // Update the current folder with subfolders
   setCurrentFolder((prevState) => ({
     ...prevState,
     subfolders: subfoldersArray,
   }));
 
+  // Fetch files
   const filesCollectionRef = collection(db, "files");
   const qFiles = query(filesCollectionRef, where("folderId", "==", folder.id));
   const querySnapshotFiles = await getDocs(qFiles);
@@ -38,6 +41,7 @@ export const handleFolderDoubleClick = async (
     ...doc.data(),
   }));
 
+  // Set files
   setFiles(filesArray);
 };
 
