@@ -12,7 +12,7 @@ const Header = ({
 }) => {
   return (
     <div className="bg-white max-w-full rounded-t-xl z-10">
-      <div className="container mx-auto p-4">
+      <div className=" mx-auto p-4">
         <div className="flex">
           <h1 className="text-xl text-gray-800 pl-3 pr-1">Sharehub</h1>
           {/* <FileCrumbs /> */}
