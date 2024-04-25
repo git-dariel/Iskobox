@@ -30,7 +30,7 @@ import {
   truncateFileName,
 } from "../../helpers/file-helpers";
 
-function FolderPage() {
+function FolderPage({ isGridView }) {
   const [folders, setFolders] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
@@ -300,269 +300,38 @@ function FolderPage() {
   };
 
   return (
-    <div className="h-full w-full">
-      <div className="border-2">
-        <h2 className="text-2xl font-bold text-left m-5 text-gray-600">
-          Folder Usage
-        </h2>
-        <div className="w-full flex flex-row justify-center items-center cursor-default">
-          {folderUsageChartData.map((data, index) => (
-            <div
-              key={index}
-              className=""
-              style={{ width: "200px", height: "200px", margin: "0 auto" }}
-            >
-              <div>
-                <h3 className=" text-gray-600 text-2xl font-semibold text-center">
-                  {data.folderName}
-                </h3>
-              </div>
-              <div>
-                <Doughnut
-                  data={{
-                    labels: ["Used", "Free"],
-                    datasets: [
-                      {
-                        label: "Folder Usage",
-                        data: [
-                          data.usagePercentage,
-                          100 - data.usagePercentage,
-                        ],
-                        backgroundColor: [
-                          data.usagePercentage >= 100
-                            ? "rgba(255, 99, 132, 0.6)" // Red for full
-                            : data.usagePercentage > 60
-                            ? "rgba(255, 159, 64, 0.6)" // Orange for quite full
-                            : "rgba(54, 162, 235, 0.6)", // Blue for not full
-                          "rgba(201, 203, 207, 0.6)",
-                        ],
-                        borderColor: [
-                          data.usagePercentage >= 100
-                            ? "rgba(255, 99, 132, 1)"
-                            : data.usagePercentage > 75
-                            ? "rgba(255, 159, 64, 1)"
-                            : "rgba(54, 162, 235, 1)",
-                          "rgba(201, 203, 207, 1)",
-                        ],
-                        borderWidth: 1,
-                      },
-                    ],
-                  }}
-                  options={{
-                    circumference: 360, // Changed to 360 for full circle
-                    rotation: 270, // Adjusted for starting point to be at the top
-                    cutout: "80%",
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        display: false, // Optionally hide the legend if you want
-                      },
-                    },
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+    <div
+      className={`${
+        isGridView ? "flex-col m-2 p-2 border" : "w-full border-y"
+      } text-sm flex  items-center space-x-2 border-gray-200 hover:bg-gray-100`}
+    >
+      <div className="mx-12 text-center mb-5">
+        {/* Folder List */}
+        <div className="flex">
+          {(currentFolder ? currentFolder.subfolders : folders).map(
+            (folder) => {
+              // Find the usage data for this folder
+              const usageData = folderUsageChartData.find(
+                (data) => data.folderName === folder.name
+              );
+              const filePercentage = usageData
+                ? usageData.usagePercentage.toFixed(0)
+                : "0"; // Default to '0' if not found
 
-      <div className="border-2">
-        <div className="flex p-5">
-          <h2 className="text-2xl font-bold text-left text-gray-600">
-            Folders
-          </h2>
-        </div>
-        <div className="mx-10 flex">
-          <div>
-            <button
-              type="button"
-              className="bg-blue-500 mx-2 p-2 text-white rounded hover:bg-blue-600 focus:outline-none"
-              onClick={() => setModalOpen(true)}
-            >
-              <div className="flex flex-row">
-                <RiFolderAddLine className=" pr-1 text-2xl" />
-                Add Folder
-              </div>
-            </button>
-
-            {/* Add File Button and Hidden File Input */}
-            <button
-              type="button"
-              className=" bg-green-500 mx-2 p-2 text-white rounded hover:bg-green-600 focus:outline-none"
-              onClick={() => document.getElementById("fileInput").click()}
-            >
-              <div className="flex flex-row">
-                <RiFileAddLine className=" pr-1 text-2xl" />
-                Add File
-              </div>
-            </button>
-          </div>
-          <div className="border-2 inline-block mx-5"></div>
-          {/* Breadcrumb Navigation */}
-          <div className="breadcrumbs w-flex p-2 rounded text-center">
-            <span
-              style={{ color: "blue" }}
-              className="breadcrumb-item cursor-pointer"
-              onClick={() => breadcrumbClickHandler(0)}
-            >
-              Root
-            </span>
-            {folderPath.map((folder, index) => (
-              <React.Fragment key={folder.id}>
-                <span> / </span>
-                <span
-                  style={{ color: "blue" }}
-                  className="breadcrumb-item cursor-pointer"
-                  onClick={() => breadcrumbClickHandler(index + 1)}
-                >
-                  {folder.name}
-                </span>
-              </React.Fragment>
-            ))}
-          </div>
-
-          <input
-            type="file"
-            id="fileInput"
-            style={{ display: "none" }}
-            onChange={handleAddFile}
-          />
-        </div>
-
-        <div className="mx-12 text-center mb-5">
-          {/* Folder List */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-5">
-            {(currentFolder ? currentFolder.subfolders : folders).map(
-              (folder) => {
-                // Find the usage data for this folder
-                const usageData = folderUsageChartData.find(
-                  (data) => data.folderName === folder.name
-                );
-                const filePercentage = usageData
-                  ? usageData.usagePercentage.toFixed(0)
-                  : "0"; // Default to '0' if not found
-
-                return (
-                  <div
-                    key={folder.id}
-                    className="group cursor-pointer p-4 border border-gray-200 rounded-lg hover:shadow-lg flex flex-col items-center justify-center space-y-2"
-                    onDoubleClick={() => onFolderDoubleClick(folder)}
-                  >
-                    <div className="bg-blue-100 p-4 rounded-full">
-                      <FolderCog className="w-8 h-8 text-blue-500" />
-                    </div>
-                    <div className="text-sm font-medium text-gray-700 truncate w-full text-center">
-                      {folder.name}
-                    </div>
-                    {/* Display the file percentage here */}
-                    <div className="text-xs font-semibold">
-                      {filePercentage}% Files
-                    </div>
-                    <div className="opacity-0 group-hover:opacity-100 transition duration-150 ease-in-out">
-                      {/* edit button */}
-                      <button
-                        type="button"
-                        className="bg-blue-500 text-white p-1 rounded hover:bg-blue-600 focus:outline-none mx-1"
-                        title="Edit Folder"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          setEditingFolder(folder);
-                          setEditedFolderName(folder.name);
-                          setEditModalOpen(true);
-                        }}
-                      >
-                        <FaRegEdit className="w-4 h-4" />
-                      </button>
-
-                      {/* delete button */}
-                      <button
-                        type="button"
-                        className="bg-red-500 text-white p-1 rounded hover:bg-red-600 focus:outline-none mx-1"
-                        onClick={(event) =>
-                          handleDeleteFolder(event, folder.id)
-                        }
-                        title="Delete Folder"
-                      >
-                        <Trash className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                );
-              }
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Files List */}
-      <div className=" border-2">
-        <h3 className="text-2xl text-gray-600 font-semibold m-5">Files</h3>
-
-        <div className="mx-12 mb-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {files.length > 0 ? (
-              files.map((file) => (
+              return (
                 <div
-                  key={file.id}
-                  className="border rounded-lg hover:shadow-md overflow-hidden flex flex-col"
+                  key={folder.id}
+                  className="flex text-sm items-center justify-center"
+                  onDoubleClick={() => onFolderDoubleClick(folder)}
                 >
-                  <div className="flex justify-between items-center p-4">
-                    <div className="flex items-center space-x-3">
-                      {getFileIcon(file.name)}
-                      <span className="text-sm font-medium truncate">
-                        {truncateFileName(file.name)}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => handleDeleteFile(file.id)}
-                      className="text-red-500 hover:text-red-600"
-                      title="Delete File"
-                    >
-                      <Trash className="w-5 h-5" />
-                    </button>
+                  <div>
+                    <FolderCog />
                   </div>
-                  <div className="flex-grow p-3 bg-gray-100 flex items-center justify-center">
-                    {isImageFile(file.name) ? (
-                      <img
-                        src={file.url}
-                        alt="Preview"
-                        className="max-h-36 w-auto"
-                        onClick={() => setPreviewUrl(file.url)}
-                      />
-                    ) : (
-                      <a
-                        href={file.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:text-blue-600 underline"
-                      >
-                        Open
-                      </a>
-                    )}
-                  </div>
-                  <div className="p-4 bg-white flex justify-between items-center">
-                    <a
-                      href={file.url}
-                      download
-                      className="text-sm text-gray-500 hover:text-gray-600"
-                    >
-                      Download
-                    </a>
-                    {isImageFile(file.name) && (
-                      <button
-                        onClick={() => setPreviewUrl(file.url)}
-                        className="text-sm text-blue-500 hover:text-blue-600"
-                      >
-                        Preview
-                      </button>
-                    )}
-                  </div>
+                  <div>{folder.name}</div>
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-500">No files in this folder.</p>
-            )}
-          </div>
+              );
+            }
+          )}
         </div>
       </div>
 
