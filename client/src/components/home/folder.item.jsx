@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from React Router
+import { Link } from "react-router-dom";
 import { RiFolderLine, RiFolderOpenLine } from "react-icons/ri";
 
 const FolderItem = ({ folder, isGridView, onDoubleClick }) => {
@@ -17,7 +17,7 @@ const FolderItem = ({ folder, isGridView, onDoubleClick }) => {
       <div
         className={`cursor-default ${
           isGridView ? "flex-col m-2 p-2 border" : "w-full border-y"
-        } text-sm flex  items-center space-x-2 border-gray-200 hover:bg-gray-100`}
+        } text-sm flex items-center space-x-2 border-gray-200 hover:bg-gray-100`}
         onDoubleClick={handleDoubleClick}
       >
         {isOpen ? (

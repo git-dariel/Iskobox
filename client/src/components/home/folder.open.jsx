@@ -3,6 +3,7 @@ import SideMenu from "../layout/side-menu";
 import TopNavigation from "../layout/top-nav";
 import Header from "./home.header";
 import { fetchFolders } from "../../services/folders/folder.service";
+import FolderItem from "./folder.item";
 
 const FolderOpen = () => {
   const [selectedView, setSelectedView] = useState(
@@ -11,19 +12,19 @@ const FolderOpen = () => {
   const [isGridView, setIsGridView] = useState(
     localStorage.getItem("isGridView") === "true" || false
   );
+  const [folderStack, setFolderStack] = useState([]); // Maintain folder navigation history
   const [folderContents, setFolderContents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedFolderId, setSelectedFolderId] = useState(null); // Track selected folder ID
 
   useEffect(() => {
     // Fetch folders for the initially selected folder
     fetchFolderContents(null);
   }, []); // Fetch folders when component mounts
 
-  const fetchFolderContents = async (parentId) => {
+  const fetchFolderContents = async (folderId) => {
     setIsLoading(true);
     try {
-      const folders = await fetchFolders(parentId);
+      const folders = await fetchFolders(folderId);
       setFolderContents(folders);
       setIsLoading(false);
     } catch (error) {
@@ -34,7 +35,7 @@ const FolderOpen = () => {
 
   const handleFolderDoubleClick = (folderId) => {
     // Handle opening a folder (e.g., fetch its subfolders)
-    setSelectedFolderId(folderId);
+    setFolderStack([...folderStack, folderId]); // Push the folder ID onto the stack
     fetchFolderContents(folderId);
   };
 
@@ -47,6 +48,14 @@ const FolderOpen = () => {
     const newGridView = !isGridView;
     setIsGridView(newGridView);
     localStorage.setItem("isGridView", newGridView.toString());
+  };
+
+  const navigateBack = () => {
+    if (folderStack.length > 0) {
+      const previousFolderId = folderStack.pop(); // Pop the last folder ID from the stack
+      fetchFolderContents(previousFolderId);
+      setFolderStack([...folderStack]); // Update the folder stack
+    }
   };
 
   return (
@@ -64,25 +73,27 @@ const FolderOpen = () => {
               handleButtonClick={handleViewChange}
               isGridView={isGridView}
               toggleView={toggleView}
+              navigateBack={navigateBack} // Pass the navigateBack function
             />
             {isLoading ? (
-              <div className="flex flex-col flex-1 items-center justify-center bg-white">
+              <div className="flex flex-col flex-1 items-center justify-center">
                 Loading...
               </div>
             ) : (
-              <div className="flex flex-col flex-1 items-center justify-center bg-white">
+              <div>
                 {folderContents.length === 0 ? (
-                  <div>This folder is empty.</div>
+                  <div className="flex flex-col flex-1 items-center justify-center">
+                    This folder is empty.
+                  </div>
                 ) : (
-                  <div>
+                  <div className="flex flex-col flex-1">
                     {folderContents.map((folder) => (
-                      <div
+                      <FolderItem
                         key={folder.id}
-                        onClick={() => handleFolderDoubleClick(folder.id)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        {folder.name}
-                      </div>
+                        folder={folder}
+                        isGridView={isGridView}
+                        onDoubleClick={handleFolderDoubleClick}
+                      />
                     ))}
                   </div>
                 )}
