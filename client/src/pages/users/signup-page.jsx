@@ -1,215 +1,117 @@
-import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { AiOutlineNumber } from "react-icons/ai";
-import { FaLock, FaRegIdCard } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { Link } from "react-router-dom";
-import Logo from "../../assets/LOGO.png";
-import { MdWork } from "react-icons/md";
-import { registerUser } from "@/services/users/user-service";
+import React, { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { registerUser } from '@/services/users/user-service';
+import { Toaster, toast } from 'sonner';
+import { Link } from 'react-router-dom';
+import validator from 'validator';
+import Image from '../../assets/shareehub.png';
 
 const SignUp = () => {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [idNumber, setIdNumber] = useState("");
-  const [role, setRole] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (firstname === "" || lastname === "" || idNumber === "" || role === "" || email === "" || password === "") {
-      toast("Please fill in all fields", {
-        icon: "⚠️",
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
-      });
-      return;
+    if (firstname === '' || lastname === '' || email === '' || password === '') {
+      return toast.warning('Required all fields');
+    }
+
+    if (!validator.isEmail(email)) {
+      return toast.warning('Email is invalid');
     }
 
     try {
-      const registrationSuccessful = await registerUser(email, password, firstname, lastname, idNumber, role);
+      const registrationSuccessful = await registerUser(email, password, firstname, lastname);
       if (registrationSuccessful) {
-        toast("Registration Successful", {
-          icon: "👏",
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-          },
-        });
-        setFirstname("");
-        setLastname("");
-        setIdNumber("");
-        setEmail("");
-        setPassword("");
-        setRole("");
+        toast.success('Account has been created');
+        setFirstname('');
+        setLastname('');
+        setEmail('');
+        setPassword('');
       } else {
-        toast("User already exists!", {
-          icon: "⚠️",
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-          },
-        });
+        return toast.warning('Registration failed');
       }
     } catch (error) {
-      console.error(error.message);
-      toast.error("Registration Failed", {
-        icon: "❌",
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
-      });
+      console.error(error);
+      return toast.warning('Registration failed');
     }
   };
 
   return (
-    <div className="w-screen h-full bg-white p-0 m-0 select-none">
-      {/* MainBox */}
-      <div className="flex justify-start">
-        {/* position*/}
-        <div className="flex items-center w-2/4 h-screen bg-white justify-center">
-          {/* form*/}
-          <div className="  bg-white">
-            {/* signup box*/}
-            <div className="w-full">
-              <div className="flex  md:gap-4 flex-col items-left">
-                {/* Logo */}
-                <img
-                  src={Logo}
-                  draggable="false"
-                  className="no-select w-52 h-9 mb-4 pointer-events-none"
-                />
-                {/* Name Section */}
-                <div>
-                  {/* name label */}
-                  <div className="flex flex-row md:gap-2 mb-2">
-                    <FaRegIdCard className="text-gray-700 text-xl mt-1 " />
-                    <p className="text-gray-700 text-xl">Name</p>
-                  </div>
-                  {/* first name */}
-                  <div className="flex flex-row md:gap-2">
-                    <div className="flex bg-white w-60 items-center border-2 border-gray-700">
-                      <input
-                        type="text"
-                        name="firstname"
-                        placeholder="First Name"
-                        value={firstname}
-                        onChange={(e) => setFirstname(e.target.value)}
-                        className=" p-2 bg-transparent text-sm flex placeholder-gray-700 text-gray-700focus:border-none focus:outline-none"
-                      />
-                    </div>
-                    {/* Last Name */}
-                    <div className="flex bg-white w-60 items-center border-2 border-gray-700">
-                      <input
-                        type="text"
-                        name="lastname"
-                        placeholder="Last Name"
-                        value={lastname}
-                        onChange={(e) => setLastname(e.target.value)}
-                        className=" p-2 bg-transparent text-sm flex placeholder-gray-700 text-gray-700 focus:border-none focus:outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
-                {/* Information Section */}
-                <div>
-                  {/* Information Label */}
-                  <div className="flex flex-row md:gap-2 mb-2">
-                    <FaRegIdCard className="text-gray-700 text-xl mt-1 " />
-                    <p className="text-gray-700 text-xl">Information</p>
-                  </div>
-                  {/* ID Number */}
-                  <div className="flex bg-white  items-center border-2 border-gray-700">
-                    <AiOutlineNumber className="text-gray-700 m-2" />
-                    <input
-                      type="text"
-                      name="idnumber"
-                      placeholder="ID Number"
-                      value={idNumber}
-                      onChange={(e) => setIdNumber(e.target.value)}
-                      className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700focus:border-none focus:outline-none"
-                    />
-                  </div>
+    <div className='bg-[#F0F4F9] h-screen flex justify-center items-center'>
+      <Toaster />
+      <div className=' bg-[#FFFFFF] w-4/5 h-4/5 md:w-9/12 md:h-96 rounded-3xl md:flex md:justify-between md:mb-14'>
+        <div className='px-8 pt-5'>
+          <img src={Image} alt='logo' className='w-20 h-20 md:w-28 md:h-auto' />
+          <h1 className='text-2xl md:text-3xl md:pb-5 md:pt-0 pb-3 pt-0'>
+            Create a Sharehub Account
+          </h1>
+          <h1 className='text-sm md:text-base '>Enter your Information</h1>
+        </div>
 
-                </div>
+        <div className='flex-col flex items-center pt-5 md:pt-8 md:pr-8'>
+          <Input
+            className='md:w-my-width w-72 mb-5 md:py-6'
+            placeholder='First Name'
+            name='firstname'
+            type='text'
+            onChange={(e) => setFirstname(e.target.value)}
+            required
+          />
+          <Input
+            className='md:w-my-width w-72 mb-5 md:py-6'
+            placeholder='Last Name'
+            name='lastname'
+            type='text'
+            onChange={(e) => setLastname(e.target.value)}
+            required
+          />
+          <Input
+            className='md:w-my-width w-72 mb-5 md:py-6'
+            placeholder='Email'
+            type='email'
+            name='email'
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Input
+            className='md:w-my-width w-72 mb-5 md:py-6'
+            placeholder='Password'
+            type='password'
+            name='password'
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-                {/* role */}
-                <div className="flex bg-white  items-center border-2 border-gray-700">
-                  <MdWork className="text-gray-700 m-2" />
-                  <input
-                    type="text"
-                    name="role"
-                    placeholder="Role"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700focus:border-none focus:outline-none"
-                  />
-                </div>
-
-                {/* email */}
-                <div className="flex bg-white items-center border-2 border-gray-700">
-                  <MdEmail className="text-gray-700 m-2" />
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700 focus:border-none focus:outline-none"
-                  />
-                </div>
-
-                {/* password */}
-                <div className="flex bg-white  items-center border-2 border-gray-700">
-                  <FaLock className="text-gray-700 m-2" />
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className=" bg-transparent text-sm flex placeholder-gray-700 text-gray-700 focus:border-none focus:outline-none"
-                  />
-                </div>
-
-                {/* SignUp Button */}
-                <p className="text-gray-700 text-xs mt-10 pl-2">
-                  By clicking Sign Up, you agree to our Terms, Privacy Policy
-                  and Cookies Policy.{" "}
-                </p>
-
-                <button
-                  variant={"default"}
-                  onClick={handleSubmit}
-                  className="px-12 py-2 inline-block font-semibold text-center rounded-xl bg-amber-500 text-white shadow-md shadow-gray-400 cursor-pointer"
-                >
-                  SIGN UP
-                </button>
-
-                <div className="flex justify-end md:gap-2">
-                  <p className="text-gray-700">Already have an account? </p>
-                  <Link to="/">
-                    <button className="text-indigo-500 border-b border-indigo-500 ">
-                      Sign In
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
+          <div className='md:flex md:items-end md:justify-end md:w-full'>
+            <button
+              onClick={handleSubmit}
+              className='bg-[#0B57D0] text-white text-[12px] px-4 py-2 md:px-4 md:py-2 rounded-3xl hover:bg-blue-900 md:text-sm md:mt-3 transition-all duration-300 cursor-pointer'
+            >
+              Submit
+            </button>
           </div>
         </div>
-        <div className="border max-h-full mb-10 mt-10 border-gray-600 inline-block"></div>
       </div>
-      <Toaster position="top-center" reverseOrder={true} />
+
+      <div className='fixed bottom-7 md:bottom-36 md:ml-my-margin text-right'>
+        <div className='flex flex-row'>
+          <h1 className='md:text-sm hover:px-2 hover:py-2 text-sm hover:bg-slate-200 rounded-md hover:md:px-4 hover:rounded-lg md:p-2 transition-all duration-300 cursor-pointer mx-2'>
+            Help
+          </h1>
+          <h1 className='md:text-sm hover:px-2 hover:py-2 text-sm hover:bg-slate-200 rounded-md hover:md:px-4 hover:rounded-lg md:p-2 transition-all duration-300 cursor-pointer mx-2'>
+            Terms
+          </h1>
+          <Link to='/'>
+            <h1 className='md:text-sm hover:px-2 hover:py-2 text-sm hover:bg-slate-200 rounded-md hover:md:px-4 hover:rounded-lg md:p-2 transition-all duration-300 cursor-pointer mx-2'>
+              Sign in
+            </h1>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
