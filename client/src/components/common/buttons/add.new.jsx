@@ -46,6 +46,17 @@ const AddNewButton = () => {
     setIsContextMenuOpen(false);
   };
 
+  const handleCreateFolder = (folderName) => {
+    // Simulated API call to create a folder
+    const newFolder = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: folderName,
+      // Add any other necessary properties of the folder
+    };
+    // Simulated promise resolution
+    return Promise.resolve(newFolder);
+  };
+
   return (
     <>
       <button
@@ -65,7 +76,10 @@ const AddNewButton = () => {
         />
       )}
       {showNewFolderForm && (
-        <NewFolderForm onClose={() => setShowNewFolderForm(false)} />
+        <NewFolderForm
+          onClose={() => setShowNewFolderForm(false)}
+          onCreateFolder={handleCreateFolder}
+        />
       )}
     </>
   );

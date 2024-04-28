@@ -3,7 +3,6 @@ import { fetchFolders } from "../../services/folders/folder.service";
 import { fetchAllFiles } from "../../services/files/file-service";
 import FileItem from "./file.item";
 import FolderItem from "./folder.item";
-import SampleCreatedFolder from "./sample.folder.view";
 
 const FileView = ({ selectedView, isGridView }) => {
   const [files, setFiles] = useState([]);
@@ -54,7 +53,7 @@ const FileView = ({ selectedView, isGridView }) => {
 
       {selectedView === "folders" && (
         <div>
-          {/* <h2 className="text-sm m-2">Name</h2> */}
+          <h2 className="text-sm m-2">Name</h2>
           <div
             className={`${
               isGridView
@@ -71,7 +70,6 @@ const FileView = ({ selectedView, isGridView }) => {
               />
             ))}
           </div>
-          {/* <SampleCreatedFolder /> */}
         </div>
       )}
     </div>

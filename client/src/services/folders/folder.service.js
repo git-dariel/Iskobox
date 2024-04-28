@@ -4,48 +4,76 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  query,
   updateDoc,
   where,
-} from 'firebase/firestore';
-import { db } from '../../database/firebase-connection';
+  query,
+} from "firebase/firestore";
+import { db } from "../../database/firebase-connection";
 
-// get the folders
+// Fetch folders
 export const fetchFolders = async (parentId = null) => {
-  const q = query(collection(db, 'folders'), where('parentId', '==', parentId));
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-    subfolders: [],
-  }));
+  try {
+    const q = query(
+      collection(db, "folders"),
+      where("parentId", "==", parentId)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      subfolders: [], // Initialize subfolders as an empty array
+    }));
+  } catch (error) {
+    console.error("Error fetching folders:", error);
+    throw error;
+  }
 };
 
-// add folders
+// Add folder
 export const addFolder = async (folderData) => {
-  const docRef = await addDoc(collection(db, 'folders'), folderData);
-  return { id: docRef.id, ...folderData, subfolders: [] };
+  try {
+    const docRef = await addDoc(collection(db, "folders"), folderData);
+    return { id: docRef.id, ...folderData, subfolders: [] }; // Initialize subfolders as an empty array
+  } catch (error) {
+    console.error("Error adding folder:", error);
+    throw error;
+  }
 };
 
-// delete folders
+// Delete folder
 export const deleteFolder = async (folderId) => {
-  await deleteDoc(doc(db, 'folders', folderId));
+  try {
+    await deleteDoc(doc(db, "folders", folderId));
+  } catch (error) {
+    console.error("Error deleting folder:", error);
+    throw error;
+  }
 };
 
-// update folders name
+// Update folder name
 export const updateFolderName = async (folderId, newName) => {
-  const folderRef = doc(db, 'folders', folderId);
-  await updateDoc(folderRef, { name: newName });
+  try {
+    const folderRef = doc(db, "folders", folderId);
+    await updateDoc(folderRef, { name: newName });
+  } catch (error) {
+    console.error("Error updating folder name:", error);
+    throw error;
+  }
 };
 
-// get the folder details
+// Fetch folder details
 export const fetchFolderDetails = async (folderId) => {
-  const folderDocRef = doc(db, 'folders', folderId);
-  const folderDoc = await getDoc(folderDocRef);
-  if (folderDoc.exists()) {
-    return { id: folderDoc.id, ...folderDoc.data() };
-  } else {
-    console.log('No such folder!');
-    return null;
+  try {
+    const folderDocRef = doc(db, "folders", folderId);
+    const folderDoc = await getDoc(folderDocRef);
+    if (folderDoc.exists()) {
+      return { id: folderDoc.id, ...folderDoc.data() };
+    } else {
+      console.log("No such folder!");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching folder details:", error);
+    throw error;
   }
 };

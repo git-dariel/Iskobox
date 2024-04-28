@@ -1,15 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const NewFolderForm = ({ onClose, onCreateFolder }) => {
+const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
   const modalRef = useRef(null);
   const [folderName, setFolderName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (folderName.trim() !== "") {
-      onCreateFolder(folderName);
-      setFolderName("");
-    }
+    onCreateFolder(folderName)
+      .then((newFolder) => {
+        // Update folders array in parent component
+        setFolders((prevFolders) => [...prevFolders, newFolder]);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+      });
+    onClose();
   };
 
   useEffect(() => {
@@ -30,14 +36,14 @@ const NewFolderForm = ({ onClose, onCreateFolder }) => {
     <div className="fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out">
       <div
         ref={modalRef}
-        className="bg-white rounded-md shadow-lg max-w-sm w-full overflow-hidden"
+        className="bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden"
       >
         <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
           <h3 className="text-lg font-medium leading-6 text-gray-900">
             Create New Folder
           </h3>
         </div>
-        <form className="px-4 py-5 space-y-6 sm:p-6">
+        <form onSubmit={handleSubmit} className="px-4 py-5 space-y-6 sm:p-6">
           <div className="flex flex-col">
             <label
               htmlFor="folderName"
