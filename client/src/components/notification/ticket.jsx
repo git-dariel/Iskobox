@@ -1,26 +1,23 @@
+// TicketForm.js
+
 import React, { useState } from 'react';
-import { addNewNotification } from "@/services/notification/notif.service";
 
 const TicketForm = ({ addTicketToNotifications }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: ''
-    // Add more fields as needed
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Add ticket to database
-      await addNewNotification(formData);
-      // Reset form after submission
-      setFormData({
-        title: '',
-        description: ''
-        // Add more fields as needed
-      });
+      // Example: await addNewNotification(formData);
+      setFormData({ title: '', description: '' });
       console.log('Ticket successfully added to the database');
-      addTicketToNotifications(formData); // I-set ang huling ticket na idinagdag
+      if (typeof addTicketToNotifications === 'function') {
+        addTicketToNotifications(formData);
+      }
     } catch (error) {
       console.error('Error adding ticket:', error);
     }
@@ -31,12 +28,14 @@ const TicketForm = ({ addTicketToNotifications }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} />
-      <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
-      {/* Add more input fields here */}
-      <button type="submit">Submit Ticket</button>
-    </form>
+    <div className='h-40 w-50'>
+      <form className='flex flex-col items-left justify-center ' onSubmit={handleSubmit}>
+        <input className="block text-gray-700 text-sm font-bold mb-2" htmlFor="reason" type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} />
+        <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Submit Ticket</button>
+      
+      </form>
+    </div>
   );
 };
 

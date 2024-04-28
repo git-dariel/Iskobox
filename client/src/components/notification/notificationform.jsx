@@ -1,32 +1,33 @@
 // NotificationBellForm.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { fetchNotifications } from "@/services/notification/notif.service";
 
 const NotificationBellForm = () => {
-  const [notificationMessage, setNotificationMessage] = useState('');
+  const [tickets, setTickets] = useState([]);
 
-  const handleNotificationChange = (e) => {
-    setNotificationMessage(e.target.value);
-  };
+  useEffect(() => {
+    fetchTicketsFromServer();
+  }, []);
 
-  const handleNotificationSubmit = (e) => {
-    e.preventDefault();
-    // Logic to handle form submission, e.g., send notification message to server
-    console.log('Notification submitted:', notificationMessage);
-    setNotificationMessage(''); // Clear the input field after submission
+  const fetchTicketsFromServer = async () => {
+    const tickets = await fetchNotifications(); 
+    setTickets(tickets);
   };
 
   return (
     <div className="relative">
-      <form onSubmit={handleNotificationSubmit}>
-        <input
-          type="text"
-          value={notificationMessage}
-          onChange={handleNotificationChange}
-          placeholder="Enter notification message"
-        />
-        <button type="submit">Send Notification</button>
-      </form>
+      <div>
+        <h2>Notifications:</h2>
+        <ul>
+          {tickets &&
+            tickets.map((ticket) => (
+              <li key={ticket.id}>
+                New Ticket: {ticket.title} - {ticket.description}
+              </li>
+            ))}
+        </ul>
+      </div>
     </div>
   );
 };
