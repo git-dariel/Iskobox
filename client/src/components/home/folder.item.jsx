@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { RiFolderLine, RiFolderOpenLine } from "react-icons/ri";
 
-const FolderItem = ({ folder, isGridView, onDoubleClick }) => {
+const FolderItem = ({ folder, isGridView, onDoubleClick, usagePercentage }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDoubleClick = () => {
@@ -26,6 +26,10 @@ const FolderItem = ({ folder, isGridView, onDoubleClick }) => {
           <RiFolderLine className="h-8 w-8 text-gray-600" />
         )}
         <span className="truncate">{folder.name}</span>
+        {/* Only display usage percentage if it is greater than 0 */}
+        {usagePercentage > 0 && (
+          <span className="ml-auto">{usagePercentage}%</span>
+        )}
       </div>
     </Link>
   );

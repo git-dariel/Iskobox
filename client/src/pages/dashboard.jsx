@@ -2,6 +2,7 @@ import SideMenu from "@/components/layout/side-menu";
 import TopNavigation from "@/components/layout/top-nav";
 import React from "react";
 import DashboardContent from "./admin/dashboard-page";
+import FolderPage from "./admin/folder-page";
 
 function Dashboard() {
   return (
