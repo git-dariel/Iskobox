@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SideMenu from '../layout/side-menu';
 import TopNavigation from '../layout/top-nav';
 import Header from './home.header';
@@ -11,16 +11,22 @@ const FolderOpen = () => {
   const [folderStack, setFolderStack] = useState([]); 
   const [folderContents, setFolderContents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const hasFetchedRootFolders = useRef(false);
 
   useEffect(() => {
-    fetchFolderContents(null);
-  }, []); 
+    if (!hasFetchedRootFolders.current) {
+      console.log("Component mounted, fetching root folders");
+      fetchFolderContents(null);
+      hasFetchedRootFolders.current = true;
+    }
+  }, []);
 
   const fetchFolderContents = async (folderId) => {
     setIsLoading(true);
     try {
       const folders = await fetchFolders(folderId);
-      const processedFolders = folders.map(folder => processFolder(folder)); // Process each folder
+      const processedFolders = folders.map(folder => processFolder(folder));
+      console.log("Fetched and processed folders:", processedFolders); 
       setFolderContents(processedFolders);
       setIsLoading(false);
     } catch (error) {
@@ -30,9 +36,22 @@ const FolderOpen = () => {
   };
 
   const handleFolderDoubleClick = (folderId) => {
-    setFolderStack([...folderStack, folderId]);
-    fetchFolderContents(folderId);
+    console.log("Double clicked folder ID:", folderId);
+    setFolderStack(currentStack => {
+      if (!currentStack.includes(folderId)) {
+        console.log("Current stack before adding new folder:", currentStack);
+        const newStack = [...currentStack, folderId];
+        fetchFolderContents(folderId);
+        return newStack;
+      }
+      return currentStack;
+    });
   };
+
+  // const handleFolderDoubleClick = (folderId) => {
+  //   setFolderStack([...folderStack, folderId]);
+  //   fetchFolderContents(folderId);
+  // };
 
   const handleViewChange = (view) => {
     setSelectedView(view);
@@ -46,20 +65,37 @@ const FolderOpen = () => {
   };
 
   const navigateBack = () => {
-    if (folderStack.length > 1) {
-      const previousFolderId = folderStack.pop(); 
-      fetchFolderContents(previousFolderId).then((folders) => {
-        setFolderContents(folders);
-      });
-    } else {
-      setFolderStack([]); 
-      setFolderContents([]); 
-    }
-    setFolderStack([...folderStack]);
+    setFolderStack(currentStack => {
+      if (currentStack.length > 1) {
+        const newStack = currentStack.slice(0, -1);
+        console.log("New stack after pop:", newStack);
+        fetchFolderContents(newStack[newStack.length - 1]);
+        return newStack;
+      } else if (currentStack.length === 1) {
+        console.log("Navigating back to root");
+        fetchFolderContents(null);
+        return [];
+      }
+      return currentStack; // Return current stack if already at root to prevent unnecessary fetch
+    });
   };
+
+  // const navigateBack = () => {
+  //   if (folderStack.length > 1) {
+  //     const previousFolderId = folderStack.pop(); 
+  //     fetchFolderContents(previousFolderId).then((folders) => {
+  //       setFolderContents(folders);
+  //     });
+  //   } else {
+  //     setFolderStack([]); 
+  //     setFolderContents([]); 
+  //   }
+  //   setFolderStack([...folderStack]);
+  // };
 
   return (
     <div className='flex h-screen mx-1 bg-[#f8fafd]'>
+      {console.log("Rendering FolderOpen")}
       <SideMenu />
       <div className='flex flex-col flex-1 '>
         <TopNavigation />

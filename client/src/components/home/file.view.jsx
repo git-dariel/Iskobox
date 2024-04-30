@@ -21,14 +21,24 @@ const FileView = ({ selectedView, isGridView }) => {
     console.log("Create new folder in folder:", parentId);
   };
 
-  // toggle view
   useEffect(() => {
     if (selectedView === "files") {
       fetchAllFiles().then((data) => setFiles(data));
+      setFolders([]); // Clear folders when viewing files
     } else if (selectedView === "folders") {
       fetchFolders().then((data) => setFolders(data));
+      setFiles([]); // Clear files when viewing folders
     }
   }, [selectedView]);
+
+  // toggle view
+  // useEffect(() => {
+  //   if (selectedView === "files") {
+  //     fetchAllFiles().then((data) => setFiles(data));
+  //   } else if (selectedView === "folders") {
+  //     fetchFolders().then((data) => setFolders(data));
+  //   }
+  // }, [selectedView]);
 
   return (
     <div className="mt-4">
