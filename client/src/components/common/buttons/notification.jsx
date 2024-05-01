@@ -1,4 +1,3 @@
-import NotificationBellForm from "@/components/notification/notificationform";
 import React, { useState } from "react";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 
@@ -13,7 +12,7 @@ function Notification({ hasNotification }) {
           <div className="absolute top-[4px] right-[5px] bg-red-500 rounded-full h-[7px] w-[7px]"></div>
         )}
       </div>
-      {showForm && <NotificationBellForm />}
+      {showForm && null}
     </div>
   );
 }

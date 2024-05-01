@@ -1,5 +1,6 @@
-// TicketForm.js
+// ticket.jsx
 
+import { addNewNotification } from '@/services/notification/notif.service';
 import React, { useState } from 'react';
 
 const TicketForm = ({ addTicketToNotifications }) => {
@@ -11,8 +12,7 @@ const TicketForm = ({ addTicketToNotifications }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Add ticket to database
-      // Example: await addNewNotification(formData);
+      await addNewNotification(formData); // Add new notification to the database
       setFormData({ title: '', description: '' });
       console.log('Ticket successfully added to the database');
       if (typeof addTicketToNotifications === 'function') {
@@ -33,7 +33,6 @@ const TicketForm = ({ addTicketToNotifications }) => {
         <input className="block text-gray-700 text-sm font-bold mb-2" htmlFor="reason" type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} />
         <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Submit Ticket</button>
-      
       </form>
     </div>
   );
