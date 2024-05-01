@@ -70,10 +70,20 @@ export const fetchFolders = async (parentId = null) => {
 // };
 
 // Add folder
-export const addFolder = async (folderData) => {
+// export const addFolder = async (folderData) => {
+//   try {
+//     const docRef = await addDoc(collection(db, "folders"), folderData);
+//     return { id: docRef.id, ...folderData, subfolders: [] }; // Initialize subfolders as an empty array
+//   } catch (error) {
+//     console.error("Error adding folder:", error);
+//     throw error;
+//   }
+// };
+
+export const addFolder = async (folderData, uploadLimit) => {
   try {
     const docRef = await addDoc(collection(db, "folders"), folderData);
-    return { id: docRef.id, ...folderData, subfolders: [] }; // Initialize subfolders as an empty array
+    return { id: docRef.id, ...folderData, subfolders: [], uploadLimit }; // Include maxFileCount in the folder data
   } catch (error) {
     console.error("Error adding folder:", error);
     throw error;

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import OvalButton from "../common/buttons/reusable/oval.button";
+import { addFolder } from "../../services/folders/folder.service";
 
 const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
   const modalRef = useRef(null);
@@ -10,12 +11,17 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCreateFolder({
+    if (fileCount <= uploadLimit) {
+      console.error("File upload limit reached for this folder.");
+      return;
+    }
+    const folderData = {
       name: folderName,
       dueDate: dueDate,
       uploadLimit: uploadLimit,
       fileCount: fileCount,
-    })
+    };
+    addFolder(folderData, uploadLimit)
       .then((newFolder) => {
         setFolders((prevFolders) => [...prevFolders, newFolder]);
       })
