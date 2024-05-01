@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "react-modal";
 import TicketForm from "./ticket";
+import { Toaster } from "sonner";
+Toaster
 
 Modal.setAppElement("#root");
 
@@ -16,7 +18,9 @@ const TicketModal = () => {
   };
 
   return (
+
     <div className="border-2 rounded-xl bg-white hover:bg-blue-700 p-2 ">
+      <Toaster position="bottom-right" />
       <button onClick={openModal}>Request Ticket</button>
       <Modal
         isOpen={modalIsOpen}
