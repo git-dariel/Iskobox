@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { RiFolderLine, RiFolderOpenLine } from "react-icons/ri";
-import AddNewButton from "../common/buttons/add.new";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { RiFolderLine, RiFolderOpenLine } from 'react-icons/ri';
+import AddNewButton from '../common/buttons/add.new';
 
 const FolderItem = ({ folder, isGridView, onDoubleClick, usagePercentage }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,25 +13,26 @@ const FolderItem = ({ folder, isGridView, onDoubleClick, usagePercentage }) => {
 
   const folderUrl = `/folders/${folder.id}`;
 
+  // Calculate if the folder is expired
+  const isExpired = folder.dueDate && new Date(folder.dueDate) < new Date();
+
   return (
-    <div className={`flex ${isGridView ? "flex-col m-2 p-2" : "w-full"}`}>
-      <Link to={folderUrl} className="flex items-center space-x-2 flex-grow">
+    <div className={`flex ${isGridView ? 'flex-col m-2 p-2' : 'w-full'}`}>
+      <Link to={folderUrl} className='flex items-center space-x-2 flex-grow'>
         <div
           className={`cursor-default ${
-            isGridView ? "border" : "border-y"
+            isGridView ? 'border' : 'border-y'
           } text-sm flex items-center space-x-2 border-gray-200 hover:bg-gray-100`}
           onDoubleClick={handleDoubleClick}
         >
           {isOpen ? (
-            <RiFolderOpenLine className="h-8 w-8 text-gray-600" />
+            <RiFolderOpenLine className='h-8 w-8 text-gray-600' />
           ) : (
-            <RiFolderLine className="h-8 w-8 text-gray-600" />
+            <RiFolderLine className='h-8 w-8 text-gray-600' />
           )}
-          <span className="truncate">{folder.name}</span>
+          <span className='truncate'>{folder.name}</span>
           {/* Only display usage percentage if it is greater than 0 */}
-          {usagePercentage > 0 && (
-            <span className="ml-auto">{usagePercentage}%</span>
-          )}
+          {usagePercentage > 0 && <span className='ml-auto'>{usagePercentage}%</span>}
         </div>
       </Link>
       <AddNewButton parentId={folder.id} />

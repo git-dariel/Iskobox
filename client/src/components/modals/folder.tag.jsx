@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CircleButton from "../common/buttons/reusable/circle.button";
 import { IoClose } from "react-icons/io5";
 import CopyLinkButton from "../common/buttons/copylink";
@@ -7,12 +7,29 @@ import DropdownButton from "../common/buttons/reusable/dropdown.button";
 import common from "@/configs/common.config";
 
 const FolderTagModal = ({ onClose }) => {
+  const modalRef = useRef(null);
   const [people, setPeople] = useState([]);
   const [email, setEmail] = useState("");
   const [selectedRole, setSelectedRole] = useState("Role");
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   const onSelectRole = (roleId) => {
-    const selectedOption = roleOptions.find((option) => option.id === roleId);
+    const selectedOption = common.roleOptions.find(
+      (option) => option.id === roleId
+    );
     setSelectedRole(selectedOption.label);
   };
 
@@ -37,12 +54,13 @@ const FolderTagModal = ({ onClose }) => {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out">
-        <div className="bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden">
+        <div
+          ref={modalRef}
+          className="bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden"
+        >
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 rounded-t">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Tag to "{folder.name}"
-            </h3>
+            <h3 className="text-lg text-gray-600">Assign to "{folder.name}"</h3>
             <CircleButton
               title={"Close modal"}
               icon={<IoClose />}
