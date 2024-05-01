@@ -2,7 +2,7 @@
 
 ## Description of the system
 
-ShareHub is a centralized platform designed to streamline the admissions process, improve efficiency, and empower informed decision-making
+ShareHub is a centralized platform designed to streamline the accreditation process, improve efficiency, and empower the collaboration
 
 ## Tech Stack | Tools
 
