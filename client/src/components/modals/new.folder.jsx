@@ -1,28 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
 import OvalButton from "../common/buttons/reusable/oval.button";
+import { addFolder } from "@/services/folders/folder.service";
 
-const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
+const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
   const modalRef = useRef(null);
   const [folderName, setFolderName] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [uploadLimit, setUploadLimit] = useState("");
-  const [fileCount, setFileCount] = useState(0);
+  const [uploadLimit, setUploadLimit] = useState(0); 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onCreateFolder({
-      name: folderName,
-      dueDate: dueDate,
-      uploadLimit: uploadLimit,
-      fileCount: fileCount,
-    })
-      .then((newFolder) => {
-        setFolders((prevFolders) => [...prevFolders, newFolder]);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    onClose();
+    try {
+      const folderData = {
+        name: folderName,
+        dueDate: dueDate,
+        uploadLimit: parseInt(uploadLimit, 10),
+        parentId: parentId,
+      };
+
+      const newFolder = await addFolder(folderData);
+      setFolders((prevFolders) => [...prevFolders, newFolder]);
+      onClose();
+    } catch (error) {
+      console.error("Error creating a folder:", error);
+    }
   };
 
   useEffect(() => {
@@ -33,19 +34,18 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
 
-  const incrementFileCount = () => {
-    setFileCount(fileCount + 1);
+  const incrementUploadLimit = () => {
+    setUploadLimit(uploadLimit + 1);
   };
 
-  const decrementFileCount = () => {
-    if (fileCount > 0) {
-      setFileCount(fileCount - 1);
+  const decrementUploadLimit = () => {
+    if (uploadLimit > 0) {
+      setUploadLimit(uploadLimit - 1);
     }
   };
 
@@ -61,22 +61,6 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
           </h3>
         </div>
         <form onSubmit={handleSubmit} className="px-4 py-5 space-y-6 sm:p-6">
-          {/* <div className="flex flex-col">
-            <label
-              htmlFor="folderName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Folder Name
-            </label>
-            <input
-              type="text"
-              id="folderName"
-              value={folderName}
-              onChange={(e) => setFolderName(e.target.value)}
-              className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2"
-              placeholder="Enter folder name"
-            />
-          </div> */}
           <div className="relative w-full min-w-[200px] h-10">
             <input
               className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-gray-400 placeholder-shown:border-t-gray-400 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-gray-400 focus:border-gray-900"
@@ -91,7 +75,7 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
               Folder name
             </label>
           </div>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col">
               <label
                 htmlFor="dueDate"
@@ -107,76 +91,67 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
                 className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2"
               />
             </div>
-            <div className="flex flex-col items-center justify-center">
-              <div>
-                <label
-                  htmlFor="quantity-input"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            <div className="flex flex-col">
+              <label
+                htmlFor="uploadLimit"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Upload Limit
+              </label>
+              <div className="relative flex items-center">
+                <button
+                  type="button"
+                  onClick={decrementUploadLimit}
+                  className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-l-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
                 >
-                  File Upload limit:
-                </label>
-                <div className="relative flex items-center max-w-[8rem]">
-                  <button
-                    type="button"
-                    onClick={decrementFileCount}
-                    className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                  <svg
+                    className="w-3 h-3 text-gray-900 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 18 2"
                   >
-                    <svg
-                      className="w-3 h-3 text-gray-900 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 2"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M1 1h16"
-                      />
-                    </svg>
-                  </button>
-                  <input
-                    type="text"
-                    id="quantity-input"
-                    value={fileCount}
-                    readOnly
-                    className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={incrementFileCount}
-                    className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M1 1h16"
+                    />
+                  </svg>
+                </button>
+                <input
+                  type="text"
+                  id="uploadLimit"
+                  value={uploadLimit}
+                  readOnly
+                  className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                <button
+                  type="button"
+                  onClick={incrementUploadLimit}
+                  className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-r-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                >
+                  <svg
+                    className="w-3 h-3 text-gray-900 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 18 18"
                   >
-                    <svg
-                      className="w-3 h-3 text-gray-900 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 18"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 1v16M1 9h16"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 1v16M1 9h16"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
           <div className="flex justify-end">
-            {/* <button
-              type="submit"
-              className="inline-flex items-center px-2 py-1 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Create
-            </button> */}
             <OvalButton text={"Create"} />
           </div>
         </form>
