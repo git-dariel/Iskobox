@@ -12,12 +12,17 @@ const FolderItem = ({ folder, isGridView, onDoubleClick, usagePercentage }) => {
 
   const folderUrl = `/folders/${folder.id}`;
 
+  // Calculate if the folder is expired
+  const isExpired = folder.dueDate && new Date(folder.dueDate) < new Date();
+
   return (
     <Link to={folderUrl}>
       <div
         className={`cursor-default ${
           isGridView ? "flex-col m-2 p-2 border" : "w-full border-y"
-        } text-sm flex items-center space-x-2 border-gray-200 hover:bg-gray-100`}
+        } text-sm flex items-center space-x-2 border-gray-200 hover:bg-gray-100 ${
+          isExpired ? "opacity-50 pointer-events-none" : ""
+        }`}
         onDoubleClick={handleDoubleClick}
       >
         {isOpen ? (

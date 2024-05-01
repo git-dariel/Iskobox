@@ -19,7 +19,7 @@ const SideMenu = () => {
   return (
     <div className="hidden md:flex flex-col min-w-64 ">
       <div className="flex items-center justify-center h-16 bg-[#f8fafd]">
-        <span className="mx-5 w-full font-bold text-xl text-gray-800">
+        <span className="mx-5 w-full font-semibold text-xl text-gray-800">
           ShareHub
         </span>
       </div>

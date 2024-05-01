@@ -35,16 +35,18 @@ const Header = ({
           />
 
           <div className="flex justify-end gap-2 w-full">
-            <CircleButton
-              title={"Download"}
-              icon={<MdOutlineFileDownload size={18} />}
-            />
-            <CircleButton title={"Share"} icon={<MdDelete size={18} />} />
-            <CircleButton
-              title={"Tag an uploader"}
-              icon={<FaUserTag size={17} />}
-              onClick={toggleModal}
-            />
+            <div className="flex rounded-full  items-center justify-end bg-gray-100">
+              <CircleButton
+                title={"Download"}
+                icon={<MdOutlineFileDownload size={18} />}
+              />
+              <CircleButton title={"Share"} icon={<MdDelete size={18} />} />
+              <CircleButton
+                title={"Tag an uploader"}
+                icon={<FaUserTag size={17} />}
+                onClick={toggleModal}
+              />
+            </div>
             <ToggleViewButton isGridView={isGridView} toggleView={toggleView} />
           </div>
           {/* Add more components here */}

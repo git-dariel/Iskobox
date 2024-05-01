@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IoChevronDown } from "react-icons/io5";
+import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 
 const DropdownButton = ({ buttonText, options, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,11 @@ const DropdownButton = ({ buttonText, options, onSelect }) => {
         type="button"
       >
         {buttonText}
-        <IoChevronDown className="ml-2" />
+        {!isOpen ? (
+          <IoChevronDown className="ml-2" />
+        ) : (
+          <IoChevronUp className="ml-2" />
+        )}
       </button>
 
       {isOpen && (

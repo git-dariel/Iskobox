@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import OvalButton from "../common/buttons/reusable/oval.button";
+import CircleButton from "../common/buttons/reusable/circle.button";
+import { IoClose } from "react-icons/io5";
 
 const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
   const modalRef = useRef(null);
@@ -49,34 +51,28 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
     }
   };
 
+  const handleCloseModal = () => {
+    onClose();
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out">
       <div
         ref={modalRef}
         className="bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden"
       >
-        <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
+        <div className="flex justify-between px-4 py-5 border-b border-gray-200 sm:px-6">
           <h3 className="text-lg font-medium leading-6 text-gray-900">
             Create New Folder
           </h3>
+          <CircleButton
+            title={"Close modal"}
+            icon={<IoClose />}
+            onClick={handleCloseModal}
+          />
         </div>
+
         <form onSubmit={handleSubmit} className="px-4 py-5 space-y-6 sm:p-6">
-          {/* <div className="flex flex-col">
-            <label
-              htmlFor="folderName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Folder Name
-            </label>
-            <input
-              type="text"
-              id="folderName"
-              value={folderName}
-              onChange={(e) => setFolderName(e.target.value)}
-              className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2"
-              placeholder="Enter folder name"
-            />
-          </div> */}
           <div className="relative w-full min-w-[200px] h-10">
             <input
               className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-gray-400 placeholder-shown:border-t-gray-400 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-gray-400 focus:border-gray-900"
@@ -91,35 +87,20 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
               Folder name
             </label>
           </div>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-3">
             <div className="flex flex-col">
-              <label
-                htmlFor="dueDate"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Due Date
-              </label>
-              <input
-                type="date"
-                id="dueDate"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2"
-              />
-            </div>
-            <div className="flex flex-col items-center justify-center">
               <div>
                 <label
-                  htmlFor="quantity-input"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="quantityInput"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  File Upload limit:
+                  File Upload limit
                 </label>
-                <div className="relative flex items-center max-w-[8rem]">
+                <div className="relative flex items-center mt-1 max-w-[8rem]">
                   <button
                     type="button"
                     onClick={decrementFileCount}
-                    className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                    className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-10 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
                   >
                     <svg
                       className="w-3 h-3 text-gray-900 dark:text-white"
@@ -142,13 +123,13 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
                     id="quantity-input"
                     value={fileCount}
                     readOnly
-                    className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border-x-0 border-gray-300 h-10 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                   />
                   <button
                     type="button"
                     onClick={incrementFileCount}
-                    className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                    className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-10 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
                   >
                     <svg
                       className="w-3 h-3 text-gray-900 dark:text-white"
@@ -168,6 +149,21 @@ const NewFolderForm = ({ onClose, onCreateFolder, setFolders }) => {
                   </button>
                 </div>
               </div>
+            </div>
+            <div className="flex flex-col col-span-2">
+              <label
+                htmlFor="dueDate"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Due Date
+              </label>
+              <input
+                type="date"
+                id="dueDate"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2"
+              />
             </div>
           </div>
           <div className="flex justify-end">
