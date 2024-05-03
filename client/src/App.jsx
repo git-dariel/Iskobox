@@ -8,6 +8,8 @@ import Settings from "./pages/settings";
 import SignIn from "./pages/users/signin-page";
 import SignUp from "./pages/users/signup-page";
 import Workspace from "./pages/workspace";
+import FolderOpen from "./components/home/folder.open";
+import FolderPage from "./pages/admin/folder-page";
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/folder-page" element={<FolderPage />} />
         <Route
           path="/dashboard"
           element={
@@ -53,6 +56,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Settings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/folders/:folderId"
+          element={
+            <ProtectedRoute>
+              <FolderOpen />
             </ProtectedRoute>
           }
         />

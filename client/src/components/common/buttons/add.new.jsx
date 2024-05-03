@@ -8,13 +8,14 @@ import {
 import ContextMenu from "@/components/contextmenu/add.menu";
 import NewFolderForm from "@/components/modals/new.folder";
 
-const AddNewButton = () => {
+const AddNewButton = ({parentId}) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
   });
   const [showNewFolderForm, setShowNewFolderForm] = useState(false);
+  const [folders, setFolders] = useState([]);
   const buttonRef = useRef(null);
 
   const options = [
@@ -40,10 +41,18 @@ const AddNewButton = () => {
     if (option.label === "New Folder") {
       setShowNewFolderForm(true);
     } else {
-      // Handle other options here
       console.log(`${option.label} clicked`);
     }
     setIsContextMenuOpen(false);
+  };
+
+  const handleCreateFolder = (folderName) => {
+    const newFolder = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: folderName,
+    };
+    setFolders(prevFolders => [...prevFolders, newFolder]);
+    return Promise.resolve(newFolder);
   };
 
   return (
@@ -61,11 +70,16 @@ const AddNewButton = () => {
           yPos={contextMenuPosition.y}
           options={options}
           onClose={closeContextMenu}
-          handleOptionClick={handleOptionClick} // Pass the function down to ContextMenu
+          handleOptionClick={handleOptionClick}
         />
       )}
       {showNewFolderForm && (
-        <NewFolderForm onClose={() => setShowNewFolderForm(false)} />
+        <NewFolderForm
+          onClose={() => setShowNewFolderForm(false)}
+          onCreateFolder={handleCreateFolder}
+          setFolders={setFolders}
+          parentId={parentId} 
+        />
       )}
     </>
   );
