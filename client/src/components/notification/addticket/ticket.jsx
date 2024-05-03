@@ -35,8 +35,6 @@ const TicketForm = ({ addTicketToNotifications, closeModal }) => {
       closeModal();
       setFormData({ id: getNextId(), title: "", description: "" });
     
-     
-    
   
       if (typeof addTicketToNotifications === "function") {
         addTicketToNotifications(formData);
