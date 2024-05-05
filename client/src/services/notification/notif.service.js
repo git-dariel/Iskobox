@@ -7,6 +7,7 @@ const notificationOperations = createFirestoreFunctionsForCollection('notificati
 export const fetchNotifications = async () => {
   const notifications = await notificationOperations.fetchDocuments();
   console.log(notifications);
+  return notifications; // Add this line to return the fetched notifications
 };
 
 // Add Notification
