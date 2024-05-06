@@ -3,6 +3,7 @@ import { IoAdd } from 'react-icons/io5';
 import { MdOutlineCreateNewFolder, MdOutlineUploadFile, MdDriveFolderUpload } from 'react-icons/md';
 import ContextMenu from '@/components/contextmenu/add.menu';
 import NewFolderForm from '@/components/modals/new.folder';
+import { uploadFile } from '@/services/files/file-service';
 
 const AddNewButton = ({ parentId, setFolders }) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
@@ -12,6 +13,7 @@ const AddNewButton = ({ parentId, setFolders }) => {
   });
   const [showNewFolderForm, setShowNewFolderForm] = useState(false);
   const buttonRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const options = [
     { label: 'New Folder', icon: MdOutlineCreateNewFolder },
@@ -35,10 +37,20 @@ const AddNewButton = ({ parentId, setFolders }) => {
   const handleOptionClick = (option) => {
     if (option.label === 'New Folder') {
       setShowNewFolderForm(true);
+    } else if (option.label === 'Upload File') {
+      fileInputRef.current.click();
     } else {
       console.log(`${option.label} clicked`);
     }
     setIsContextMenuOpen(false);
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const updatedFolder = await uploadFile(file, parentId);
+      setFolders((prevFolders) => [...prevFolders, updatedFolder]);
+    }
   };
 
   return (
@@ -50,6 +62,12 @@ const AddNewButton = ({ parentId, setFolders }) => {
       >
         <IoAdd />
       </button>
+      <input
+        type='file'
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
       {isContextMenuOpen && (
         <ContextMenu
           xPos={contextMenuPosition.x}

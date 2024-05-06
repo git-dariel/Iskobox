@@ -4,7 +4,7 @@ import TopNavigation from '../layout/top-nav';
 import Header from './home.header';
 import { fetchFolders, processFolder } from '../../services/folders/folder.service';
 import FolderItem from './folder.item';
-import NewFolderForm from '../modals/new.folder';
+import FileView from './file.view';
 
 const FolderOpen = () => {
   const [selectedView, setSelectedView] = useState(localStorage.getItem('selectedView') || 'files');
@@ -17,7 +17,7 @@ const FolderOpen = () => {
   const [currentFolderId, setCurrentFolderId] = useState(null);
 
   useEffect(() => {
-    fetchFolderContents(null);
+    fetchFolderContents(null); // Initially fetch root folders
   }, []);
 
   const fetchFolderContents = async (folderId) => {
@@ -37,6 +37,7 @@ const FolderOpen = () => {
     setCurrentFolderId(folderId);
     setFolderStack([...folderStack, folderId]);
     fetchFolderContents(folderId);
+    setSelectedView('files');
   };
 
   const handleViewChange = (view) => {
@@ -53,20 +54,19 @@ const FolderOpen = () => {
   const navigateBack = () => {
     if (folderStack.length > 1) {
       const previousFolderId = folderStack.pop();
-      fetchFolderContents(previousFolderId).then((folders) => {
-        setFolderContents(folders);
-      });
+      setCurrentFolderId(previousFolderId);
+      fetchFolderContents(previousFolderId);
     } else {
+      setCurrentFolderId(null);
+      fetchFolderContents(null);
       setFolderStack([]);
-      setFolderContents([]);
     }
-    setFolderStack([...folderStack]);
   };
 
   return (
     <div className='flex h-screen mx-1 bg-[#f8fafd]'>
       <SideMenu />
-      <div className='flex flex-col flex-1 '>
+      <div className='flex flex-col flex-1'>
         <TopNavigation />
         <div className='flex flex-col flex-1'>
           <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
@@ -101,6 +101,13 @@ const FolderOpen = () => {
                   </div>
                 )}
               </div>
+            )}
+            {selectedView === 'files' && (
+              <FileView
+                currentFolderId={currentFolderId}
+                isGridView={isGridView}
+                selectedView={selectedView}
+              />
             )}
           </div>
         </div>
