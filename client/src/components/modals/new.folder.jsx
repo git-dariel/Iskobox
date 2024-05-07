@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import OvalButton from '../common/buttons/reusable/oval.button';
 import { addFolder } from '@/services/folders/folder.service';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
   const modalRef = useRef(null);
@@ -10,6 +12,7 @@ const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const folderData = {
         name: folderName,
@@ -20,9 +23,12 @@ const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
 
       const newFolder = await addFolder(folderData);
       setFolders((prevFolders) => [...prevFolders, newFolder]);
+      toast.success('Folder created successfully');
+
       onClose();
     } catch (error) {
       console.error('Error creating a folder:', error);
+      toast.error(`Error: ${error.message}`);
     }
   };
 
@@ -49,19 +55,20 @@ const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
     }
   };
 
-  const handleCloseModal = () => {
-    onClose();
-  };
+  // const handleCloseModal = () => {
+  //   onClose();
+  // };
 
   return (
     <div className='fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out'>
+      <ToastContainer />
       <div
         ref={modalRef}
         className='bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden'
       >
         <div className='flex justify-between px-4 py-5 border-b border-gray-200 sm:px-6'>
           <h3 className='text-lg font-medium leading-6 text-gray-900'>Create New Folder</h3>
-          <CircleButton title={'Close modal'} icon={<IoClose />} onClick={handleCloseModal} />
+          {/* <CircleButton title={'Close modal'} icon={<IoClose />} onClick={handleCloseModal} /> */}
         </div>
 
         <form onSubmit={handleSubmit} className='px-4 py-5 space-y-6 sm:p-6'>
@@ -147,18 +154,6 @@ const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
                   </svg>
                 </button>
               </div>
-            </div>
-            <div className='flex flex-col col-span-2'>
-              <label htmlFor='dueDate' className='block text-sm font-medium text-gray-700'>
-                Due Date
-              </label>
-              <input
-                type='date'
-                id='dueDate'
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2'
-              />
             </div>
           </div>
           <div className='flex justify-end'>

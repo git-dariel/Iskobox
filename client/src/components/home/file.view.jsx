@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { fetchFolders } from "../../services/folders/folder.service";
-import { fetchAllFiles } from "../../services/files/file-service";
-import FileItem from "./file.item";
-import FolderItem from "./folder.item";
+import React, { useState, useEffect } from 'react';
+import { fetchFolders } from '../../services/folders/folder.service';
+import { fetchAllFiles, fetchFilesInFolder } from '../../services/files/file-service';
+import FileItem from './file.item';
+import FolderItem from './folder.item';
 
-const FileView = ({ selectedView, isGridView }) => {
+const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   const [files, setFiles] = useState([]);
   const [folders, setFolders] = useState([]);
   const [openedFolders, setOpenedFolders] = useState([]);
@@ -12,36 +12,33 @@ const FileView = ({ selectedView, isGridView }) => {
   const handleFolderDoubleClick = (folderId) => {
     if (!openedFolders.includes(folderId)) {
       setOpenedFolders([...openedFolders, folderId]);
-      console.log("Open folder:", folderId);
+      console.log('Open folder:', folderId);
     }
   };
 
-  const handleCreateNewFolder = (parentId) => {
-    // Implement your folder creation logic here, using parentId as the parent folder ID
-    console.log("Create new folder in folder:", parentId);
-  };
-
-  // toggle view
   useEffect(() => {
-    if (selectedView === "files") {
-      fetchAllFiles().then((data) => setFiles(data));
-    } else if (selectedView === "folders") {
-      fetchFolders().then((data) => setFolders(data));
+    console.log('Current Folder ID:', currentFolderId); // Debugging line
+    if (currentFolderId) {
+      fetchFilesInFolder(currentFolderId).then((fetchedFiles) => {
+        console.log('Files fetched:', fetchedFiles); // Debugging line
+        setFiles(fetchedFiles);
+      });
+    } else {
+      fetchAllFiles().then(setFiles);
     }
-  }, [selectedView]);
+    fetchFolders().then(setFolders);
+  }, [currentFolderId]);
 
   return (
-    <div className="mt-4">
-      {selectedView === "files" && (
+    <div className='mt-4'>
+      {selectedView === 'files' && (
         <div>
-          <div className="flex justify-between">
-            <h2 className="text-sm m-2">Name</h2>
-          </div>
+          <h2 className='text-sm m-2'>Files</h2> {/* Updated from "Name" to "Files" */}
           <div
             className={`${
               isGridView
-                ? "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
-                : " "
+                ? 'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'
+                : ' '
             } `}
           >
             {files.map((file) => (
@@ -51,14 +48,14 @@ const FileView = ({ selectedView, isGridView }) => {
         </div>
       )}
 
-      {selectedView === "folders" && (
+      {selectedView === 'folders' && (
         <div>
-          <h2 className="text-sm m-2">Name</h2>
+          <h2 className='text-sm m-2'>Folders</h2>
           <div
             className={`${
               isGridView
-                ? "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
-                : " "
+                ? 'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'
+                : ' '
             } `}
           >
             {folders.map((folder) => (
@@ -66,7 +63,7 @@ const FileView = ({ selectedView, isGridView }) => {
                 key={folder.id}
                 folder={folder}
                 isGridView={isGridView}
-                onDoubleClick={handleFolderDoubleClick}
+                onDoubleClick={() => handleFolderDoubleClick(folder.id)}
               />
             ))}
           </div>
