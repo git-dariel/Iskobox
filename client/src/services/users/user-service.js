@@ -2,6 +2,18 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
 
+// fetch all users
+export async function fetchAllUsers() {
+  try {
+    const usersRef = collection(db, 'users');
+    const querySnapshot = await getDocs(usersRef);
+    const userList = querySnapshot.docs.map((doc) => doc.data());
+    return userList;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // register a user
 export async function registerUser(email, password, firstname, lastname) {
   try {
