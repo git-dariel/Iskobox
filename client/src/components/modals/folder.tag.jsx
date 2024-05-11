@@ -5,14 +5,29 @@ import CopyLinkButton from "../common/buttons/copylink";
 import OvalButton from "../common/buttons/reusable/oval.button";
 import DropdownButton from "../common/buttons/reusable/dropdown.button";
 import common from "@/configs/common.config";
+import { fetchAllUsers } from "@/services/users/user-service";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const FolderTagModal = ({ onClose }) => {
   const modalRef = useRef(null);
   const [people, setPeople] = useState([]);
   const [email, setEmail] = useState("");
-  const [selectedRole, setSelectedRole] = useState("Role");
+  const [selectedRole, setSelectedRole] = useState("Uploader");
+  const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
+    // Fetch all users on component mount
+    async function fetchUsers() {
+      try {
+        const users = await fetchAllUsers();
+        setAllUsers(users);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
+
+    fetchUsers();
+
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         onClose();
@@ -39,9 +54,12 @@ const FolderTagModal = ({ onClose }) => {
     setEmail(e.target.value);
   };
 
-  const addPerson = () => {
-    if (email.trim() !== "") {
-      const newPerson = { name: "John Doe", email: email }; // Mock data
+  const addPerson = (user) => {
+    if (user) {
+      const newPerson = {
+        name: `${user.firstname} ${user.lastname}`,
+        email: user.email,
+      };
       setPeople([...people, newPerson]);
       setEmail("");
     }
@@ -89,30 +107,65 @@ const FolderTagModal = ({ onClose }) => {
                 onSelect={onSelectRole}
               />
             </div>
+            {/* Render search results */}
+            <div>
+              {email.trim() !== "" &&
+                allUsers
+                  .filter((user) => {
+                    const fullName =
+                      `${user.firstname} ${user.lastname}`.toLowerCase();
+                    const searchValue = email.toLowerCase();
+                    for (let i = 0; i < searchValue.length; i++) {
+                      if (!fullName.includes(searchValue[i])) {
+                        return false;
+                      }
+                    }
+                    return true;
+                  })
+                  .map((user, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between bg-gray-50 border-gray-200 p-2 rounded-full my-1"
+                    >
+                      <span className="text-gray-800 mx-2">{`${user.firstname} ${user.lastname}`}</span>
+                      <span className="text-gray-500 mx-2 text-xs">
+                        {user.email}
+                      </span>
+                      <CircleButton
+                        icon={<AiOutlinePlus />}
+                        onClick={() => addPerson(user)}
+                      />
+                    </div>
+                  ))}
+            </div>
+
             {/* Render added people */}
             <div>
               {people.map((person, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between bg-gray-50 border-gray-200 p-2 rounded-full"
-                >
-                  <span className="text-gray-800 mx-2">{person.name}</span>
-                  <span className="text-gray-500 mx-2 text-xs">
-                    {person.email}
-                  </span>
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-xs text-blue-400">
-                      {selectedRole}
+                <>
+                  <p className="text-gray-400 text-sm my-2">Added people</p>
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-gray-50 border-gray-200 p-2 rounded-full my-1"
+                  >
+                    <span className="text-gray-800 mx-2">{person.name}</span>
+                    <span className="text-gray-500 mx-2 text-xs">
+                      {person.email}
                     </span>
-                    <CircleButton
-                      title={"Remove user"}
-                      icon={<IoClose />}
-                      onClick={() =>
-                        setPeople(people.filter((_, i) => i !== index))
-                      }
-                    />
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-xs text-blue-400">
+                        {selectedRole}
+                      </span>
+                      <CircleButton
+                        title={"Remove user"}
+                        icon={<IoClose />}
+                        onClick={() =>
+                          setPeople(people.filter((_, i) => i !== index))
+                        }
+                      />
+                    </div>
                   </div>
-                </div>
+                </>
               ))}
             </div>
             <div className="w-full">
