@@ -12,7 +12,8 @@ function Dashboard() {
         <TopNavigation />
         <div className="flex flex-col flex-1 overflow-y-auto">
           {/* Main Content */}
-          <DashboardContent />
+          {/* <DashboardContent /> */}
+          <FolderPage />
         </div>
       </div>
     </div>

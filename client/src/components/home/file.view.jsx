@@ -16,11 +16,6 @@ const FileView = ({ selectedView, isGridView }) => {
     }
   };
 
-  const handleCreateNewFolder = (parentId) => {
-    // Implement your folder creation logic here, using parentId as the parent folder ID
-    console.log("Create new folder in folder:", parentId);
-  };
-
   // toggle view
   useEffect(() => {
     if (selectedView === "files") {
@@ -66,7 +61,6 @@ const FileView = ({ selectedView, isGridView }) => {
                 key={folder.id}
                 folder={folder}
                 isGridView={isGridView}
-                onDoubleClick={handleFolderDoubleClick}
               />
             ))}
           </div>
