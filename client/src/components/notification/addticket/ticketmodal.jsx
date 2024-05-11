@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-modal";
 import TicketForm from "./ticket";
 import { Toaster } from "sonner";
-Toaster
+
 
 Modal.setAppElement("#root");
 
@@ -17,22 +17,20 @@ const TicketModal = () => {
     setModalIsOpen(false);
   };
 
+ 
   return (
 
     <div className="border-2 rounded-xl bg-white hover:bg-blue-700 p-2 ">
-      <Toaster position="bottom-right" />
-      <button onClick={openModal}>Request Ticket</button>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        className="fixed inset-0 flex items-center justify-center p-4"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-20"
-      >
-        <div className="bg-white rounded-lg p-6 shadow-lg">
-          <TicketForm closeModal={closeModal} />
+    <Toaster position="bottom-right" />
+    <button onClick={openModal}>Request Ticket</button>
+    {modalIsOpen && (
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <TicketForm closeModal={closeModal} /> {/* Ipasa ang closeModal function bilang prop */}
         </div>
-      </Modal>
-    </div>
+      </div>
+    )}
+  </div>
   );
 };
 

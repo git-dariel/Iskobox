@@ -2,7 +2,8 @@ import React from "react";
 import SideMenu from "@/components/layout/side-menu";
 import TopNavigation from "@/components/layout/top-nav";
 import TicketModal from "@/components/notification/addticket/ticketmodal";
-import DisplayFetchedData from "@/components/notification/displayticket/displayticket";
+import CommentButton from "@/components/comment/commentbutton";
+// import CommentList from "@/components/comment/showcomment";
 
 
 
@@ -14,8 +15,11 @@ function Workspace() {
         <TopNavigation />
         <div className="flex flex-col flex-1 p-4 overflow-y-auto items-center justify-center">
           {/* Main Content */}
-        <DisplayFetchedData/>
+      
         <TicketModal/>
+        <CommentButton/>
+        {/* <CommentList/> */}
+        
           {/* <h1>Workspace component/content here</h1> */}
         </div>
       </div>
