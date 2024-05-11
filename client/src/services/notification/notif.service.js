@@ -14,9 +14,16 @@ export const addNewNotification = async (notificationData) => {
 
 // Fetch all notifications
 export const fetchNotifications = async () => {
-  const notifications = await notificationOperations.fetchDocuments();
-  console.log(notifications);
-  return notifications; // Add this line to return the fetched notifications
+  try {
+    const notificationsSnapshot = await getDocs(collection(db, 'notifications'));
+    return notificationsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    throw error;
+  }
 };
 
 // Delete a notification
