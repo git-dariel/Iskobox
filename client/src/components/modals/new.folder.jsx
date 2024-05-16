@@ -10,9 +10,12 @@ const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
   const [dueDate, setDueDate] = useState('');
   const [uploadLimit, setUploadLimit] = useState(0);
 
+  useEffect(() => {
+    console.log('Received setFolders:', typeof setFolders);
+  }, [setFolders]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const folderData = {
         name: folderName,
@@ -22,9 +25,14 @@ const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
       };
 
       const newFolder = await addFolder(folderData);
-      setFolders((prevFolders) => [...prevFolders, newFolder]);
+      if (typeof setFolders === 'function') {
+        console.log('Adding new folder:', newFolder);
+        setFolders((prevFolders) => [...prevFolders, newFolder]);
+      } else {
+        console.error('setFolders is not a function', setFolders);
+      }
+      window.location.reload();
       toast.success('Folder created successfully');
-
       onClose();
     } catch (error) {
       console.error('Error creating a folder:', error);
@@ -54,10 +62,6 @@ const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
       setUploadLimit(uploadLimit - 1);
     }
   };
-
-  // const handleCloseModal = () => {
-  //   onClose();
-  // };
 
   return (
     <div className='fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out'>

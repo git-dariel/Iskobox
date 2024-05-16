@@ -83,7 +83,7 @@ const FolderOpen = () => {
               <div className='flex flex-col flex-1 items-center justify-center'>Loading...</div>
             ) : (
               <div>
-                {folderContents.length === 0 ? (
+                {folderContents.length === 0 && selectedView === 'folders' ? (
                   <div className='flex flex-col flex-1 items-center justify-center'>
                     This folder is empty.
                   </div>

@@ -18,7 +18,6 @@ const AddNewButton = ({ parentId, setFolders }) => {
   const options = [
     { label: 'New Folder', icon: MdOutlineCreateNewFolder },
     { label: 'Upload File', icon: MdOutlineUploadFile },
-    { label: 'Upload Folder', icon: MdDriveFolderUpload },
   ];
 
   const handleButtonClick = () => {
@@ -50,6 +49,7 @@ const AddNewButton = ({ parentId, setFolders }) => {
     if (file) {
       const updatedFolder = await uploadFile(file, parentId);
       setFolders((prevFolders) => [...prevFolders, updatedFolder]);
+      window.location.reload();
     }
   };
 

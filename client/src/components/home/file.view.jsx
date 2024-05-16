@@ -33,7 +33,7 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
     <div className='mt-4'>
       {selectedView === 'files' && (
         <div>
-          <h2 className='text-sm m-2'>Files</h2> {/* Updated from "Name" to "Files" */}
+          <h2 className='text-sm m-2'>Files</h2>
           <div
             className={`${
               isGridView
@@ -41,9 +41,11 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
                 : ' '
             } `}
           >
-            {files.map((file) => (
-              <FileItem key={file.id} file={file} isGridView={isGridView} />
-            ))}
+            {files.length > 0 ? (
+              files.map((file) => <FileItem key={file.id} file={file} isGridView={isGridView} />)
+            ) : (
+              <div className='flex flex-col flex-1 items-center justify-center mt-10'>Empty</div>
+            )}
           </div>
         </div>
       )}
@@ -58,14 +60,18 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
                 : ' '
             } `}
           >
-            {folders.map((folder) => (
-              <FolderItem
-                key={folder.id}
-                folder={folder}
-                isGridView={isGridView}
-                onDoubleClick={() => handleFolderDoubleClick(folder.id)}
-              />
-            ))}
+            {folders.length > 0 ? (
+              folders.map((folder) => (
+                <FolderItem
+                  key={folder.id}
+                  folder={folder}
+                  isGridView={isGridView}
+                  onDoubleClick={() => handleFolderDoubleClick(folder.id)}
+                />
+              ))
+            ) : (
+              <div className='flex flex-col flex-1 items-center justify-center mt-10'>Empty</div>
+            )}
           </div>
         </div>
       )}

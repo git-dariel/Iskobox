@@ -50,11 +50,17 @@ export const fetchFolders = async (parentId = null) => {
 // Add folder with upload limit
 export const addFolder = async (folderData) => {
   try {
-    const docRef = await addDoc(collection(db, 'folders'), {
+    // Check if parentId is undefined and exclude it if so
+    const folderPayload = {
       ...folderData,
       uploadLimit: folderData.uploadLimit || 10, // default upload limit if not specified
-    });
-    return { id: docRef.id, ...folderData, subfolders: [], fileCount: 0 };
+    };
+    if (folderData.parentId === undefined) {
+      delete folderPayload.parentId; // Remove parentId from payload if it's undefined
+    }
+
+    const docRef = await addDoc(collection(db, 'folders'), folderPayload);
+    return { id: docRef.id, ...folderPayload, subfolders: [], fileCount: 0 };
   } catch (error) {
     console.error('Error adding folder:', error);
     throw error;
