@@ -2,12 +2,12 @@ import React from "react";
 
 function Cards({ data }) {
   return (
-    <div>
+    <>
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {data.map((item, index) => (
           <div
             key={index}
-            className="bg-transparent p-4 rounded-lg shadow-md mb-4 flex items-center relative"
+            className="bg-gray-100 p-4 rounded-lg shadow-md mb-4 flex items-center relative"
           >
             {item.icon && (
               <item.icon className="w-4 h-4  absolute top-0 right-0 mt-1 mr-2 text-gray-500" />
@@ -22,7 +22,7 @@ function Cards({ data }) {
           </div>
         ))}
       </section>
-    </div>
+    </>
   );
 }
 
