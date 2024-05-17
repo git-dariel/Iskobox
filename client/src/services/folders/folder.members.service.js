@@ -1,9 +1,10 @@
-import { addDoc, collection, db, deleteDoc } from '../../database/firebase-connection';
+import { db } from '../../database/firebase-connection';
+import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
 
 // Add a assignee to a folder
 export const addAssigneeToFolder = async (folderId, assigneeData) => {
   const folderAssigneeCollection = collection(db, 'folders', folderId, 'assignees');
-  const docRef = await addDoc(folderAssigneeCollection, [assigneeData]);
+  const docRef = await addDoc(folderAssigneeCollection, assigneeData);
   return { id: docRef.id, ...assigneeData };
 };
 

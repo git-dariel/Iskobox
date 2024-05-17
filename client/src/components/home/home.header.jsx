@@ -8,14 +8,7 @@ import { FaUserTag } from 'react-icons/fa6';
 import { MdOutlineFileDownload, MdDelete } from 'react-icons/md';
 import FolderTagModal from '../modals/folder.tag';
 
-const Header = ({
-  selectedButton,
-  handleButtonClick,
-  isGridView,
-  toggleView,
-  currentFolderId,
-  setFolders,
-}) => {
+const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, currentFolderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -27,7 +20,7 @@ const Header = ({
         <div className='flex'>
           <h1 className='text-xl text-gray-800 pl-3 pr-1'>Sharehub</h1>
           {/* <FileCrumbs /> */}
-          <AddNewButton parentId={currentFolderId} setFolders={setFolders} />
+          <AddNewButton parentId={currentFolderId} />
         </div>
 
         <div className='flex p-3'>
@@ -48,7 +41,7 @@ const Header = ({
           {/* Add more components here */}
         </div>
       </div>
-      {isModalOpen && <FolderTagModal onClose={toggleModal} />}
+      {isModalOpen && <FolderTagModal folderId={currentFolderId} onClose={toggleModal} />}
     </div>
   );
 };

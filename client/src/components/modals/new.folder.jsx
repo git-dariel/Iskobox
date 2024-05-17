@@ -1,43 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
 import OvalButton from '../common/buttons/reusable/oval.button';
 import { addFolder } from '@/services/folders/folder.service';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Toaster, toast } from 'sonner';
 
-const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
+const NewFolderForm = ({ onClose, onCreate, parentId = null }) => {
   const modalRef = useRef(null);
   const [folderName, setFolderName] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [uploadLimit, setUploadLimit] = useState(0);
 
-  useEffect(() => {
-    console.log('Received setFolders:', typeof setFolders);
-  }, [setFolders]);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const folderData = {
+    if (onCreate) {
+      onCreate({
         name: folderName,
         dueDate: dueDate,
         uploadLimit: parseInt(uploadLimit, 10),
         parentId: parentId,
-      };
-
-      const newFolder = await addFolder(folderData);
-      if (typeof setFolders === 'function') {
-        console.log('Adding new folder:', newFolder);
-        setFolders((prevFolders) => [...prevFolders, newFolder]);
-      } else {
-        console.error('setFolders is not a function', setFolders);
-      }
-      window.location.reload();
-      toast.success('Folder created successfully');
-      onClose();
-    } catch (error) {
-      console.error('Error creating a folder:', error);
-      toast.error(`Error: ${error.message}`);
+      });
+    } else {
+      console.error('onCreate function is not defined');
     }
+    onClose();
   };
 
   useEffect(() => {
@@ -65,7 +49,7 @@ const NewFolderForm = ({ onClose, setFolders, parentId = null }) => {
 
   return (
     <div className='fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out'>
-      <ToastContainer />
+      <Toaster />
       <div
         ref={modalRef}
         className='bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden'

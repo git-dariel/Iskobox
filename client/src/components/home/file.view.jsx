@@ -3,31 +3,35 @@ import { fetchFolders } from '../../services/folders/folder.service';
 import { fetchAllFiles, fetchFilesInFolder } from '../../services/files/file-service';
 import FileItem from './file.item';
 import FolderItem from './folder.item';
+import { useUpdate } from '@/helpers/update.context';
 
 const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   const [files, setFiles] = useState([]);
   const [folders, setFolders] = useState([]);
   const [openedFolders, setOpenedFolders] = useState([]);
+  const { updateCount } = useUpdate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const effectiveFolderId = currentFolderId === undefined ? null : currentFolderId;
+      const fetchedFolders = await fetchFolders(effectiveFolderId);
+      setFolders(fetchedFolders);
+      if (currentFolderId) {
+        const fetchedFiles = await fetchFilesInFolder(currentFolderId);
+        setFiles(fetchedFiles);
+      } else {
+        const allFiles = await fetchAllFiles();
+        setFiles(allFiles);
+      }
+    };
+    fetchData();
+  }, [currentFolderId, updateCount]);
 
   const handleFolderDoubleClick = (folderId) => {
     if (!openedFolders.includes(folderId)) {
       setOpenedFolders([...openedFolders, folderId]);
-      console.log('Open folder:', folderId);
     }
   };
-
-  useEffect(() => {
-    console.log('Current Folder ID:', currentFolderId); // Debugging line
-    if (currentFolderId) {
-      fetchFilesInFolder(currentFolderId).then((fetchedFiles) => {
-        console.log('Files fetched:', fetchedFiles); // Debugging line
-        setFiles(fetchedFiles);
-      });
-    } else {
-      fetchAllFiles().then(setFiles);
-    }
-    fetchFolders().then(setFolders);
-  }, [currentFolderId]);
 
   return (
     <div className='mt-4'>

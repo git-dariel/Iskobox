@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { IoAdd } from 'react-icons/io5';
-import { MdOutlineCreateNewFolder, MdOutlineUploadFile, MdDriveFolderUpload } from 'react-icons/md';
+import { MdOutlineCreateNewFolder, MdOutlineUploadFile } from 'react-icons/md';
 import ContextMenu from '@/components/contextmenu/add.menu';
 import NewFolderForm from '@/components/modals/new.folder';
 import { uploadFile } from '@/services/files/file-service';
+import { addFolder } from '@/services/folders/folder.service';
+import { Toaster, toast } from 'sonner';
+import { useUpdate } from '@/helpers/update.context';
 
-const AddNewButton = ({ parentId, setFolders }) => {
+const AddNewButton = ({ parentId }) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
@@ -14,6 +17,7 @@ const AddNewButton = ({ parentId, setFolders }) => {
   const [showNewFolderForm, setShowNewFolderForm] = useState(false);
   const buttonRef = useRef(null);
   const fileInputRef = useRef(null);
+  const { triggerUpdate } = useUpdate();
 
   const options = [
     { label: 'New Folder', icon: MdOutlineCreateNewFolder },
@@ -47,14 +51,33 @@ const AddNewButton = ({ parentId, setFolders }) => {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const updatedFolder = await uploadFile(file, parentId);
-      setFolders((prevFolders) => [...prevFolders, updatedFolder]);
-      window.location.reload();
+      try {
+        await uploadFile(file, parentId);
+        toast.success('File uploaded successfully');
+        triggerUpdate();
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        toast.error('Failed to upload file');
+      }
+    }
+  };
+
+  const handleCreateFolder = async (folderData) => {
+    try {
+      // Ensure parentId is explicitly set to null if it's undefined
+      const effectiveParentId = parentId === undefined ? null : parentId;
+      await addFolder({ ...folderData, parentId: effectiveParentId });
+      toast.success('Folder created successfully');
+      triggerUpdate();
+    } catch (error) {
+      console.error('Error creating folder:', error);
+      toast.error(`Error: ${error.message}`);
     }
   };
 
   return (
     <>
+      <Toaster />
       <button
         ref={buttonRef}
         className='border border-gray-700 rounded-full shadow-md m-1 p-[1px] hover:bg-gray-100 transition-all duration-200 ease-in-out'
@@ -80,7 +103,7 @@ const AddNewButton = ({ parentId, setFolders }) => {
       {showNewFolderForm && (
         <NewFolderForm
           onClose={() => setShowNewFolderForm(false)}
-          setFolders={setFolders}
+          onCreate={handleCreateFolder}
           parentId={parentId}
         />
       )}

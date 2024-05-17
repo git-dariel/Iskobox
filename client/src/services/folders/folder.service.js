@@ -13,7 +13,16 @@ import { db } from '../../database/firebase-connection';
 // Fetch folders with file counts
 export const fetchFolders = async (parentId = null) => {
   try {
-    const folderQuery = query(collection(db, 'folders'), where('parentId', '==', parentId || null));
+    console.log('Fetching folders for parentId:', parentId);
+    let folderQuery;
+    if (parentId === undefined || parentId === null) {
+      // Fetch root folders where parentId does not exist or is explicitly null
+      folderQuery = query(collection(db, 'folders'), where('parentId', '==', null));
+    } else {
+      // Fetch subfolders where parentId matches
+      folderQuery = query(collection(db, 'folders'), where('parentId', '==', parentId));
+    }
+
     const folderSnapshot = await getDocs(folderQuery);
     const folders = folderSnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -46,7 +55,6 @@ export const fetchFolders = async (parentId = null) => {
     throw error;
   }
 };
-
 // Add folder with upload limit
 export const addFolder = async (folderData) => {
   try {

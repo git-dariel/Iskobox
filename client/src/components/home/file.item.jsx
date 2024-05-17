@@ -2,7 +2,6 @@ import React from 'react';
 import { getFileIcon } from '../../helpers/file-helpers'; // Import the helper function
 
 const FileItem = ({ file, isGridView }) => {
-  console.log('Rendering file:', file); // Debugging line to check what file is being rendered
   return (
     <div
       className={`${
