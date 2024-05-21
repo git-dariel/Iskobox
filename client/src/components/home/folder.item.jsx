@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FcFolder } from "react-icons/fc";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FcFolder } from 'react-icons/fc';
+import TicketModal from '../notification/addticket/ticketmodal';
+import CommentButton from '../comment/commentbutton';
 import CircleButton from '../common/buttons/reusable/circle.button';
 import { MdDelete } from 'react-icons/md';
 import { deleteFolder } from '../../services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
 
-const FolderItem = ({ folder, isGridView, onDoubleClick, onDelete }) => {
+const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDoubleClick = () => {
@@ -39,36 +41,48 @@ const FolderItem = ({ folder, isGridView, onDoubleClick, onDelete }) => {
 
   return (
     <>
-    <Toaster />
+      <Toaster />
       <Link to={folderUrl}>
         <div
           className={`cursor-default px-1 py-2 ${
-            isGridView ? "flex-col m-2 p-2 border" : "flex w-full border-b"
+            isGridView ? 'flex-col m-2 p-2 border' : 'flex w-full border-b'
           } text-sm flex items-center space-x-2 border-gray-200 hover:bg-gray-100`}
           onDoubleClick={handleDoubleClick}
         >
           <FcFolder size={30} />
-          <span className="truncate">{folder.name}</span>
-          <span className="ml-auto">{displayLimit}</span>
-          <CircleButton title={'Remove'} icon={<MdDelete size={18} />} onClick={openModal} />
+          <div className='flex flex-row w-full justify-between items-center'>
+            <div className=' gap-1'>
+              <span className='truncate'>{folder.name + ' '}</span>
+              <span className='ml-auto'>{displayLimit}</span>
+              <CircleButton title={'Remove'} icon={<MdDelete size={18} />} onClick={openModal} />
+            </div>
+            <div className='flex gap-1 mr-10'>
+              {/* <div>
+                <TicketModal />
+              </div> */}
+              <div>
+                <CommentButton />
+              </div>
+            </div>
+          </div>
         </div>
       </Link>
-      
+
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h2 className="text-lg font-bold mb-4">Delete Folder</h2>
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+          <div className='bg-white p-6 rounded shadow-lg'>
+            <h2 className='text-lg font-bold mb-4'>Delete Folder</h2>
             <p>Are you sure you want to delete the folder "{folder.name}"?</p>
-            <div className="mt-4 flex justify-end space-x-2">
+            <div className='mt-4 flex justify-end space-x-2'>
               <button
                 onClick={closeModal}
-                className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+                className='px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400'
               >
                 No
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600'
               >
                 Yes
               </button>

@@ -1,5 +1,6 @@
 import { addNewComment } from "@/services/comments/comments.service";
 import React, { useState } from "react";
+import { FaRegComment } from "react-icons/fa6";
 
 const CommentButton = () => {
   const [commentText, setCommentText] = useState("");
@@ -20,12 +21,15 @@ const CommentButton = () => {
 
   return (
     <div className="select-none">
-      <button
-        onClick={() => setShowModal(true)}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Comment
-      </button>
+      <div className="border-2 rounded-full h-auto bg-white hover:bg-blue-700 p-1 pt-1 ">
+        <button
+          onClick={() => setShowModal(true)}
+          className="w-4 h-4 rounded-full flex justify-center items-center"
+          title="Comment" 
+        >
+          <FaRegComment />
+        </button>
+      </div>
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -50,13 +54,19 @@ const CommentButton = () => {
                       Write your comment here
                     </label>
                   </div>
-                    <div className="flex flex-row-reverse">
-                  <button
-                    onClick={handleCommentSubmit}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl mt-2"
-                  >
-                    Submit
-                  </button>
+                  <div className="gap-2 flex flex-row-reverse">
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl mt-2 mr-2"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleCommentSubmit}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl mt-2"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </div>
               </div>

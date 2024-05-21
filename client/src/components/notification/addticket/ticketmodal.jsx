@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-modal";
 import TicketForm from "./ticket";
 import { Toaster } from "sonner";
-
+import { IoTicketOutline } from "react-icons/io5";
 
 Modal.setAppElement("#root");
 
@@ -19,10 +19,11 @@ const TicketModal = () => {
 
  
   return (
-
-    <div className="border-2 rounded-xl bg-white hover:bg-blue-700 p-2 ">
+ 
+    <div className="border-2 rounded-full h-auto bg-white hover:bg-blue-700 p-1 pt-1 ">
     <Toaster position="bottom-right" />
-    <button onClick={openModal}>Request Ticket</button>
+   
+    <button className="w-4 h-4 rounded-full flex justify-center items-center " onClick={openModal} title="Send Ticket" ><IoTicketOutline /></button>
     {modalIsOpen && (
       <div className="modal-overlay">
         <div className="modal-content">
@@ -31,6 +32,7 @@ const TicketModal = () => {
       </div>
     )}
   </div>
+
   );
 };
 
