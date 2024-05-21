@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FcFolder } from "react-icons/fc";
+import TicketModal from "../notification/addticket/ticketmodal";
+import CommentButton from "../comment/commentbutton";
 
 const FolderItem = ({ folder, isGridView, onDoubleClick }) => {
   const handleDoubleClick = () => {
@@ -19,8 +21,20 @@ const FolderItem = ({ folder, isGridView, onDoubleClick }) => {
         onDoubleClick={handleDoubleClick}
       >
         <FcFolder size={30} />
-        <span className="truncate">{folder.name}</span>
-        <span className="ml-auto">{displayLimit}</span>
+        <div className="flex flex-row w-full justify-between items-center">
+          <div className=" gap-1">
+            <span className="truncate">{folder.name}</span>
+            <span className="ml-auto">{displayLimit}</span>
+          </div>
+          <div className="flex gap-1 mr-10">
+            <div>
+              <TicketModal />
+            </div>
+            <div>
+              <CommentButton />
+            </div>
+          </div>
+        </div>
       </div>
     </Link>
   );
