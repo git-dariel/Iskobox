@@ -5,6 +5,8 @@ import Header from './home.header';
 import { fetchFolders, processFolder } from '../../services/folders/folder.service';
 import FolderItem from './folder.item';
 import FileView from './file.view';
+import { useUpdate } from '@/helpers/update.context';
+import { bouncy } from 'ldrs';
 
 const FolderOpen = () => {
   const [selectedView, setSelectedView] = useState(localStorage.getItem('selectedView') || 'files');
@@ -15,10 +17,12 @@ const FolderOpen = () => {
   const [folderContents, setFolderContents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentFolderId, setCurrentFolderId] = useState(null);
+  const { updateCount } = useUpdate();
+  bouncy.register();
 
   useEffect(() => {
-    fetchFolderContents(null); // Initially fetch root folders
-  }, []);
+    fetchFolderContents(currentFolderId); // Initially fetch root folders
+  }, [currentFolderId, updateCount]);
 
   const fetchFolderContents = async (folderId) => {
     setIsLoading(true);
@@ -80,7 +84,9 @@ const FolderOpen = () => {
               setFolders={setFolderContents}
             />
             {isLoading ? (
-              <div className='flex flex-col flex-1 items-center justify-center'>Loading...</div>
+              <div className='flex flex-col flex-1 items-center justify-center'>
+                <l-bouncy size='40' color='black'></l-bouncy>
+              </div>
             ) : (
               <div>
                 {folderContents.length === 0 && selectedView === 'folders' ? (

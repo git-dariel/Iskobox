@@ -9,6 +9,7 @@ import { fetchAllUsers } from '@/services/users/user-service';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Toaster, toast } from 'sonner';
 import { addAssigneeToFolder } from '@/services/folders/folder.members.service';
+import { bouncy } from 'ldrs';
 
 const FolderTagModal = ({ folderId, onClose }) => {
   const modalRef = useRef(null);
@@ -17,6 +18,8 @@ const FolderTagModal = ({ folderId, onClose }) => {
   const [selectedRole, setSelectedRole] = useState('Uploader');
   const [allUsers, setAllUsers] = useState([]);
   const [description, setDescription] = useState('');
+  const [loading, setLoading] = useState(false);
+  bouncy.register();
 
   useEffect(() => {
     // Fetch all users on component mount
@@ -68,26 +71,29 @@ const FolderTagModal = ({ folderId, onClose }) => {
 
   const assignPersonToFolder = async () => {
     if (people.length === 0) {
-      return toast.error('Please add at least one person');
+      toast.error('Please add at least one person');
+      return;
     }
-    people.forEach(async (person) => {
-      const assigneeData = {
-        name: person.name,
-        email: person.email,
-        role: selectedRole,
-        description: description,
-      };
-      try {
+    setLoading(true);
+    try {
+      for (const person of people) {
+        const assigneeData = {
+          name: person.name,
+          email: person.email,
+          role: selectedRole,
+          description: description,
+        };
         await addAssigneeToFolder(folderId, assigneeData);
-        toast.success('Assignee added successfully');
-      } catch (error) {
-        console.error('Failed to add assignee:', error);
-        toast.error('Failed to add assignee');
       }
-    });
-    setPeople([]);
-    setEmail('');
-    setDescription('');
+      toast.success('Assignee added successfully');
+    } catch (error) {
+      console.error('Failed to add assignee:', error);
+      toast.error('Failed to add assignee');
+    } finally {
+      setLoading(false);
+      setEmail('');
+      setDescription('');
+    }
   };
 
   const handleCloseModal = () => {
@@ -200,6 +206,11 @@ const FolderTagModal = ({ folderId, onClose }) => {
           </div>
         </div>
       </div>
+      {loading && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
+          <l-bouncy size='40' color='black'></l-bouncy>
+        </div>
+      )}
     </>
   );
 };
