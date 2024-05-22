@@ -7,6 +7,7 @@ import { uploadFile } from '@/services/files/file-service';
 import { addFolder } from '@/services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
 import { useUpdate } from '@/helpers/update.context';
+import { bouncy } from 'ldrs';
 
 const AddNewButton = ({ parentId }) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
@@ -18,6 +19,8 @@ const AddNewButton = ({ parentId }) => {
   const buttonRef = useRef(null);
   const fileInputRef = useRef(null);
   const { triggerUpdate } = useUpdate();
+  const [loading, setLoading] = useState(false);
+  bouncy.register();
 
   const options = [
     { label: 'New Folder', icon: MdOutlineCreateNewFolder },
@@ -51,6 +54,7 @@ const AddNewButton = ({ parentId }) => {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      setLoading(true);
       try {
         await uploadFile(file, parentId);
         toast.success('File uploaded successfully');
@@ -58,13 +62,15 @@ const AddNewButton = ({ parentId }) => {
       } catch (error) {
         console.error('Error uploading file:', error);
         toast.error('Failed to upload file');
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   const handleCreateFolder = async (folderData) => {
+    setLoading(true);
     try {
-      // Ensure parentId is explicitly set to null if it's undefined
       const effectiveParentId = parentId === undefined ? null : parentId;
       await addFolder({ ...folderData, parentId: effectiveParentId });
       toast.success('Folder created successfully');
@@ -72,6 +78,9 @@ const AddNewButton = ({ parentId }) => {
     } catch (error) {
       console.error('Error creating folder:', error);
       toast.error(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+      setShowNewFolderForm(false);
     }
   };
 
@@ -106,6 +115,11 @@ const AddNewButton = ({ parentId }) => {
           onCreate={handleCreateFolder}
           parentId={parentId}
         />
+      )}
+      {loading && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
+          <l-bouncy size='60' color='black'></l-bouncy>
+        </div>
       )}
     </>
   );

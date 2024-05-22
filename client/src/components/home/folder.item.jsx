@@ -7,23 +7,30 @@ import CircleButton from '../common/buttons/reusable/circle.button';
 import { MdDelete } from 'react-icons/md';
 import { deleteFolder } from '../../services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
+import { useUpdate } from '@/helpers/update.context';
+import { bouncy } from 'ldrs';
 
 const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { triggerUpdate } = useUpdate();
+  const [loading, setLoading] = useState(false);
+  bouncy.register();
 
   const handleDoubleClick = () => {
     onDoubleClick(folder.id);
   };
 
   const handleDelete = async () => {
+    setLoading(true);
     try {
       await deleteFolder(folder.id);
       toast.success('Folder removed');
-      window.location.reload(); // Reload the page
+      triggerUpdate();
     } catch (error) {
       console.error('Error deleting folder:', error);
     } finally {
       setIsModalOpen(false);
+      setLoading(false);
     }
   };
 
@@ -69,24 +76,32 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
       </Link>
 
       {isModalOpen && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-          <div className='bg-white p-6 rounded shadow-lg'>
-            <h2 className='text-lg font-bold mb-4'>Delete Folder</h2>
-            <p>Are you sure you want to delete the folder "{folder.name}"?</p>
-            <div className='mt-4 flex justify-end space-x-2'>
-              <button
-                onClick={closeModal}
-                className='px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400'
-              >
-                No
-              </button>
-              <button
-                onClick={handleDelete}
-                className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600'
-              >
-                Yes
-              </button>
-            </div>
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
+          <div className='bg-gray-100 p-8 rounded-lg shadow-2xl'>
+            <h2 className='text-xl font-semibold mb-6'>Delete Folder</h2>
+            {loading ? (
+              <div className='flex justify-center items-center'>
+                <l-bouncy size='40' color='black'></l-bouncy>
+              </div>
+            ) : (
+              <>
+                <p className='mb-4'>Are you sure you want to delete the folder "{folder.name}"?</p>
+                <div className='flex justify-end space-x-4'>
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className='px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors'
+                  >
+                    No
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className='px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors'
+                  >
+                    Yes
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
