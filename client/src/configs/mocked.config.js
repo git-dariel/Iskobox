@@ -4,25 +4,25 @@ const mockedConfig = {};
 
 mockedConfig.dashboardCardData = [
   {
-    title: "Total Projects",
+    title: "Total Files",
     value: "10",
     icon: BiConfused,
     description: "Total number of projects in the system.",
   },
   {
-    title: "Projects in Progress",
+    title: "Total Folders",
     value: "100",
     icon: BiConfused,
     description: "Number of projects in progress.",
   },
   {
-    title: "Completed Projects",
+    title: "Pending Files",
     value: "50",
     icon: BiConfused,
     description: "Number of projects completed.",
   },
   {
-    title: "Projects On Hold",
+    title: "Completed Files",
     value: "67",
     icon: BiConfused,
     description: "Number of projects currently on hold.",
