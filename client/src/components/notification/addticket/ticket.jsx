@@ -1,5 +1,5 @@
 import { addNewNotification } from "@/services/notification/notif.service";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { toast } from "sonner";
 
 function getNextId() {
@@ -15,7 +15,7 @@ toast("My toast", {
   duration: 5000,
 });
 
-const TicketForm = ({ addTicketToNotifications, closeModal }) => {
+const TicketForm = ({ addTicketToNotifications }) => {
   const [formData, setFormData] = useState({
     id: getNextId(),
     title: "",
@@ -36,7 +36,7 @@ const TicketForm = ({ addTicketToNotifications, closeModal }) => {
       console.log("About to show toast");
       toast.success("Ticket has been submitted"); // Success toast
 
-      closeModal();
+    
       setFormData({ id: getNextId(), title: "", description: "" });
 
       if (typeof addTicketToNotifications === "function") {
@@ -54,7 +54,8 @@ const TicketForm = ({ addTicketToNotifications, closeModal }) => {
   };
 
   return (
-    <div className=" flex items-center justify-center select-none">
+
+    <div className=" flex items-center justify-center select-none">    
       <div className="bg-white rounded-md   max-w-sm lg:max-w-xl w-full overflow-hidden">
         <div className="flex justify-between px-4 py-5 border-b border-gray-200 sm:px-6">
           <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -64,7 +65,7 @@ const TicketForm = ({ addTicketToNotifications, closeModal }) => {
 
         <form className="" onSubmit={handleSubmit}>
           <div className="px-4 py-5 space-y-6 sm:p-6">
-            <div className="relative  min-w-[200px] h-auto">
+            <div className="relative  min-w-[400px] h-auto">
               <input
                 className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-gray-400 placeholder-shown:border-t-gray-400 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-gray-400 focus:border-gray-900"
                 type="label"
@@ -79,7 +80,7 @@ const TicketForm = ({ addTicketToNotifications, closeModal }) => {
               </label>
             </div>
 
-            <div className="relative w-full min-w-[200px] h-auto">
+            <div className="relative w-full min-w-[400px] h-auto">
             <textarea
               // className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-gray-400 placeholder-shown:border-t-gray-400 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-gray-400 focus:border-gray-900"
