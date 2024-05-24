@@ -33,3 +33,14 @@ export function truncateFileName(fileName, maxLength = 20) {
   }
   return `${baseName.substring(0, maxLength - (extension.length + 3))}...${extension}`;
 }
+
+export const isViewableFile = (fileName) => {
+  return /\.(pdf|docx|png|jpg|jpeg)$/i.test(fileName);
+};
+
+export const getFileType = (fileName) => {
+  if (/\.(jpg|jpeg|png)$/i.test(fileName)) return 'image';
+  if (/\.pdf$/i.test(fileName)) return 'pdf';
+  if (/\.docx$/i.test(fileName)) return 'docx';
+  return null;
+};

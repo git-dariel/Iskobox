@@ -1,4 +1,13 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getDoc,
+  query,
+  where,
+} from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../../database/firebase-connection';
 
@@ -40,4 +49,14 @@ export const uploadFile = async (file, folderId) => {
 
 export const deleteFile = async (fileId) => {
   await deleteDoc(doc(db, 'files', fileId));
+};
+
+export const getFileUrl = async (fileId) => {
+  const fileRef = doc(db, 'files', fileId);
+  const fileSnapshot = await getDoc(fileRef);
+  if (!fileSnapshot.exists()) {
+    throw new Error('File not found');
+  }
+  const fileData = fileSnapshot.data();
+  return fileData.url;
 };
