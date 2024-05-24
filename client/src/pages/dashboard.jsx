@@ -10,7 +10,7 @@ function Dashboard() {
       <SideMenu />
       <div className="flex flex-col flex-1 ">
         <TopNavigation />
-        <div className="flex flex-col flex-1 overflow-y-auto">
+        <div className="flex flex-col flex-1">
           {/* Main Content */}
           <DashboardContent />
         </div>

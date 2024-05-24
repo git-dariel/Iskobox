@@ -8,6 +8,8 @@ import {
 } from "../../services/folders/folder.service";
 import FolderItem from "./folder.item";
 import FileView from "./file.view";
+import { useUpdate } from "@/helpers/update.context";
+import { bouncy } from "ldrs";
 
 const FolderOpen = () => {
   const [selectedView, setSelectedView] = useState(
@@ -20,10 +22,12 @@ const FolderOpen = () => {
   const [folderContents, setFolderContents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentFolderId, setCurrentFolderId] = useState(null);
+  const { updateCount } = useUpdate();
+  bouncy.register();
 
   useEffect(() => {
-    fetchFolderContents(null); // Initially fetch root folders
-  }, []);
+    fetchFolderContents(currentFolderId); // Initially fetch root folders
+  }, [currentFolderId, updateCount]);
 
   const fetchFolderContents = async (folderId) => {
     setIsLoading(true);
@@ -87,36 +91,35 @@ const FolderOpen = () => {
               currentFolderId={currentFolderId}
               setFolders={setFolderContents}
             />
-
             {isLoading ? (
               <div className="flex flex-col flex-1 items-center justify-center">
-                Loading...
+                <l-bouncy size={40} color="black"></l-bouncy>
               </div>
             ) : (
               <div>
-                <div>
-                  {folderContents.length === 0 && selectedView === "folders" ? (
-                    <div className="flex flex-col flex-1 items-center justify-center">
-                      This folder is empty.
-                    </div>
-                  ) : (
-                    <div className="flex flex-col flex-1">
-                      {folderContents.map((folder) => (
-                        <FolderItem
-                          key={folder.id}
-                          folder={folder}
-                          isGridView={isGridView}
-                          onDoubleClick={handleFolderDoubleClick}
-                          usagePercentage={folder.usagePercentage}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  asfagashkdhfahd
-                </div>
+                {folderContents.length === 0 && selectedView === "folders" ? (
+                  <div className="flex flex-col flex-1 items-center justify-center">
+                    This folder is empty.
+                  </div>
+                ) : (
+                  <div
+                    className={`${
+                      isGridView
+                        ? "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
+                        : " "
+                    } `}
+                  >
+                    {folderContents.map((folder) => (
+                      <FolderItem
+                        key={folder.id}
+                        folder={folder}
+                        isGridView={isGridView}
+                        onDoubleClick={handleFolderDoubleClick}
+                        usagePercentage={folder.usagePercentage}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )}
             {selectedView === "files" && (

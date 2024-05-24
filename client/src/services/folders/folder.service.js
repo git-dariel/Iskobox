@@ -76,8 +76,26 @@ export const addFolder = async (folderData) => {
 };
 
 // Delete folder
+// Recursive delete for folders and their contents
 export const deleteFolder = async (folderId) => {
   try {
+    // Delete all files in the folder
+    const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+    const fileSnapshot = await getDocs(fileQuery);
+    const fileDeletions = fileSnapshot.docs.map((fileDoc) =>
+      deleteDoc(doc(db, 'files', fileDoc.id))
+    );
+    await Promise.all(fileDeletions);
+
+    // Recursively delete subfolders
+    const subfolderQuery = query(collection(db, 'folders'), where('parentId', '==', folderId));
+    const subfolderSnapshot = await getDocs(subfolderQuery);
+    const subfolderDeletions = subfolderSnapshot.docs.map((subfolderDoc) =>
+      deleteFolder(subfolderDoc.id)
+    );
+    await Promise.all(subfolderDeletions);
+
+    // Delete the folder itself
     await deleteDoc(doc(db, 'folders', folderId));
   } catch (error) {
     console.error('Error deleting folder:', error);
