@@ -4,7 +4,7 @@ import { MdOutlineCreateNewFolder, MdOutlineUploadFile } from 'react-icons/md';
 import ContextMenu from '@/components/contextmenu/add.menu';
 import NewFolderForm from '@/components/modals/new.folder';
 import { uploadFile } from '@/services/files/file-service';
-import { addFolder } from '@/services/folders/folder.service';
+import { addFolder, fetchFolderDetailsWithUploadLimit } from '@/services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
 import { useUpdate } from '@/helpers/update.context';
 import { bouncy } from 'ldrs';
@@ -56,6 +56,12 @@ const AddNewButton = ({ parentId }) => {
     if (file) {
       setLoading(true);
       try {
+        const folderDetails = await fetchFolderDetailsWithUploadLimit(parentId);
+        if (folderDetails && folderDetails.fileCount >= folderDetails.uploadLimit) {
+          toast.error('Upload limit reached for this folder');
+          setLoading(false);
+          return;
+        }
         await uploadFile(file, parentId);
         toast.success('File uploaded successfully');
         triggerUpdate();

@@ -4,6 +4,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  getDoc,
   updateDoc,
   where,
   query,
@@ -120,7 +121,32 @@ export const fetchFolderDetails = async (folderId) => {
     const folderDocRef = doc(db, 'folders', folderId);
     const folderDoc = await getDoc(folderDocRef);
     if (folderDoc.exists()) {
-      return { id: folderDoc.id, ...folderDoc.data() };
+      const data = folderDoc.data();
+      console.log('Folder Details:', data); // Log folder details
+      return { id: folderDoc.id, ...data };
+    } else {
+      console.log('No such folder!');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching folder details:', error);
+    throw error;
+  }
+};
+
+// Fetch folder details with upload limit
+export const fetchFolderDetailsWithUploadLimit = async (folderId) => {
+  try {
+    const folderDocRef = doc(db, 'folders', folderId);
+    const folderDoc = await getDoc(folderDocRef);
+    if (folderDoc.exists()) {
+      const data = folderDoc.data();
+      console.log('Folder Details:', data);
+      // Fetch file count for the folder
+      const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+      const fileSnapshot = await getDocs(fileQuery);
+      const fileCount = fileSnapshot.docs.length;
+      return { id: folderDoc.id, ...data, fileCount };
     } else {
       console.log('No such folder!');
       return null;
