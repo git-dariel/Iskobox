@@ -40,9 +40,14 @@ const Home = () => {
               isGridView={isGridView}
               toggleView={toggleView}
             />
-            <div className="flex flex-col flex-1 bg-white">
-              {/* File view component here */}
-              <FileView selectedView={selectedView} isGridView={isGridView} />
+            <div className="flex">
+              <div className="flex flex-col flex-1 bg-white w-[70%]">
+                {/* File view component here */}
+                <FileView selectedView={selectedView} isGridView={isGridView} />
+              </div>
+              <div className="flex w-[30%] bg-blue-50">
+                eto na space mo dadeh
+              </div>
             </div>
           </div>
         </div>
