@@ -29,7 +29,7 @@ const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, cur
           <div className='flex justify-end gap-2 w-full'>
             <div className='flex rounded-full  items-center justify-end bg-gray-100'>
               <CircleButton title={'Download'} icon={<MdOutlineFileDownload size={18} />} />
-              <CircleButton title={'Share'} icon={<MdDelete size={18} />} />
+              <CircleButton title={'Remove'} icon={<MdDelete size={18} />} />
               <CircleButton
                 title={'Tag an uploader'}
                 icon={<FaUserTag size={17} />}
