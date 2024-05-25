@@ -45,7 +45,7 @@ const [selectedNotification, setSelectedNotification] = useState(null);
           <h1 className="text-m font-bold text-gray-900">Notifications:</h1>
         </div>
         <span className="border-2"></span>
-        <div className="flex gap-2 flex-col w overflow-y-scroll max-h-56 ">
+        <div className="flex gap-2 flex-col  overflow-y-scroll max-h-56" style={{scrollbarWidth: "none"}}>
           {notifications &&
             notifications.map((notification, index) => (
               <div

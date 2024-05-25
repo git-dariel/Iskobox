@@ -10,6 +10,7 @@ import FolderItem from "./folder.item";
 import FileView from "./file.view";
 import { useUpdate } from "@/helpers/update.context";
 import { bouncy } from "ldrs";
+import CommentForm from "../comment/commentform";
 
 const FolderOpen = () => {
   const [selectedView, setSelectedView] = useState(
@@ -91,44 +92,50 @@ const FolderOpen = () => {
               currentFolderId={currentFolderId}
               setFolders={setFolderContents}
             />
-            {isLoading ? (
-              <div className="flex flex-col flex-1 items-center justify-center">
-                <l-bouncy size={40} color="black"></l-bouncy>
-              </div>
-            ) : (
-              <div>
-                {folderContents.length === 0 && selectedView === "folders" ? (
+            <div className="flex h-full overflow-hidden">
+              <div className="flex flex-col w-[70%] bg-white">
+                {isLoading ? (
                   <div className="flex flex-col flex-1 items-center justify-center">
-                    This folder is empty.
+                    <l-bouncy size={40} color="black"></l-bouncy>
                   </div>
                 ) : (
-                  <div
-                    className={`${
-                      isGridView
-                        ? "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
-                        : " "
-                    } `}
-                  >
-                    {folderContents.map((folder) => (
-                      <FolderItem
-                        key={folder.id}
-                        folder={folder}
-                        isGridView={isGridView}
-                        onDoubleClick={handleFolderDoubleClick}
-                        usagePercentage={folder.usagePercentage}
-                      />
-                    ))}
+                  <div>
+                    {folderContents.length === 0 &&
+                    selectedView === "folders" ? (
+                      <div className="flex flex-col flex-1 items-center justify-center">
+                        This folder is empty.
+                      </div>
+                    ) : (
+                      <div
+                        className={`${
+                          isGridView
+                            ? "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
+                            : " "
+                        } `}
+                      >
+                        {folderContents.map((folder) => (
+                          <FolderItem
+                            key={folder.id}
+                            folder={folder}
+                            isGridView={isGridView}
+                            onDoubleClick={handleFolderDoubleClick}
+                            usagePercentage={folder.usagePercentage}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
+                {selectedView === "files" && (
+                  <FileView
+                    currentFolderId={currentFolderId}
+                    isGridView={isGridView}
+                    selectedView={selectedView}
+                  />
+                )}
               </div>
-            )}
-            {selectedView === "files" && (
-              <FileView
-                currentFolderId={currentFolderId}
-                isGridView={isGridView}
-                selectedView={selectedView}
-              />
-            )}
+              <div className="w-[30%]"><CommentForm/></div>
+            </div>
           </div>
         </div>
       </div>
