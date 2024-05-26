@@ -10,22 +10,27 @@ const NewFolderForm = ({ onClose, onCreate, parentId = null }) => {
   const [dueDate, setDueDate] = useState('');
   const [uploadLimit, setUploadLimit] = useState(0);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!folderName || !dueDate || !uploadLimit) {
       return toast.error('Please fill all fields');
     }
     if (onCreate) {
-      onCreate({
-        name: folderName,
-        dueDate: dueDate,
-        uploadLimit: parseInt(uploadLimit, 10),
-        parentId: parentId,
-      });
+      try {
+        await onCreate({
+          name: folderName,
+          dueDate: dueDate,
+          uploadLimit: parseInt(uploadLimit, 10),
+          parentId: parentId,
+        });
+        onClose();
+      } catch (error) {
+        toast.error(error.message);
+      }
     } else {
       console.error('onCreate function is not defined');
+      toast.error('Creation function not available');
     }
-    onClose();
   };
 
   useEffect(() => {

@@ -34,7 +34,7 @@ const CommentButton = () => {
         setCommentText('');
         setFolderName('');
         setShowModal(false);
-        toast.success('Notes Creater successfully');
+        toast.success('Notes Create successfully');
         triggerUpdate();
       })
       .catch((error) => {
