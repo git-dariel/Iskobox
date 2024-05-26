@@ -26,7 +26,7 @@ const SideMenu = () => {
       <div className="flex flex-col flex-1 relative">
         <nav
           className="flex-1 py-4 bg-[#f8fafd] overflow-y-auto"
-          style={{ maxHeight: "92vh", scrollbarWidth: "thin" }}
+          style={{ maxHeight: "100vh", scrollbarWidth: "thin" }}
         >
           {/* Pinned Folders */}
           <div>

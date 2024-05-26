@@ -2,32 +2,17 @@ import SideMenu from "@/components/layout/side-menu";
 import TopNavigation from "@/components/layout/top-nav";
 import React from "react";
 import DashboardContent from "./admin/dashboard.content";
-import FolderPage from "./admin/folder-page";
 
 function Dashboard() {
   return (
-    // <div className="flex h-full bg-[#f8fafd]">
-    //   <SideMenu />
-    //   <div className="flex flex-col flex-1 ">
-    //     <TopNavigation />
-    //     <div className="flex flex-col flex-1">
-    //       {/* Main Content */}
-    //       <DashboardContent />
-    //     </div>
-    //   </div>
-    // </div>
-
-    <div className="flex h-screen mx-1 bg-[#f8fafd]">
+    <div className="flex w-full h-screen">
       <SideMenu />
-      <div className="flex flex-col flex-1 ">
+      <div className="flex h-full w-full flex-col">
         <TopNavigation />
-        <div className="flex flex-col flex-1">
+        <div className="flex h-full w-full flex-col">
           {/* Main Content */}
-          <div
-            className="flex flex-col flex-1"
-            style={{ scrollbarWidth: "thin" }}
-          >
-            <div className="flex flex-col flex-1 bg-white">
+          <div className="flex h-full w-full flex-col bg-gray-400">
+            <div className="flex w-full h-screen flex-1 bg-white">
               <DashboardContent />
             </div>
           </div>
