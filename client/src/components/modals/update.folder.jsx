@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { IoClose } from 'react-icons/io5';
+import CircleButton from '../common/buttons/reusable/circle.button';
 import OvalButton from '../common/buttons/reusable/oval.button';
 import { handleUpdateFolder } from '../../services/folders/folder.service';
+import { useUpdate } from '@/helpers/update.context';
 import { Toaster, toast } from 'sonner';
 
 const UpdateFolderForm = ({ onClose, folderDetails }) => {
@@ -8,6 +11,7 @@ const UpdateFolderForm = ({ onClose, folderDetails }) => {
   const [folderName, setFolderName] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [uploadLimit, setUploadLimit] = useState(0);
+  const { triggerUpdate } = useUpdate();
 
   useEffect(() => {
     if (folderDetails) {
@@ -26,8 +30,8 @@ const UpdateFolderForm = ({ onClose, folderDetails }) => {
         uploadLimit: parseInt(uploadLimit, 10),
       });
       toast.success('Folder updated successfully');
+      triggerUpdate();
       onClose();
-      window.location.reload();
     } catch (error) {
       console.error('Error updating folder:', error);
       toast.error(`Error: ${error.message}`);
@@ -42,6 +46,10 @@ const UpdateFolderForm = ({ onClose, folderDetails }) => {
     if (uploadLimit > 0) {
       setUploadLimit(uploadLimit - 1);
     }
+  };
+
+  const handleCloseModal = () => {
+    onClose();
   };
 
   const handleClickOutside = (event) => {
@@ -65,8 +73,8 @@ const UpdateFolderForm = ({ onClose, folderDetails }) => {
         className='bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden'
       >
         <div className='flex justify-between px-4 py-5 border-b border-gray-200 sm:px-6'>
-          <h3 className='text-lg font-medium leading-6 text-gray-900'>Edit Folder</h3>
-          {/* <CircleButton title={'Close modal'} icon={<IoClose />} onClick={handleCloseModal} /> */}
+          <h3 className='text-lg text-gray-60'>Edit Folder</h3>
+          <CircleButton title={'Close modal'} icon={<IoClose />} onClick={handleCloseModal} />
         </div>
 
         <form onSubmit={handleSubmit} className='px-4 py-5 space-y-6 sm:p-6'>
@@ -155,7 +163,7 @@ const UpdateFolderForm = ({ onClose, folderDetails }) => {
             </div>
           </div>
           <div className='flex justify-end'>
-            <OvalButton text={'Update'} onClick={handleSubmit}/>
+            <OvalButton text={'Update'} onClick={handleSubmit} />
           </div>
         </form>
       </div>

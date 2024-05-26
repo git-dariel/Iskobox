@@ -18,7 +18,7 @@ const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, cur
     <div className='bg-white max-w-full rounded-t-xl '>
       <div className=' mx-auto p-4'>
         <div className='flex'>
-          <h1 className='text-xl text-gray-800 pl-3 pr-1'>Sharehub</h1>
+          <h1 className='text-xl text-gray-800 pl-3 pr-1'>Iskobox</h1>
           {/* <FileCrumbs /> */}
           <AddNewButton parentId={currentFolderId} />
         </div>

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaFolder } from "react-icons/fa";
-import { TbFolders, TbFolderSymlink } from "react-icons/tb";
-import { GoPin } from "react-icons/go";
-import { ChevronUp } from "lucide-react";
-import { folders } from "@/test/mocked-data/folder.data";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaFolder } from 'react-icons/fa';
+import { TbFolders, TbFolderSymlink } from 'react-icons/tb';
+import { GoPin } from 'react-icons/go';
+import { ChevronUp } from 'lucide-react';
+import { folders } from '@/test/mocked-data/folder.data';
 
 const SideMenu = () => {
   // State to track the open/close status of sections
@@ -17,30 +17,28 @@ const SideMenu = () => {
   const recentFolders = folders.filter((folder) => folder.recent);
 
   return (
-    <div className="hidden md:flex flex-col min-w-64 ">
-      <div className="flex items-center justify-center h-16 bg-[#f8fafd]">
-        <span className="mx-5 w-full font-semibold text-xl text-gray-800">
-          ShareHub
-        </span>
+    <div className='hidden md:flex flex-col min-w-64 '>
+      <div className='flex items-center justify-center h-16 bg-[#f8fafd]'>
+        <span className='mx-5 w-full mt-5 font-semibold text-xl text-gray-800'>Iskobox</span>
       </div>
-      <div className="flex flex-col flex-1 relative">
+      <div className='flex flex-col flex-1 relative'>
         <nav
-          className="flex-1 py-4 bg-[#f8fafd] overflow-y-auto"
-          style={{ maxHeight: "100vh", scrollbarWidth: "thin" }}
+          className='flex-1 py-4 bg-[#f8fafd] overflow-y-auto'
+          style={{ maxHeight: '100vh', scrollbarWidth: 'thin' }}
         >
           {/* Pinned Folders */}
           <div>
             <h2
-              className="px-4 py-2 text-gray-800 font-semibold text-sm flex justify-between items-center cursor-pointer border-b"
+              className='px-4 py-2 text-gray-800 font-semibold text-sm flex justify-between items-center cursor-pointer border-b'
               onClick={() => setPinnedOpen(!pinnedOpen)}
             >
-              <span className="flex items-center">
-                <GoPin className="h-4 w-4 mr-2" /> Pinned
-              </span>{" "}
+              <span className='flex items-center'>
+                <GoPin className='h-4 w-4 mr-2' /> Pinned
+              </span>{' '}
               {pinnedOpen ? (
-                <ChevronUp className="h-4 w-4" />
+                <ChevronUp className='h-4 w-4' />
               ) : (
-                <ChevronUp className="h-4 w-4 transform rotate-180 transition-all duration-100 ease-in-out" />
+                <ChevronUp className='h-4 w-4 transform rotate-180 transition-all duration-100 ease-in-out' />
               )}
             </h2>
             {pinnedOpen &&
@@ -48,9 +46,9 @@ const SideMenu = () => {
                 <Link
                   key={folder.id}
                   to={`/folder/${folder.id}`}
-                  className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200"
+                  className='flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200'
                 >
-                  <FaFolder className="h-4 w-4 mr-2" />
+                  <FaFolder className='h-4 w-4 mr-2' />
                   {folder.name}
                 </Link>
               ))}
@@ -58,16 +56,16 @@ const SideMenu = () => {
           {/* Recent Folders */}
           <div>
             <h2
-              className="px-4 py-2 text-gray-800 font-semibold text-sm flex justify-between items-center cursor-pointer border-b"
+              className='px-4 py-2 text-gray-800 font-semibold text-sm flex justify-between items-center cursor-pointer border-b'
               onClick={() => setRecentOpen(!recentOpen)}
             >
-              <span className="flex items-center">
-                <TbFolderSymlink className="h-4 w-4 mr-2" /> Recents
-              </span>{" "}
+              <span className='flex items-center'>
+                <TbFolderSymlink className='h-4 w-4 mr-2' /> Recents
+              </span>{' '}
               {recentOpen ? (
-                <ChevronUp className="h-4 w-4" />
+                <ChevronUp className='h-4 w-4' />
               ) : (
-                <ChevronUp className="h-4 w-4 transform rotate-180 transition-all duration-100 ease-in-out" />
+                <ChevronUp className='h-4 w-4 transform rotate-180 transition-all duration-100 ease-in-out' />
               )}
             </h2>
             {recentOpen &&
@@ -75,9 +73,9 @@ const SideMenu = () => {
                 <Link
                   key={folder.id}
                   to={`/folder/${folder.id}`}
-                  className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200"
+                  className='flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200'
                 >
-                  <FaFolder className="h-4 w-4 mr-2" />
+                  <FaFolder className='h-4 w-4 mr-2' />
                   {folder.name}
                 </Link>
               ))}
@@ -85,16 +83,16 @@ const SideMenu = () => {
           {/* All Folders */}
           <div>
             <h2
-              className="px-4 py-2 text-gray-800 font-semibold text-sm flex justify-between items-center cursor-pointer border-b"
+              className='px-4 py-2 text-gray-800 font-semibold text-sm flex justify-between items-center cursor-pointer border-b'
               onClick={() => setAllFoldersOpen(!allFoldersOpen)}
             >
-              <span className="flex items-center">
-                <TbFolders className="h-4 w-4 mr-2" /> All Folders
-              </span>{" "}
+              <span className='flex items-center'>
+                <TbFolders className='h-4 w-4 mr-2' /> All Folders
+              </span>{' '}
               {allFoldersOpen ? (
-                <ChevronUp className="h-4 w-4" />
+                <ChevronUp className='h-4 w-4' />
               ) : (
-                <ChevronUp className="h-4 w-4 transform rotate-180 transition-all duration-100 ease-in-out" />
+                <ChevronUp className='h-4 w-4 transform rotate-180 transition-all duration-100 ease-in-out' />
               )}
             </h2>
             {allFoldersOpen &&
@@ -102,9 +100,9 @@ const SideMenu = () => {
                 <Link
                   key={folder.id}
                   to={`/folder/${folder.id}`}
-                  className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200"
+                  className='flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-gray-200'
                 >
-                  <FaFolder className="h-4 w-4 mr-2" />
+                  <FaFolder className='h-4 w-4 mr-2' />
                   {folder.name}
                 </Link>
               ))}

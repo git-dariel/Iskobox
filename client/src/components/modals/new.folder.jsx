@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import OvalButton from '../common/buttons/reusable/oval.button';
-import { addFolder } from '@/services/folders/folder.service';
+import { IoClose } from 'react-icons/io5';
+import CircleButton from '../common/buttons/reusable/circle.button';
 import { Toaster, toast } from 'sonner';
 
 const NewFolderForm = ({ onClose, onCreate, parentId = null }) => {
@@ -11,6 +12,9 @@ const NewFolderForm = ({ onClose, onCreate, parentId = null }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!folderName || !dueDate || !uploadLimit) {
+      return toast.error('Please fill all fields');
+    }
     if (onCreate) {
       onCreate({
         name: folderName,
@@ -47,6 +51,10 @@ const NewFolderForm = ({ onClose, onCreate, parentId = null }) => {
     }
   };
 
+  const handleCloseModal = () => {
+    onClose();
+  };
+
   return (
     <div className='fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out'>
       <Toaster />
@@ -55,8 +63,8 @@ const NewFolderForm = ({ onClose, onCreate, parentId = null }) => {
         className='bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden'
       >
         <div className='flex justify-between px-4 py-5 border-b border-gray-200 sm:px-6'>
-          <h3 className='text-lg font-medium leading-6 text-gray-900'>Create New Folder</h3>
-          {/* <CircleButton title={'Close modal'} icon={<IoClose />} onClick={handleCloseModal} /> */}
+          <h3 className='text-lg text-gray-60'>Create New Folder</h3>
+          <CircleButton title={'Close modal'} icon={<IoClose />} onClick={handleCloseModal} />
         </div>
 
         <form onSubmit={handleSubmit} className='px-4 py-5 space-y-6 sm:p-6'>
