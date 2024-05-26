@@ -8,15 +8,22 @@ import { useUpdate } from '@/helpers/update.context';
 import { bouncy } from 'ldrs';
 import { MdDelete } from 'react-icons/md';
 import { FaUserAlt, FaFileAlt } from 'react-icons/fa';
+import { FiEdit } from "react-icons/fi";
+import UpdateFolderForm from '../modals/update.folder';
 
-const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
+const FolderItem = ({ folder, onDoubleClick, isGridView, currentFolderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const { triggerUpdate } = useUpdate();
   const [loading, setLoading] = useState(false);
   bouncy.register();
 
   const handleDoubleClick = () => {
     onDoubleClick(folder.id);
+  };
+
+  const toggleModal = () => {
+    setIsModalOpenEdit(!isModalOpenEdit);
   };
 
   const handleDelete = async () => {
@@ -74,11 +81,13 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
                 <FaFileAlt size={16} />
                 <span>{displayLimit}</span>
               </div>
+              <CircleButton title={'Edit'} icon={<FiEdit size={20} />} onClick={toggleModal} />
               <CircleButton title={'Remove'} icon={<MdDelete size={20} />} onClick={openModal} />
             </div>
           )}
           {isGridView && (
             <div className='ml-auto'>
+              <CircleButton title={'Edit'} icon={<FiEdit size={20} />} onClick={toggleModal} />
               <CircleButton title={'Remove'} icon={<MdDelete size={20} />} onClick={openModal} />
             </div>
           )}
@@ -114,6 +123,17 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
             )}
           </div>
         </div>
+      )}
+      {isModalOpenEdit && (
+        <UpdateFolderForm 
+          onClose={toggleModal} 
+          folderDetails={{
+            id: folder.id,
+            name: folder.name,
+            dueDate: folder.dueDate,
+            uploadLimit: folder.uploadLimit,
+          }}
+        />
       )}
     </>
   );
