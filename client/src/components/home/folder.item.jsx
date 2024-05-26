@@ -8,10 +8,10 @@ import { useUpdate } from '@/helpers/update.context';
 import { bouncy } from 'ldrs';
 import { MdDelete } from 'react-icons/md';
 import { FaUserAlt, FaFileAlt } from 'react-icons/fa';
-import { FiEdit } from "react-icons/fi";
+import { FiEdit } from 'react-icons/fi';
 import UpdateFolderForm from '../modals/update.folder';
 
-const FolderItem = ({ folder, onDoubleClick, isGridView, currentFolderId }) => {
+const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const { triggerUpdate } = useUpdate();
@@ -125,8 +125,8 @@ const FolderItem = ({ folder, onDoubleClick, isGridView, currentFolderId }) => {
         </div>
       )}
       {isModalOpenEdit && (
-        <UpdateFolderForm 
-          onClose={toggleModal} 
+        <UpdateFolderForm
+          onClose={toggleModal}
           folderDetails={{
             id: folder.id,
             name: folder.name,

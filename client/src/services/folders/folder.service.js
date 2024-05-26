@@ -8,13 +8,13 @@ import {
   updateDoc,
   where,
   query,
+  serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
 
 // Fetch folders with file counts
 export const fetchFolders = async (parentId = null) => {
   try {
-    console.log('Fetching folders for parentId:', parentId);
     let folderQuery;
     if (parentId === undefined || parentId === null) {
       // Fetch root folders where parentId does not exist or is explicitly null
@@ -25,12 +25,16 @@ export const fetchFolders = async (parentId = null) => {
     }
 
     const folderSnapshot = await getDocs(folderQuery);
-    const folders = folderSnapshot.docs.map((doc) => ({
+    let folders = folderSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
+      createdAt: doc.data().createdAt.toDate(),
       subfolders: [],
       fileCount: 0, // Initialize file count
     }));
+
+    // Sort folders by createdAt from oldest to newest
+    folders = folders.sort((a, b) => a.createdAt - b.createdAt);
 
     // Fetch all files and count them per folder
     const fileQuery = query(collection(db, 'files'));
@@ -63,6 +67,7 @@ export const addFolder = async (folderData) => {
     const folderPayload = {
       ...folderData,
       uploadLimit: folderData.uploadLimit || 10, // default upload limit if not specified
+      createdAt: serverTimestamp(),
     };
     if (folderData.parentId === undefined) {
       delete folderPayload.parentId; // Remove parentId from payload if it's undefined
@@ -115,7 +120,6 @@ export const handleUpdateFolder = async (folderId, updatedDetails) => {
     throw error;
   }
 };
-
 
 // Fetch folder details
 export const fetchFolderDetails = async (folderId) => {

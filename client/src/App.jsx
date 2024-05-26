@@ -11,66 +11,69 @@ import Workspace from './pages/workspace';
 import FolderOpen from './components/home/folder.open';
 import FolderPage from './pages/admin/folder-page';
 import { UpdateProvider } from './helpers/update.context';
+import { CommentUpdateProvider } from './helpers/comment.context';
 
 function App() {
   return (
     <AuthProvider>
       <UpdateProvider>
-        <Routes>
-          <Route path='/' element={<SignIn />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/folder-page' element={<FolderPage />} />
-          <Route
-            path='/dashboard'
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/home'
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
+        <CommentUpdateProvider>
+          <Routes>
+            <Route path='/' element={<SignIn />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/folder-page' element={<FolderPage />} />
+            <Route
+              path='/dashboard'
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/home'
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path='/workspace'
-            element={
-              <ProtectedRoute>
-                <Workspace />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/profile'
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/settings'
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path='/ticket'
+              element={
+                <ProtectedRoute>
+                  <Workspace />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/profile'
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/settings'
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path='/folders/:folderId'
-            element={
-              <ProtectedRoute>
-                <FolderOpen />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+            <Route
+              path='/folders/:folderId'
+              element={
+                <ProtectedRoute>
+                  <FolderOpen />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </CommentUpdateProvider>
       </UpdateProvider>
     </AuthProvider>
   );
