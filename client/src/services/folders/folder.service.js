@@ -104,16 +104,18 @@ export const deleteFolder = async (folderId) => {
   }
 };
 
-// Update folder name
-export const updateFolderName = async (folderId, newName) => {
+// Update folder details
+export const handleUpdateFolder = async (folderId, updatedDetails) => {
   try {
     const folderRef = doc(db, 'folders', folderId);
-    await updateDoc(folderRef, { name: newName });
+    await updateDoc(folderRef, updatedDetails);
+    return { success: true };
   } catch (error) {
-    console.error('Error updating folder name:', error);
+    console.error('Error updating folder:', error);
     throw error;
   }
 };
+
 
 // Fetch folder details
 export const fetchFolderDetails = async (folderId) => {

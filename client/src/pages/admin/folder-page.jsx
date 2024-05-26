@@ -12,7 +12,7 @@ import {
   deleteFolder,
   fetchFolderDetails,
   fetchFolders,
-  updateFolderName,
+  // updateFolderName,
 } from "@/services/folders/folder.service";
 import "chart.js/auto";
 import { collection, getDocs } from "firebase/firestore";

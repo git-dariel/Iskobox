@@ -175,9 +175,9 @@ const FolderTagModal = ({ folderId, onClose }) => {
             </div>
 
             {/* Render added people */}
-            <div key={index}>
+            <div >
               {people.map((person, index) => (
-                <div>
+                <div key={index}>
                   <p className="text-gray-400 text-sm my-2">Added people</p>
                   <div className="flex items-center justify-between bg-gray-50 border-gray-200 p-2 rounded-full my-1">
                     <span className="text-gray-800 mx-2">{person.name}</span>
