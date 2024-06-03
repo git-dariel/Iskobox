@@ -1,5 +1,5 @@
 import { useAuth } from '@/helpers/auth.context';
-import { loginUser } from '@/services/users/user-service';
+import { loginUser } from '@/services/users/user.service';
 import React, { useEffect, useState } from 'react';
 import { Toaster, toast } from 'sonner';
 import validator from 'validator';

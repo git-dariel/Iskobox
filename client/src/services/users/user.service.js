@@ -1,5 +1,5 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, setDoc, collection, query, where, getDocs, getDoc } from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
 
 // fetch all users
@@ -15,7 +15,7 @@ export async function fetchAllUsers() {
 }
 
 // register a user
-export async function registerUser(email, password, firstname, lastname) {
+export async function registerUser(email, password, firstname, lastname, role) {
   try {
     const auth = getAuth();
     const usersRef = collection(db, 'users');
@@ -33,6 +33,7 @@ export async function registerUser(email, password, firstname, lastname) {
       firstname,
       lastname,
       email,
+      role,
     });
 
     return true;
@@ -47,7 +48,19 @@ export async function loginUser(email, password) {
   try {
     const auth = getAuth();
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
+    const userRef = doc(db, 'users', userCredential.user.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      throw new Error('User not found');
+    }
+
+    const userData = userDoc.data();
+    return {
+      uid: userCredential.user.uid,
+      email: userCredential.user.email,
+      role: userData.role,
+    };
   } catch (error) {
     console.error(error);
     throw error;
