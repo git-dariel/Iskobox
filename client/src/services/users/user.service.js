@@ -22,6 +22,8 @@ export async function registerUser(email, password, firstname, lastname, role) {
     const q = query(usersRef, where('email', '==', email));
     const querySnapshot = await getDocs(q);
 
+    role = role || 'Faculty';
+
     if (!querySnapshot.empty) {
       console.log('User already exists!');
       return false;
@@ -52,17 +54,17 @@ export async function loginUser(email, password) {
     const userDoc = await getDoc(userRef);
 
     if (!userDoc.exists()) {
-      throw new Error('User not found');
+      throw new Error('User not found in the database');
     }
 
     const userData = userDoc.data();
-    return {
-      uid: userCredential.user.uid,
-      email: userCredential.user.email,
-      role: userData.role,
-    };
+    if (!userData.role) {
+      throw new Error('User role is not defined in the database');
+    }
+
+    return userData;
   } catch (error) {
-    console.error(error);
+    console.error('Login error:', error);
     throw error;
   }
 }
