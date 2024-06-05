@@ -12,6 +12,7 @@ import FolderOpen from './components/home/folder.open';
 import FolderPage from './pages/admin/folder-page';
 import { UpdateProvider } from './helpers/update.context';
 import { CommentUpdateProvider } from './helpers/comment.context';
+import LandingPage from './pages/users/landing-page';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path='/' element={<SignIn />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/folder-page' element={<FolderPage />} />
+            <Route path='/landingpage' element={<LandingPage />} />
             <Route
               path='/dashboard'
               element={
@@ -38,6 +40,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
 
             <Route
               path='/ticket'

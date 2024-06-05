@@ -21,7 +21,7 @@ const CommentForm = () => {
             </div>
           
         </div>
-        <div className="overflow-y-scroll max-h-[400px]" style={{scrollbarWidth: "none"}}>
+        <div className="overflow-y-scroll max-h-[400px] " style={{scrollbarWidth: "none"}} >
           <CommentList />
         </div>
       </div>

@@ -68,15 +68,15 @@ const CommentList = () => {
   };
 
   return (
-    <div className='bg-white rounded-md max-w-sm lg:max-w-xl  overflow-hidden px-4 py-5'>
-      <div className='w-[400px]'>
+    <div className='bg-white rounded-md  lg:max-w-xl  overflow-hidden px-4 py-5 '>
+      <div className='w-[300px] '>
         {comments.map((comment, index) => (
           <div
-            key={index}
-            className='bg-gray-100 p-2 rounded mb-2'
+            key={index} 
+            className='bg-gray-100 p-2 rounded m-2   hover:shadow-md cursor-pointer'
             onClick={() => handleCommentClick(comment)}
           >
-            <div>
+            <div className=''>
               <div>
                 <h2>• {comment.folder}</h2>
               </div>
@@ -88,13 +88,13 @@ const CommentList = () => {
         ))}
       </div>
       {showModal && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 '>
           <div className='bg-white p-6 rounded-lg shadow-lg'>
             <div className='flex justify-between w-[300px] items-center border-b pb-2'>
               <div className='text-lg font-medium leading-6 text-gray-900'>
                 <h1 className='pl-2'>Notes</h1>
               </div>
-              <div className='text-xl leading-6 text-gray-900 font-extrabold flex gap-2 pr-2'>
+              <div className='text-xl leading-6 text-gray-900 font-extrabold flex gap-2 pr-2 '>
                 <button onClick={openDeleteModal}>
                   <MdDelete />
                 </button>
@@ -133,7 +133,7 @@ const CommentList = () => {
             ) : (
               <>
                 <p className='mb-4'>Are you sure you want to delete the comment?</p>
-                <div className='flex justify-end space-x-4'>
+                <div className='flex justify-end space-x-4 '>
                   <button
                     onClick={closeDeleteModal}
                     className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
