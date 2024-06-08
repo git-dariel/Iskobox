@@ -5,15 +5,12 @@ import { Toaster, toast } from 'sonner';
 import CircleButton from '../common/buttons/reusable/circle.button';
 import { MdDelete, MdDownload } from 'react-icons/md';
 import { useUpdate } from '@/helpers/update.context';
-import { bouncy } from 'ldrs';
 
 const FileItem = ({ file, isGridView }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { triggerUpdate } = useUpdate();
-  bouncy.register();
 
   useEffect(() => {
     if (isModalOpen) {
@@ -26,19 +23,22 @@ const FileItem = ({ file, isGridView }) => {
   }, [isModalOpen, file.id]);
 
   const handleDelete = async () => {
-    setLoading(true);
-    try {
-      await deleteFile(file.id);
-      toast.success('File deleted successfully');
-      triggerUpdate();
-    } catch (error) {
-      console.error('Error deleting file:', error);
-      toast.error('Failed to delete file. Please try again.');
-    } finally {
-      setLoading(false);
-      setIsModalOpen(false);
-      setIsDeleteModalOpen(false);
-    }
+    toast.promise(deleteFile(file.id), {
+      loading: 'Deleting file...',
+      success: () => {
+        toast.success('File deleted successfully');
+        triggerUpdate();
+        setIsModalOpen(false);
+        setIsDeleteModalOpen(false);
+        return 'File deleted successfully';
+      },
+      error: (err) => {
+        console.error('Error deleting file:', err);
+        setIsModalOpen(false);
+        setIsDeleteModalOpen(false);
+        return `Failed to delete file. Please try again. ${err.message}`;
+      },
+    });
   };
 
   const handleDownload = async () => {
@@ -99,7 +99,7 @@ const FileItem = ({ file, isGridView }) => {
 
   return (
     <>
-      <Toaster />
+      <Toaster richColors />
       <div
         className={`${
           isGridView ? 'flex-col m-2 p-2 border' : 'w-full border-y'
@@ -139,33 +139,25 @@ const FileItem = ({ file, isGridView }) => {
                 setIsModalOpen(false);
                 setPreviewUrl(null);
               }}
-              className='absolute top-4 right-4 text-lg p-2 bg-gray-200 rounded-full hover:bg-gray-300  transition-colors hover:text-red-500'
+              className='absolute top-4 right-4 text-lg p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors hover:text-red-500'
             >
               ✖
             </button>
-            {loading ? (
-              <div className='flex justify-center items-center'>
-                <l-bouncy size='40' color='black'></l-bouncy>
-              </div>
-            ) : (
-              <>
-                {renderFileContent()}
-                <div className='flex justify-center mt-4 space-x-4'>
-                  <button
-                    onClick={handleOpenInNewTab}
-                    className='px-4 py-2 bg-slate-700 text-white rounded hover:bg-slate-800'
-                  >
-                    Open in New Tab
-                  </button>
-                  <button
-                    onClick={handleDownload}
-                    className='px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600'
-                  >
-                    Download
-                  </button>
-                </div>
-              </>
-            )}
+            {renderFileContent()}
+            <div className='flex justify-center mt-4 space-x-4'>
+              <button
+                onClick={handleOpenInNewTab}
+                className='px-4 py-2 bg-slate-700 text-white rounded hover:bg-slate-800'
+              >
+                Open in New Tab
+              </button>
+              <button
+                onClick={handleDownload}
+                className='px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600'
+              >
+                Download
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -174,29 +166,21 @@ const FileItem = ({ file, isGridView }) => {
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
           <div className='bg-gray-300 p-8 rounded-lg shadow-2xl'>
             <h2 className='text-xl font-semibold mb-6'>Delete File</h2>
-            {loading ? (
-              <div className='flex justify-center items-center'>
-                <l-bouncy size='40' color='black'></l-bouncy>
-              </div>
-            ) : (
-              <>
-                <p className='mb-4'>Are you sure you want to delete the file "{file.name}"?</p>
-                <div className='flex justify-end space-x-4'>
-                  <button
-                    onClick={closeDeleteModal}
-                    className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
-                  >
-                    No
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    className='px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors'
-                  >
-                    Yes
-                  </button>
-                </div>
-              </>
-            )}
+            <p className='mb-4'>Are you sure you want to delete the file "{file.name}"?</p>
+            <div className='flex justify-end space-x-4'>
+              <button
+                onClick={closeDeleteModal}
+                className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
+              >
+                No
+              </button>
+              <button
+                onClick={handleDelete}
+                className='px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors'
+              >
+                Yes
+              </button>
+            </div>
           </div>
         </div>
       )}

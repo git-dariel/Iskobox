@@ -7,17 +7,17 @@ import Image from '../../assets/shareehub.png';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
+  const { currentUser } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(currentUser?.role || '');
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
 
   useEffect(() => {
     if (currentUser && currentUser.role === role) {
       navigate('/home');
     }
-  }, [currentUser, navigate, role]);
+  }, [currentUser, navigate]);
 
   const handleSignIn = async () => {
     if (!email || !password || !role) {
@@ -142,9 +142,11 @@ export default function SignIn() {
 
       <div className='fixed bottom-7 md:bottom-36 md:ml-[62rem] text-right'>
         <div className='flex flex-row'>
-          <p className='md:text-xs hover:px-2 hover:py-2 text-xs hover:bg-slate-200 rounded-md hover:md:px-4 hover:rounded-lg md:p-2 transition-all duration-300 cursor-pointer mx-2'>
-            Visit accreditor portal
-          </p>
+          <Link to='/landingpage'>
+            <p className='md:text-xs hover:px-2 hover:py-2 text-xs hover:bg-slate-200 rounded-md hover:md:px-4 hover:rounded-lg md:p-2 transition-all duration-300 cursor-pointer mx-2'>
+              Visit accreditor portal
+            </p>
+          </Link>
         </div>
       </div>
     </div>

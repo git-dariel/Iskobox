@@ -9,6 +9,7 @@ import {
   where,
   query,
   serverTimestamp,
+  arrayUnion,
 } from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
 
@@ -30,29 +31,10 @@ export const fetchFolders = async (parentId = null) => {
       ...doc.data(),
       createdAt: doc.data().createdAt.toDate(),
       subfolders: [],
-      fileCount: 0, // Initialize file count
     }));
 
     // Sort folders by createdAt from oldest to newest
     folders = folders.sort((a, b) => a.createdAt - b.createdAt);
-
-    // Fetch all files and count them per folder
-    const fileQuery = query(collection(db, 'files'));
-    const fileSnapshot = await getDocs(fileQuery);
-    const fileCounts = {};
-    fileSnapshot.forEach((file) => {
-      const folderId = file.data().folderId;
-      if (folderId in fileCounts) {
-        fileCounts[folderId]++;
-      } else {
-        fileCounts[folderId] = 1;
-      }
-    });
-
-    // Assign file counts to folders
-    folders.forEach((folder) => {
-      folder.fileCount = fileCounts[folder.id] || 0;
-    });
 
     return folders;
   } catch (error) {
@@ -60,6 +42,7 @@ export const fetchFolders = async (parentId = null) => {
     throw error;
   }
 };
+
 // Add folder with upload limit
 export const addFolder = async (folderData) => {
   try {
@@ -71,22 +54,20 @@ export const addFolder = async (folderData) => {
     // Check if parentId is undefined and exclude it if so
     const folderPayload = {
       ...folderData,
-      uploadLimit: folderData.uploadLimit || 10, // default upload limit if not specified
       createdAt: serverTimestamp(),
     };
     if (folderData.parentId === undefined) {
-      delete folderPayload.parentId; // Remove parentId from payload if it's undefined
+      delete folderPayload.parentId;
     }
 
     const docRef = await addDoc(collection(db, 'folders'), folderPayload);
-    return { id: docRef.id, ...folderPayload, subfolders: [], fileCount: 0 };
+    return { id: docRef.id, ...folderPayload, subfolders: [] };
   } catch (error) {
     console.error('Error adding folder:', error);
     throw error;
   }
 };
 
-// Delete folder
 // Recursive delete for folders and their contents
 export const deleteFolder = async (folderId) => {
   try {
@@ -141,7 +122,7 @@ export const fetchFolderDetails = async (folderId) => {
     const folderDoc = await getDoc(folderDocRef);
     if (folderDoc.exists()) {
       const data = folderDoc.data();
-      console.log('Folder Details:', data); // Log folder details
+      console.log('Folder Details:', data);
       return { id: folderDoc.id, ...data };
     } else {
       console.log('No such folder!');
@@ -161,11 +142,7 @@ export const fetchFolderDetailsWithUploadLimit = async (folderId) => {
     if (folderDoc.exists()) {
       const data = folderDoc.data();
       console.log('Folder Details:', data);
-      // Fetch file count for the folder
-      const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
-      const fileSnapshot = await getDocs(fileQuery);
-      const fileCount = fileSnapshot.docs.length;
-      return { id: folderDoc.id, ...data, fileCount };
+      return { id: folderDoc.id, ...data };
     } else {
       console.log('No such folder!');
       return null;
@@ -178,12 +155,79 @@ export const fetchFolderDetailsWithUploadLimit = async (folderId) => {
 
 export const processFolder = (folder) => {
   // Dummy calculation for usage percentage
-  const totalFiles = folder.fileCount || 0; // Assume fileCount is available
-  const maxFileCount = 100; // Example max count
+  const totalFiles = folder.fileCount || 0;
+  const maxFileCount = 100;
   const usagePercentage = (totalFiles / maxFileCount) * 100;
 
   return {
     ...folder,
-    usagePercentage: Math.min(usagePercentage, 100), // Cap at 100%
+    usagePercentage: Math.min(usagePercentage, 100),
   };
+};
+
+// Add an assignee to a folder
+export const addAssigneeToFolder = async (folderId, assigneeData) => {
+  try {
+    const folderRef = doc(db, 'folders', folderId);
+    await updateDoc(folderRef, {
+      assignees: arrayUnion(assigneeData),
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Error adding assignee to folder:', error);
+    throw error;
+  }
+};
+
+// Fetch folders assigned to a specific user
+export const fetchFoldersForUser = async (userId) => {
+  try {
+    const folderQuery = query(collection(db, 'folders'));
+    const folderSnapshot = await getDocs(folderQuery);
+    const folders = folderSnapshot.docs.map((doc) => {
+      const folderData = doc.data();
+      const createdAt = folderData.createdAt
+        ? new Date(folderData.createdAt.seconds * 1000)
+        : new Date();
+      return {
+        id: doc.id,
+        ...folderData,
+        createdAt: createdAt,
+      };
+    });
+
+    // Filter folders where assignees contain the userId
+    const filteredFolders = folders.filter(
+      (folder) =>
+        folder.assignees && folder.assignees.some((assignee) => assignee.userId === userId)
+    );
+
+    console.log('Folders fetched for user:', filteredFolders);
+
+    // Fetch files for these folders
+    const files = [];
+    for (const folder of filteredFolders) {
+      const fileQuery = query(collection(db, 'files'), where('folderId', '==', folder.id));
+      const fileSnapshot = await getDocs(fileQuery);
+      const folderFiles = fileSnapshot.docs.map((doc) => {
+        const fileData = doc.data();
+        const fileCreatedAt = fileData.createdAt
+          ? new Date(fileData.createdAt.seconds * 1000)
+          : new Date();
+        return {
+          id: doc.id,
+          ...fileData,
+          createdAt: fileCreatedAt,
+        };
+      });
+      files.push(...folderFiles);
+    }
+
+    return { folders: filteredFolders, files };
+
+    return { folders: filteredFolders };
+  } catch (error) {
+    console.error('Error fetching folders for user:', error);
+    throw error;
+  }
 };

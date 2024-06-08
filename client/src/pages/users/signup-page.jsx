@@ -145,9 +145,11 @@ const SignUp = () => {
 
       <div className='fixed bottom-7 md:bottom-36 md:ml-[62rem] text-right'>
         <div className='flex flex-row'>
-          <p className='md:text-xs hover:px-2 hover:py-2 text-xs hover:bg-slate-200 rounded-md hover:md:px-4 hover:rounded-lg md:p-2 transition-all duration-300 cursor-pointer mx-2'>
-            Visit accreditor portal
-          </p>
+          <Link to='/landingpage'>
+            <p className='md:text-xs hover:px-2 hover:py-2 text-xs hover:bg-slate-200 rounded-md hover:md:px-4 hover:rounded-lg md:p-2 transition-all duration-300 cursor-pointer mx-2'>
+              Visit accreditor portal
+            </p>
+          </Link>
         </div>
       </div>
     </div>
