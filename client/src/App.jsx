@@ -1,18 +1,19 @@
-import { Route, Routes } from 'react-router-dom';
-import { AuthProvider } from './helpers/auth.context';
-import ProtectedRoute from './helpers/protected-routes';
-import Dashboard from './pages/dashboard';
-import Home from './pages/home';
-import Profile from './pages/profile';
-import Settings from './pages/settings';
-import SignIn from './pages/users/signin-page';
-import SignUp from './pages/users/signup-page';
-import Workspace from './pages/workspace';
-import FolderOpen from './components/home/folder.open';
-import FolderPage from './pages/admin/folder-page';
-import { UpdateProvider } from './helpers/update.context';
-import { CommentUpdateProvider } from './helpers/comment.context';
-import LandingPage from './pages/users/landing-page';
+import { Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./helpers/auth.context";
+import ProtectedRoute from "./helpers/protected-routes";
+import Dashboard from "./pages/dashboard";
+import Home from "./pages/home";
+import Profile from "./pages/profile";
+import Settings from "./pages/settings";
+import SignIn from "./pages/users/signin-page";
+import SignUp from "./pages/users/signup-page";
+import Workspace from "./pages/workspace";
+import FolderOpen from "./components/home/folder.open";
+import FolderPage from "./pages/admin/folder-page";
+import { UpdateProvider } from "./helpers/update.context";
+import { CommentUpdateProvider } from "./helpers/comment.context";
+import LandingPage from "./pages/users/landing-page";
+import ExhibitPage from "./pages/accreditors/accreditor.pages/exhibit.page";
 
 function App() {
   return (
@@ -20,12 +21,13 @@ function App() {
       <UpdateProvider>
         <CommentUpdateProvider>
           <Routes>
-            <Route path='/' element={<SignIn />} />
-            <Route path='/signup' element={<SignUp />} />
-            <Route path='/folder-page' element={<FolderPage />} />
-            <Route path='/landingpage' element={<LandingPage />} />
+            <Route path="/" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/folder-page" element={<FolderPage />} />
+            <Route path="/landingpage" element={<LandingPage />} />
+            <Route path="/pup-lq-accreditation" element={<ExhibitPage />} />
             <Route
-              path='/dashboard'
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
@@ -33,7 +35,7 @@ function App() {
               }
             />
             <Route
-              path='/home'
+              path="/home"
               element={
                 <ProtectedRoute>
                   <Home />
@@ -41,9 +43,8 @@ function App() {
               }
             />
 
-
             <Route
-              path='/ticket'
+              path="/ticket"
               element={
                 <ProtectedRoute>
                   <Workspace />
@@ -51,7 +52,7 @@ function App() {
               }
             />
             <Route
-              path='/profile'
+              path="/profile"
               element={
                 <ProtectedRoute>
                   <Profile />
@@ -59,7 +60,7 @@ function App() {
               }
             />
             <Route
-              path='/settings'
+              path="/settings"
               element={
                 <ProtectedRoute>
                   <Settings />
@@ -68,7 +69,7 @@ function App() {
             />
 
             <Route
-              path='/folders/:folderId'
+              path="/folders/:folderId"
               element={
                 <ProtectedRoute>
                   <FolderOpen />
