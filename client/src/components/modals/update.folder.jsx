@@ -9,43 +9,30 @@ import { Toaster, toast } from 'sonner';
 const UpdateFolderForm = ({ onClose, folderDetails }) => {
   const modalRef = useRef(null);
   const [folderName, setFolderName] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [uploadLimit, setUploadLimit] = useState(0);
   const { triggerUpdate } = useUpdate();
 
   useEffect(() => {
     if (folderDetails) {
       setFolderName(folderDetails.name);
-      setDueDate(folderDetails.dueDate);
-      setUploadLimit(folderDetails.uploadLimit);
     }
   }, [folderDetails]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
+
+    const updateProcess = async () => {
       await handleUpdateFolder(folderDetails.id, {
         name: folderName,
-        dueDate,
-        uploadLimit: parseInt(uploadLimit, 10),
       });
-      toast.success('Folder updated successfully');
       triggerUpdate();
       onClose();
-    } catch (error) {
-      console.error('Error updating folder:', error);
-      toast.error(`Error: ${error.message}`);
-    }
-  };
+    };
 
-  const incrementUploadLimit = () => {
-    setUploadLimit(uploadLimit + 1);
-  };
-
-  const decrementUploadLimit = () => {
-    if (uploadLimit > 0) {
-      setUploadLimit(uploadLimit - 1);
-    }
+    toast.promise(updateProcess(), {
+      loading: 'Updating folder...',
+      success: 'Folder updated successfully',
+      error: (err) => err.message || 'Error updating folder. Please try again.',
+    });
   };
 
   const handleCloseModal = () => {
@@ -66,8 +53,8 @@ const UpdateFolderForm = ({ onClose, folderDetails }) => {
   }, []);
 
   return (
-    <div className='fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out'>
-      <Toaster />
+    <div className='fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out z-[9999]'>
+      <Toaster richColors />
       <div
         ref={modalRef}
         className='bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden'
@@ -92,76 +79,7 @@ const UpdateFolderForm = ({ onClose, folderDetails }) => {
               Folder name
             </label>
           </div>
-          <div className='grid grid-cols-2 gap-4'>
-            <div className='flex flex-col'>
-              <label htmlFor='dueDate' className='block text-sm font-medium text-gray-700'>
-                Due Date
-              </label>
-              <input
-                type='date'
-                id='dueDate'
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2'
-              />
-            </div>
-            <div className='flex flex-col'>
-              <label htmlFor='uploadLimit' className='block text-sm font-medium text-gray-700'>
-                Upload Limit
-              </label>
-              <div className='relative flex items-center'>
-                <button
-                  type='button'
-                  onClick={decrementUploadLimit}
-                  className='bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-l-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none'
-                >
-                  <svg
-                    className='w-3 h-3 text-gray-900 dark:text-white'
-                    aria-hidden='true'
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 18 2'
-                  >
-                    <path
-                      stroke='currentColor'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M1 1h16'
-                    />
-                  </svg>
-                </button>
-                <input
-                  type='text'
-                  id='uploadLimit'
-                  value={uploadLimit}
-                  readOnly
-                  className='bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                />
-                <button
-                  type='button'
-                  onClick={incrementUploadLimit}
-                  className='bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-r-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none'
-                >
-                  <svg
-                    className='w-3 h-3 text-gray-900 dark:text-white'
-                    aria-hidden='true'
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 18 18'
-                  >
-                    <path
-                      stroke='currentColor'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M9 1v16M1 9h16'
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
+
           <div className='flex justify-end'>
             <OvalButton text={'Update'} onClick={handleSubmit} />
           </div>

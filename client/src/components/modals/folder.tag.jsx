@@ -9,7 +9,6 @@ import { fetchAllUsers } from '@/services/users/user.service';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Toaster, toast } from 'sonner';
 import { addAssigneeToFolder } from '@/services/folders/folder.service';
-import { bouncy } from 'ldrs';
 
 const FolderTagModal = ({ folderId, onClose }) => {
   const modalRef = useRef(null);
@@ -18,8 +17,6 @@ const FolderTagModal = ({ folderId, onClose }) => {
   const [selectedRole, setSelectedRole] = useState('Uploader');
   const [allUsers, setAllUsers] = useState([]);
   const [description, setDescription] = useState('');
-  const [loading, setLoading] = useState(false);
-  bouncy.register();
 
   useEffect(() => {
     // Fetch all users on component mount
@@ -74,8 +71,8 @@ const FolderTagModal = ({ folderId, onClose }) => {
       toast.error('Please add at least one person');
       return;
     }
-    setLoading(true);
-    try {
+
+    const assignProcess = async () => {
       for (const person of people) {
         const assigneeData = {
           userId: person.email,
@@ -85,16 +82,16 @@ const FolderTagModal = ({ folderId, onClose }) => {
         };
         await addAssigneeToFolder(folderId, assigneeData);
       }
-      toast.success('Assignee added successfully');
-    } catch (error) {
-      console.error('Failed to add assignee:', error);
-      toast.error('Failed to add assignee');
-    } finally {
-      setLoading(false);
       onClose();
       setEmail('');
       setDescription('');
-    }
+    };
+
+    toast.promise(assignProcess(), {
+      loading: 'Assigning people to folder...',
+      success: 'Assignee added successfully',
+      error: (err) => err.message || 'Failed to add assignee. Please try again.',
+    });
   };
 
   const handleCloseModal = () => {
@@ -204,11 +201,6 @@ const FolderTagModal = ({ folderId, onClose }) => {
           </div>
         </div>
       </div>
-      {loading && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
-          <l-bouncy size='40' color='black'></l-bouncy>
-        </div>
-      )}
     </>
   );
 };

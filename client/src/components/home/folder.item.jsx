@@ -1,74 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FcFolder } from 'react-icons/fc';
-import CircleButton from '../common/buttons/reusable/circle.button';
+import { MdDelete, MdMoreVert } from 'react-icons/md';
+import { FiEdit } from 'react-icons/fi';
+import { AiOutlineTag } from 'react-icons/ai'; // Import icon for tagging
 import { deleteFolder } from '../../services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
 import { useUpdate } from '@/helpers/update.context';
-import { bouncy } from 'ldrs';
-import { MdDelete } from 'react-icons/md';
-import { FaUserAlt, FaFileAlt } from 'react-icons/fa';
-import { FiEdit } from 'react-icons/fi';
 import UpdateFolderForm from '../modals/update.folder';
+import FolderTagModal from '../modals/folder.tag'; // Import the FolderTagModal
 
 const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isTagModalOpen, setIsTagModalOpen] = useState(false); // State for FolderTagModal
+  const dropdownRef = useRef(null);
   const { triggerUpdate } = useUpdate();
-  const [loading, setLoading] = useState(false);
-  const [isDueDateMet, setIsDueDateMet] = useState(false);
-  bouncy.register();
 
   useEffect(() => {
-    // Check if the due date has passed
-    const checkDueDate = () => {
-      const dueDate = new Date(folder.dueDate);
-      const currentDate = new Date();
-      setIsDueDateMet(currentDate >= dueDate);
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
     };
-    checkDueDate();
-  }, [folder.dueDate]);
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleDoubleClick = () => {
-    if (isDueDateMet) {
-      toast.error('Folder disabled, send a ticket to admin', {
-        position: 'top-center',
-      });
-    } else {
-      onDoubleClick(folder.id);
-    }
+    onDoubleClick(folder.id);
   };
 
   const toggleModal = () => {
-    if (isDueDateMet) {
-      toast.error('Folder disabled, send a ticket to admin');
-    } else {
-      setIsModalOpenEdit(!isModalOpenEdit);
-    }
+    setIsModalOpenEdit(!isModalOpenEdit);
   };
 
-  const handleDelete = async () => {
-    setLoading(true);
-    try {
+  const handleDelete = () => {
+    const deleteProcess = async () => {
       await deleteFolder(folder.id);
-      toast.success('Folder removed');
       triggerUpdate();
-    } catch (error) {
-      console.error('Error deleting folder:', error);
-      toast.error('Failed to remove folder. Please try again.');
-    } finally {
-      setIsModalOpen(false);
-      setLoading(false);
-    }
+      return 'Folder removed';
+    };
+
+    toast
+      .promise(deleteProcess(), {
+        loading: 'Removing folder...',
+        success: 'Folder successfully removed',
+        error: (err) => err.message || 'Failed to remove folder. Please try again.',
+      })
+      .finally(() => {
+        setIsModalOpen(false);
+      });
   };
 
   const openModal = (e) => {
-    e.preventDefault(); // Prevent link navigation
-    if (isDueDateMet) {
-      toast.error('Folder disabled, send a ticket to admin');
-    } else {
-      setIsModalOpen(true);
-    }
+    e.preventDefault();
+    setIsModalOpen(true);
+  };
+
+  const openTagModal = () => {
+    setIsTagModalOpen(true);
   };
 
   const closeModal = () => {
@@ -76,23 +71,12 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   };
 
   const folderUrl = `/folders/${folder.id}`;
-  const displayLimit = `${folder.fileCount}/${folder.uploadLimit}`;
 
   return (
     <>
-      <Toaster />
-      <div className={`relative ${isDueDateMet ? 'opacity-50 cursor-not-allowed' : ''}`}>
-        <Link
-          to={isDueDateMet ? '#' : folderUrl}
-          onClick={
-            isDueDateMet
-              ? (e) => {
-                  e.preventDefault();
-                  toast.error('Folder disabled, send a ticket to admin');
-                }
-              : null
-          }
-        >
+      <Toaster richColors />
+      <div className='relative'>
+        <Link to={folderUrl} onClick={null}>
           <div
             className={`cursor-default p-4 ${
               isGridView ? 'flex flex-col m-2 p-2 border' : 'flex w-full border-b'
@@ -103,50 +87,52 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
               <FcFolder size={40} />
               <div className='flex w-full flex-col'>
                 <span className='truncate text-lg font-semibold'>{folder.name}</span>
-                {!isGridView && (
-                  <div className='flex items-center w-full space-x-1 text-gray-500 text-xs'>
-                    <FaUserAlt size={12} />
-                    <span>Assignee</span>
-                  </div>
-                )}
+                <div className='flex items-center w-full space-x-1 text-gray-500 text-xs'>
+                  <span>{new Date(folder.createdAt).toLocaleDateString()}</span>
+                  <span>{folder.fileSize}</span>
+                  {folder.assignee && (
+                    <div className='flex items-center space-x-1'>
+                      <div className='w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center'>
+                        <span className='text-xs font-medium'>{folder.assignee.initials}</span>
+                      </div>
+                      <span>{folder.assignee.name}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            {!isGridView && (
-              <div className='ml-auto flex items-center space-x-6'>
-                <div className='flex items-center space-x-1 text-gray-500'>
-                  <FaFileAlt size={16} />
-                  <span>{displayLimit}</span>
+            <div className='relative' ref={dropdownRef}>
+              <MdMoreVert
+                size={24}
+                className='cursor-pointer'
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              />
+              {isDropdownOpen && (
+                <div className='absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10'>
+                  <button
+                    className='flex items-center w-full px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100'
+                    onClick={toggleModal}
+                  >
+                    <FiEdit size={20} className='mr-2' />
+                    Edit
+                  </button>
+                  <button
+                    className='flex items-center w-full px-4 pt-2 pb-3 text-sm text-red-600 hover:bg-gray-100'
+                    onClick={openModal}
+                  >
+                    <MdDelete size={20} className='mr-2' />
+                    Delete
+                  </button>
+                  <button
+                    className='flex items-center w-full px-4 pt-2 pb-3 text-sm text-blue-600 hover:bg-gray-100'
+                    onClick={openTagModal}
+                  >
+                    <AiOutlineTag size={20} className='mr-2' />
+                    Assign
+                  </button>
                 </div>
-                <CircleButton
-                  title={'Edit'}
-                  icon={<FiEdit size={20} />}
-                  onClick={toggleModal}
-                  disabled={isDueDateMet}
-                />
-                <CircleButton
-                  title={'Remove'}
-                  icon={<MdDelete size={20} />}
-                  onClick={openModal}
-                  disabled={isDueDateMet}
-                />
-              </div>
-            )}
-            {isGridView && (
-              <div className='ml-auto'>
-                <CircleButton
-                  title={'Edit'}
-                  icon={<FiEdit size={20} />}
-                  onClick={toggleModal}
-                  disabled={isDueDateMet}
-                />
-                <CircleButton
-                  title={'Remove'}
-                  icon={<MdDelete size={20} />}
-                  onClick={openModal}
-                  disabled={isDueDateMet}
-                />
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </Link>
 
@@ -154,31 +140,21 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
           <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
             <div className='bg-gray-300 p-8 rounded-lg shadow-2xl'>
               <h2 className='text-xl font-semibold mb-6'>Delete Folder</h2>
-              {loading ? (
-                <div className='flex justify-center items-center'>
-                  <l-bouncy size='40' color='black'></l-bouncy>
-                </div>
-              ) : (
-                <>
-                  <p className='mb-4'>
-                    Are you sure you want to delete the folder "{folder.name}"?
-                  </p>
-                  <div className='flex justify-end space-x-4'>
-                    <button
-                      onClick={() => setIsModalOpen(false)}
-                      className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
-                    >
-                      No
-                    </button>
-                    <button
-                      onClick={handleDelete}
-                      className='px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors'
-                    >
-                      Yes
-                    </button>
-                  </div>
-                </>
-              )}
+              <p className='mb-4'>Are you sure you want to delete the folder "{folder.name}"?</p>
+              <div className='flex justify-end space-x-4'>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
+                >
+                  No
+                </button>
+                <button
+                  onClick={handleDelete}
+                  className='px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors'
+                >
+                  Yes
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -188,14 +164,15 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
             folderDetails={{
               id: folder.id,
               name: folder.name,
-              dueDate: folder.dueDate,
               uploadLimit: folder.uploadLimit,
             }}
           />
+        )}
+        {isTagModalOpen && (
+          <FolderTagModal folderId={folder.id} onClose={() => setIsTagModalOpen(false)} />
         )}
       </div>
     </>
   );
 };
-
 export default FolderItem;

@@ -31,29 +31,10 @@ export const fetchFolders = async (parentId = null) => {
       ...doc.data(),
       createdAt: doc.data().createdAt.toDate(),
       subfolders: [],
-      fileCount: 0,
     }));
 
     // Sort folders by createdAt from oldest to newest
     folders = folders.sort((a, b) => a.createdAt - b.createdAt);
-
-    // Fetch all files and count them per folder
-    const fileQuery = query(collection(db, 'files'));
-    const fileSnapshot = await getDocs(fileQuery);
-    const fileCounts = {};
-    fileSnapshot.forEach((file) => {
-      const folderId = file.data().folderId;
-      if (folderId in fileCounts) {
-        fileCounts[folderId]++;
-      } else {
-        fileCounts[folderId] = 1;
-      }
-    });
-
-    // Assign file counts to folders
-    folders.forEach((folder) => {
-      folder.fileCount = fileCounts[folder.id] || 0;
-    });
 
     return folders;
   } catch (error) {
@@ -61,6 +42,7 @@ export const fetchFolders = async (parentId = null) => {
     throw error;
   }
 };
+
 // Add folder with upload limit
 export const addFolder = async (folderData) => {
   try {
@@ -72,7 +54,6 @@ export const addFolder = async (folderData) => {
     // Check if parentId is undefined and exclude it if so
     const folderPayload = {
       ...folderData,
-      uploadLimit: folderData.uploadLimit || 10,
       createdAt: serverTimestamp(),
     };
     if (folderData.parentId === undefined) {
@@ -80,7 +61,7 @@ export const addFolder = async (folderData) => {
     }
 
     const docRef = await addDoc(collection(db, 'folders'), folderPayload);
-    return { id: docRef.id, ...folderPayload, subfolders: [], fileCount: 0 };
+    return { id: docRef.id, ...folderPayload, subfolders: [] };
   } catch (error) {
     console.error('Error adding folder:', error);
     throw error;
@@ -161,11 +142,7 @@ export const fetchFolderDetailsWithUploadLimit = async (folderId) => {
     if (folderDoc.exists()) {
       const data = folderDoc.data();
       console.log('Folder Details:', data);
-      // Fetch file count for the folder
-      const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
-      const fileSnapshot = await getDocs(fileQuery);
-      const fileCount = fileSnapshot.docs.length;
-      return { id: folderDoc.id, ...data, fileCount };
+      return { id: folderDoc.id, ...data };
     } else {
       console.log('No such folder!');
       return null;
@@ -247,6 +224,8 @@ export const fetchFoldersForUser = async (userId) => {
     }
 
     return { folders: filteredFolders, files };
+
+    return { folders: filteredFolders };
   } catch (error) {
     console.error('Error fetching folders for user:', error);
     throw error;
