@@ -8,7 +8,7 @@ import common from '@/configs/common.config';
 import { fetchAllUsers } from '@/services/users/user.service';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Toaster, toast } from 'sonner';
-import { addAssigneeToFolder } from '@/services/folders/folder.members.service';
+import { addAssigneeToFolder } from '@/services/folders/folder.service';
 import { bouncy } from 'ldrs';
 
 const FolderTagModal = ({ folderId, onClose }) => {
@@ -78,8 +78,8 @@ const FolderTagModal = ({ folderId, onClose }) => {
     try {
       for (const person of people) {
         const assigneeData = {
+          userId: person.email,
           name: person.name,
-          email: person.email,
           role: selectedRole,
           description: description,
         };
@@ -103,7 +103,7 @@ const FolderTagModal = ({ folderId, onClose }) => {
 
   return (
     <>
-      <div className='fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out'>
+      <div className='fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out z-[9999]'>
         <Toaster />
         <div
           ref={modalRef}

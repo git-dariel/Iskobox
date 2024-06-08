@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../database/firebase-connection';
 
 const AuthContext = createContext();
 
@@ -13,8 +15,26 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          console.log('Current user data:', userData);
+          setCurrentUser({
+            uid: user.uid,
+            email: user.email,
+            role: userData.role,
+            ...userData,
+          });
+        } else {
+          console.error('User details not found in database');
+          setCurrentUser(null);
+        }
+      } else {
+        setCurrentUser(null);
+      }
       setLoading(false);
     });
 
