@@ -17,6 +17,12 @@ module.exports = {
       },
     },
     extend: {
+      transformStyle: {
+        'preserve-3d': 'preserve-3d',
+      },
+      backfaceVisibility: {
+        hidden: 'hidden',
+      },
       width: {
         'my-width': '550px',
       },
