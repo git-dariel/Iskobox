@@ -18,12 +18,12 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   const logout = () => {
     return signOut(getAuth());
-  }
+  };
 
   return (
     <AuthContext.Provider value={{ currentUser, logout }}>
