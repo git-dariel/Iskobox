@@ -34,12 +34,11 @@ const CommentButton = () => {
         setCommentText('');
         setFolderName('');
         setShowModal(false);
-        toast.success('Notes Creater successfully');
+        toast.success('Notes Create successfully');
         triggerUpdate();
       })
       .catch((error) => {
-        console.error('Error adding comment:', error);
-        toast.error('Error deleting Note');
+        toast.error(error.message);
       })
       .finally(() => {
         setLoading(false);
@@ -103,7 +102,7 @@ const CommentButton = () => {
                       </label>
                     </div>
                     <div className='flex justify-end'>
-                      <OvalButton text={'Update'} onClick={handleCommentSubmit} />
+                      <OvalButton text={'Create'} onClick={handleCommentSubmit} />
                     </div>
                   </div>
                 )}

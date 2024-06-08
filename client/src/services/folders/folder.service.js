@@ -63,6 +63,11 @@ export const fetchFolders = async (parentId = null) => {
 // Add folder with upload limit
 export const addFolder = async (folderData) => {
   try {
+    if (!folderData.name || folderData.name.length > 24 || /[^a-zA-Z0-9 ]/.test(folderData.name)) {
+      throw new Error(
+        'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
+      );
+    }
     // Check if parentId is undefined and exclude it if so
     const folderPayload = {
       ...folderData,
@@ -112,6 +117,14 @@ export const deleteFolder = async (folderId) => {
 // Update folder details
 export const handleUpdateFolder = async (folderId, updatedDetails) => {
   try {
+    if (updatedDetails.name) {
+      if (updatedDetails.name.length > 24 || /[^a-zA-Z0-9 ]/.test(updatedDetails.name)) {
+        throw new Error(
+          'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
+        );
+      }
+    }
+
     const folderRef = doc(db, 'folders', folderId);
     await updateDoc(folderRef, updatedDetails);
     return { success: true };

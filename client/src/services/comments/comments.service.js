@@ -4,6 +4,19 @@ import { db } from '../../database/firebase-connection';
 // Create a new comment
 export const addNewComment = async (commentData) => {
   try {
+    if (
+      !commentData.folder ||
+      commentData.folder.length > 24 ||
+      /[^a-zA-Z0-9 ]/.test(commentData.folder)
+    ) {
+      throw new Error(
+        'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
+      );
+    }
+
+    if (!commentData.text || commentData.text.length > 200) {
+      throw new Error('Comment text too long. Ensure it is no longer than 200 characters.');
+    }
     const docRef = await addDoc(collection(db, 'comments'), commentData);
     return { id: docRef.id, ...commentData };
   } catch (error) {
@@ -39,6 +52,18 @@ export const deleteComment = async (commentId) => {
 // Update a comment
 export const updateComment = async (commentId, updateData) => {
   try {
+    if (
+      updateData.folder &&
+      (updateData.folder.length > 24 || /[^a-zA-Z0-9 ]/.test(updateData.folder))
+    ) {
+      throw new Error(
+        'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
+      );
+    }
+    if (updateData.text && updateData.text.length > 200) {
+      throw new Error('Comment text too long. Ensure it is no longer than 200 characters.');
+    }
+
     const commentRef = doc(db, 'comments', commentId);
     await updateDoc(commentRef, updateData);
   } catch (error) {

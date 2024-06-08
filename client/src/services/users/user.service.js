@@ -1,5 +1,5 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, setDoc, collection, query, where, getDocs, getDoc } from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
 
 // fetch all users
@@ -15,12 +15,14 @@ export async function fetchAllUsers() {
 }
 
 // register a user
-export async function registerUser(email, password, firstname, lastname) {
+export async function registerUser(email, password, firstname, lastname, role) {
   try {
     const auth = getAuth();
     const usersRef = collection(db, 'users');
     const q = query(usersRef, where('email', '==', email));
     const querySnapshot = await getDocs(q);
+
+    role = role || 'Faculty';
 
     if (!querySnapshot.empty) {
       console.log('User already exists!');
@@ -33,6 +35,7 @@ export async function registerUser(email, password, firstname, lastname) {
       firstname,
       lastname,
       email,
+      role,
     });
 
     return true;
@@ -47,9 +50,21 @@ export async function loginUser(email, password) {
   try {
     const auth = getAuth();
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
+    const userRef = doc(db, 'users', userCredential.user.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      throw new Error('User not found in the database');
+    }
+
+    const userData = userDoc.data();
+    if (!userData.role) {
+      throw new Error('User role is not defined in the database');
+    }
+
+    return userData;
   } catch (error) {
-    console.error(error);
+    console.error('Login error:', error);
     throw error;
   }
 }
