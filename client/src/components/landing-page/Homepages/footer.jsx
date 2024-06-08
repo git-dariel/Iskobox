@@ -1,6 +1,6 @@
 import React from 'react';
 import img8 from '../../../assets/homeAssets/img8.png';
-import PUPlogo from '../../../assets/PUPlogo.png';
+import PUPlogo from '../../../assets/pup-logo.png';
 
 export default function Footer() {
   return (
