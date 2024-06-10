@@ -115,19 +115,25 @@ export const handleUpdateFolder = async (folderId, updatedDetails) => {
   }
 };
 
-// Fetch folder details
+// Fetch folder details including parent hierarchy for breadcrumbs
 export const fetchFolderDetails = async (folderId) => {
   try {
     const folderDocRef = doc(db, 'folders', folderId);
     const folderDoc = await getDoc(folderDocRef);
-    if (folderDoc.exists()) {
-      const data = folderDoc.data();
-      console.log('Folder Details:', data);
-      return { id: folderDoc.id, ...data };
-    } else {
+    if (!folderDoc.exists()) {
       console.log('No such folder!');
       return null;
     }
+    const data = folderDoc.data();
+    const folderDetails = { id: folderDoc.id, ...data };
+
+    // Recursively fetch parent folder details if they exist
+    if (folderDetails.parentId) {
+      const parentDetails = await fetchFolderDetails(folderDetails.parentId);
+      folderDetails.parent = parentDetails;
+    }
+
+    return folderDetails;
   } catch (error) {
     console.error('Error fetching folder details:', error);
     throw error;

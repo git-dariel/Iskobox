@@ -10,12 +10,17 @@ const tabs = [
   { path: '/ticket', text: 'Request Ticket' },
 ];
 
-const TopNavigation = () => {
+const TopNavigation = ({ navigateToRoot }) => {
   const location = useLocation();
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = (results) => {
     setSearchResults(results);
+  };
+
+  const handleHomeClick = (event) => {
+    event.preventDefault(); // Prevent default link behavior
+    navigateToRoot(); // Call the navigateToRoot function
   };
 
   return (
@@ -30,6 +35,7 @@ const TopNavigation = () => {
                 <Link
                   key={index}
                   to={tab.path}
+                  onClick={tab.text === 'Home' ? handleHomeClick : undefined}
                   className={`inline-flex items-center text-sm font-medium ${
                     location.pathname === tab.path
                       ? 'text-gray-800 border-b-2 rounded-b-none rounded-md p-2 border-blue-500 transition-all duration-300 ease-in-out'

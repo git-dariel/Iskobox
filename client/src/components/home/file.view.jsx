@@ -16,19 +16,14 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const effectiveFolderId = currentFolderId === undefined ? null : currentFolderId;
+      const rootFolderId = null; // Always fetch the root folder
 
       if (currentUser && currentUser.role === 'Admin') {
-        const fetchedFolders = await fetchFolders(effectiveFolderId);
+        const fetchedFolders = await fetchFolders(rootFolderId);
         console.log('Admin folders:', fetchedFolders);
         setFolders(fetchedFolders);
-        if (currentFolderId) {
-          const fetchedFiles = await fetchFilesInFolder(currentFolderId);
-          setFiles(fetchedFiles);
-        } else {
-          const allFiles = await fetchAllFiles();
-          setFiles(allFiles);
-        }
+        const allFiles = await fetchAllFiles();
+        setFiles(allFiles);
       } else if (currentUser && currentUser.role === 'Faculty') {
         const testData = await fetchFoldersForUser(currentUser.email);
         console.log('Folders and files for current user:', testData);
@@ -38,9 +33,9 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
     };
 
     fetchData();
-  }, [currentFolderId, updateCount, currentUser]);
+  }, [updateCount, currentUser]);
 
-  const handleFolderDoubleClick = (folderId) => {
+  const handleFolderDoubleClick = async (folderId) => {
     if (!openedFolders.includes(folderId)) {
       setOpenedFolders([...openedFolders, folderId]);
     }
@@ -66,7 +61,6 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
           </div>
         </div>
       )}
-
       {selectedView === 'folders' && (
         <div>
           <h2 className='text-sm m-2'>Folders</h2>

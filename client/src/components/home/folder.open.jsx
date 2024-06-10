@@ -6,7 +6,23 @@ import {
   fetchFolders,
   processFolder,
   fetchFoldersForUser,
+  fetchFolderDetails,
 } from '../../services/folders/folder.service';
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import FolderItem from './folder.item';
 import FileView from './file.view';
 import { useUpdate } from '@/helpers/update.context';
@@ -23,12 +39,13 @@ const FolderOpen = () => {
   const [folderContents, setFolderContents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentFolderId, setCurrentFolderId] = useState(null);
+  const [breadcrumb, setBreadcrumb] = useState([]);
   const { updateCount } = useUpdate();
   const { currentUser } = useAuth();
   bouncy.register();
 
   useEffect(() => {
-    fetchFolderContents(currentFolderId); // Initially fetch root folders
+    fetchFolderContents(currentFolderId);
   }, [currentFolderId, updateCount]);
 
   const fetchFolderContents = async (folderId) => {
@@ -39,11 +56,11 @@ const FolderOpen = () => {
         folders = await fetchFolders(folderId);
       } else if (currentUser.role === 'Faculty') {
         const assignedData = await fetchFoldersForUser(currentUser.email);
-        console.log('Faculty folders in FolderOpen:', assignedData.folders); // Log fetched folders in FolderOpen
+        console.log('Faculty folders in FolderOpen:', assignedData.folders);
         folders = assignedData.folders;
       }
       const processedFolders = folders.map((folder) => processFolder(folder));
-      console.log('Processed folders:', processedFolders); // Log processed folders
+      console.log('Processed folders:', processedFolders);
       setFolderContents(processedFolders);
       setIsLoading(false);
     } catch (error) {
@@ -52,11 +69,40 @@ const FolderOpen = () => {
     }
   };
 
+  const updateBreadcrumb = async (folderId) => {
+    const folderDetails = await fetchFolderDetails(folderId);
+    if (folderDetails) {
+      const newBreadcrumb = [];
+      let currentFolder = folderDetails;
+      while (currentFolder) {
+        newBreadcrumb.unshift({ id: currentFolder.id, name: currentFolder.name });
+        currentFolder = currentFolder.parent;
+      }
+      setBreadcrumb(newBreadcrumb);
+    }
+  };
+
   const handleFolderDoubleClick = (folderId) => {
     setCurrentFolderId(folderId);
     setFolderStack([...folderStack, folderId]);
     fetchFolderContents(folderId);
     setSelectedView('files');
+    updateBreadcrumb(folderId);
+  };
+
+  const handleBreadcrumbClick = (index) => {
+    setBreadcrumb(breadcrumb.slice(0, index + 1));
+    const folderId = breadcrumb[index].id;
+    setFolderStack(folderStack.slice(0, index + 1));
+    setCurrentFolderId(folderId);
+    fetchFolderContents(folderId);
+  };
+
+  const navigateToRoot = () => {
+    setCurrentFolderId(null);
+    setFolderStack([]);
+    setBreadcrumb([]);
+    fetchFolderContents(null);
   };
 
   const handleViewChange = (view) => {
@@ -86,7 +132,7 @@ const FolderOpen = () => {
     <div className='flex h-screen mx-1 bg-[#f8fafd]'>
       <SideMenu />
       <div className='flex flex-col flex-1'>
-        <TopNavigation />
+        <TopNavigation navigateToRoot={navigateToRoot} />
         <div className='flex flex-col flex-1'>
           <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
             <Header
@@ -98,6 +144,31 @@ const FolderOpen = () => {
               currentFolderId={currentFolderId}
               setFolders={setFolderContents}
             />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href='#' onClick={navigateToRoot}>
+                    Home
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                {breadcrumb.length > 0 && <BreadcrumbSeparator />}
+                {breadcrumb.map((crumb, index) => (
+                  <React.Fragment key={crumb.id}>
+                    {index > 0 && <BreadcrumbSeparator />}
+                    <BreadcrumbItem>
+                      <BreadcrumbLink
+                        href='#'
+                        onClick={() => handleBreadcrumbClick(index)}
+                        className={index === breadcrumb.length - 1 ? 'font-bold' : ''}
+                      >
+                        {crumb.name}
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  </React.Fragment>
+                ))}
+              </BreadcrumbList>
+            </Breadcrumb>
+
             <div className='flex h-full overflow-hidden'>
               <div className='flex flex-col w-[70%] bg-white'>
                 {isLoading ? (
