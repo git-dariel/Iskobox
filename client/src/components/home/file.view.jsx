@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchFolders } from '../../services/folders/folder.service';
+import { fetchFilesInFolder } from '../../services/files/file-service';
 import { fetchFoldersForUser } from '../../services/folders/folder.service';
-import { fetchAllFiles, fetchFilesInFolder } from '../../services/files/file-service';
 import FileItem from './file.item';
 import FolderItem from './folder.item';
 import { useUpdate } from '@/helpers/update.context';
@@ -10,36 +10,33 @@ import { useAuth } from '@/helpers/auth.context';
 const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   const [files, setFiles] = useState([]);
   const [folders, setFolders] = useState([]);
-  const [openedFolders, setOpenedFolders] = useState([]);
   const { updateCount } = useUpdate();
   const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
-      const rootFolderId = null; // Always fetch the root folder
-
-      if (currentUser && currentUser.role === 'Admin') {
-        const fetchedFolders = await fetchFolders(rootFolderId);
-        console.log('Admin folders:', fetchedFolders);
-        setFolders(fetchedFolders);
-        const allFiles = await fetchAllFiles();
-        setFiles(allFiles);
-      } else if (currentUser && currentUser.role === 'Faculty') {
-        const testData = await fetchFoldersForUser(currentUser.email);
-        console.log('Folders and files for current user:', testData);
-        setFolders(testData.folders);
-        setFiles(testData.files);
+      if (currentUser) {
+        if (currentUser.role === 'Admin') {
+          if (selectedView === 'folders') {
+            const fetchedFolders = await fetchFolders(currentFolderId);
+            setFolders(fetchedFolders);
+          } else if (selectedView === 'files') {
+            const fetchedFiles = await fetchFilesInFolder(currentFolderId);
+            setFiles(fetchedFiles);
+          }
+        } else if (currentUser.role === 'Faculty') {
+          const testData = await fetchFoldersForUser(currentUser.email);
+          if (selectedView === 'folders') {
+            setFolders(testData.folders);
+          } else if (selectedView === 'files') {
+            setFiles(testData.files);
+          }
+        }
       }
     };
 
     fetchData();
-  }, [updateCount, currentUser]);
-
-  const handleFolderDoubleClick = async (folderId) => {
-    if (!openedFolders.includes(folderId)) {
-      setOpenedFolders([...openedFolders, folderId]);
-    }
-  };
+  }, [updateCount, currentUser, selectedView, currentFolderId]);
 
   return (
     <div className='mt-4'>
@@ -51,12 +48,14 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
               isGridView
                 ? 'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'
                 : ' '
-            } `}
+            }`}
           >
             {files.length > 0 ? (
               files.map((file) => <FileItem key={file.id} file={file} isGridView={isGridView} />)
             ) : (
-              <div className='flex flex-col flex-1 items-center justify-center mt-10'>Empty</div>
+              <div className='flex flex-col flex-1 items-center justify-center mt-10'>
+                No files found.
+              </div>
             )}
           </div>
         </div>
@@ -69,7 +68,7 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
               isGridView
                 ? 'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'
                 : ' '
-            } `}
+            }`}
           >
             {folders.length > 0 ? (
               folders.map((folder) => (
@@ -81,7 +80,9 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
                 />
               ))
             ) : (
-              <div className='flex flex-col flex-1 items-center justify-center mt-10'>Empty</div>
+              <div className='flex flex-col flex-1 items-center justify-center mt-10'>
+                No folders found.
+              </div>
             )}
           </div>
         </div>

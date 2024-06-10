@@ -132,10 +132,10 @@ const FolderOpen = () => {
     <div className='flex h-screen mx-1 bg-[#f8fafd]'>
       <SideMenu />
       <div className='flex flex-col flex-1'>
-        <TopNavigation navigateToRoot={navigateToRoot} />
+        <TopNavigation navigateToRoot={navigateToRoot} currentFolderId={currentFolderId} />
         <div className='flex flex-col flex-1'>
           <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
-            <Header
+            {/* <Header
               selectedButton={selectedView}
               handleButtonClick={handleViewChange}
               isGridView={isGridView}
@@ -143,12 +143,12 @@ const FolderOpen = () => {
               navigateBack={navigateBack}
               currentFolderId={currentFolderId}
               setFolders={setFolderContents}
-            />
+            /> */}
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink href='#' onClick={navigateToRoot}>
-                    Home
+                    Root
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 {breadcrumb.length > 0 && <BreadcrumbSeparator />}

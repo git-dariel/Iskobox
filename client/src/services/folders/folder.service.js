@@ -231,7 +231,7 @@ export const fetchFoldersForUser = async (userId) => {
 
     return { folders: filteredFolders, files };
 
-    return { folders: filteredFolders };
+    // return { folders: filteredFolders };
   } catch (error) {
     console.error('Error fetching folders for user:', error);
     throw error;

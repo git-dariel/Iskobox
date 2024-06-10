@@ -7,7 +7,7 @@ const FileFolderButton = ({ selectedButton, handleButtonClick }) => {
   return (
     <div className='flex w-full justify-between'>
       <div className='flex items-center'>
-        <span
+        {/* <span
           className={`flex px-3 py-1 text-sm rounded-s-2xl border ${
             selectedButton === 'files'
               ? 'bg-blue-100'
@@ -21,7 +21,7 @@ const FileFolderButton = ({ selectedButton, handleButtonClick }) => {
             <TbFileStack size={15} className={'mx-1'} />
           )}
           Files
-        </span>
+        </span> */}
         <span
           className={`flex px-3 py-1 text-sm rounded-e-2xl border ${
             selectedButton === 'folders'

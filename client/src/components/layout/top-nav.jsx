@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SearchForm from '../common/searchbars/search';
 import UserProfile from '@/components/users/user-profile';
 import Notification from '../common/buttons/notification';
@@ -7,11 +7,11 @@ import Notification from '../common/buttons/notification';
 const tabs = [
   { path: '/home', text: 'Home' },
   { path: '/dashboard', text: 'Dashboard' },
-  { path: '/ticket', text: 'Request Ticket' },
 ];
 
-const TopNavigation = ({ navigateToRoot }) => {
+const TopNavigation = ({ navigateToRoot, currentFolderId }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = (results) => {
@@ -19,8 +19,10 @@ const TopNavigation = ({ navigateToRoot }) => {
   };
 
   const handleHomeClick = (event) => {
-    event.preventDefault(); // Prevent default link behavior
-    navigateToRoot(); // Call the navigateToRoot function
+    event.preventDefault();
+    if (location.pathname !== '/home' || currentFolderId !== null) {
+      navigateToRoot();
+    }
   };
 
   return (
@@ -30,7 +32,6 @@ const TopNavigation = ({ navigateToRoot }) => {
           <div className='flex'>
             <div className='flex-shrink-0 flex items-center'>{/* Content */}</div>
             <div className='hidden sm:flex sm:items-center sm:ml-6 sm:space-x-8'>
-              {/* Navigation tabs */}
               {tabs.map((tab, index) => (
                 <Link
                   key={index}
@@ -47,7 +48,6 @@ const TopNavigation = ({ navigateToRoot }) => {
               ))}
             </div>
           </div>
-          {/* Additional elements */}
           <SearchForm onSearch={handleSearch} />
           <div className='flex items-center ml-6'>
             <Notification />
