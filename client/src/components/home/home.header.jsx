@@ -27,7 +27,7 @@ const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, cur
           <FileFolderButton selectedButton={selectedButton} handleButtonClick={handleButtonClick} />
 
           <div className='flex justify-end gap-2 w-full'>
-            <div className='flex rounded-full  items-center justify-end bg-gray-100'>
+            {/* <div className='flex rounded-full  items-center justify-end bg-gray-100'>
               <CircleButton title={'Download'} icon={<MdOutlineFileDownload size={18} />} />
               <CircleButton title={'Remove'} icon={<MdDelete size={18} />} />
               <CircleButton
@@ -35,10 +35,9 @@ const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, cur
                 icon={<FaUserTag size={17} />}
                 onClick={toggleModal}
               />
-            </div>
+            </div> */}
             <ToggleViewButton isGridView={isGridView} toggleView={toggleView} />
           </div>
-          {/* Add more components here */}
         </div>
       </div>
       {isModalOpen && <FolderTagModal folderId={currentFolderId} onClose={toggleModal} />}

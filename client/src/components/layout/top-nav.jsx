@@ -31,7 +31,7 @@ const TopNavigation = ({ navigateToRoot, currentFolderId }) => {
         <div className='flex justify-between h-16 items-center'>
           <div className='flex'>
             <div className='flex-shrink-0 flex items-center'>{/* Content */}</div>
-            <div className='hidden sm:flex sm:items-center sm:ml-6 sm:space-x-8'>
+            {/* <div className='hidden sm:flex sm:items-center sm:ml-6 sm:space-x-8'>
               {tabs.map((tab, index) => (
                 <Link
                   key={index}
@@ -46,7 +46,7 @@ const TopNavigation = ({ navigateToRoot, currentFolderId }) => {
                   {tab.text}
                 </Link>
               ))}
-            </div>
+            </div> */}
           </div>
           <SearchForm onSearch={handleSearch} />
           <div className='flex items-center ml-6'>

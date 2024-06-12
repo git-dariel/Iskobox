@@ -1,34 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import SideMenu from '../layout/side-menu';
-import TopNavigation from '../layout/top-nav';
-import Header from './home.header';
-import {
-  fetchFolders,
-  processFolder,
-  fetchFoldersForUser,
-  fetchFolderDetails,
-} from '../../services/folders/folder.service';
 import {
   Breadcrumb,
-  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import FolderItem from './folder.item';
-import FileView from './file.view';
+import { useAuth } from '@/helpers/auth.context';
 import { useUpdate } from '@/helpers/update.context';
 import { bouncy } from 'ldrs';
+import React, { useEffect, useState } from 'react';
+import {
+  fetchFolderDetails,
+  fetchFolders,
+  fetchFoldersForUser,
+  processFolder,
+} from '../../services/folders/folder.service';
 import CommentForm from '../comment/commentform';
-import { useAuth } from '@/helpers/auth.context';
+import TopNavigation from '../layout/top-nav';
+import FileView from './file.view';
+import FolderItem from './folder.item';
+import Header from './home.header';
+import SideBar from '@/components/layout/SideBar';
 
 const FolderOpen = () => {
   const [selectedView, setSelectedView] = useState(localStorage.getItem('selectedView') || 'files');
@@ -129,8 +121,8 @@ const FolderOpen = () => {
   };
 
   return (
-    <div className='flex h-screen mx-1 bg-[#f8fafd]'>
-      <SideMenu />
+    <div className='flex w-full h-screen'>
+      <SideBar />
       <div className='flex flex-col flex-1'>
         {/* <TopNavigation navigateToRoot={navigateToRoot} currentFolderId={currentFolderId} /> */}
         <TopNavigation />

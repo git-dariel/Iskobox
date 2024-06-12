@@ -6,6 +6,7 @@ import FileItem from './file.item';
 import FolderItem from './folder.item';
 import { useUpdate } from '@/helpers/update.context';
 import { useAuth } from '@/helpers/auth.context';
+import CommentForm from '../comment/commentform';
 
 const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   const [files, setFiles] = useState([]);
@@ -49,7 +50,7 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   return (
     <div className='mt-4'>
       {selectedView === 'files' && (
-        <div>
+        <div className='ml-3'>
           <h2 className='text-sm m-2'>Files</h2>
           <div
             className={`${
