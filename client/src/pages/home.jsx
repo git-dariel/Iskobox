@@ -23,18 +23,20 @@ const Home = () => {
     localStorage.setItem('isGridView', newGridView.toString());
   };
 
-  const navigateToRoot = () => {
-    navigate('/home'); // Use navigate function for navigation
-  };
-
   return (
     <div className='flex h-screen mx-1 bg-[#f8fafd]'>
       <SideMenu />
       <div className='flex flex-col flex-1 '>
-        <TopNavigation navigateToRoot={navigateToRoot} />
+        <TopNavigation />
         <div className='flex flex-col flex-1'>
           {/* Main Content */}
           <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
+            <Header
+              selectedButton={selectedView}
+              handleButtonClick={handleViewChange}
+              isGridView={isGridView}
+              toggleView={toggleView}
+            />
             <div className='flex h-full overflow-hidden'>
               <div className='flex flex-col flex-1 bg-white w-[70%] '>
                 <FileView selectedView={selectedView} isGridView={isGridView} />
