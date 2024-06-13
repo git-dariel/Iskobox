@@ -24,10 +24,7 @@ common.navItems = [
     name: "Programs Under Survey",
     to: "/programs-under-survey",
     dropdown: true,
-    items: [
-      { name: "Programs", to: "/programs" },
-      { name: "Survey", to: "/survey" },
-    ],
+    items: [{ name: "BSIT", to: "/bsit" }],
   },
   {
     name: "Exhibit",
