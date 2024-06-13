@@ -3,7 +3,7 @@ import { FaRegFolder } from 'react-icons/fa';
 import { TbFileStack } from 'react-icons/tb';
 import { GoCheck } from 'react-icons/go';
 
-const FileFolderButton = ({ selectedButton, handleButtonClick }) => {
+const FileFolderButton = ({ selectedButton, handleButtonClick, currentFolderId }) => {
   return (
     <div className='flex w-full justify-between'>
       <div className='flex items-center'>

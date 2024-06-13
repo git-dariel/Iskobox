@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { BarChart3, BarChartBig, LayoutDashboard, Home } from 'lucide-react';
 
@@ -27,13 +27,13 @@ function SideBar() {
               <LayoutDashboard className='h-6 w-6 mr-2' /> Dashboard
             </NavLink>
             <NavLink
-              to='/dashboard/completed-files'
+              to='/dashboard/'
               className='flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400'
             >
               <BarChart3 className='h-6 w-6 mr-2' /> Number of Completed Files
             </NavLink>
             <NavLink
-              to='/dashboard/pending-files'
+              to='/dashboard/'
               className='flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400'
             >
               <BarChartBig className='h-6 w-6 mr-2' /> Number of Pending Files

@@ -1,28 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { fetchFolders } from '../../services/folders/folder.service';
-import { fetchFoldersForUser } from '../../services/folders/folder.service';
+import { useAuth } from '@/helpers/auth.context';
+import React, { useEffect, useState } from 'react';
 import { fetchAllFiles, fetchFilesInFolder } from '../../services/files/file-service';
+import { fetchFolders, fetchFoldersForUser } from '../../services/folders/folder.service';
 import FileItem from './file.item';
 import FolderItem from './folder.item';
 import { useUpdate } from '@/helpers/update.context';
-import { useAuth } from '@/helpers/auth.context';
-import CommentForm from '../comment/commentform';
 
 const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   const [files, setFiles] = useState([]);
   const [folders, setFolders] = useState([]);
   const [openedFolders, setOpenedFolders] = useState([]);
-  const { updateCount } = useUpdate();
   const { currentUser } = useAuth();
+  const { updateCount } = useUpdate();
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const effectiveFolderId = currentFolderId === undefined ? null : currentFolderId;
+
+  //     if (currentUser && currentUser.role === 'Admin') {
+  //       const fetchedFolders = await fetchFolders(effectiveFolderId);
+  //       setFolders(fetchedFolders);
+  //       if (currentFolderId) {
+  //         const fetchedFiles = await fetchFilesInFolder(currentFolderId);
+  //         setFiles(fetchedFiles);
+  //       } else {
+  //         const allFiles = await fetchAllFiles();
+  //         setFiles(allFiles);
+  //       }
+  //     } else if (currentUser && currentUser.role === 'Faculty') {
+  //       const testData = await fetchFoldersForUser(currentUser.email);
+  //       setFolders(testData.folders);
+  //       setFiles(testData.files);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [currentFolderId, currentUser]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const effectiveFolderId = currentFolderId === undefined ? null : currentFolderId;
-
       if (currentUser && currentUser.role === 'Admin') {
-        const fetchedFolders = await fetchFolders(effectiveFolderId);
-        console.log('Admin folders:', fetchedFolders);
+        const fetchedFolders = await fetchFolders(currentFolderId);
         setFolders(fetchedFolders);
+        const fetchedFiles = await fetchFilesInFolder(currentFolderId);
+        setFiles(fetchedFiles);
         if (currentFolderId) {
           const fetchedFiles = await fetchFilesInFolder(currentFolderId);
           setFiles(fetchedFiles);
@@ -31,15 +52,14 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
           setFiles(allFiles);
         }
       } else if (currentUser && currentUser.role === 'Faculty') {
-        const testData = await fetchFoldersForUser(currentUser.email);
-        console.log('Folders and files for current user:', testData);
+        const testData = await fetchFoldersForUser(currentUser.email, currentFolderId);
         setFolders(testData.folders);
         setFiles(testData.files);
       }
     };
 
     fetchData();
-  }, [currentFolderId, updateCount, currentUser]);
+  }, [currentFolderId, currentUser, updateCount]);
 
   const handleFolderDoubleClick = (folderId) => {
     if (!openedFolders.includes(folderId)) {

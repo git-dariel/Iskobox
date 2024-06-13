@@ -47,12 +47,10 @@ const FolderOpen = () => {
       if (currentUser.role === 'Admin') {
         folders = await fetchFolders(folderId);
       } else if (currentUser.role === 'Faculty') {
-        const assignedData = await fetchFoldersForUser(currentUser.email);
-        console.log('Faculty folders in FolderOpen:', assignedData.folders);
+        const assignedData = await fetchFoldersForUser(currentUser.email, folderId);
         folders = assignedData.folders;
       }
       const processedFolders = folders.map((folder) => processFolder(folder));
-      console.log('Processed folders:', processedFolders);
       setFolderContents(processedFolders);
       setIsLoading(false);
     } catch (error) {

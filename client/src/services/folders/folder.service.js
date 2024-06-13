@@ -10,6 +10,7 @@ import {
   query,
   serverTimestamp,
   arrayUnion,
+  onSnapshot,
 } from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
 
@@ -18,10 +19,8 @@ export const fetchFolders = async (parentId = null) => {
   try {
     let folderQuery;
     if (parentId === undefined || parentId === null) {
-      // Fetch root folders where parentId does not exist or is explicitly null
       folderQuery = query(collection(db, 'folders'), where('parentId', '==', null));
     } else {
-      // Fetch subfolders where parentId matches
       folderQuery = query(collection(db, 'folders'), where('parentId', '==', parentId));
     }
 
@@ -33,9 +32,7 @@ export const fetchFolders = async (parentId = null) => {
       subfolders: [],
     }));
 
-    // Sort folders by createdAt from oldest to newest
     folders = folders.sort((a, b) => a.createdAt - b.createdAt);
-
     return folders;
   } catch (error) {
     console.error('Error fetching folders:', error);
@@ -51,7 +48,6 @@ export const addFolder = async (folderData) => {
         'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
       );
     }
-    // Check if parentId is undefined and exclude it if so
     const folderPayload = {
       ...folderData,
       createdAt: serverTimestamp(),
@@ -71,7 +67,6 @@ export const addFolder = async (folderData) => {
 // Recursive delete for folders and their contents
 export const deleteFolder = async (folderId) => {
   try {
-    // Delete all files in the folder
     const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
     const fileSnapshot = await getDocs(fileQuery);
     const fileDeletions = fileSnapshot.docs.map((fileDoc) =>
@@ -79,15 +74,12 @@ export const deleteFolder = async (folderId) => {
     );
     await Promise.all(fileDeletions);
 
-    // Recursively delete subfolders
     const subfolderQuery = query(collection(db, 'folders'), where('parentId', '==', folderId));
     const subfolderSnapshot = await getDocs(subfolderQuery);
     const subfolderDeletions = subfolderSnapshot.docs.map((subfolderDoc) =>
       deleteFolder(subfolderDoc.id)
     );
     await Promise.all(subfolderDeletions);
-
-    // Delete the folder itself
     await deleteDoc(doc(db, 'folders', folderId));
   } catch (error) {
     console.error('Error deleting folder:', error);
@@ -127,7 +119,6 @@ export const fetchFolderDetails = async (folderId) => {
     const data = folderDoc.data();
     const folderDetails = { id: folderDoc.id, ...data };
 
-    // Recursively fetch parent folder details if they exist
     if (folderDetails.parentId) {
       const parentDetails = await fetchFolderDetails(folderDetails.parentId);
       folderDetails.parent = parentDetails;
@@ -186,9 +177,9 @@ export const addAssigneeToFolder = async (folderId, assigneeData) => {
 };
 
 // Fetch folders assigned to a specific user
-export const fetchFoldersForUser = async (userId) => {
+export const fetchFoldersForUser = async (userId, parentId = null) => {
   try {
-    const folderQuery = query(collection(db, 'folders'));
+    const folderQuery = query(collection(db, 'folders'), where('parentId', '==', parentId));
     const folderSnapshot = await getDocs(folderQuery);
     const folders = folderSnapshot.docs.map((doc) => {
       const folderData = doc.data();
@@ -202,18 +193,14 @@ export const fetchFoldersForUser = async (userId) => {
       };
     });
 
-    // Filter folders where assignees contain the userId
     const filteredFolders = folders.filter(
       (folder) =>
         folder.assignees && folder.assignees.some((assignee) => assignee.userId === userId)
     );
 
-    console.log('Folders fetched for user:', filteredFolders);
-
-    // Fetch files for these folders
     const files = [];
-    for (const folder of filteredFolders) {
-      const fileQuery = query(collection(db, 'files'), where('folderId', '==', folder.id));
+    if (parentId) {
+      const fileQuery = query(collection(db, 'files'), where('folderId', '==', parentId));
       const fileSnapshot = await getDocs(fileQuery);
       const folderFiles = fileSnapshot.docs.map((doc) => {
         const fileData = doc.data();
@@ -230,8 +217,6 @@ export const fetchFoldersForUser = async (userId) => {
     }
 
     return { folders: filteredFolders, files };
-
-    // return { folders: filteredFolders };
   } catch (error) {
     console.error('Error fetching folders for user:', error);
     throw error;

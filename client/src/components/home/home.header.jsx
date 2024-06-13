@@ -1,41 +1,47 @@
 import React, { useState } from 'react';
+import AddNewButton from '../common/buttons/add.new';
 import FileFolderButton from '../common/buttons/file.folder';
 import ToggleViewButton from '../common/buttons/toggle.view';
-import FileCrumbs from '../common/filecrumb';
-import AddNewButton from '../common/buttons/add.new';
-import CircleButton from '../common/buttons/reusable/circle.button';
-import { FaUserTag } from 'react-icons/fa6';
-import { MdOutlineFileDownload, MdDelete } from 'react-icons/md';
 import FolderTagModal from '../modals/folder.tag';
+import { useAuth } from '@/helpers/auth.context';
 
 const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, currentFolderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { currentUser } = useAuth();
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   return (
     <div className='bg-white max-w-full rounded-t-xl '>
-      <div className=' mx-auto p-4'>
+      <div className='mx-auto p-4'>
         <div className='flex'>
-          <h1 className='text-xl text-gray-800 pl-3 pr-1'>Iskobox</h1>
-          {/* <FileCrumbs /> */}
-          <AddNewButton parentId={currentFolderId} />
+          <h1 className='text-2xl text-gray-800 font-bold pl-3 pr-1'>
+            {' '}
+            {currentUser
+              ? `${getGreeting()}, ${currentUser.firstname} ${currentUser.lastname}`
+              : 'Iskobox'}
+          </h1>
         </div>
 
         <div className='flex p-3'>
-          <FileFolderButton selectedButton={selectedButton} handleButtonClick={handleButtonClick} />
+          <div className='flex gap-1'>
+            <FileFolderButton
+              selectedButton={selectedButton}
+              handleButtonClick={handleButtonClick}
+            />
+            <AddNewButton parentId={currentFolderId} />
+          </div>
 
           <div className='flex justify-end gap-2 w-full'>
-            {/* <div className='flex rounded-full  items-center justify-end bg-gray-100'>
-              <CircleButton title={'Download'} icon={<MdOutlineFileDownload size={18} />} />
-              <CircleButton title={'Remove'} icon={<MdDelete size={18} />} />
-              <CircleButton
-                title={'Tag an uploader'}
-                icon={<FaUserTag size={17} />}
-                onClick={toggleModal}
-              />
-            </div> */}
             <ToggleViewButton isGridView={isGridView} toggleView={toggleView} />
           </div>
         </div>

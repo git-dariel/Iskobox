@@ -7,6 +7,7 @@ import { uploadFile } from '@/services/files/file-service';
 import { addFolder, fetchFolderDetailsWithUploadLimit } from '@/services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
 import { useUpdate } from '@/helpers/update.context';
+import { useAuth } from '@/helpers/auth.context';
 
 const AddNewButton = ({ parentId }) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
@@ -18,11 +19,12 @@ const AddNewButton = ({ parentId }) => {
   const buttonRef = useRef(null);
   const fileInputRef = useRef(null);
   const { triggerUpdate } = useUpdate();
+  const { currentUser } = useAuth();
 
   const options = [
-    { label: 'New Folder', icon: MdOutlineCreateNewFolder },
+    currentUser.role !== 'Faculty' && { label: 'New Folder', icon: MdOutlineCreateNewFolder },
     { label: 'Upload File', icon: MdOutlineUploadFile },
-  ];
+  ].filter(Boolean);
 
   const handleButtonClick = () => {
     const buttonRect = buttonRef.current.getBoundingClientRect();

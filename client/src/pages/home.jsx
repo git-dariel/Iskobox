@@ -9,10 +9,11 @@ const Home = () => {
   const [isGridView, setIsGridView] = useState(
     localStorage.getItem('isGridView') === 'true' || false
   );
+  const [currentFolderId, setCurrentFolderId] = useState(null);
 
   const handleViewChange = (view) => {
     setSelectedView(view);
-    localStorage.setItem('selectedView', view);
+    setCurrentFolderId(null);
   };
 
   const toggleView = () => {
@@ -36,7 +37,11 @@ const Home = () => {
             />
             <div className='flex h-full overflow-hidden'>
               <div className='flex flex-col flex-1 bg-white w-[70%] '>
-                <FileView selectedView={selectedView} isGridView={isGridView} />
+                <FileView
+                  selectedView={selectedView}
+                  isGridView={isGridView}
+                  currentFolderId={currentFolderId}
+                />
               </div>
             </div>
           </div>
