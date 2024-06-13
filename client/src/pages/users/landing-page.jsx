@@ -4,8 +4,8 @@ import HomePage from '@/components/landing-page/Homepages/homepage.jsx';
 export default function LandingPage() {
   return (
     <div>
-      <HomePage />
-      {/* <CertifcateOfAuthenticity/> */}
+      {/* <HomePage/> */}
+      <CertifcateOfAuthenticity />
     </div>
   );
 }
