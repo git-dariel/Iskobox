@@ -23,7 +23,7 @@ import Header from './home.header';
 import SideBar from '@/components/layout/SideBar';
 
 const FolderOpen = () => {
-  const [selectedView, setSelectedView] = useState(localStorage.getItem('selectedView') || 'files');
+  const [selectedView, setSelectedView] = useState('folders');
   const [isGridView, setIsGridView] = useState(
     localStorage.getItem('isGridView') === 'true' || false
   );
@@ -93,6 +93,7 @@ const FolderOpen = () => {
     setFolderStack([]);
     setBreadcrumb([]);
     fetchFolderContents(null);
+    setSelectedView('folders');
   };
 
   const handleViewChange = (view) => {

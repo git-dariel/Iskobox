@@ -5,7 +5,7 @@ import Header from '@/components/home/home.header';
 import TopNavigation from '@/components/layout/top-nav';
 
 const Home = () => {
-  const [selectedView, setSelectedView] = useState(localStorage.getItem('selectedView') || 'files');
+  const [selectedView, setSelectedView] = useState('folders');
   const [isGridView, setIsGridView] = useState(
     localStorage.getItem('isGridView') === 'true' || false
   );
