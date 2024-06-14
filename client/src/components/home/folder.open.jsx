@@ -122,7 +122,6 @@ const FolderOpen = () => {
     <div className='flex w-full h-screen'>
       <SideBar />
       <div className='flex flex-col flex-1'>
-        {/* <TopNavigation navigateToRoot={navigateToRoot} currentFolderId={currentFolderId} /> */}
         <TopNavigation />
         <div className='flex flex-col flex-1'>
           <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
@@ -167,7 +166,7 @@ const FolderOpen = () => {
                     <l-bouncy size={40} color='black'></l-bouncy>
                   </div>
                 ) : (
-                  <div>
+                  <div className='ml-3'>
                     {folderContents.length === 0 && selectedView === 'folders' ? (
                       <div className='flex flex-col flex-1 items-center justify-center'>
                         This folder is empty.
@@ -177,7 +176,7 @@ const FolderOpen = () => {
                         className={`${
                           isGridView
                             ? 'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'
-                            : ' '
+                            : ''
                         } `}
                       >
                         {folderContents.map((folder) => (

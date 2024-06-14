@@ -23,7 +23,7 @@ const FileFolderButton = ({ selectedButton, handleButtonClick, currentFolderId }
           Files
         </span>
         <span
-          className={`flex px-3 py-1 text-sm rounded-e-2xl border ${
+          className={`flex  px-3 py-1 text-sm rounded-e-2xl border ${
             selectedButton === 'folders'
               ? 'bg-blue-100'
               : 'bg-transparent hover:bg-gray-200 active:bg-blue-100'

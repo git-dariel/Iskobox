@@ -89,7 +89,7 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
       )}
 
       {selectedView === 'folders' && (
-        <div>
+        <div className='ml-2'>
           <h2 className='text-sm m-2'>Folders</h2>
           <div
             className={`${

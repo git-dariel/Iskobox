@@ -124,7 +124,9 @@ const FileItem = ({ file, isGridView }) => {
       <Toaster richColors />
       <div
         className={`${
-          isGridView ? 'flex-col m-2 p-2 border' : 'w-full border-y'
+          isGridView
+            ? 'flex-col m-2 p-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg'
+            : 'w-full border-y'
         } text-sm flex items-center p-1 justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
         onClick={() => {
           const fileType = getFileType(file.name);

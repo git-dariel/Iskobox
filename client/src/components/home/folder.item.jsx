@@ -79,8 +79,10 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
         <Link to={folderUrl} onClick={null}>
           <div
             className={`cursor-default p-4 ${
-              isGridView ? 'flex flex-col m-2 py-4 pr-1 pl-2  border' : 'flex w-full border-b'
-            } text-sm flex items-center justify-between space-x-4 border-gray-200 hover:bg-gray-100 transition-all duration-150`}
+              isGridView
+                ? 'flex flex-col m-2 py-4 pr-1 pl-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg'
+                : 'flex w-full border-b'
+            } text-sm flex items-center p-1 justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
             onDoubleClick={handleDoubleClick}
           >
             <div className='flex items-center w-full space-x-2'>
