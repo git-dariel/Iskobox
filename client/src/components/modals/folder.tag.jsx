@@ -9,6 +9,7 @@ import { fetchAllUsers } from '@/services/users/user.service';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Toaster, toast } from 'sonner';
 import { addAssigneeToFolder } from '@/services/folders/folder.service';
+import { addNewNotification } from '@/services/notification/notif.service';
 
 const FolderTagModal = ({ folderId, onClose }) => {
   const modalRef = useRef(null);
@@ -81,6 +82,14 @@ const FolderTagModal = ({ folderId, onClose }) => {
           description: description,
         };
         await addAssigneeToFolder(folderId, assigneeData);
+
+        // Send a notification to the assigned user
+        const notificationData = {
+          userId: person.email,
+          message: `You have been assigned to the folder "${folder.name}" with role "${selectedRole}".`,
+          timestamp: new Date().toISOString(),
+        };
+        await addNewNotification(notificationData);
       }
       onClose();
       setEmail('');
