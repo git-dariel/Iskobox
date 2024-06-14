@@ -27,7 +27,7 @@ const Navbar = ({ logo, navTitle, navItems }) => {
   }, [openDropdownIndex]);
 
   return (
-    <nav className="absolute w-full bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+    <nav className="absolute w-full bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 z-30">
       <div className="flex flex-wrap w-full items-center justify-between mx-auto p-4">
         <Link
           to="/"
