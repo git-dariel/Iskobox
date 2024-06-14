@@ -25,23 +25,25 @@ const Home = () => {
   return (
     <div className='flex w-full h-screen'>
       <SideBar />
-      <div className='flex flex-col flex-1 '>
+      <div className='flex flex-col flex-1'>
         <TopNavigation />
         <div className='flex flex-col flex-1'>
-          <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
+          <div className='flex flex-col flex-1 overflow-hidden'>
             <Header
               selectedButton={selectedView}
               handleButtonClick={handleViewChange}
               isGridView={isGridView}
               toggleView={toggleView}
             />
-            <div className='flex h-full overflow-hidden'>
-              <div className='flex flex-col flex-1 bg-white w-[70%] '>
-                <FileView
-                  selectedView={selectedView}
-                  isGridView={isGridView}
-                  currentFolderId={currentFolderId}
-                />
+            <div className='flex h-full'>
+              <div className='flex flex-col flex-1 bg-white w-[70%] overflow-hidden'>
+                <div className='flex-1 overflow-auto max-h-[30rem]'>
+                  <FileView
+                    selectedView={selectedView}
+                    isGridView={isGridView}
+                    currentFolderId={currentFolderId}
+                  />
+                </div>
               </div>
             </div>
           </div>

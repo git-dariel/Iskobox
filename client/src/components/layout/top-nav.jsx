@@ -31,22 +31,6 @@ const TopNavigation = ({ navigateToRoot, currentFolderId }) => {
         <div className='flex justify-between h-16 items-center'>
           <div className='flex'>
             <div className='flex-shrink-0 flex items-center'>{/* Content */}</div>
-            {/* <div className='hidden sm:flex sm:items-center sm:ml-6 sm:space-x-8'>
-              {tabs.map((tab, index) => (
-                <Link
-                  key={index}
-                  to={tab.path}
-                  // onClick={tab.text === 'Home' ? handleHomeClick : undefined}
-                  className={`inline-flex items-center text-sm font-medium ${
-                    location.pathname === tab.path
-                      ? 'text-gray-800 border-b-2 rounded-b-none rounded-md p-2 border-blue-500 transition-all duration-300 ease-in-out'
-                      : 'text-gray-500 hover:text-gray-800'
-                  }`}
-                >
-                  {tab.text}
-                </Link>
-              ))}
-            </div> */}
           </div>
           <SearchForm onSearch={handleSearch} />
           <div className='flex items-center ml-6'>

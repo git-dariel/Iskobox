@@ -160,8 +160,8 @@ const FolderOpen = () => {
               </BreadcrumbList>
             </Breadcrumb>
 
-            <div className='flex h-full overflow-hidden'>
-              <div className='flex flex-col w-[70%] bg-white'>
+            <div className='flex h-full overflow-auto'>
+              <div className='flex flex-col w-[70%] bg-white overflow-auto max-h-[30rem]'>
                 {isLoading ? (
                   <div className='flex flex-col flex-1 items-center justify-center'>
                     <l-bouncy size={40} color='black'></l-bouncy>

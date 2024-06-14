@@ -1,5 +1,5 @@
 import React from 'react';
-import { File, FileText, Image } from 'lucide-react';
+import { File, FileText, Image, Video, Music, FilePlus } from 'lucide-react';
 
 export function getFileIcon(fileName) {
   const extension = fileName.split('.').pop().toLowerCase();
@@ -14,6 +14,18 @@ export function getFileIcon(fileName) {
     case 'doc':
     case 'docx':
       return <FileText className='w-8 h-8 text-blue-500' />;
+    case 'ppt':
+    case 'pptx':
+      return <FilePlus className='w-8 h-8 text-orange-500' />; // Using FilePlus as a placeholder
+    case 'xls':
+    case 'xlsx':
+      return <FilePlus className='w-8 h-8 text-green-500' />; // Using FilePlus as a placeholder
+    case 'mp4':
+    case 'avi':
+    case 'mov':
+      return <Video className='w-8 h-8 text-green-500' />;
+    case 'mp3':
+      return <Music className='w-8 h-8 text-purple-500' />;
     default:
       return <File className='w-8 h-8 text-gray-500' />;
   }
@@ -35,12 +47,15 @@ export function truncateFileName(fileName, maxLength = 20) {
 }
 
 export const isViewableFile = (fileName) => {
-  return /\.(pdf|docx|png|jpg|jpeg)$/i.test(fileName);
+  return /\.(pdf|docx|png|jpg|jpeg|mp4|avi|mov)$/i.test(fileName);
 };
 
 export const getFileType = (fileName) => {
-  if (/\.(jpg|jpeg|png)$/i.test(fileName)) return 'image';
+  if (/\.(jpg|jpeg|png|webp)$/i.test(fileName)) return 'image';
   if (/\.pdf$/i.test(fileName)) return 'pdf';
   if (/\.docx$/i.test(fileName)) return 'docx';
-  return null;
+  if (/\.(mp4|avi|mov|webm)$/i.test(fileName)) return 'video';
+  if (/\.mp3$/i.test(fileName)) return 'audio';
+
+  return 'unsupported';
 };

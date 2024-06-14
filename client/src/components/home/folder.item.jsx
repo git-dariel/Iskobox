@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import { FcFolder } from 'react-icons/fc';
 import { MdDelete, MdMoreVert } from 'react-icons/md';
 import { FiEdit } from 'react-icons/fi';
-import { AiOutlineTag } from 'react-icons/ai'; // Import icon for tagging
+import { AiOutlineTag } from 'react-icons/ai';
 import { deleteFolder } from '../../services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
 import { useUpdate } from '@/helpers/update.context';
 import UpdateFolderForm from '../modals/update.folder';
-import FolderTagModal from '../modals/folder.tag'; // Import the FolderTagModal
+import FolderTagModal from '../modals/folder.tag';
 
 const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isTagModalOpen, setIsTagModalOpen] = useState(false); // State for FolderTagModal
+  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { triggerUpdate } = useUpdate();
 
@@ -79,7 +79,7 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
         <Link to={folderUrl} onClick={null}>
           <div
             className={`cursor-default p-4 ${
-              isGridView ? 'flex flex-col m-2 p-2 border' : 'flex w-full border-b'
+              isGridView ? 'flex flex-col m-2 py-4 pr-1 pl-2  border' : 'flex w-full border-b'
             } text-sm flex items-center justify-between space-x-4 border-gray-200 hover:bg-gray-100 transition-all duration-150`}
             onDoubleClick={handleDoubleClick}
           >
@@ -101,10 +101,12 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
                 </div>
               </div>
             </div>
-            <div className='relative' ref={dropdownRef}>
+            <div className={`relative ${isGridView ? 'self-end' : ''}`} ref={dropdownRef}>
               <MdMoreVert
-                size={24}
-                className='cursor-pointer'
+                size={20}
+                className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
+                  isGridView ? 'mt-[-3.4rem]' : ''
+                }`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               />
               {isDropdownOpen && (
