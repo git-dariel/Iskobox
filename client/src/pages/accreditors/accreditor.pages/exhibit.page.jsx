@@ -5,10 +5,33 @@ import { Link } from "react-router-dom";
 import imgSource from "@/configs/img.configs";
 import common from "@/configs/common.config";
 import PortalSection from "../layout/portal.section";
-import Divider from "../layout/divider";
-import Footer from "../layout/footer";
+import { useSpring, animated } from "@react-spring/web";
 
 const ExhibitPage = () => {
+  // Define the spring animation
+  const [springs, api] = useSpring(
+    () => ({
+      opacity: 1,
+      transform: "translateY(0px)",
+      scale: 1,
+      from: { opacity: 0, transform: "translateY(-10px)", scale: 1 },
+      config: {
+        mass: 1,
+        tension: 180,
+        friction: 12,
+      },
+    }),
+    []
+  );
+
+  // Event handlers for hover
+  const handleMouseEnter = () => {
+    api.start({ scale: 1.2 }); // Scale up on hover
+  };
+
+  const handleMouseLeave = () => {
+    api.start({ scale: 1 }); // Scale back down when hover ends
+  };
   return (
     <MainLayout>
       <ImageTopBanner
@@ -17,20 +40,29 @@ const ExhibitPage = () => {
       />
       <section className="flex w-full items-center justify-center bg-gradient-to-r from-amber-300 to-yellow-50 min-h-[50vh] p-7">
         <div className="flex w-[57%] justify-between">
-          <div className="flex flex-col gap-3">
-            <h1 className="font-semibold text-lg">Contents:</h1>
+          <div className="flex flex-col gap-5">
+            <h1 className="font-semibold text-3xl">Contents:</h1>
             {common.exhibitPaths.map((item, index) => (
               <Link
                 key={index}
                 to={item.path}
-                className="font-medium text-green-950 hover:underline"
+                className="text-xl text-green-950 hover:underline"
               >
                 {item.text}
               </Link>
             ))}
           </div>
           <div className="flex items-center justify-center w-[65%]">
-            <img src={imgSource.pylon_ngayon} className="flex object-center" />
+            {/* Apply the spring animation to the img element */}
+            <animated.img
+              src={imgSource.pylon_ngayon}
+              style={{
+                transform: springs.scale.to((scale) => `scale(${scale})`),
+              }}
+              className="flex object-center z-[10]"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            />
           </div>
         </div>
       </section>
@@ -42,8 +74,6 @@ const ExhibitPage = () => {
           folderImage={item.image}
         />
       ))}
-
-      <Footer />
     </MainLayout>
   );
 };
