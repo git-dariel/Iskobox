@@ -60,3 +60,14 @@ export const getFileUrl = async (fileId) => {
   const fileData = fileSnapshot.data();
   return fileData.url;
 };
+
+export const countAllFiles = async () => {
+  try {
+    const q = query(collection(db, 'files'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.size;
+  } catch (error) {
+    console.error('Error counting files:', error);
+    throw error;
+  }
+};

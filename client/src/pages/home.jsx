@@ -1,19 +1,19 @@
-// import CommentForm from "@/components/comment/commentform";
+import React, { useState } from 'react';
+import SideBar from '@/components/layout/SideBar';
 import FileView from '@/components/home/file.view';
 import Header from '@/components/home/home.header';
-import SideMenu from '@/components/layout/side-menu';
 import TopNavigation from '@/components/layout/top-nav';
-import React, { useState } from 'react';
 
 const Home = () => {
-  const [selectedView, setSelectedView] = useState(localStorage.getItem('selectedView') || 'files');
+  const [selectedView, setSelectedView] = useState('folders');
   const [isGridView, setIsGridView] = useState(
     localStorage.getItem('isGridView') === 'true' || false
   );
+  const [currentFolderId, setCurrentFolderId] = useState(null);
 
   const handleViewChange = (view) => {
     setSelectedView(view);
-    localStorage.setItem('selectedView', view);
+    setCurrentFolderId(null);
   };
 
   const toggleView = () => {
@@ -23,27 +23,28 @@ const Home = () => {
   };
 
   return (
-    <div className='flex h-screen mx-1 bg-[#f8fafd]'>
-      <SideMenu />
-      <div className='flex flex-col flex-1 '>
+    <div className='flex w-full h-screen'>
+      <SideBar />
+      <div className='flex flex-col flex-1'>
         <TopNavigation />
         <div className='flex flex-col flex-1'>
-          {/* Main Content */}
-          <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
+          <div className='flex flex-col flex-1 overflow-hidden'>
             <Header
               selectedButton={selectedView}
               handleButtonClick={handleViewChange}
               isGridView={isGridView}
               toggleView={toggleView}
             />
-            <div className='flex h-full overflow-hidden'>
-              <div className='flex flex-col flex-1 bg-white w-[70%] '>
-                {/* File view component here */}
-                <FileView selectedView={selectedView} isGridView={isGridView} />
+            <div className='flex h-full'>
+              <div className='flex flex-col flex-1 bg-white w-[70%] overflow-hidden'>
+                <div className='flex-1 overflow-auto max-h-[30rem]'>
+                  <FileView
+                    selectedView={selectedView}
+                    isGridView={isGridView}
+                    currentFolderId={currentFolderId}
+                  />
+                </div>
               </div>
-              {/* <div className="flex  bg-blue-50">
-                <CommentForm/>
-              </div> */}
             </div>
           </div>
         </div>
