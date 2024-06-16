@@ -8,7 +8,7 @@ function Notification({ hasNotification }) {
   return (
     <div className='relative'>
       <div
-        className='flex flex-col h-10 w-10 items-center justify-center text-gray-500 hover:text-blue-500 transition-all duration-150'
+        className='flex flex-col h-10 w-10 items-center justify-center text-gray-500 hover:text-blue-500 transition-all duration-150 cursor-pointer'
         onClick={() => setShowForm(!showForm)}
       >
         <HiOutlineBellAlert size={23} />

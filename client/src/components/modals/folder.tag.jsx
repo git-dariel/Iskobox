@@ -10,6 +10,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { Toaster, toast } from 'sonner';
 import { addAssigneeToFolder, fetchFolderDetails } from '@/services/folders/folder.service';
 import { addNewNotification } from '@/services/notification/notif.service';
+import { useUpdate } from '@/helpers/update.context';
 
 const FolderTagModal = ({ folderId, onClose }) => {
   const modalRef = useRef(null);
@@ -19,7 +20,7 @@ const FolderTagModal = ({ folderId, onClose }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [description, setDescription] = useState('');
   const [folder, setFolder] = useState({});
-
+  const { triggerUpdate } = useUpdate();
   useEffect(() => {
     async function fetchUsers() {
       try {
@@ -96,7 +97,7 @@ const FolderTagModal = ({ folderId, onClose }) => {
           description: description,
         };
         await addAssigneeToFolder(folderId, assigneeData);
-
+        triggerUpdate();
         // Send a notification to the assigned user
         const notificationData = {
           userId: person.email,

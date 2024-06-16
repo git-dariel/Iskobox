@@ -47,13 +47,13 @@ const CommentButton = () => {
 
   return (
     <div className='select-none'>
-      <div className='border-2 rounded-full h-auto bg-white hover:bg-blue-700 p-1 pt-1 '>
+      <div className='border-2 rounded-full h-auto bg-white p-1 hover:bg-slate-300 transition duration-300 ease-in-out transform hover:scale-110'>
         <button
           onClick={() => setShowModal(true)}
           className='w-4 h-4 rounded-full flex justify-center items-center'
           title='Comment'
         >
-          <FaPlus />
+          <FaPlus size={10} />
         </button>
       </div>
       {showModal && (

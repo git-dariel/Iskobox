@@ -28,7 +28,7 @@ const TopNavigation = ({ navigateToRoot, currentFolderId }) => {
   return (
     <div className='bg-[#f8fafd]'>
       <div className='min-w-full mx-auto px-4 sm:px-1 lg:px-2'>
-        <div className='flex justify-between h-16 items-center'>
+        <div className='flex justify-between h-15 items-center'>
           <div className='flex'>
             <div className='flex-shrink-0 flex items-center'>{/* Content */}</div>
           </div>
