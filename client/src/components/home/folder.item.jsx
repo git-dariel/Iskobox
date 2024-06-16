@@ -81,43 +81,42 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
 
   const folderUrl = `/folders/${folder.id}`;
 
+  const getInitials = (email) => {
+    const nameParts = email.split('@')[0].split('.');
+    return nameParts.map((part) => part[0].toUpperCase()).join('');
+  };
+
   return (
     <>
       <Toaster richColors />
       <div className='relative'>
         <Link to={folderUrl} onClick={null}>
           <div
-            className={`cursor-default p-4 ${
-              isGridView
-                ? 'flex flex-col m-2 py-4 pr-1 pl-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg'
-                : 'flex w-full border-b'
-            } text-sm flex items-center p-1 justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
+            className={`cursor-default p-4 flex w-full border-b text-sm items-center justify-between space-x-2 border-gray-200 hover:bg-gray-100 `}
             onDoubleClick={handleDoubleClick}
           >
-            <div className='flex items-center w-full space-x-2'>
+            <div className='flex items-center w-1/3 space-x-2'>
               <FcFolder size={30} />
-              <div className='flex w-full flex-col'>
-                <span className='truncate text-lg font-semibold'>{folder.name}</span>
-                <div className='flex items-center w-full space-x-1 text-gray-500 text-xs'>
-                  <span>{new Date(folder.createdAt).toLocaleDateString()}</span>
-                  <span>{folder.fileSize}</span>
-                  {folder.assignee && (
-                    <div className='flex items-center space-x-1'>
-                      <div className='w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center'>
-                        <span className='text-xs font-medium'>{folder.assignee.initials}</span>
-                      </div>
-                      <span>{folder.assignee.name}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <span className='truncate text-lg font-semibold'>{folder.name}</span>
             </div>
-            <div className={`relative ${isGridView ? 'self-end' : ''}`} ref={dropdownRef}>
+            <div className='flex items-center w-1/3 space-x-1 text-gray-500 text-xs'>
+              {folder.assignees &&
+                folder.assignees.map((assignee) => (
+                  <div key={assignee.userId} className='flex items-center space-x-1'>
+                    <div className='w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center'>
+                      <span className='text-xs font-medium'>{getInitials(assignee.userId)}</span>
+                    </div>
+                    <span>{assignee.name}</span>
+                  </div>
+                ))}
+            </div>
+            <div className='flex items-center w-1/3 space-x-1 text-gray-500 text-xs'>
+              <span>{new Date(folder.createdAt).toLocaleDateString()}</span>
+            </div>
+            <div className='relative' ref={dropdownRef}>
               <MdMoreVert
                 size={20}
-                className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
-                  isGridView ? 'mt-[-3.4rem]' : ''
-                }`}
+                className='cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150'
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               />
               {isDropdownOpen && (
@@ -162,36 +161,35 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
           <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
             <div className='bg-gray-300 p-8 rounded-lg shadow-2xl'>
               <h2 className='text-xl font-semibold mb-6'>Delete Folder</h2>
-              <p className='mb-4'>Are you sure you want to delete the folder "{folder.name}"?</p>
-              <div className='flex justify-end space-x-4'>
+              <p className='mb-4'>Are you sure you want to delete this folder?</p>
+              <div className='flex justify-end'>
                 <button
-                  onClick={() => setIsModalOpen(false)}
-                  className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
+                  className='bg-red-600 text-white px-4 py-2 rounded mr-2'
+                  onClick={handleDelete}
                 >
-                  No
+                  Delete
                 </button>
                 <button
-                  onClick={handleDelete}
-                  className='px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors'
+                  className='bg-gray-300 text-gray-700 px-4 py-2 rounded'
+                  onClick={closeModal}
                 >
-                  Yes, Delete
+                  Cancel
                 </button>
               </div>
             </div>
           </div>
         )}
+
         {isModalOpenEdit && (
-          <UpdateFolderForm
-            onClose={toggleModal}
-            folderDetails={{
-              id: folder.id,
-              name: folder.name,
-              uploadLimit: folder.uploadLimit,
-            }}
-          />
+          <UpdateFolderForm folder={folder} isOpen={isModalOpenEdit} onClose={toggleModal} />
         )}
+
         {isTagModalOpen && (
-          <FolderTagModal folderId={folder.id} onClose={() => setIsTagModalOpen(false)} />
+          <FolderTagModal
+            folder={folder}
+            isOpen={isTagModalOpen}
+            onClose={() => setIsTagModalOpen(false)}
+          />
         )}
       </div>
     </>
