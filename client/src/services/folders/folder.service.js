@@ -14,7 +14,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
 
-// Fetch folders with file counts
 export const fetchFolders = async (parentId = null) => {
   try {
     let folderQuery;
@@ -40,7 +39,6 @@ export const fetchFolders = async (parentId = null) => {
   }
 };
 
-// Add folder with upload limit
 export const addFolder = async (folderData) => {
   try {
     if (!folderData.name || folderData.name.length > 24 || /[^a-zA-Z0-9 ]/.test(folderData.name)) {
@@ -64,7 +62,6 @@ export const addFolder = async (folderData) => {
   }
 };
 
-// Recursive delete for folders and their contents
 export const deleteFolder = async (folderId) => {
   try {
     const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
@@ -87,7 +84,6 @@ export const deleteFolder = async (folderId) => {
   }
 };
 
-// Update folder details
 export const handleUpdateFolder = async (folderId, updatedDetails) => {
   try {
     if (updatedDetails.name) {
@@ -107,7 +103,6 @@ export const handleUpdateFolder = async (folderId, updatedDetails) => {
   }
 };
 
-// Fetch folder details including parent hierarchy for breadcrumbs
 export const fetchFolderDetails = async (folderId) => {
   try {
     const folderDocRef = doc(db, 'folders', folderId);
@@ -131,7 +126,6 @@ export const fetchFolderDetails = async (folderId) => {
   }
 };
 
-// Fetch folder details with upload limit
 export const fetchFolderDetailsWithUploadLimit = async (folderId) => {
   try {
     const folderDocRef = doc(db, 'folders', folderId);
@@ -162,7 +156,6 @@ export const processFolder = (folder) => {
   };
 };
 
-// Add an assignee to a folder
 export const addAssigneeToFolder = async (folderId, assigneeData) => {
   try {
     const folderRef = doc(db, 'folders', folderId);
@@ -176,12 +169,57 @@ export const addAssigneeToFolder = async (folderId, assigneeData) => {
   }
 };
 
-// Fetch folders assigned to a specific user
+// export const fetchFoldersForUser = async (userId, parentId = null) => {
+//   try {
+//     const folderQuery = query(collection(db, 'folders'), where('parentId', '==', parentId));
+//     const folderSnapshot = await getDocs(folderQuery);
+//     const folders = folderSnapshot.docs.map((doc) => {
+//       const folderData = doc.data();
+//       const createdAt = folderData.createdAt
+//         ? new Date(folderData.createdAt.seconds * 1000)
+//         : new Date();
+//       return {
+//         id: doc.id,
+//         ...folderData,
+//         createdAt: createdAt,
+//       };
+//     });
+
+//     const filteredFolders = folders.filter(
+//       (folder) =>
+//         folder.assignees && folder.assignees.some((assignee) => assignee.userId === userId)
+//     );
+
+//     const files = [];
+//     if (parentId) {
+//       const fileQuery = query(collection(db, 'files'), where('folderId', '==', parentId));
+//       const fileSnapshot = await getDocs(fileQuery);
+//       const folderFiles = fileSnapshot.docs.map((doc) => {
+//         const fileData = doc.data();
+//         const fileCreatedAt = fileData.createdAt
+//           ? new Date(fileData.createdAt.seconds * 1000)
+//           : new Date();
+//         return {
+//           id: doc.id,
+//           ...fileData,
+//           createdAt: fileCreatedAt,
+//         };
+//       });
+//       files.push(...folderFiles);
+//     }
+
+//     return { folders: filteredFolders, files };
+//   } catch (error) {
+//     console.error('Error fetching folders for user:', error);
+//     throw error;
+//   }
+// };
+
 export const fetchFoldersForUser = async (userId, parentId = null) => {
   try {
-    const folderQuery = query(collection(db, 'folders'), where('parentId', '==', parentId));
-    const folderSnapshot = await getDocs(folderQuery);
-    const folders = folderSnapshot.docs.map((doc) => {
+    const allFoldersQuery = query(collection(db, 'folders'));
+    const allFoldersSnapshot = await getDocs(allFoldersQuery);
+    let allFolders = allFoldersSnapshot.docs.map((doc) => {
       const folderData = doc.data();
       const createdAt = folderData.createdAt
         ? new Date(folderData.createdAt.seconds * 1000)
@@ -193,11 +231,30 @@ export const fetchFoldersForUser = async (userId, parentId = null) => {
       };
     });
 
-    const filteredFolders = folders.filter(
+    allFolders = allFolders.sort((a, b) => a.createdAt - b.createdAt);
+
+    // Filter to include only those folders where the user is an assignee
+    let userFolders = allFolders.filter(
       (folder) =>
         folder.assignees && folder.assignees.some((assignee) => assignee.userId === userId)
     );
 
+    // Include parent folders of assigned subfolders to maintain hierarchy
+    const parentIds = userFolders
+      .filter((folder) => folder.parentId && !userFolders.some((f) => f.id === folder.parentId))
+      .map((folder) => folder.parentId);
+
+    const parentFolders = allFolders.filter((folder) => parentIds.includes(folder.id));
+    userFolders = [...userFolders, ...parentFolders];
+
+    // If parentId is null, return only root folders; otherwise, return only the subfolders of the specified parent
+    if (parentId === null) {
+      userFolders = userFolders.filter((folder) => !folder.parentId);
+    } else {
+      userFolders = userFolders.filter((folder) => folder.parentId === parentId);
+    }
+
+    // Fetch files for these folders if parentId is specified
     const files = [];
     if (parentId) {
       const fileQuery = query(collection(db, 'files'), where('folderId', '==', parentId));
@@ -216,9 +273,112 @@ export const fetchFoldersForUser = async (userId, parentId = null) => {
       files.push(...folderFiles);
     }
 
-    return { folders: filteredFolders, files };
+    return { folders: userFolders, files };
   } catch (error) {
     console.error('Error fetching folders for user:', error);
+    throw error;
+  }
+};
+
+export const countAllFolders = async () => {
+  try {
+    const q = query(collection(db, 'folders'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.size;
+  } catch (error) {
+    console.error('Error counting folders:', error);
+    throw error;
+  }
+};
+
+export const calculateEmptyFoldersPercentage = async () => {
+  try {
+    const folderQuery = query(collection(db, 'folders'));
+    const folderSnapshot = await getDocs(folderQuery);
+    const totalFolders = folderSnapshot.size;
+    let emptyFolders = 0;
+
+    folderSnapshot.forEach((doc) => {
+      const folderData = doc.data();
+      if (!folderData.fileCount || folderData.fileCount === 0) {
+        emptyFolders++;
+      }
+    });
+
+    const emptyFoldersPercentage = (emptyFolders / totalFolders) * 100;
+    const pendingFilesPercentage = Math.round(emptyFoldersPercentage) + '% pending files';
+    return pendingFilesPercentage;
+  } catch (error) {
+    console.error('Error calculating empty folders percentage:', error);
+    throw error;
+  }
+};
+
+export const calculateEmptyFoldersPercentageWithFilter = async (filter) => {
+  try {
+    const folderQuery = query(collection(db, 'folders'), where('parentId', '==', filter.parentId));
+    const folderSnapshot = await getDocs(folderQuery);
+    const totalFolders = folderSnapshot.size;
+    let emptyFolders = 0;
+
+    folderSnapshot.forEach((doc) => {
+      const folderData = doc.data();
+      if (!folderData.fileCount || folderData.fileCount === 0) {
+        emptyFolders++;
+      }
+    });
+
+    const emptyFoldersPercentage = (emptyFolders / totalFolders) * 100;
+    const pendingFilesPercentage = Math.round(emptyFoldersPercentage) + '% pending files';
+    return pendingFilesPercentage;
+  } catch (error) {
+    console.error('Error calculating empty folders percentage with filter:', error);
+    throw error;
+  }
+};
+
+export const calculateFoldersWithFilesPercentage = async () => {
+  try {
+    const folderQuery = query(collection(db, 'folders'));
+    const folderSnapshot = await getDocs(folderQuery);
+    const totalFolders = folderSnapshot.size;
+    let foldersWithFiles = 0;
+
+    folderSnapshot.forEach((doc) => {
+      const folderData = doc.data();
+      if (folderData.fileCount && folderData.fileCount > 0) {
+        foldersWithFiles++;
+      }
+    });
+
+    const foldersWithFilesPercentage = (foldersWithFiles / totalFolders) * 100;
+    const completeFilesPercentage = Math.round(foldersWithFilesPercentage) + '% complete files';
+    return completeFilesPercentage;
+  } catch (error) {
+    console.error('Error calculating folders with files percentage:', error);
+    throw error;
+  }
+};
+
+export const calculateFoldersWithFilesPercentageWithFilter = async (filter) => {
+  try {
+    const folderQuery = query(collection(db, 'folders'), where('parentId', '==', filter.parentId));
+    const folderSnapshot = await getDocs(folderQuery);
+    const totalFolders = folderSnapshot.size;
+    let foldersWithFiles = 0;
+
+    folderSnapshot.forEach((doc) => {
+      const folderData = doc.data();
+      if (folderData.fileCount && folderData.fileCount > 0) {
+        foldersWithFiles++;
+      }
+    });
+
+    const foldersWithFilesPercentage = (foldersWithFiles / totalFolders) * 100;
+    const completeFilesPercentage = Math.round(foldersWithFilesPercentage) + '% complete files';
+    return completeFilesPercentage;
+  } catch (error) {
+    console.error('Error calculating folders with files percentage with filter:', error);
     throw error;
   }
 };

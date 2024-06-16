@@ -8,7 +8,7 @@ import common from '@/configs/common.config';
 import { fetchAllUsers } from '@/services/users/user.service';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Toaster, toast } from 'sonner';
-import { addAssigneeToFolder } from '@/services/folders/folder.service';
+import { addAssigneeToFolder, fetchFolderDetails } from '@/services/folders/folder.service';
 import { addNewNotification } from '@/services/notification/notif.service';
 
 const FolderTagModal = ({ folderId, onClose }) => {
@@ -18,9 +18,9 @@ const FolderTagModal = ({ folderId, onClose }) => {
   const [selectedRole, setSelectedRole] = useState('Uploader');
   const [allUsers, setAllUsers] = useState([]);
   const [description, setDescription] = useState('');
+  const [folder, setFolder] = useState({});
 
   useEffect(() => {
-    // Fetch all users on component mount
     async function fetchUsers() {
       try {
         const users = await fetchAllUsers();
@@ -30,7 +30,23 @@ const FolderTagModal = ({ folderId, onClose }) => {
       }
     }
 
+    async function fetchFolder() {
+      try {
+        const folderDetails = await fetchFolderDetails(folderId);
+        if (folderDetails) {
+          setFolder(folderDetails);
+        } else {
+          toast.error('Folder not found. Please try again.');
+          onClose();
+        }
+      } catch (error) {
+        console.error('Error fetching folder:', error);
+        toast.error('Failed to fetch folder. Please try again.');
+      }
+    }
+
     fetchUsers();
+    fetchFolder();
 
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -43,14 +59,12 @@ const FolderTagModal = ({ folderId, onClose }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [onClose]);
+  }, [folderId, onClose]);
 
   const onSelectRole = (roleId) => {
     const selectedOption = common.roleOptions.find((option) => option.id === roleId);
     setSelectedRole(selectedOption.label);
   };
-
-  const folder = { name: 'Folder' };
 
   const handleInputChange = (e) => {
     setEmail(e.target.value);

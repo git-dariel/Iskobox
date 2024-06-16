@@ -7,6 +7,7 @@ import { AiOutlineTag } from 'react-icons/ai';
 import { deleteFolder } from '../../services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
 import { useUpdate } from '@/helpers/update.context';
+import { useAuth } from '@/helpers/auth.context';
 import UpdateFolderForm from '../modals/update.folder';
 import FolderTagModal from '../modals/folder.tag';
 
@@ -17,6 +18,9 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { triggerUpdate } = useUpdate();
+  const { currentUser } = useAuth();
+
+  const isFaculty = currentUser?.role === 'Faculty';
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -40,6 +44,11 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   };
 
   const handleDelete = () => {
+    if (isFaculty) {
+      toast.info('Faculty members cannot delete folders.');
+      return;
+    }
+
     const deleteProcess = async () => {
       await deleteFolder(folder.id);
       triggerUpdate();
@@ -114,22 +123,31 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
               {isDropdownOpen && (
                 <div className='absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10'>
                   <button
-                    className='flex items-center w-full px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100'
+                    className={`flex items-center w-full px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 ${
+                      isFaculty ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                     onClick={toggleModal}
+                    disabled={isFaculty}
                   >
                     <FiEdit size={20} className='mr-2' />
                     Edit
                   </button>
                   <button
-                    className='flex items-center w-full px-4 pt-2 pb-3 text-sm text-red-600 hover:bg-gray-100'
-                    onClick={openModal}
+                    className={`flex items-center w-full px-4 pt-2 pb-3 text-sm text-red-600 hover:bg-gray-100 ${
+                      isFaculty ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    onClick={handleDelete}
+                    disabled={isFaculty}
                   >
                     <MdDelete size={20} className='mr-2' />
                     Delete
                   </button>
                   <button
-                    className='flex items-center w-full px-4 pt-2 pb-3 text-sm text-blue-600 hover:bg-gray-100'
+                    className={`flex items-center w-full px-4 pt-2 pb-3 text-sm text-blue-600 hover:bg-gray-100 ${
+                      isFaculty ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                     onClick={openTagModal}
+                    disabled={isFaculty}
                   >
                     <AiOutlineTag size={20} className='mr-2' />
                     Assign
@@ -154,9 +172,9 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
                 </button>
                 <button
                   onClick={handleDelete}
-                  className='px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors'
+                  className='px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors'
                 >
-                  Yes
+                  Yes, Delete
                 </button>
               </div>
             </div>
@@ -179,4 +197,5 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
     </>
   );
 };
+
 export default FolderItem;

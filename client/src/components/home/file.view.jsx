@@ -13,30 +13,6 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   const { currentUser } = useAuth();
   const { updateCount } = useUpdate();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const effectiveFolderId = currentFolderId === undefined ? null : currentFolderId;
-
-  //     if (currentUser && currentUser.role === 'Admin') {
-  //       const fetchedFolders = await fetchFolders(effectiveFolderId);
-  //       setFolders(fetchedFolders);
-  //       if (currentFolderId) {
-  //         const fetchedFiles = await fetchFilesInFolder(currentFolderId);
-  //         setFiles(fetchedFiles);
-  //       } else {
-  //         const allFiles = await fetchAllFiles();
-  //         setFiles(allFiles);
-  //       }
-  //     } else if (currentUser && currentUser.role === 'Faculty') {
-  //       const testData = await fetchFoldersForUser(currentUser.email);
-  //       setFolders(testData.folders);
-  //       setFiles(testData.files);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [currentFolderId, currentUser]);
-
   useEffect(() => {
     const fetchData = async () => {
       if (currentUser && currentUser.role === 'Admin') {
