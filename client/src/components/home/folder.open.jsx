@@ -123,7 +123,6 @@ const FolderOpen = () => {
     <div className='flex w-full h-screen'>
       <SideBar />
       <div className='flex flex-col flex-1'>
-        <TopNavigation />
         <div className='flex flex-col flex-1'>
           <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
             <Header
@@ -160,15 +159,15 @@ const FolderOpen = () => {
               </BreadcrumbList>
             </Breadcrumb>
 
-            <div className='w-[56rem]'>
+            {/* <div className='w-[45rem]'>
               <div className='flex w-full p-4 border-b text-sm font-semibold '>
                 <div className='w-1/3'>Name</div>
                 <div className='w-1/3'>Assigned to</div>
                 <div className='w-1/3'>Date</div>
               </div>
-            </div>
-            <div className='flex h-full overflow-auto'>
-              <div className='flex flex-col w-[70%] bg-white overflow-auto max-h-[27rem]'>
+            </div> */}
+            <div className='flex h-[70vh] overflow-hidden'>
+              <div className='flex flex-col w-[70%] bg-white overflow-auto'>
                 {isLoading ? (
                   <div className='flex flex-col flex-1 items-center justify-center'>
                     <l-bouncy size={40} color='black'></l-bouncy>

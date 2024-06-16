@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import SideBar from '@/components/layout/SideBar';
 import FileView from '@/components/home/file.view';
 import Header from '@/components/home/home.header';
-import TopNavigation from '@/components/layout/top-nav';
 
 const Home = () => {
   const [selectedView, setSelectedView] = useState('folders');
@@ -26,7 +25,6 @@ const Home = () => {
     <div className='flex w-full h-screen'>
       <SideBar />
       <div className='flex flex-col flex-1'>
-        <TopNavigation />
         <div className='flex flex-col flex-1'>
           <div className='flex flex-col flex-1 overflow-hidden'>
             <Header
@@ -35,9 +33,10 @@ const Home = () => {
               isGridView={isGridView}
               toggleView={toggleView}
             />
-            <div className='flex h-full'>
+
+            <div className='flex h-[72vh]'>
               <div className='flex flex-col flex-1 bg-white w-[70%] overflow-hidden'>
-                <div className='flex-1 overflow-auto max-h-[30rem]'>
+                <div className='flex-1 overflow-auto'>
                   <FileView
                     selectedView={selectedView}
                     isGridView={isGridView}

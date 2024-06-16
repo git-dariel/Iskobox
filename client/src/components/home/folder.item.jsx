@@ -116,20 +116,22 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
           <div
             className={`cursor-default p-4 ${
               isGridView
-                ? 'flex m-2 py-5 pr-1 pl-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg'
+                ? 'flex flex-col items-center m-2 py-5 pr-8 pl-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg'
                 : 'flex w-full border-b'
             } text-sm flex items-center p-[0.30rem] justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
             onDoubleClick={handleDoubleClick}
           >
-            <div className='flex items-center w-1/3'>
+            <div
+              className={`flex items-center w-1/3 ${
+                isGridView ? 'flex items-center w-full justify-center' : ''
+              }`}
+            >
               <FcFolder size={25} />
-              <span className='truncate text-base pl-2 font-semibold text-gray-800'>
-                {folder.name}
-              </span>
+              <span className='truncate text-sm pl-2 font-medium text-gray-800'>{folder.name}</span>
             </div>
             <div
               className={`flex items-center w-1/3 space-x-1 text-gray-500 text-xs ${
-                isGridView ? '' : ''
+                isGridView ? 'justify-center mt-2' : ''
               }`}
             >
               {folder.assignees && folder.assignees.length > 0 ? (
@@ -150,9 +152,9 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
             </div>
             <div className={`relative ${isGridView ? 'self-end' : ''}`} ref={dropdownRef}>
               <MdMoreVert
-                size={20}
+                size={18}
                 className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
-                  isGridView ? 'mt-[-2.5rem]' : ''
+                  isGridView ? 'mt-[-5rem] mr-[-12rem]' : ''
                 }`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               />

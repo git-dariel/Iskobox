@@ -1,4 +1,3 @@
-// I-update ang CommentList component para maayos ang pagpapakita ng mga comments at pag-delete ng comment
 import React, { useState, useEffect } from 'react';
 import { deleteComment, fetchComments } from '@/services/comments/comments.service';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
@@ -34,7 +33,12 @@ const CommentList = () => {
 
   useEffect(() => {
     fetchComments().then((fetchedComments) => {
-      setComments(fetchedComments);
+      const sortedComments = fetchedComments.sort((a, b) => {
+        const dateA = new Date(a.dateTime.date.replace(/-/g, '/') + ' ' + a.dateTime.time);
+        const dateB = new Date(b.dateTime.date.replace(/-/g, '/') + ' ' + b.dateTime.time);
+        return dateA - dateB;
+      });
+      setComments(sortedComments);
     });
   }, [triggerUpdate]);
 
@@ -42,12 +46,6 @@ const CommentList = () => {
     setSelectedComment(comment);
     setShowModal(true);
   };
-
-  // To fix the "invalid date" issue, you can update the way you create the commentDate object in the formatDateTime function in the CommentList component. Modify the line where commentDate is created to ensure it is parsed correctly:
-
-  // This will replace any dashes in the date string with slashes, which can help in creating a valid Date object.
-  // To fix the error "TypeError: Cannot read properties of undefined (reading 'replace')" in showcomment.jsx:50, ensure that 'dateTime' and 'dateTime.date' are defined before accessing them. You can update the formatDateTime function as follows:
-
   const formatDateTime = (dateTime) => {
     if (dateTime && dateTime.date) {
       const currentDate = new Date();
@@ -68,21 +66,17 @@ const CommentList = () => {
   };
 
   return (
-    <div className='bg-white rounded-md  lg:max-w-xl  overflow-hidden px-4 py-5 '>
-      <div className='w-[300px] '>
+    <div className='bg-white rounded-md overflow-hidden py-1 '>
+      <div className='w-full '>
         {comments.map((comment, index) => (
           <div
-            key={index} 
-            className='bg-gray-100 p-2 rounded m-2   hover:shadow-md cursor-pointer'
+            key={index}
+            className='bg-gray-100 p-2 rounded m-2 hover:shadow-md cursor-pointer transition duration-300 ease-in-out'
             onClick={() => handleCommentClick(comment)}
           >
-            <div className=''>
-              <div>
-                <h2>• {comment.folder}</h2>
-              </div>
-              <div>
-                <p className='pl-4'>{formatDateTime(comment.dateTime)}</p>
-              </div>
+            <div className='flex justify-between'>
+              <h2 className='text-sm'>{comment.folder}</h2>
+              <p className='text-xs text-gray-600'>{formatDateTime(comment.dateTime)}</p>
             </div>
           </div>
         ))}
@@ -109,7 +103,7 @@ const CommentList = () => {
                 <h1>{selectedComment.folder}</h1>
               </div>
               <div className='pr-2'>
-                <p>{formatDateTime(selectedComment.dateTime)}</p>
+                <p className=''>{formatDateTime(selectedComment.dateTime)}</p>
               </div>
             </div>
             <div

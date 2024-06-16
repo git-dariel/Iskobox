@@ -67,13 +67,13 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
       {selectedView === 'folders' && (
         <div className='ml-2'>
           <h2 className='text-sm m-2'>Folders</h2>
-          <div className='w-full'>
+          {/* <div className='w-full'>
             <div className='flex w-full p-2 border-b text-sm font-semibold '>
               <div className='w-1/3'>Name</div>
               <div className='w-1/3'>Assigned to</div>
               <div className='w-1/3'>Date</div>
             </div>
-          </div>
+          </div> */}
           <div
             className={`${
               isGridView

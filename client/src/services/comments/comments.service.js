@@ -1,4 +1,13 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
 
 // Create a new comment
@@ -29,10 +38,11 @@ export const addNewComment = async (commentData) => {
 export const fetchComments = async () => {
   try {
     const commentsSnapshot = await getDocs(collection(db, 'comments'));
-    return commentsSnapshot.docs.map((doc) => ({
+    const sortedComments = commentsSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
+    return sortedComments;
   } catch (error) {
     console.error('Error fetching comments:', error);
     throw error;

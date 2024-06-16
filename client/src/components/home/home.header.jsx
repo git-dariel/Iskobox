@@ -4,10 +4,18 @@ import FileFolderButton from '../common/buttons/file.folder';
 import ToggleViewButton from '../common/buttons/toggle.view';
 import FolderTagModal from '../modals/folder.tag';
 import { useAuth } from '@/helpers/auth.context';
+import SearchForm from '../common/searchbars/search';
+import UserProfile from '@/components/users/user-profile';
+import Notification from '../common/buttons/notification';
 
 const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, currentFolderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { currentUser } = useAuth();
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = (results) => {
+    setSearchResults(results);
+  };
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -23,14 +31,30 @@ const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, cur
   return (
     <div className='bg-white max-w-full rounded-t-xl '>
       <div className='mx-auto p-4'>
-        <div className='flex'>
-          <h1 className='text-2xl text-gray-800 font-bold pl-3 pr-1'>
-            {' '}
+        <div className='flex items-center justify-between'>
+          <h1 className='text-xl text-gray-800 font-bold pl-3 pr-1'>
             {currentUser
               ? `${getGreeting()}, ${currentUser.firstname} ${currentUser.lastname}`
               : 'Iskobox'}
           </h1>
+          <SearchForm onSearch={handleSearch} />
+          <div className='flex'>
+            <Notification />
+            <UserProfile />
+          </div>
         </div>
+
+        {searchResults.length > 0 && (
+          <div className='absolute bg-white w-full shadow-md rounded-lg mt-2 p-4 z-20'>
+            <ul>
+              {searchResults.map((result) => (
+                <li key={result.id} className='border-b py-2'>
+                  {result.type === 'folder' ? '📁' : '📄'} {result.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className='flex p-3'>
           <div className='flex gap-1'>
