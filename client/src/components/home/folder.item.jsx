@@ -123,7 +123,9 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
           >
             <div className='flex items-center w-1/3'>
               <FcFolder size={25} />
-              <span className='truncate text-base pl-2 font-semibold'>{folder.name}</span>
+              <span className='truncate text-base pl-2 font-semibold text-gray-800'>
+                {folder.name}
+              </span>
             </div>
             <div
               className={`flex items-center w-1/3 space-x-1 text-gray-500 text-xs ${
