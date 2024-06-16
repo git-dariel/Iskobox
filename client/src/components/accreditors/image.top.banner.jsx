@@ -3,7 +3,7 @@ import "@fontsource/bebas-neue";
 
 const ImageTopBanner = ({ imgSource, banner_title }) => {
   return (
-    <div className="flex w-full items-center justify-start h-[12%] relative">
+    <div className="flex w-full items-center justify-start min-h-[17rem] relative">
       {/* Image with styles to fill the width */}
       <img
         src={imgSource}
