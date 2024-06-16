@@ -118,12 +118,12 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
               isGridView
                 ? 'flex m-2 py-5 pr-1 pl-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg'
                 : 'flex w-full border-b'
-            } text-sm flex items-center p-1 justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
+            } text-sm flex items-center p-[0.30rem] justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
             onDoubleClick={handleDoubleClick}
           >
             <div className='flex items-center w-1/3'>
-              <FcFolder size={30} />
-              <span className='truncate text-lg font-semibold'>{folder.name}</span>
+              <FcFolder size={25} />
+              <span className='truncate text-base pl-2 font-semibold'>{folder.name}</span>
             </div>
             <div
               className={`flex items-center w-1/3 space-x-1 text-gray-500 text-xs ${
@@ -170,7 +170,7 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
                     className={`flex items-center w-full px-4 pt-2 pb-3 text-sm text-red-600 hover:bg-gray-100 ${
                       isFaculty ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
-                    onClick={handleDelete}
+                    onClick={openModal}
                     disabled={isFaculty}
                   >
                     <MdDelete size={20} className='mr-2' />
@@ -212,20 +212,20 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
         {isModalOpen && (
           <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
             <div className='bg-gray-300 p-8 rounded-lg shadow-2xl'>
-              <h2 className='text-xl font-semibold mb-6'>Delete Folder</h2>
+              <h2 className='text-xl font-semibold mb-6'>Delete {folder.name}</h2>
               <p className='mb-4'>Are you sure you want to delete the folder "{folder.name}"?</p>
               <div className='flex justify-end space-x-4'>
+                <button
+                  onClick={handleDelete}
+                  className='px-6 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors'
+                >
+                  Yes
+                </button>
                 <button
                   onClick={() => setIsModalOpen(false)}
                   className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
                 >
-                  No
-                </button>
-                <button
-                  onClick={handleDelete}
-                  className='px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors'
-                >
-                  Yes, Delete
+                  Cancel
                 </button>
               </div>
             </div>
@@ -248,17 +248,17 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
         {isRemoveAssigneeModalOpen && (
           <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
             <div className='bg-gray-300 p-8 rounded-lg shadow-2xl'>
-              <h2 className='text-xl font-bold'>Confirm Removal</h2>
-              <p>Are you sure you want to remove {assigneeToRemove?.name}?</p>
-              <div className='mt-4 flex justify-end space-x-2'>
+              <h2 className='text-xl font-semibold mb-6'>Confirm Removal</h2>
+              <p className='mb-4'>Are you sure you want to remove {assigneeToRemove?.name}?</p>
+              <div className='flex justify-end space-x-4'>
                 <button
-                  className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700'
+                  className='px-6 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors'
                   onClick={() => handleRemoveAssignee(assigneeToRemove)}
                 >
                   Remove
                 </button>
                 <button
-                  className='bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700'
+                  className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
                   onClick={() => setIsRemoveAssigneeModalOpen(false)}
                 >
                   Cancel

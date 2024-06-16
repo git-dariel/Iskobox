@@ -127,7 +127,7 @@ const FileItem = ({ file, isGridView }) => {
           isGridView
             ? 'flex-col m-2 p-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg'
             : 'w-full border-y'
-        } text-sm flex items-center p-1 justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
+        } text-sm flex items-center p-[0.30rem] justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
         onClick={() => {
           const fileType = getFileType(file.name);
           if (fileType === 'image' || fileType === 'pdf' || fileType === 'docx') {
@@ -145,7 +145,7 @@ const FileItem = ({ file, isGridView }) => {
           <MdMoreVert
             size={20}
             className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
-              isGridView ? 'mt-[-3.4rem]' : ''
+              isGridView ? 'mt-[-2.5rem]' : ''
             }`}
             onClick={(e) => {
               e.stopPropagation();
@@ -216,20 +216,20 @@ const FileItem = ({ file, isGridView }) => {
       {isDeleteModalOpen && (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
           <div className='bg-gray-300 p-8 rounded-lg shadow-2xl'>
-            <h2 className='text-xl font-semibold mb-6'>Delete File</h2>
+            <h2 className='text-xl font-semibold mb-6'>Delete {file.name}</h2>
             <p className='mb-4'>Are you sure you want to delete the file "{file.name}"?</p>
             <div className='flex justify-end space-x-4'>
-              <button
-                onClick={closeDeleteModal}
-                className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
-              >
-                No
-              </button>
               <button
                 onClick={handleDelete}
                 className='px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors'
               >
                 Yes
+              </button>
+              <button
+                onClick={closeDeleteModal}
+                className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
+              >
+                Cancel
               </button>
             </div>
           </div>

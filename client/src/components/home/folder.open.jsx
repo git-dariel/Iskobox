@@ -168,7 +168,7 @@ const FolderOpen = () => {
               </div>
             </div>
             <div className='flex h-full overflow-auto'>
-              <div className='flex flex-col w-[70%] bg-white overflow-auto max-h-[30rem]'>
+              <div className='flex flex-col w-[70%] bg-white overflow-auto max-h-[27rem]'>
                 {isLoading ? (
                   <div className='flex flex-col flex-1 items-center justify-center'>
                     <l-bouncy size={40} color='black'></l-bouncy>

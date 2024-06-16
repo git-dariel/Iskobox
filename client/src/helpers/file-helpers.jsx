@@ -8,26 +8,26 @@ export function getFileIcon(fileName) {
     case 'jpeg':
     case 'png':
     case 'gif':
-      return <Image className='w-8 h-8 text-gray-500' />;
+      return <Image className='w-5 h-5 text-gray-500' />;
     case 'pdf':
-      return <File className='w-8 h-8 text-red-500' />;
+      return <File className='w-5 h-5 text-red-500' />;
     case 'doc':
     case 'docx':
-      return <FileText className='w-8 h-8 text-blue-500' />;
+      return <FileText className='w-5 h-5 text-blue-500' />;
     case 'ppt':
     case 'pptx':
-      return <FilePlus className='w-8 h-8 text-orange-500' />; // Using FilePlus as a placeholder
+      return <FilePlus className='w-5 h-5 text-orange-500' />; // Using FilePlus as a placeholder
     case 'xls':
     case 'xlsx':
-      return <FilePlus className='w-8 h-8 text-green-500' />; // Using FilePlus as a placeholder
+      return <FilePlus className='w-5 h-5 text-green-500' />; // Using FilePlus as a placeholder
     case 'mp4':
     case 'avi':
     case 'mov':
-      return <Video className='w-8 h-8 text-green-500' />;
+      return <Video className='w-5 h-5 text-green-500' />;
     case 'mp3':
-      return <Music className='w-8 h-8 text-purple-500' />;
+      return <Music className='w-5 h-5 text-purple-500' />;
     default:
-      return <File className='w-8 h-8 text-gray-500' />;
+      return <File className='w-5 h-5 text-gray-500' />;
   }
 }
 
