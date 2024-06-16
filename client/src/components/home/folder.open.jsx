@@ -160,6 +160,13 @@ const FolderOpen = () => {
               </BreadcrumbList>
             </Breadcrumb>
 
+            <div className='w-[56rem]'>
+              <div className='flex w-full p-4 border-b text-sm font-semibold '>
+                <div className='w-1/3'>Name</div>
+                <div className='w-1/3'>Assigned to</div>
+                <div className='w-1/3'>Date</div>
+              </div>
+            </div>
             <div className='flex h-full overflow-auto'>
               <div className='flex flex-col w-[70%] bg-white overflow-auto max-h-[30rem]'>
                 {isLoading ? (
