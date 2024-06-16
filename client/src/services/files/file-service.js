@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes, deleteObject } from 'firebase/storage';
 import { db, storage } from '../../database/firebase-connection';
 
 export const fetchAllFiles = async () => {
@@ -48,7 +48,23 @@ export const uploadFile = async (file, folderId) => {
 };
 
 export const deleteFile = async (fileId) => {
-  await deleteDoc(doc(db, 'files', fileId));
+  const fileRef = doc(db, 'files', fileId);
+  const fileSnapshot = await getDoc(fileRef);
+  if (!fileSnapshot.exists()) {
+    throw new Error('File not found');
+  }
+  const fileData = fileSnapshot.data();
+  const filePath = `folders/${fileData.folderId}/${fileData.name}`;
+
+  // Delete the file from Firebase Storage
+  const storageRef = ref(storage, filePath);
+  await deleteObject(storageRef).catch((error) => {
+    console.error('Error deleting from storage:', error);
+    throw error;
+  });
+
+  // Delete the document from Firestore
+  await deleteDoc(fileRef);
 };
 
 export const getFileUrl = async (fileId) => {
