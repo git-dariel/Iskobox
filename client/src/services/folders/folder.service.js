@@ -10,6 +10,7 @@ import {
   query,
   serverTimestamp,
   arrayUnion,
+  arrayRemove,
   onSnapshot,
 } from 'firebase/firestore';
 import { db } from '../../database/firebase-connection';
@@ -165,6 +166,19 @@ export const addAssigneeToFolder = async (folderId, assigneeData) => {
     return { success: true };
   } catch (error) {
     console.error('Error adding assignee to folder:', error);
+    throw error;
+  }
+};
+
+export const removeAssigneeFromFolder = async (folderId, assigneeData) => {
+  try {
+    const folderRef = doc(db, 'folders', folderId);
+    await updateDoc(folderRef, {
+      assignees: arrayRemove(assigneeData),
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Error removing assignee from folder:', error);
     throw error;
   }
 };

@@ -4,7 +4,7 @@ import { FcFolder } from 'react-icons/fc';
 import { MdDelete, MdMoreVert } from 'react-icons/md';
 import { FiEdit } from 'react-icons/fi';
 import { AiOutlineTag } from 'react-icons/ai';
-import { deleteFolder } from '../../services/folders/folder.service';
+import { deleteFolder, removeAssigneeFromFolder } from '../../services/folders/folder.service';
 import { Toaster, toast } from 'sonner';
 import { useUpdate } from '@/helpers/update.context';
 import { useAuth } from '@/helpers/auth.context';
@@ -16,6 +16,8 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
+  const [isRemoveAssigneeModalOpen, setIsRemoveAssigneeModalOpen] = useState(false);
+  const [assigneeToRemove, setAssigneeToRemove] = useState(null);
   const dropdownRef = useRef(null);
   const { triggerUpdate } = useUpdate();
   const { currentUser } = useAuth();
@@ -79,6 +81,26 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
     setIsModalOpen(false);
   };
 
+  const openRemoveAssigneeModal = () => {
+    setIsRemoveAssigneeModalOpen(true);
+  };
+
+  const handleRemoveAssignee = async (assignee) => {
+    setIsRemoveAssigneeModalOpen(false);
+
+    const removeProcess = async () => {
+      await removeAssigneeFromFolder(folder.id, assignee);
+      triggerUpdate();
+      return 'Assignee removed successfully';
+    };
+
+    toast.promise(removeProcess(), {
+      loading: 'Removing assignee...',
+      success: 'Assignee removed successfully',
+      error: (err) => `Failed to remove assignee: ${err.message}`,
+    });
+  };
+
   const folderUrl = `/folders/${folder.id}`;
 
   const getInitials = (email) => {
@@ -92,15 +114,23 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
       <div className='relative'>
         <Link to={folderUrl} onClick={null}>
           <div
-            className={`cursor-default p-4 flex w-full border-b text-sm items-center justify-between space-x-2 border-gray-200 hover:bg-gray-100 `}
+            className={`cursor-default p-4 ${
+              isGridView
+                ? 'flex m-2 py-5 pr-1 pl-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg'
+                : 'flex w-full border-b'
+            } text-sm flex items-center p-1 justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
             onDoubleClick={handleDoubleClick}
           >
-            <div className='flex items-center w-1/3 space-x-2'>
+            <div className='flex items-center w-1/3'>
               <FcFolder size={30} />
               <span className='truncate text-lg font-semibold'>{folder.name}</span>
             </div>
-            <div className='flex items-center w-1/3 space-x-1 text-gray-500 text-xs'>
-              {folder.assignees &&
+            <div
+              className={`flex items-center w-1/3 space-x-1 text-gray-500 text-xs ${
+                isGridView ? '' : ''
+              }`}
+            >
+              {folder.assignees && folder.assignees.length > 0 ? (
                 folder.assignees.map((assignee) => (
                   <div key={assignee.userId} className='flex items-center space-x-1'>
                     <div className='w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center'>
@@ -108,15 +138,20 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
                     </div>
                     <span>{assignee.name}</span>
                   </div>
-                ))}
+                ))
+              ) : (
+                <span>No assignee</span>
+              )}
             </div>
             <div className='flex items-center w-1/3 space-x-1 text-gray-500 text-xs'>
               <span>{new Date(folder.createdAt).toLocaleDateString()}</span>
             </div>
-            <div className='relative' ref={dropdownRef}>
+            <div className={`relative ${isGridView ? 'self-end' : ''}`} ref={dropdownRef}>
               <MdMoreVert
                 size={20}
-                className='cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150'
+                className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
+                  isGridView ? 'mt-[-2.5rem]' : ''
+                }`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               />
               {isDropdownOpen && (
@@ -151,6 +186,23 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
                     <AiOutlineTag size={20} className='mr-2' />
                     Assign
                   </button>
+                  {folder.assignees &&
+                    folder.assignees.map((assignee) => (
+                      <button
+                        key={assignee.userId}
+                        className={`flex items-center w-full px-4 pt-2 pb-3 text-sm text-gray-700 hover:bg-gray-100 ${
+                          isFaculty ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                        onClick={() => {
+                          setIsRemoveAssigneeModalOpen(true);
+                          setAssigneeToRemove(assignee);
+                        }}
+                        disabled={isFaculty}
+                      >
+                        <MdDelete size={20} className='mr-2' />
+                        Remove {assignee.name}
+                      </button>
+                    ))}
                 </div>
               )}
             </div>
@@ -161,35 +213,59 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
           <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
             <div className='bg-gray-300 p-8 rounded-lg shadow-2xl'>
               <h2 className='text-xl font-semibold mb-6'>Delete Folder</h2>
-              <p className='mb-4'>Are you sure you want to delete this folder?</p>
-              <div className='flex justify-end'>
+              <p className='mb-4'>Are you sure you want to delete the folder "{folder.name}"?</p>
+              <div className='flex justify-end space-x-4'>
                 <button
-                  className='bg-red-600 text-white px-4 py-2 rounded mr-2'
-                  onClick={handleDelete}
+                  onClick={() => setIsModalOpen(false)}
+                  className='px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors'
                 >
-                  Delete
+                  No
                 </button>
                 <button
-                  className='bg-gray-300 text-gray-700 px-4 py-2 rounded'
-                  onClick={closeModal}
+                  onClick={handleDelete}
+                  className='px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors'
+                >
+                  Yes, Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {isModalOpenEdit && (
+          <UpdateFolderForm
+            onClose={toggleModal}
+            folderDetails={{
+              id: folder.id,
+              name: folder.name,
+              uploadLimit: folder.uploadLimit,
+            }}
+          />
+        )}
+        {isTagModalOpen && (
+          <FolderTagModal folderId={folder.id} onClose={() => setIsTagModalOpen(false)} />
+        )}
+
+        {isRemoveAssigneeModalOpen && (
+          <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75'>
+            <div className='bg-gray-300 p-8 rounded-lg shadow-2xl'>
+              <h2 className='text-xl font-bold'>Confirm Removal</h2>
+              <p>Are you sure you want to remove {assigneeToRemove?.name}?</p>
+              <div className='mt-4 flex justify-end space-x-2'>
+                <button
+                  className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700'
+                  onClick={() => handleRemoveAssignee(assigneeToRemove)}
+                >
+                  Remove
+                </button>
+                <button
+                  className='bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700'
+                  onClick={() => setIsRemoveAssigneeModalOpen(false)}
                 >
                   Cancel
                 </button>
               </div>
             </div>
           </div>
-        )}
-
-        {isModalOpenEdit && (
-          <UpdateFolderForm folder={folder} isOpen={isModalOpenEdit} onClose={toggleModal} />
-        )}
-
-        {isTagModalOpen && (
-          <FolderTagModal
-            folder={folder}
-            isOpen={isTagModalOpen}
-            onClose={() => setIsTagModalOpen(false)}
-          />
         )}
       </div>
     </>
