@@ -3,7 +3,7 @@ import ImageTopBanner from '@/components/accreditors/image.top.banner';
 import common from '@/configs/common.config';
 import imgSource from '@/configs/img.configs';
 import { animated, useSpring } from '@react-spring/web';
-import { default as React, default as React } from 'react';
+import { default as React } from 'react';
 import { Link } from 'react-router-dom';
 import MainLayout from '../layout/main.layout';
 import PortalSection from '../layout/portal.section';
