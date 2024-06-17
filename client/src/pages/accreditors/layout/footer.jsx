@@ -9,7 +9,7 @@ import {
 const Footer = () => {
   return (
     <footer
-      className="relative w-full h-64 bg-cover bg-center text-white flex flex-col justify-center items-center"
+      className="relative w-full min-h-64 bg-cover bg-center text-white flex flex-col justify-center items-center"
       style={{ backgroundImage: `url(${footer_bg_image})` }}
     >
       {/* <div className="absolute inset-0 bg-black opacity-50"></div> */}
