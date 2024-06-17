@@ -43,10 +43,7 @@ const SearchForm = () => {
 
   return (
     <div className='flex flex-col items-center'>
-      <form
-        className='flex items-center max-w-max mx-auto h-16'
-        onSubmit={(e) => e.preventDefault()}
-      >
+      <form className='flex items-center mx-auto h-auto' onSubmit={(e) => e.preventDefault()}>
         <label htmlFor='voice-search' className='sr-only'>
           Search
         </label>
@@ -56,7 +53,7 @@ const SearchForm = () => {
           </div>
           <input
             type='text'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full min-w-96 ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full min-w-56 ps-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
             placeholder='Search...'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

@@ -1,18 +1,25 @@
-import SideMenu from "@/components/layout/side-menu";
-import TopNavigation from "@/components/layout/top-nav";
-import React from "react";
-import DashboardContent from "./admin/dashboard.content";
+import TopNavigation from '@/components/layout/top-nav';
+import React from 'react';
+import DashboardContent from './admin/dashboard.content';
+import { useNavigate } from 'react-router-dom';
+import SideBar from '@/components/layout/SideBar';
 
 function Dashboard() {
+  const navigate = useNavigate();
+
+  const navigateToRoot = () => {
+    navigate('/home');
+  };
+
   return (
-    <div className="flex w-full h-screen">
-      <SideMenu />
-      <div className="flex h-full w-full flex-col">
-        <TopNavigation />
-        <div className="flex h-full w-full flex-col">
+    <div className='flex w-full h-screen'>
+      <SideBar />
+      <div className='flex h-full w-full flex-col'>
+        <TopNavigation navigateToRoot={navigateToRoot} currentFolderId={null} />
+        <div className='flex h-full w-full flex-col'>
           {/* Main Content */}
-          <div className="flex h-full w-full flex-col bg-gray-400">
-            <div className="flex w-full h-screen flex-1 bg-white">
+          <div className='flex h-full w-full flex-col bg-gray-400'>
+            <div className='flex w-full h-screen flex-1 bg-white'>
               <DashboardContent />
             </div>
           </div>

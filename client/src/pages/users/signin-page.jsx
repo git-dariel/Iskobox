@@ -5,11 +5,13 @@ import { Toaster, toast } from 'sonner';
 import validator from 'validator';
 import Image from '../../assets/shareehub.png';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function SignIn() {
   const { currentUser } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState(currentUser?.role || '');
   const navigate = useNavigate();
 
@@ -84,7 +86,7 @@ export default function SignIn() {
           <div className='relative w-full min-w-[200px] h-10 mb-8'>
             <input
               className='peer md:w-my-width h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-gray-400 placeholder-shown:border-t-gray-400 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-6 rounded-[7px] border-gray-400 focus:border-[#FF7D29]'
-              type='password'
+              type={showPassword ? 'text' : 'password'}
               id='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -94,6 +96,16 @@ export default function SignIn() {
             <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-gray-400 peer-focus:before:!border-[#FF7D29] after:border-gray-400 peer-focus:after:!border-[#FF7D29]">
               Password
             </label>
+            <div
+              className='absolute right-3 top-3 cursor-pointer'
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <FaEyeSlash size={20} color='gray' />
+              ) : (
+                <FaEye size={20} color='gray' />
+              )}
+            </div>
           </div>
 
           <div className='flex flex-row justify-between md:mb-10'>

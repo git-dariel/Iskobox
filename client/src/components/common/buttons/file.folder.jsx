@@ -3,7 +3,7 @@ import { FaRegFolder } from 'react-icons/fa';
 import { TbFileStack } from 'react-icons/tb';
 import { GoCheck } from 'react-icons/go';
 
-const FileFolderButton = ({ selectedButton, handleButtonClick }) => {
+const FileFolderButton = ({ selectedButton, handleButtonClick, currentFolderId }) => {
   return (
     <div className='flex w-full justify-between'>
       <div className='flex items-center'>
@@ -23,7 +23,7 @@ const FileFolderButton = ({ selectedButton, handleButtonClick }) => {
           Files
         </span>
         <span
-          className={`flex px-3 py-1 text-sm rounded-e-2xl border ${
+          className={`flex  px-3 py-1 text-sm rounded-e-2xl border ${
             selectedButton === 'folders'
               ? 'bg-blue-100'
               : 'bg-transparent hover:bg-gray-200 active:bg-blue-100'
