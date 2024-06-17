@@ -1,15 +1,15 @@
 // import img1 from "../../assets/homeAssets/img1.webp";
-import img2 from '../../assets/homeAssets/img2.webp';
-import img3 from '../../assets/homeAssets/img3.webp';
-import img4 from '../../assets/homeAssets/img4.webp';
-import img5 from '../../assets/homeAssets/img5.webp';
-import img6 from '../../assets/homeAssets/img6.webp';
-import img7 from '../../assets/homeAssets/img7.webp';
-import img8 from '../../assets/homeAssets/img8.webp';
-import puplogo from '../../assets/pup-logo.png';
-import welcome from '../../assets/homeAssets/WELCOME.png';
-import video2 from '../../assets/homeAssets/video2.mp4';
-import video1 from '../../assets/homeAssets/video1.mp4';
+import img2 from "@/assets/homeAssets/img2.webp";
+import img3 from "@/assets/homeAssets/img3.webp";
+import img4 from "@/assets/homeAssets/img4.webp";
+import img5 from "@/assets/homeAssets/img5.webp";
+import img6 from "@/assets/homeAssets/img6.webp";
+import img7 from "@/assets/homeAssets/img7.webp";
+import img8 from "@/assets/homeAssets/img8.webp";
+// import puplogo from "@/assets/PUPlogo.png"
+import welcome from "@/assets/homeAssets/WELCOME.png";
+import BSIT from "@/assets/homeAssets/BSIT.webp"
+
 
 export const HomeData = {
   // hero
@@ -27,9 +27,6 @@ export const HomeData = {
   title1: 'PUP Vision, Mission and 10 Pillars Reform Agenda',
   title2: 'The PUP Lopez, Quezon Branch',
 
-  //Videofile
-  Pillar: video2,
-  PUPLopez: video1,
 
   //director message
   director: img2,
@@ -45,7 +42,11 @@ export const HomeData = {
   span1: 'Rufo N. Bueza,',
   span2: 'DPA Director',
 
-  // footer
+
+  //program under eval
+  title4:" Program Under Evaluation",
+
+ // footer
 
   weblink: 'https://www.pup.edu.ph/lopez/',
   fblink: 'https://www.facebook.com/PUPLQ/',
@@ -53,12 +54,19 @@ export const HomeData = {
     'https://www.google.com/maps/place/Polytechnic+University+of+the+Philippines+Lopez/@13.8800711,122.2606709,17z/data=!4m6!3m5!1s0x33a28ed191dcc16d:0xb400e38f6f541ea9!8m2!3d13.8807792!4d122.2598724!16s%2Fm%2F02rd4c9?entry=ttu',
   pupname: 'Polytechnic University of the Philippines - Lopez Branch',
   credit: ' © All Rights Reserved 2024 ',
-  puplogo: puplogo,
+  // puplogo: puplogo,
 };
 
 export const data = [
   {
     id: 1,
+    image: BSIT,
+    title: 'BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY',
+    detail: 'The Bachelor of Science in Information Technology (BSIT) program is a four-year degree program which focuses on the study of computer utilization and computer software to plan, install, customize, operate, manage, administer and maintain information technology infrastructure.',
+      goto: 'link here',
+  },
+  {
+    id: 2,
     image: img3,
     title: 'BACHELOR OF PUBLIC ADMINISTRATION',
     detail:
@@ -66,7 +74,7 @@ export const data = [
     goto: 'link here',
   },
   {
-    id: 2,
+    id: 3,
     image: img4,
     title: 'BACHELOR OF SCIENCE IN AGRIBUSINESS MANAGEMENT AND ENTREPRENEURSHIP',
     detail:
@@ -74,7 +82,7 @@ export const data = [
     goto: 'link here',
   },
   {
-    id: 3,
+    id: 4,
     image: img5,
     title: 'BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION',
     detail:
@@ -82,7 +90,7 @@ export const data = [
     goto: 'link here',
   },
   {
-    id: 4,
+    id: 5,
     image: img6,
     title: 'BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION',
     detail:
@@ -90,7 +98,7 @@ export const data = [
     goto: 'link here',
   },
   {
-    id: 5,
+    id: 6,
     image: img7,
     title: 'BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT',
     detail:

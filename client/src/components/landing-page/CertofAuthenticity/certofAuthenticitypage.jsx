@@ -1,7 +1,7 @@
 import Footer from "../Homepages/footer";
 import CertContent from "./certcontent";
 import CertHeader from "./certicateheader";
-import PdfCompt from "./testing";
+// import PdfCompt from "./testing";
 
 export default function CertifcateOfAuthenticity (){
 

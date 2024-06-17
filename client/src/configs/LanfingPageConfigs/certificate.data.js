@@ -1,6 +1,7 @@
 
 
-import Authenticity from "../../assets/Cert/Certificate-of-Authenticity-Lopez.pdf"
+import Authenticity from "@/assets/Cert/Certificate-of-Authenticity-Lopez.pdf"
+
 export const CertData = {
     
     // Title
