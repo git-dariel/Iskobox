@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Document, Page } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
 import { CertData } from "@/configs/LanfingPageConfigs/certificate.data";
 
+// Setting up PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
 export default function CertContent() {
-  const [numPages, setNumPages] = useState();
+  const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
   function onDocumentLoadSuccess({ numPages }) {
@@ -11,15 +14,15 @@ export default function CertContent() {
   }
 
   return (
-    <div className="flex justify-center items-center w-full h-full ">
-      <div className="">
+    <div className="flex justify-center items-center w-full h-full bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]">
+      <div className="w-full max-w-3xl">
         <Document
-          className="border-2 shadow-lg my-10 w-full h-full "
+          className="border-2 shadow-lg my-10 w-full h-full"
           file={CertData.certificate}
           onLoadSuccess={onDocumentLoadSuccess}
         >
           <Page
-            classname="w-[300px] md:w-[500px] lg:w-[800px]"
+            className="w-full"
             pageNumber={pageNumber}
             renderTextLayer={false}
             renderAnnotationLayer={false}

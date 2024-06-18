@@ -1,23 +1,33 @@
-import img5 from "../../../assets/homeAssets/img5.webp";
+import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { CertData } from "@/configs/LanfingPageConfigs/certificate.data";
 
 export default function CertHeader() {
   return (
-    <div className="h-auto">
-      <div className="h-[82vh] bg-[#810101]">
+    <section className=" h-full  border-b-8 border-[#810101] ">
+      <header className="font-bebas-neue">
         <div
-          className="h-[80vh] w-full bg-cover bg-no-repeat bg-center bg-seal bg-fixed"
-          style={{ backgroundImage: `url(${img5})` }}
+          className=" w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl "
+          style={{ backgroundImage: `url(${bgHeader.bgbanner})` }}
         >
-          <div className="bg-[#810101] bg-opacity-50 flex items-center w-full h-full">
-            <h1 className="px-20 font-serif font-extrabold flex flex-col lg:flex-row">
-              <span className="text-[#ffffff] text-3xl md:text-6xl">{CertData.span1}</span>
-              <span className="text-[#6b9493] text-xl md:text-4xl lg:pt-5 ">{CertData.span2}</span>
-              <span className="text-[#ffffff] text-3xl md:text-6xl">{CertData.span3}</span>
+          <div className=" py-32">
+            <h1 className="px-20 font-extrabold flex flex-col items-start xl:px-40 gap-4">
+              <div className="flex gap-4">
+                <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                  {CertData.span1}
+                </span>
+                <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                  {CertData.span2}
+                </span>
+              </div>
+              <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                {CertData.span3}
+              </span>
             </h1>
           </div>
         </div>
-      </div>
-    </div>
+      </header>
+    </section>
+    
+    // </section>
   );
 }

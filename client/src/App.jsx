@@ -22,6 +22,14 @@ import AdminManual from "./pages/accreditors/accreditor.pages/exhibit/admin.manu
 import Syllabi from "./pages/accreditors/accreditor.pages/exhibit/syllabi";
 import InstructionalMaterials from "./pages/accreditors/accreditor.pages/exhibit/instructional.mats";
 import CMOpage from "./pages/accreditors/accreditor.pages/exhibit/cmo";
+import HomePage from "./components/landing-page/Homepages/homepage";
+import AboutPage from "./components/landing-page/about/aboutpage";
+import HistoryPage from "./components/landing-page/about/historypage/historypage";
+import MissionVision from "./components/landing-page/about/missionvision/missionvisionpage";
+import LaboratoryPage from "./components/landing-page/about/Laboratory/laboratorypage";
+import OfficeVideoPage from "./components/landing-page/about/officevideospage/officevideopage";
+import CertifcateOfAuthenticity from "./components/landing-page/CertofAuthenticity/certofAuthenticitypage";
+import FacilitiesPage from "./components/landing-page/about/buildingandfacilities/facilitiespage";
 
 function App() {
   return (
@@ -78,7 +86,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/ticket"
               element={
@@ -103,7 +110,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/folders/:folderId"
               element={
@@ -112,6 +118,15 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            //Landing Page
+            <Route path="/homepage" element={<HomePage />} />
+            <Route path="/aboutpage" element={<AboutPage />} />
+            <Route path="/historypage" element={<HistoryPage/>} />
+            <Route path="/missionvisionpage" element={<MissionVision/>} />
+            <Route path="/facilitiespage" element={<FacilitiesPage/>} />
+            <Route path="/laboratorypage" element={<LaboratoryPage/>} />
+            <Route path="/officesvideopage" element={<OfficeVideoPage/>} />
+            <Route path="/certificate-of-authenticitypage" element={<CertifcateOfAuthenticity/>} />
           </Routes>
         </CommentUpdateProvider>
       </UpdateProvider>

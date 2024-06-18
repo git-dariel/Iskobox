@@ -1,15 +1,15 @@
 // import img1 from "../../assets/homeAssets/img1.webp";
-import img2 from '../../assets/homeAssets/img2.webp';
-import img3 from '../../assets/homeAssets/img3.webp';
-import img4 from '../../assets/homeAssets/img4.webp';
-import img5 from '../../assets/homeAssets/img5.webp';
-import img6 from '../../assets/homeAssets/img6.webp';
-import img7 from '../../assets/homeAssets/img7.webp';
-import img8 from '../../assets/homeAssets/img8.webp';
-import puplogo from '../../assets/pup-logo.png';
-import welcome from '../../assets/homeAssets/WELCOME.png';
-import video2 from '../../assets/homeAssets/video2.mp4';
-import video1 from '../../assets/homeAssets/video1.mp4';
+import img2 from "@/assets/homeAssets/img2.webp";
+import img3 from "@/assets/homeAssets/img3.webp";
+import img4 from "@/assets/homeAssets/img4.webp";
+import img5 from "@/assets/homeAssets/img5.webp";
+import img6 from "@/assets/homeAssets/img6.webp";
+import img7 from "@/assets/homeAssets/img7.webp";
+import img8 from "@/assets/homeAssets/img8.webp";
+// import puplogo from "@/assets/PUPlogo.png"
+import welcome from "@/assets/homeAssets/WELCOME.png";
+import BSIT from "@/assets/homeAssets/BSIT.webp"
+
 
 export const HomeData = {
   // hero
@@ -27,9 +27,6 @@ export const HomeData = {
   title1: 'PUP Vision, Mission and 10 Pillars Reform Agenda',
   title2: 'The PUP Lopez, Quezon Branch',
 
-  //Videofile
-  Pillar: video2,
-  PUPLopez: video1,
 
   //director message
   director: img2,
@@ -45,7 +42,11 @@ export const HomeData = {
   span1: 'Rufo N. Bueza,',
   span2: 'DPA Director',
 
-  // footer
+
+  //program under eval
+  title4:" Program Under Evaluation",
+
+ // footer
 
   weblink: 'https://www.pup.edu.ph/lopez/',
   fblink: 'https://www.facebook.com/PUPLQ/',
@@ -53,48 +54,61 @@ export const HomeData = {
     'https://www.google.com/maps/place/Polytechnic+University+of+the+Philippines+Lopez/@13.8800711,122.2606709,17z/data=!4m6!3m5!1s0x33a28ed191dcc16d:0xb400e38f6f541ea9!8m2!3d13.8807792!4d122.2598724!16s%2Fm%2F02rd4c9?entry=ttu',
   pupname: 'Polytechnic University of the Philippines - Lopez Branch',
   credit: ' © All Rights Reserved 2024 ',
-  puplogo: puplogo,
+  // puplogo: puplogo,
 };
 
 export const data = [
   {
     id: 1,
+    image: BSIT,
+    title: 'BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY',
+    detail: 'The Bachelor of Science in Information Technology (BSIT) program is a four-year degree program which focuses on the study of computer utilization and computer software to plan, install, customize, operate, manage, administer and maintain information technology infrastructure.',
+    goto: 'See more',
+    path:"/",
+  },
+  {
+    id: 2,
     image: img3,
     title: 'BACHELOR OF PUBLIC ADMINISTRATION',
     detail:
       'This program generally introduces the learner to the major concepts including politics, governance, autonomy, and power in the concepts are further crystallized in the learning process as it is seen by the learning...',
-    goto: 'link here',
+    goto: 'Under Developt',
+    path:"/",
   },
   {
-    id: 2,
+    id: 3,
     image: img4,
     title: 'BACHELOR OF SCIENCE IN AGRIBUSINESS MANAGEMENT AND ENTREPRENEURSHIP',
     detail:
       'The Bachelor of Science in Agribusiness Management and Entrepreneurship is a 4-year degree program with a curriculum that is designed to a more relevant to domestic and global conditions and responsive to the fast-changing need of time. It is designed to complement...',
-    goto: 'link here',
+    goto: 'Under Developt',
+    path:"/",
   },
   {
-    id: 3,
+    id: 4,
     image: img5,
     title: 'BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION',
     detail:
       'The Marketing Management program prepares the graduate for careers in marketing, market research, advertising, and public relations. The curriculum provides the graduate with both technical skills and competencies...',
-    goto: 'link here',
+    goto: 'Under Developt',
+    path:"/",
   },
   {
-    id: 4,
+    id: 5,
     image: img6,
     title: 'BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION',
     detail:
       'The BSOA is a four-year degree program that prepares the students for a career in an outcome-focused, technology-rich professional environment. The curriculum is designed to equip its graduates the professional skills...',
-    goto: 'link here',
+    goto: 'Under Developt',
+    path:"/",
   },
   {
-    id: 5,
+    id: 6,
     image: img7,
     title: 'BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT',
     detail:
       'The Bachelor of Science in Hospitality Management is a ladderized program that prepares students to have employable skills/competencies at every academic year level for them to be competitive in the hospitality industry locally and globally. This also prepares...',
-    goto: 'link here',
+    goto: 'Under Developt',
+    path:"/",
   },
 ];
