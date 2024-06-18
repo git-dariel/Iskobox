@@ -9,7 +9,7 @@ import {
 
 export default function HistoryContent() {
   return (
-    <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]  w-full  h-full  ">
+    <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]  w-full    ">
       <article className="px-20 py-10">
         <div className="text-justify flex flex-col gap-8">
           {paragraphs.map((item) => (

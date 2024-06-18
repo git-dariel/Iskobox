@@ -3,7 +3,7 @@ import { about } from "../../../configs/LanfingPageConfigs/aboutpage";
 
 export default function AboutPUPLopez() {
   return (
-    <section className=" bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]  h-full w-full flex flex-col ">
+    <section className=" bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]   flex flex-col ">
       {/* Title Section */}
 
       <div

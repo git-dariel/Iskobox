@@ -3,7 +3,7 @@ import { videosfile } from "@/configs/LanfingPageConfigs/officevideopage";
 
 export default function OfficeVideoContent() {
   return (
-    <section className="h-full w-full flex flex-col bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]">
+    <section className="w-full flex flex-col bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]">
       {videosfile.map((item) => (
         <div key={item.id} className="w-full flex flex-col justify-center">
           <div
@@ -19,7 +19,7 @@ export default function OfficeVideoContent() {
 
           <div className="px-4 md:px-10 lg:px-40 py-10">
             <div
-              className="relative border border-black"
+              className="relative border border-black "
               style={{ paddingTop: "56.25%" }}
             >
               {/* 16:9 aspect ratio (h/w * 100) */}

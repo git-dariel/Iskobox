@@ -19,14 +19,15 @@ common.navItems = [
   { name: "Home", to: "/homepage", current: true },
   {
     name: "About PUP Lopez",
-    to: "/about-pup-lopez",
+    to: "/aboutpage",
     dropdown: true,
     items: [
-      { name: "About PUP ", to: "/aboutpage" },
       { name: "Mission And Vision", to: "/missionvisionpage" },
       { name: "History", to: "/historypage" },
+      { name: "Buildings and Facilities", to: "/facilitiespage" },
       { name: "Laboratory Videos", to: "/laboratorypage" },
       { name: "Offices Videos", to: "/officesvideopage" },
+      
     ],
   },
   { name: "Certificate of Authenticity", to: "/certificate-of-authenticitypage" },

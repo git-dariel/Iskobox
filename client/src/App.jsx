@@ -29,6 +29,7 @@ import MissionVision from "./components/landing-page/about/missionvision/mission
 import LaboratoryPage from "./components/landing-page/about/Laboratory/laboratorypage";
 import OfficeVideoPage from "./components/landing-page/about/officevideospage/officevideopage";
 import CertifcateOfAuthenticity from "./components/landing-page/CertofAuthenticity/certofAuthenticitypage";
+import FacilitiesPage from "./components/landing-page/about/buildingandfacilities/facilitiespage";
 
 function App() {
   return (
@@ -122,6 +123,7 @@ function App() {
             <Route path="/aboutpage" element={<AboutPage />} />
             <Route path="/historypage" element={<HistoryPage/>} />
             <Route path="/missionvisionpage" element={<MissionVision/>} />
+            <Route path="/facilitiespage" element={<FacilitiesPage/>} />
             <Route path="/laboratorypage" element={<LaboratoryPage/>} />
             <Route path="/officesvideopage" element={<OfficeVideoPage/>} />
             <Route path="/certificate-of-authenticitypage" element={<CertifcateOfAuthenticity/>} />

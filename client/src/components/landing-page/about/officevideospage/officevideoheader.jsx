@@ -1,29 +1,21 @@
 import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { offices } from "@/configs/LanfingPageConfigs/officevideopage";
 
-
 export default function OfficeVideoHeader() {
   return (
     <>
-    <section className=" h-full  border-b-8 border-[#810101] ">
-       <header className="font-bebas-neue">
-        <div
-          className=" w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl "
-          style={{ backgroundImage: `url(${bgHeader.bgbanner})` }}
-        >
-          <div className=" py-32">
-            <h1 className="px-20 font-extrabold flex flex-col items-start xl:px-40 gap-4">
-            
-              
-              <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+      <section
+        className="min-h-[17rem] select-none bg-cover bg-no-repeat bg-center shadow-xl flex justify-center items-center"
+        style={{ backgroundImage: `url(${bgHeader.bgbanner})` }}
+      >
+        <div className=" w-full h-full flex items-center">
+          <h1 className=" flex flex-col items-start px-20 md:px-32 lg:px-40 md:gap-3 xl:gap-6">
+            <span className="text-white text-4xl md:text-[4rem] xl:text-[5rem] font-bebas-neue">
               {offices.headertitle}
-              </span>
-            </h1>
-          </div>
+            </span>
+          </h1>
         </div>
-      </header>
-    </section>
-      
+      </section>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { missionvision } from "@/configs/LanfingPageConfigs/mvpage";
 export default function MVContent() {
   return (
     <>
-      <section className="h-full w-full flex flex-col bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] ">
+      <section className="w-full flex flex-col bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] ">
         <div className="px-20 lg:px-40 py-10">
           <div
             className="relative  border border-black"

@@ -15,7 +15,7 @@ export default function CarouselHome() {
   };
 
   return (
-    <section className="w-full lg:h-full ">
+    <section className="w-full lg:h-[100vh] ">
       <div className="border bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]  w-full  h-full flex flex-col items-center ">
         {/* Title */}
         <div
