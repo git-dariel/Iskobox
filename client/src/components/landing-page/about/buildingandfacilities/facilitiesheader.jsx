@@ -23,6 +23,8 @@ export default function FacilitiesHeader() {
           </div>
         </h1>
       </div>
+
+      
     </section>
   );
 }
