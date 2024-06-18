@@ -305,6 +305,62 @@ export const countAllFolders = async () => {
   }
 };
 
+export const countPendingFilesInFolders = (callback) => {
+  const folderQuery = query(collection(db, 'folders'));
+  const unsubscribe = onSnapshot(
+    folderQuery,
+    async (folderSnapshot) => {
+      let totalPendingFiles = 0;
+
+      const checks = folderSnapshot.docs.map(async (folderDoc) => {
+        const folderId = folderDoc.id;
+        const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+        const fileSnapshot = await getDocs(fileQuery);
+
+        if (fileSnapshot.empty) {
+          totalPendingFiles++;
+        }
+      });
+
+      await Promise.all(checks);
+      callback(totalPendingFiles);
+    },
+    (error) => {
+      console.error('Error tracking pending files in folders:', error);
+    }
+  );
+
+  return unsubscribe;
+};
+
+export const countCompletedFilesInFolders = (callback) => {
+  const folderQuery = query(collection(db, 'folders'));
+  const unsubscribe = onSnapshot(
+    folderQuery,
+    async (folderSnapshot) => {
+      let totalCompletedFiles = 0;
+
+      const checks = folderSnapshot.docs.map(async (folderDoc) => {
+        const folderId = folderDoc.id;
+        const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+        const fileSnapshot = await getDocs(fileQuery);
+
+        if (!fileSnapshot.empty) {
+          totalCompletedFiles++;
+        }
+      });
+
+      await Promise.all(checks);
+      callback(totalCompletedFiles);
+    },
+    (error) => {
+      console.error('Error tracking pending files in folders:', error);
+    }
+  );
+
+  return unsubscribe;
+};
+
 export const calculateEmptyFoldersPercentage = async () => {
   try {
     const folderQuery = query(collection(db, 'folders'));
