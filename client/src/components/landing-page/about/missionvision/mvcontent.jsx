@@ -1,61 +1,75 @@
-import { about } from "@/configs/LanfingPageConfigs/aboutpage";
+import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
+import { missionvision } from "@/configs/LanfingPageConfigs/mvpage";
 
 export default function MVContent() {
   return (
     <>
-      <section className="h-full w-full flex flex-col">
-        <div className=" h-full px-20 py-20 flex justify-center">
-          <div className=" h-full w-full max-w-screen-lg">
-            <video
-              src={about.video2}
-              className="w-full h-full object-contain"
-              controls
-              autoPlay
-              loop
-              muted
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            ></video>
+      <section className="h-full w-full flex flex-col bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] ">
+        <div className="px-20 lg:px-40 py-10">
+          <div
+            className="relative  border border-black"
+            style={{ paddingTop: "56.25%" }}
+          >
+            {/* 16:9 aspect ratio (h/w * 100) */}
+            <iframe
+              src={missionvision.video}
+              className="absolute inset-0 w-full h-full"
+              frameBorder="0"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
 
         {/* Vision Section */}
         <div className=" w-full flex flex-col  justify-center">
-          <header className="border w-full text-center h-full py-10">
-            <h2 className="font-bold text-xl md:text-4xl lg:text-5xl">
-              {about.visiontitle}
-            </h2>
-          </header>
+          <div
+            className="w-full text-center select-none bg-no-repeat bg-cover  bg-center shadow-xl "
+            style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
+          >
+            <header className="border w-full text-center h-full py-10">
+              <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+                {missionvision.visiontitle}
+              </h2>
+            </header>
+          </div>
           <article className="w-full flex flex-col items-center justify-center py-10 px-10">
-            <p className="text-lg md:text-xl lg:text-2xl">{about.vision}</p>
+            <p className="text-lg md:text-xl lg:text-2xl">
+              {missionvision.visioncontent}
+            </p>
           </article>
         </div>
 
         {/* Mission Section */}
         <div className=" w-full flex flex-col items-center justify-center ">
-          <header className="border w-full text-center h-full py-10">
-            <h2 className="font-bold text-lg md:text-3xl lg:text-4xl">
-              {about.titlemission}
-            </h2>
-          </header>
+          <div
+            className="w-full text-center select-none bg-no-repeat bg-cover  bg-center shadow-xl "
+            style={{ backgroundImage: `url(${bgHeader.bgheader2})` }}
+          >
+            <header className="border w-full text-center h-full py-10">
+            <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+                {missionvision.missiontitle}
+              </h2>
+            </header>
+          </div>
           <article className="w-full flex flex-col items-center justify-center py-10 px-32">
             <div className="text-justify flex flex-col gap-5">
               <p className="text-lg md:text-xl lg:text-2xl">
-                {about.mission1}
+                {missionvision.mission1}
               </p>
               <p className="text-lg md:text-xl lg:text-2xl">
-                {about.mission2}
+                {missionvision.mission2}
               </p>
               <p className="text-lg md:text-xl lg:text-2xl">
-                {about.mission3}
+                {missionvision.mission3}
               </p>
               <p className="text-lg md:text-xl lg:text-2xl">
-                {about.mission4}
+                {missionvision.mission4}
               </p>
               <p className="text-lg md:text-xl lg:text-2xl">
-                {about.mission6}
+                {missionvision.mission6}
               </p>
               <p className="text-lg md:text-xl lg:text-2xl">
-                {about.mission5}
+                {missionvision.mission5}
               </p>
             </div>
           </article>
@@ -65,36 +79,43 @@ export default function MVContent() {
 
         <div className=" w-full flex flex-col  justify-center">
           {/* title */}
-          <header className="border w-full text-center h-full py-10">
-            <h2 className="font-bold text-xl md:text-4xl lg:text-5xl">
-              {about.goaltitle}
+          
+          <div
+            className="w-full text-center select-none bg-no-repeat bg-cover  bg-center shadow-xl "
+            style={{ backgroundImage: `url(${bgHeader.bgheader3})` }}
+          >
+            <header className="border w-full text-center h-full py-10">
+            <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+              {missionvision.goaltitle}
             </h2>
           </header>
+            
+          </div>
 
           <div className="flex flex-col lg:flex-row text-justify">
             {/* English Version */}
             <div className="w-full ">
-              <header className="border py-10 px-32">
+              <header className=" py-10 px-32 xl:px-20">
                 <h2 className="font-bold text-xl md:text-2xl lg:text-3xl">
-                  {about.title1}
+                  {missionvision.title1}
                 </h2>
               </header>
-              <article className="px-32 py-10">
+              <article className="px-32 py-10 xl:px-20">
                 <div className="flex flex-col gap-10">
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goal1}
+                    {missionvision.goal1}
                   </p>
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goal2}
+                    {missionvision.goal2}
                   </p>
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goal3}
+                    {missionvision.goal3}
                   </p>
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goal4}
+                    {missionvision.goal4}
                   </p>
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goal5}
+                    {missionvision.goal5}
                   </p>
                 </div>
               </article>
@@ -102,27 +123,27 @@ export default function MVContent() {
 
             {/* Tagalog Version */}
             <div className="w-full ">
-              <header className="border py-10 px-32">
+              <header className=" py-10 px-32 xl:px-20">
                 <h2 className="font-bold text-xl md:text-2xl lg:text-3xl">
-                  {about.title2}
+                  {missionvision.title2}
                 </h2>
               </header>
-              <article className="px-32 py-10">
+              <article className="px-32 py-10 xl:px-20">
                 <div className="flex flex-col gap-10">
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goalv1}
+                    {missionvision.goalv1}
                   </p>
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goalv2}
+                    {missionvision.goalv2}
                   </p>
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goalv3}
+                    {missionvision.goalv3}
                   </p>
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goalv4}
+                    {missionvision.goalv4}
                   </p>
                   <p className="text-lg md:text-xl lg:text-2xl">
-                    {about.goalv5}
+                    {missionvision.goalv5}
                   </p>
                 </div>
               </article>

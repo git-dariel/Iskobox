@@ -1,7 +1,6 @@
 import React from "react";
 import HomeContent from "./homecontent";
 import Hero from "./hero";
-import Footer from "./footer";
 import CarouselHome from "./carouselhome";
 
 
@@ -12,7 +11,7 @@ export default function HomePage() {
         <Hero />
         <HomeContent />
         <CarouselHome/>
-        <Footer />
+        
       </div>
     </>
   );

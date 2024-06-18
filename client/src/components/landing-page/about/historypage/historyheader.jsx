@@ -1,24 +1,25 @@
+import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { history } from "@/configs/LanfingPageConfigs/historypage";
 
 
 export default function HistoryHeader() {
   return (
-    <section className="bg-gradient-to-r from-[#DCA819] via-[#cebb69] to-[#ffffff] h-full  ">
-      <div className="h-[50vh] bg-[#810101] ">
+    <section className=" h-full  border-b-8 border-[#810101] ">
+       <header className="font-bebas-neue">
         <div
-          className="h-[48vh] w-full bg-cover bg-no-repeat bg-center bg-seal bg-fixed"
-          style={{ backgroundImage: `url(${history.bgimg})` }}
+          className=" w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl "
+          style={{ backgroundImage: `url(${bgHeader.bgbanner})` }}
         >
-          <div className="bg-[#810101] bg-opacity-50 flex items-center justify-start h-full">
-            <h1 className="px-20 font-serif font-extrabold flex flex-col ">
+          <div className=" py-32">
+            <h1 className="px-20 font-extrabold flex flex-col items-start xl:px-40 ">
             
-              <span className="text-[#ffffff] text-5xl md:text-6xl">
+              <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
                 {history.historytitle}
               </span>
             </h1>
           </div>
         </div>
-      </div>
+      </header>
     </section>
   );
 }

@@ -1,30 +1,34 @@
-import { about } from "@/configs/LanfingPageConfigs/aboutpage";
+import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
+import { missionvision } from "@/configs/LanfingPageConfigs/mvpage";
+
 
 export default function MVHeader() {
   return (
-    <section className="bg-gradient-to-r from-[#DCA819] via-[#cebb69] to-[#ffffff] h-full  ">
-      <div className="h-[50vh] bg-[#810101] ">
+    <section className=" h-full  border-b-8 border-[#810101] ">
+       <header className="font-bebas-neue">
         <div
-          className="h-[48vh] w-full bg-cover bg-no-repeat bg-center bg-seal bg-fixed"
-          style={{ backgroundImage: `url(${about.img5})` }}
+          className=" w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl "
+          style={{ backgroundImage: `url(${bgHeader.bgbanner})` }}
         >
-          <div className="bg-[#810101] bg-opacity-50 flex items-center justify-start h-full">
-            <h1 className="px-20 font-serif font-extrabold flex flex-col ">
-              <div className="flex  gap-2"
->                <span className="text-[#ffffff] text-5xl md:text-6xl">
-                  {about.span7}
-                </span>
-                <span className="text-[#6b9493] text-4xl md:text-5xl pt-2 lg:pt-3 md:pt-3 ">
-                  {about.span9}
-                </span>
+          <div className=" py-32">
+            <h1 className="px-20 font-extrabold flex flex-col items-start xl:px-40 gap-4">
+             <div className="flex gap-5">
+              <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                {missionvision.mission}
+              </span>
+              
+              <span className="text-[#3d6969] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                {missionvision.and}
+              </span>
               </div>
-              <span className="text-[#ffffff] text-5xl md:text-6xl">
-                {about.span8}
+              
+              <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                {missionvision.vission}
               </span>
             </h1>
           </div>
         </div>
-      </div>
+      </header>
     </section>
   );
 }

@@ -16,7 +16,7 @@ export default function CarouselHome() {
 
   return (
     <section className="w-full lg:h-full ">
-      <div className="border bg-gradient-to-r from-[#DCA819] via-[#cebb69] to-[#ffffff] w-full  h-full flex flex-col items-center ">
+      <div className="border bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]  w-full  h-full flex flex-col items-center ">
         {/* Title */}
         <div
           className="w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl py-10"
@@ -31,7 +31,7 @@ export default function CarouselHome() {
           {/* Previous Button */}
           <button
             onClick={prevSlide}
-            className={`p-4 bg-transparent hover:bg-[#EAD4CB] hover:bg-opacity-50 transition ${
+            className={`p-4 bg-transparent hover:bg-[#EAD4CB] hover:bg-opacity-50 transition hover:animate-bounce rounded-lg ${
               current === 0
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : ""
@@ -52,7 +52,7 @@ export default function CarouselHome() {
               {data.map((slide) => (
                 <div
                   key={slide.id}
-                  className="flex flex-col flex-shrink-0 w-full h-full md:w-full lg:flex-row gap-5"
+                  className="flex flex-col flex-shrink-0 w-full h-full md:w-full lg:flex-row gap-5 border border-[#810101] rounded-lg mt-10 "
                 >
                   {/* Image */}
                   <div className="flex flex-col lg:flex-row h-full px-5 py-5 gap-2 lg:gap-4 w-full ">
@@ -85,7 +85,7 @@ export default function CarouselHome() {
           {/* Next Button */}
           <button
             onClick={nextSlide}
-            className={`rounded-lg p-3 bg-transparent hover:bg-[#EAD4CB] hover:bg-opacity-50 transition ${
+            className={`rounded-lg p-3 bg-transparent hover:bg-[#EAD4CB] hover:bg-opacity-50 transition hover:animate-bounce ${
               current === data.length - 1
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : ""

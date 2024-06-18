@@ -15,11 +15,13 @@ module.exports = {
       screens: {
         '2xl': '1400px',
       },
+
     },
     extend: {
       transformStyle: {
         'preserve-3d': 'preserve-3d',
       },
+     
       backfaceVisibility: {
         hidden: 'hidden',
       },

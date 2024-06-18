@@ -8,7 +8,6 @@ export default function AboutPage() {
             <div>
                 <AboutHeader/>
                 <AboutPUPLopez/>
-                <Footer/>
             </div>
         </section>
 

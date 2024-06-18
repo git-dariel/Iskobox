@@ -16,19 +16,20 @@ common.roleOptions = [
 ];
 
 common.navItems = [
-  { name: "Home", to: "/landingpage", current: true },
+  { name: "Home", to: "/homepage", current: true },
   {
     name: "About PUP Lopez",
     to: "#",
     dropdown: true,
     items: [
-      { name: "Dashboard", to: "/dashboard" },
-      { name: "Settings", to: "/settings" },
-      { name: "Earnings", to: "/earnings" },
-      { name: "Sign out", to: "/signout" },
+      { name: "About PUP ", to: "/aboutpage" },
+      { name: "Mission And Vision", to: "/missionvisionpage" },
+      { name: "History", to: "/historypage" },
+      { name: "Laboratory Videos", to: "/laboratorypage" },
+      { name: "Offices Videos", to: "/officesvideopage" },
     ],
   },
-  { name: "Certificate of Authenticity", to: "/certificate-of-authenticity" },
+  { name: "Certificate of Authenticity", to: "/certificate-of-authenticitypage" },
   {
     name: "Programs Under Survey",
     to: "/programs-under-survey",

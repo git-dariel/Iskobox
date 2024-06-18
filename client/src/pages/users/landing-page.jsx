@@ -1,11 +1,12 @@
-import CertifcateOfAuthenticity from '@/components/landing-page/CertofAuthenticity/certofAuthenticitypage';
-import HomePage from '@/components/landing-page/Homepages/homepage.jsx';
+
+import MainLayout from "../accreditors/layout/main.layout";
+
 
 export default function LandingPage() {
   return (
     <div>
-      <HomePage />
-      {/* <CertifcateOfAuthenticity /> */}
+      <MainLayout/>
+ 
     </div>
   );
 }

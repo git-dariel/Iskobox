@@ -3,22 +3,31 @@ import { CertData } from "@/configs/LanfingPageConfigs/certificate.data";
 
 export default function CertHeader() {
   return (
-    <section className=" w-full">
-    <div className="relative h-[53vh] bg-[#810101]">
-      <div
-        className="h-[52vh] w-full bg-cover bg-no-repeat bg-center"
-        style={{ backgroundImage: `url(${bgHeader.bgbanner})` }}
-      >
-        <div className="absolute inset-0 flex items-center justify-center px-5 lg:px-20">
-          <h1 className="font-serif font-extrabold text-[#ffffff] text-3xl md:text-6xl text-center lg:text-left flex flex-col lg:flex-row gap-2">
-            <span>{CertData.span1}</span>
-            <span className="text-[#6b9493] text-xl md:text-4xl lg:pt-5">{CertData.span2}</span>
-            <span>{CertData.span3}</span>
-          </h1>
+    <section className=" h-full  border-b-8 border-[#810101] ">
+      <header className="font-bebas-neue">
+        <div
+          className=" w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl "
+          style={{ backgroundImage: `url(${bgHeader.bgbanner})` }}
+        >
+          <div className=" py-32">
+            <h1 className="px-20 font-extrabold flex flex-col items-start xl:px-40 gap-4">
+              <div className="flex gap-4">
+                <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                  {CertData.span1}
+                </span>
+                <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                  {CertData.span2}
+                </span>
+              </div>
+              <span className="text-[#ffffff] text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+                {CertData.span3}
+              </span>
+            </h1>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
-  
+      </header>
+    </section>
+    
+    // </section>
   );
 }

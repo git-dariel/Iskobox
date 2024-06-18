@@ -14,6 +14,13 @@ import { UpdateProvider } from "./helpers/update.context";
 import { CommentUpdateProvider } from "./helpers/comment.context";
 import LandingPage from "./pages/users/landing-page";
 import ExhibitPage from "./pages/accreditors/accreditor.pages/exhibit.page";
+import HomePage from "./components/landing-page/Homepages/homepage";
+import AboutPage from "./components/landing-page/about/aboutpage";
+import HistoryPage from "./components/landing-page/about/historypage/historypage";
+import MissionVision from "./components/landing-page/about/missionvision/missionvisionpage";
+import LaboratoryPage from "./components/landing-page/about/Laboratory/laboratorypage";
+import OfficeVideoPage from "./components/landing-page/about/officevideospage/officevideopage";
+import CertifcateOfAuthenticity from "./components/landing-page/CertofAuthenticity/certofAuthenticitypage";
 
 function App() {
   return (
@@ -42,7 +49,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/ticket"
               element={
@@ -67,7 +73,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/folders/:folderId"
               element={
@@ -76,6 +81,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            //Landing Page
+            <Route path="/homepage" element={<HomePage />} />
+            <Route path="/aboutpage" element={<AboutPage />} />
+            <Route path="/historypage" element={<HistoryPage/>} />
+            <Route path="/missionvisionpage" element={<MissionVision/>} />
+            <Route path="/laboratorypage" element={<LaboratoryPage/>} />
+            <Route path="/officesvideopage" element={<OfficeVideoPage/>} />
+            <Route path="/certificate-of-authenticitypage" element={<CertifcateOfAuthenticity/>} />
           </Routes>
         </CommentUpdateProvider>
       </UpdateProvider>

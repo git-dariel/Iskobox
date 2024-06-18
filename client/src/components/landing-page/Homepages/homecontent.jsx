@@ -6,23 +6,23 @@ export default function HomeContent() {
   return (
     <>
     <section>
-      <div className="bg-gradient-to-r from-[#DCA819] via-[#cebb69] to-[#ffffff] select-none h-full w-full">
+      <div className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]  select-none h-full w-full">
         <div className="flex flex-col items-center">
           {/* Welcome Section */}
-          <div className="flex items-center justify-center px-10 py-10 h-auto lg:h-[100vh] md:h-[80vh]">
+          <div className="flex items-center justify-center px-10 py-10 h-auto lg:h-[100vh] md:h-[80vh] hover:animate-bounce">
             <div className="lg:w-[1000px] lg:h-auto">
               <img src={HomeData.welcome} alt="Welcome Image" />
             </div>
           </div>
 
           {/* Message from Director Section */}
-          <div className="w-full h-full flex flex-col items-center">
+          <div className="w-full h-full flex flex-col items-center ">
             <div
               className=" w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl"
               style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
             >
               <div className="">
-                <h1 className="text-[#dca819] text-xl font-extrabold sm:text-xl md:text-3xl lg:text-4xl px-10 py-10 flex flex-col ">
+                <h1 className="text-[#dca819] text-2xl font-extrabold md:text-3xl lg:text-4xl px-10 py-10 flex flex-col ">
                   {HomeData.title3}
                 </h1>
               </div>
