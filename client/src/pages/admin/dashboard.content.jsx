@@ -12,6 +12,7 @@ import {
   countPendingFilesInFolders,
   countCompletedFilesInFolders,
 } from '@/services/folders/folder.service';
+import UserDropdown from '@/components/users/user-profile';
 
 // Register the required components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -95,13 +96,33 @@ function DashboardContent() {
 
   return (
     <div
-      className='flex flex-wrap w-full h-screen overflow-y-auto'
+      class='flex flex-col h-screen w-full relative bg-gradient-to-tl from-slate-50 to-slate-400 overflow-y-auto'
       style={{ scrollbarWidth: 'none' }}
     >
-      <div className='flex flex-col w-full md:w-2/3 p-4 gap-4'>
+      <div
+        className='flex flex-col h-full m-5 p-4 rounded-2xl overflow-y-auto scroll-m-0'
+        style={{ background: 'rgba(255, 255, 255, 0.54)', scrollbarWidth: 'none' }}
+      >
+        <div class='flex justify-between gap-2 mb-1'>
+          <h1 class='text-2xl font-bold text-gray-800 mb-1'>Dashboard</h1>
+          <div className='relative'>
+            <UserDropdown />
+          </div>
+        </div>
         <Cards data={cardData} />
         <div className='flex flex-col gap-4'>
-          <RoundedContainer>
+          <div className='flex gap-5'>
+            <RoundedContainer>
+              <ProgressBar />
+            </RoundedContainer>
+            <RoundedContainer>
+              <div className='flex w-full h-64 md:h-96'>
+                <Pie data={pieData} options={pieOptions} />
+              </div>
+            </RoundedContainer>
+          </div>
+
+          {/* <RoundedContainer>
             <div className='flex w-full h-64 md:h-96'>
               <Bar data={barData} options={barOptions} />
             </div>
@@ -110,10 +131,10 @@ function DashboardContent() {
             <div className='flex w-full h-64 md:h-96'>
               <Bar data={barData} options={barOptions} />
             </div>
-          </RoundedContainer>
+          </RoundedContainer> */}
         </div>
       </div>
-      <div className='flex flex-col w-full md:w-1/3 p-4 gap-4'>
+      {/* <div className='flex flex-col w-full md:w-1/3 p-4 gap-4'>
         <RoundedContainer>
           <ProgressBar />
         </RoundedContainer>
@@ -122,7 +143,7 @@ function DashboardContent() {
             <Pie data={pieData} options={pieOptions} />
           </div>
         </RoundedContainer>
-      </div>
+      </div> */}
     </div>
   );
 }
