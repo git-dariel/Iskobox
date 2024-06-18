@@ -17,7 +17,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (currentUser && currentUser.role === role) {
-      navigate('/home');
+      navigate('/dashboard');
     }
   }, [currentUser, navigate]);
 
@@ -46,7 +46,7 @@ export default function SignIn() {
     toast.promise(loginProcess(), {
       loading: 'Logging in...',
       success: (data) => {
-        navigate('/home');
+        navigate('/dashboard');
         return `Login successful as ${data.role}`;
       },
       error: (err) => {

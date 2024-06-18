@@ -305,94 +305,130 @@ export const countAllFolders = async () => {
   }
 };
 
-export const calculateEmptyFoldersPercentage = async () => {
+export const countPendingFilesInFolders = (callback) => {
+  const folderQuery = query(collection(db, 'folders'));
+  const unsubscribe = onSnapshot(
+    folderQuery,
+    async (folderSnapshot) => {
+      let totalPendingFiles = 0;
+
+      const checks = folderSnapshot.docs.map(async (folderDoc) => {
+        const folderId = folderDoc.id;
+        const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+        const fileSnapshot = await getDocs(fileQuery);
+
+        if (fileSnapshot.empty) {
+          totalPendingFiles++;
+        }
+      });
+
+      await Promise.all(checks);
+      callback(totalPendingFiles);
+    },
+    (error) => {
+      console.error('Error tracking pending files in folders:', error);
+    }
+  );
+
+  return unsubscribe;
+};
+
+export const countCompletedFilesInFolders = (callback) => {
+  const folderQuery = query(collection(db, 'folders'));
+  const unsubscribe = onSnapshot(
+    folderQuery,
+    async (folderSnapshot) => {
+      let totalCompletedFiles = 0;
+
+      const checks = folderSnapshot.docs.map(async (folderDoc) => {
+        const folderId = folderDoc.id;
+        const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+        const fileSnapshot = await getDocs(fileQuery);
+
+        if (!fileSnapshot.empty) {
+          totalCompletedFiles++;
+        }
+      });
+
+      await Promise.all(checks);
+      callback(totalCompletedFiles);
+    },
+    (error) => {
+      console.error('Error tracking pending files in folders:', error);
+    }
+  );
+
+  return unsubscribe;
+};
+
+export const calculateOverallProgress = async () => {
   try {
     const folderQuery = query(collection(db, 'folders'));
     const folderSnapshot = await getDocs(folderQuery);
     const totalFolders = folderSnapshot.size;
-    let emptyFolders = 0;
+    let completedFolders = 0;
 
-    folderSnapshot.forEach((doc) => {
-      const folderData = doc.data();
-      if (!folderData.fileCount || folderData.fileCount === 0) {
-        emptyFolders++;
+    const folderChecks = folderSnapshot.docs.map(async (folderDoc) => {
+      const folderId = folderDoc.id;
+      const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+      const fileSnapshot = await getDocs(fileQuery);
+      if (!fileSnapshot.empty) {
+        completedFolders++;
       }
     });
 
-    const emptyFoldersPercentage = (emptyFolders / totalFolders) * 100;
-    const pendingFilesPercentage = Math.round(emptyFoldersPercentage) + '% pending files';
-    return pendingFilesPercentage;
+    await Promise.all(folderChecks);
+
+    const progressPercentage = (completedFolders / totalFolders) * 100;
+    return {
+      totalFolders,
+      completedFolders,
+      progressPercentage: progressPercentage.toFixed(2) + '%',
+    };
   } catch (error) {
-    console.error('Error calculating empty folders percentage:', error);
+    console.error('Error calculating overall progress:', error);
     throw error;
   }
 };
 
-export const calculateEmptyFoldersPercentageWithFilter = async (filter) => {
-  try {
-    const folderQuery = query(collection(db, 'folders'), where('parentId', '==', filter.parentId));
-    const folderSnapshot = await getDocs(folderQuery);
-    const totalFolders = folderSnapshot.size;
-    let emptyFolders = 0;
+// Helper function to count files in a folder and its subfolders
+async function countFilesInFolderAndSubfolders(folderId, allFolders) {
+  let totalFiles = 0;
+  const fileSnapshot = await getDocs(
+    query(collection(db, 'files'), where('folderId', '==', folderId))
+  );
+  totalFiles += fileSnapshot.size;
 
-    folderSnapshot.forEach((doc) => {
-      const folderData = doc.data();
-      if (!folderData.fileCount || folderData.fileCount === 0) {
-        emptyFolders++;
-      }
-    });
-
-    const emptyFoldersPercentage = (emptyFolders / totalFolders) * 100;
-    const pendingFilesPercentage = Math.round(emptyFoldersPercentage) + '% pending files';
-    return pendingFilesPercentage;
-  } catch (error) {
-    console.error('Error calculating empty folders percentage with filter:', error);
-    throw error;
+  const subfolders = allFolders.filter((folder) => folder.parentId === folderId);
+  for (const subfolder of subfolders) {
+    totalFiles += await countFilesInFolderAndSubfolders(subfolder.id, allFolders);
   }
-};
 
-export const calculateFoldersWithFilesPercentage = async () => {
+  return totalFiles;
+}
+
+export const countFilesInRootFolders = async () => {
   try {
-    const folderQuery = query(collection(db, 'folders'));
-    const folderSnapshot = await getDocs(folderQuery);
-    const totalFolders = folderSnapshot.size;
-    let foldersWithFiles = 0;
+    const allFoldersSnapshot = await getDocs(collection(db, 'folders'));
+    const allFolders = allFoldersSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-    folderSnapshot.forEach((doc) => {
-      const folderData = doc.data();
-      if (folderData.fileCount && folderData.fileCount > 0) {
-        foldersWithFiles++;
-      }
-    });
+    const rootFolders = allFolders.filter((folder) => !folder.parentId);
+    const rootFolderFileCounts = await Promise.all(
+      rootFolders.map(async (rootFolder) => {
+        const totalFiles = await countFilesInFolderAndSubfolders(rootFolder.id, allFolders);
+        return {
+          folderName: rootFolder.name,
+          totalFiles,
+        };
+      })
+    );
 
-    const foldersWithFilesPercentage = (foldersWithFiles / totalFolders) * 100;
-    const completeFilesPercentage = Math.round(foldersWithFilesPercentage) + '% complete files';
-    return completeFilesPercentage;
+    return rootFolderFileCounts;
   } catch (error) {
-    console.error('Error calculating folders with files percentage:', error);
-    throw error;
-  }
-};
-
-export const calculateFoldersWithFilesPercentageWithFilter = async (filter) => {
-  try {
-    const folderQuery = query(collection(db, 'folders'), where('parentId', '==', filter.parentId));
-    const folderSnapshot = await getDocs(folderQuery);
-    const totalFolders = folderSnapshot.size;
-    let foldersWithFiles = 0;
-
-    folderSnapshot.forEach((doc) => {
-      const folderData = doc.data();
-      if (folderData.fileCount && folderData.fileCount > 0) {
-        foldersWithFiles++;
-      }
-    });
-
-    const foldersWithFilesPercentage = (foldersWithFiles / totalFolders) * 100;
-    const completeFilesPercentage = Math.round(foldersWithFilesPercentage) + '% complete files';
-    return completeFilesPercentage;
-  } catch (error) {
-    console.error('Error calculating folders with files percentage with filter:', error);
+    console.error('Error counting files in root folders:', error);
     throw error;
   }
 };

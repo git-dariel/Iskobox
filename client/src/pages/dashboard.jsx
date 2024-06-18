@@ -15,7 +15,7 @@ function Dashboard() {
     <div className='flex w-full h-screen'>
       <SideBar />
       <div className='flex h-full w-full flex-col'>
-        <TopNavigation navigateToRoot={navigateToRoot} currentFolderId={null} />
+        {/* <TopNavigation navigateToRoot={navigateToRoot} currentFolderId={null} /> */}
         <div className='flex h-full w-full flex-col'>
           {/* Main Content */}
           <div className='flex h-full w-full flex-col bg-gray-400'>
