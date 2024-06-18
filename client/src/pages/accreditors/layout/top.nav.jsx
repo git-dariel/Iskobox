@@ -6,8 +6,12 @@ const Navbar = ({ logo, navTitle, navItems }) => {
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
   const dropdownRefs = useRef([]);
 
-  const toggleDropdown = (index) => {
-    setOpenDropdownIndex((prevIndex) => (prevIndex === index ? null : index));
+  const handleMouseEnter = (index) => {
+    setOpenDropdownIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setOpenDropdownIndex(null);
   };
 
   const handleClickOutside = (event) => {
@@ -38,6 +42,7 @@ const Navbar = ({ logo, navTitle, navItems }) => {
             {navTitle}
           </span>
         </Link>
+
         <button
           data-collapse-toggle="navbar-dropdown"
           type="button"
@@ -50,16 +55,20 @@ const Navbar = ({ logo, navTitle, navItems }) => {
         <div className="hidden w-full md:block md:w-auto" id="navbar-dropdown">
           <ul className="flex relative flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {navItems.map((item, index) => (
-              <li key={index} className="relative">
+              <li
+                key={index}
+                className="relative"
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
+              >
                 {item.dropdown ? (
                   <>
-                    <button
-                      onClick={() => toggleDropdown(index)}
-                      className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-                    >
-                      {item.name}
-                      <IoChevronDownOutline className="ml-2" />
-                    </button>
+                    <Link to={item.to}>
+                      <button className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                        {item.name}
+                        <IoChevronDownOutline className="ml-2" />
+                      </button>
+                    </Link>
                     <div
                       ref={(el) => (dropdownRefs.current[index] = el)}
                       className={`${

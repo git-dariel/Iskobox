@@ -14,6 +14,14 @@ import { UpdateProvider } from "./helpers/update.context";
 import { CommentUpdateProvider } from "./helpers/comment.context";
 import LandingPage from "./pages/users/landing-page";
 import ExhibitPage from "./pages/accreditors/accreditor.pages/exhibit.page";
+import CitizensCharter from "./pages/accreditors/accreditor.pages/exhibit/citizens.charter.page";
+import StudentHandbook from "./pages/accreditors/accreditor.pages/exhibit/student.handbook";
+import UniversityCode from "./pages/accreditors/accreditor.pages/exhibit/university.code";
+import UnivPoliciesGuidelines from "./pages/accreditors/accreditor.pages/exhibit/univ.policies";
+import AdminManual from "./pages/accreditors/accreditor.pages/exhibit/admin.manual";
+import Syllabi from "./pages/accreditors/accreditor.pages/exhibit/syllabi";
+import InstructionalMaterials from "./pages/accreditors/accreditor.pages/exhibit/instructional.mats";
+import CMOpage from "./pages/accreditors/accreditor.pages/exhibit/cmo";
 import HomePage from "./components/landing-page/Homepages/homepage";
 import AboutPage from "./components/landing-page/about/aboutpage";
 import HistoryPage from "./components/landing-page/about/historypage/historypage";
@@ -32,7 +40,35 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/folder-page" element={<FolderPage />} />
             <Route path="/landingpage" element={<LandingPage />} />
-            <Route path="/pup-lq-accreditation" element={<ExhibitPage />} />
+
+            {/* Exhibit Routes */}
+            <Route path="/exhibit" element={<ExhibitPage />} />
+            <Route
+              path="/exhibit/citizens-charter"
+              element={<CitizensCharter />}
+            />
+            <Route
+              path="/exhibit/student-handbook"
+              element={<StudentHandbook />}
+            />
+            <Route
+              path="/exhibit/university-code"
+              element={<UniversityCode />}
+            />
+            <Route
+              path="/exhibit/university-policies-guidelines"
+              element={<UnivPoliciesGuidelines />}
+            />
+            <Route
+              path="/exhibit/administrative-manual"
+              element={<AdminManual />}
+            />
+            <Route path="/exhibit/syllabi" element={<Syllabi />} />
+            <Route
+              path="/exhibit/instructional-materials"
+              element={<InstructionalMaterials />}
+            />
+            <Route path="/exhibit/cmo" element={<CMOpage />} />
             <Route
               path="/dashboard"
               element={

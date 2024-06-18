@@ -19,7 +19,7 @@ common.navItems = [
   { name: "Home", to: "/homepage", current: true },
   {
     name: "About PUP Lopez",
-    to: "#",
+    to: "/about-pup-lopez",
     dropdown: true,
     items: [
       { name: "About PUP ", to: "/aboutpage" },
@@ -61,7 +61,7 @@ common.exhibitPaths = [
     image: university_code,
   },
   {
-    path: "/exhibit/university-policies-and-guidelines",
+    path: "/exhibit/university-policies-guidelines",
     text: "University Policies & Guidelines",
     image: univ_policies_guidelines,
   },
@@ -76,7 +76,7 @@ common.exhibitPaths = [
     text: "Instructional Materials",
     image: instructional_mats,
   },
-  { path: "/exhibit/cmo-2015", text: "CMO 2015", image: cmo_2015 },
+  { path: "/exhibit/cmo", text: "CMO 2015", image: cmo_2015 },
 ];
 
 export default common;
