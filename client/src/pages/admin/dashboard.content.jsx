@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import Cards from '@/components/dashboard/cards';
+import UserDropdown from '@/components/users/user-profile';
+import LoadingCards from '@/components/lazy-loading/loading.cards';
+import LoadingProgressBar from '@/components/lazy-loading/loading.progressbar';
+import LoadingPie from '@/components/lazy-loading/loading.pie';
 import { getDashboardCardData } from '@/configs/mocked.config';
 import { barData, pieData } from '@/configs/dashboard.test.data.config';
 import RoundedContainer from '@/components/layout/rounded.container';
@@ -14,27 +18,30 @@ import {
   calculateOverallProgress,
   countFilesInRootFolders,
 } from '@/services/folders/folder.service';
-import UserDropdown from '@/components/users/user-profile';
 
 // Register the required components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function DashboardContent() {
   const [cardData, setCardData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [overallProgress, setOverallProgress] = useState(0);
   const [pieChartData, setPieChartData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       const totalFiles = await countAllFiles();
       const totalFolders = await countAllFolders();
       const data = await getDashboardCardData(totalFiles, totalFolders);
       setCardData(data);
+
       const progressData = await calculateOverallProgress();
       setOverallProgress(progressData.progressPercentage.replace('%', ''));
 
       const rootFolderData = await countFilesInRootFolders();
       updatePieChartData(rootFolderData);
+      setIsLoading(false);
     };
     fetchData();
 
@@ -158,15 +165,15 @@ function DashboardContent() {
             <UserDropdown />
           </div>
         </div>
-        <Cards data={cardData} />
+        {isLoading ? <LoadingCards /> : <Cards data={cardData} />}
         <div className='flex flex-col gap-4'>
           <div className='flex gap-5'>
             <RoundedContainer>
-              <ProgressBar progress={overallProgress} />
+              {isLoading ? <LoadingProgressBar /> : <ProgressBar progress={overallProgress} />}
             </RoundedContainer>
             <RoundedContainer>
               <div className='flex w-full h-64 md:h-96'>
-                <Pie data={pieChartData} options={pieOptions} />
+                {isLoading ? <LoadingPie /> : <Pie data={pieChartData} options={pieOptions} />}
               </div>
             </RoundedContainer>
           </div>
