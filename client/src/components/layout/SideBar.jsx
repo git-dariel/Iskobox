@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { BarChart3, BarChartBig, LayoutDashboard, Home } from 'lucide-react';
+import { BarChart3, BarChartBig, LayoutDashboard, Folders } from 'lucide-react';
 
 function SideBar() {
   return (
@@ -14,17 +14,17 @@ function SideBar() {
           style={{ maxHeight: '100vh', scrollbarWidth: 'thin' }}
         >
           <NavLink
-            to='/'
-            className='flex items-center px-4 py-2 pb-5 text-base text-gray-100 hover:text-gray-400'
+            to='/dashboard'
+            className='flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400'
           >
-            <Home className='h-6 w-6  mr-2' /> Home
+            <LayoutDashboard className='h-6 w-6 mr-2' /> Dashboard
           </NavLink>
           <div>
             <NavLink
-              to='/dashboard'
-              className='flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400'
+              to='/home'
+              className='flex items-center px-4 py-2 pb-5 text-base text-gray-100 hover:text-gray-400'
             >
-              <LayoutDashboard className='h-6 w-6 mr-2' /> Dashboard
+              <Folders className='h-6 w-6  mr-2' /> Folders
             </NavLink>
             <NavLink
               to='/dashboard/'

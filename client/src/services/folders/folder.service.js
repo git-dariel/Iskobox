@@ -360,3 +360,75 @@ export const countCompletedFilesInFolders = (callback) => {
 
   return unsubscribe;
 };
+
+export const calculateOverallProgress = async () => {
+  try {
+    const folderQuery = query(collection(db, 'folders'));
+    const folderSnapshot = await getDocs(folderQuery);
+    const totalFolders = folderSnapshot.size;
+    let completedFolders = 0;
+
+    const folderChecks = folderSnapshot.docs.map(async (folderDoc) => {
+      const folderId = folderDoc.id;
+      const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+      const fileSnapshot = await getDocs(fileQuery);
+      if (!fileSnapshot.empty) {
+        completedFolders++;
+      }
+    });
+
+    await Promise.all(folderChecks);
+
+    const progressPercentage = (completedFolders / totalFolders) * 100;
+    return {
+      totalFolders,
+      completedFolders,
+      progressPercentage: progressPercentage.toFixed(2) + '%',
+    };
+  } catch (error) {
+    console.error('Error calculating overall progress:', error);
+    throw error;
+  }
+};
+
+// Helper function to count files in a folder and its subfolders
+async function countFilesInFolderAndSubfolders(folderId, allFolders) {
+  let totalFiles = 0;
+  const fileSnapshot = await getDocs(
+    query(collection(db, 'files'), where('folderId', '==', folderId))
+  );
+  totalFiles += fileSnapshot.size;
+
+  const subfolders = allFolders.filter((folder) => folder.parentId === folderId);
+  for (const subfolder of subfolders) {
+    totalFiles += await countFilesInFolderAndSubfolders(subfolder.id, allFolders);
+  }
+
+  return totalFiles;
+}
+
+export const countFilesInRootFolders = async () => {
+  try {
+    const allFoldersSnapshot = await getDocs(collection(db, 'folders'));
+    const allFolders = allFoldersSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const rootFolders = allFolders.filter((folder) => !folder.parentId);
+    const rootFolderFileCounts = await Promise.all(
+      rootFolders.map(async (rootFolder) => {
+        const totalFiles = await countFilesInFolderAndSubfolders(rootFolder.id, allFolders);
+        return {
+          folderName: rootFolder.name,
+          totalFiles,
+        };
+      })
+    );
+
+    return rootFolderFileCounts;
+  } catch (error) {
+    console.error('Error counting files in root folders:', error);
+    throw error;
+  }
+};

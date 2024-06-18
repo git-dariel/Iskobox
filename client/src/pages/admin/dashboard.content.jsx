@@ -11,6 +11,8 @@ import {
   countAllFolders,
   countPendingFilesInFolders,
   countCompletedFilesInFolders,
+  calculateOverallProgress,
+  countFilesInRootFolders,
 } from '@/services/folders/folder.service';
 import UserDropdown from '@/components/users/user-profile';
 
@@ -19,6 +21,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 function DashboardContent() {
   const [cardData, setCardData] = useState([]);
+  const [overallProgress, setOverallProgress] = useState(0);
+  const [pieChartData, setPieChartData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +30,11 @@ function DashboardContent() {
       const totalFolders = await countAllFolders();
       const data = await getDashboardCardData(totalFiles, totalFolders);
       setCardData(data);
+      const progressData = await calculateOverallProgress();
+      setOverallProgress(progressData.progressPercentage.replace('%', ''));
+
+      const rootFolderData = await countFilesInRootFolders();
+      updatePieChartData(rootFolderData);
     };
     fetchData();
 
@@ -62,6 +71,46 @@ function DashboardContent() {
       }
     };
   }, []);
+
+  const updatePieChartData = (rootFolderData) => {
+    const labels = rootFolderData.map((folder) => folder.folderName);
+    const data = rootFolderData.map((folder) => folder.totalFiles);
+
+    setPieChartData({
+      labels,
+      datasets: [
+        {
+          label: 'Number of Uploaded Files',
+          data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+          ],
+          borderWidth: 1,
+        },
+      ],
+    });
+  };
 
   const pieOptions = {
     responsive: true,
@@ -113,11 +162,11 @@ function DashboardContent() {
         <div className='flex flex-col gap-4'>
           <div className='flex gap-5'>
             <RoundedContainer>
-              <ProgressBar />
+              <ProgressBar progress={overallProgress} />
             </RoundedContainer>
             <RoundedContainer>
               <div className='flex w-full h-64 md:h-96'>
-                <Pie data={pieData} options={pieOptions} />
+                <Pie data={pieChartData} options={pieOptions} />
               </div>
             </RoundedContainer>
           </div>

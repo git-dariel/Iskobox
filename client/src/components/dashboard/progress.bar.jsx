@@ -3,15 +3,14 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { ResponsiveContainer } from 'recharts';
 
-const ProgressBar = () => {
-  const progressData = 75; //just to visualize progress
+const ProgressBar = ({ progress }) => {
   return (
     <div className='w-full'>
       <h2 className='text-xl font-bold mb-1 text-gray-800'>Overall Progress</h2>
       <div className='flex m-2 mt-7 items-center justify-center w-full'>
         <CircularProgressbar
-          value={progressData}
-          text={`${progressData}%`}
+          value={progress}
+          text={`${progress}%`}
           styles={{
             root: {
               width: '320px',
