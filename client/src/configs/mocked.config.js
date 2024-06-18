@@ -10,25 +10,25 @@ const getDashboardCardData = (totalFiles, totalFolders, pendingFiles, completedF
       title: 'Total Files',
       value: totalFiles,
       icon: FaRegFileAlt,
-      description: 'Total number of projects in the system.',
+      description: 'Total number of files in the system.',
     },
     {
       title: 'Total Folders',
       value: totalFolders,
       icon: LiaFolderSolid,
-      description: 'Number of projects in progress.',
+      description: 'Total number of folders in the system.',
     },
     {
       title: 'Pending Files',
       value: pendingFiles,
       icon: MdOutlinePendingActions,
-      description: 'Number of projects completed.',
+      description: 'Number of files pending.',
     },
     {
       title: 'Completed Files',
       value: completedFiles,
       icon: FaFileCircleCheck,
-      description: 'Number of projects currently on hold.',
+      description: 'Number of files completed.',
     },
   ];
 };

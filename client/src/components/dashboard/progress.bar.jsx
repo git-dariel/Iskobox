@@ -8,13 +8,13 @@ const ProgressBar = () => {
   return (
     <div className='w-full'>
       <h2 className='text-xl font-bold mb-1 text-gray-800'>Overall Progress</h2>
-      <div className='flex m-2 items-center justify-center w-full'>
+      <div className='flex m-2 mt-7 items-center justify-center w-full'>
         <CircularProgressbar
           value={progressData}
           text={`${progressData}%`}
           styles={{
             root: {
-              width: '60%',
+              width: '320px',
               filter: 'drop-shadow(0px 0px 10px rgba(50, 50, 50, 0.7))',
             },
             path: {
