@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./helpers/auth.context";
 import ProtectedRoute from "./helpers/protected-routes";
 import Dashboard from "./pages/dashboard";
+import DashboardPending from "./pages/admin/dashboard.pending.file";
 import Home from "./pages/home";
 import Profile from "./pages/profile";
 import Settings from "./pages/settings";
@@ -41,40 +42,32 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/folder-page" element={<FolderPage />} />
             <Route path="/landingpage" element={<LandingPage />} />
-
             {/* Exhibit Routes */}
             <Route path="/exhibit" element={<ExhibitPage />} />
-            <Route
-              path="/exhibit/citizens-charter"
-              element={<CitizensCharter />}
-            />
-            <Route
-              path="/exhibit/student-handbook"
-              element={<StudentHandbook />}
-            />
-            <Route
-              path="/exhibit/university-code"
-              element={<UniversityCode />}
-            />
+            <Route path="/exhibit/citizens-charter" element={<CitizensCharter />} />
+            <Route path="/exhibit/student-handbook" element={<StudentHandbook />} />
+            <Route path="/exhibit/university-code" element={<UniversityCode />} />
             <Route
               path="/exhibit/university-policies-guidelines"
               element={<UnivPoliciesGuidelines />}
             />
-            <Route
-              path="/exhibit/administrative-manual"
-              element={<AdminManual />}
-            />
+            <Route path="/exhibit/administrative-manual" element={<AdminManual />} />
             <Route path="/exhibit/syllabi" element={<Syllabi />} />
-            <Route
-              path="/exhibit/instructional-materials"
-              element={<InstructionalMaterials />}
-            />
+            <Route path="/exhibit/instructional-materials" element={<InstructionalMaterials />} />
             <Route path="/exhibit/cmo" element={<CMOpage />} />
             <Route
               path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard-pending"
+              element={
+                <ProtectedRoute>
+                  <DashboardPending />
                 </ProtectedRoute>
               }
             />
@@ -121,12 +114,12 @@ function App() {
             //Landing Page
             <Route path="/homepage" element={<HomePage />} />
             <Route path="/aboutpage" element={<AboutPage />} />
-            <Route path="/historypage" element={<HistoryPage/>} />
-            <Route path="/missionvisionpage" element={<MissionVision/>} />
-            <Route path="/facilitiespage" element={<FacilitiesPage/>} />
-            <Route path="/laboratorypage" element={<LaboratoryPage/>} />
-            <Route path="/officesvideopage" element={<OfficeVideoPage/>} />
-            <Route path="/certificate-of-authenticitypage" element={<CertifcateOfAuthenticity/>} />
+            <Route path="/historypage" element={<HistoryPage />} />
+            <Route path="/missionvisionpage" element={<MissionVision />} />
+            <Route path="/facilitiespage" element={<FacilitiesPage />} />
+            <Route path="/laboratorypage" element={<LaboratoryPage />} />
+            <Route path="/officesvideopage" element={<OfficeVideoPage />} />
+            <Route path="/certificate-of-authenticitypage" element={<CertifcateOfAuthenticity />} />
           </Routes>
         </CommentUpdateProvider>
       </UpdateProvider>

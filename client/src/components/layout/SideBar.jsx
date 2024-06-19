@@ -1,42 +1,42 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { BarChart3, BarChartBig, LayoutDashboard, Folders } from 'lucide-react';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { BarChart3, BarChartBig, LayoutDashboard, Folders } from "lucide-react";
 
 function SideBar() {
   return (
-    <div className='hidden md:flex flex-col min-w-64'>
-      <div className='flex items-center justify-center h-16 bg-gray-800'>
-        <span className='mx-5 w-full mt-5 font-semibold text-xl text-gray-100'>Iskobox</span>
+    <div className="hidden md:flex flex-col min-w-64">
+      <div className="flex items-center justify-center h-16 bg-gray-800">
+        <span className="mx-5 w-full mt-5 font-semibold text-xl text-gray-100">Iskobox</span>
       </div>
-      <div className='flex flex-col flex-1 relative '>
+      <div className="flex flex-col flex-1 relative ">
         <nav
-          className='flex-1 py-4 bg-gray-800 overflow-y-auto'
-          style={{ maxHeight: '100vh', scrollbarWidth: 'thin' }}
+          className="flex-1 py-4 bg-gray-800 overflow-y-auto"
+          style={{ maxHeight: "100vh", scrollbarWidth: "thin" }}
         >
           <NavLink
-            to='/dashboard'
-            className='flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400'
+            to="/dashboard"
+            className="flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400"
           >
-            <LayoutDashboard className='h-6 w-6 mr-2' /> Dashboard
+            <LayoutDashboard className="h-6 w-6 mr-2" /> Dashboard
           </NavLink>
           <div>
             <NavLink
-              to='/home'
-              className='flex items-center px-4 py-2 pb-5 text-base text-gray-100 hover:text-gray-400'
+              to="/home"
+              className="flex items-center px-4 py-2 pb-5 text-base text-gray-100 hover:text-gray-400"
             >
-              <Folders className='h-6 w-6  mr-2' /> Folders
+              <Folders className="h-6 w-6  mr-2" /> Folders
             </NavLink>
             <NavLink
-              to='/dashboard/'
-              className='flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400'
+              to="/dashboard-pending"
+              className="flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400"
             >
-              <BarChart3 className='h-6 w-6 mr-2' /> Number of Completed Files
+              <BarChart3 className="h-6 w-6 mr-2" /> Pending Files Per Area
             </NavLink>
             <NavLink
-              to='/dashboard/'
-              className='flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400'
+              to="/dashboard-completed"
+              className="flex items-center px-4 py-2 pb-5 text-sm text-gray-100 hover:text-gray-400"
             >
-              <BarChartBig className='h-6 w-6 mr-2' /> Number of Pending Files
+              <BarChartBig className="h-6 w-6 mr-2" /> Completed Files Per Area
             </NavLink>
           </div>
         </nav>

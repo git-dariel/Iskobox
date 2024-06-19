@@ -1,12 +1,6 @@
 // Define the data for the Bar Chart
 export const barData = {
-  labels: [
-    "Department A",
-    "Department B",
-    "Department C",
-    "Department D",
-    "Department E",
-  ],
+  labels: ["Department A", "Department B", "Department C", "Department D", "Department E"],
   datasets: [
     {
       label: "Number of Pending Files",
