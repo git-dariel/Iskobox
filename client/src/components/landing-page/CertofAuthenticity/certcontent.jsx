@@ -1,34 +1,32 @@
-import { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
+import React  from "react";
+import { Worker, Viewer } from "@react-pdf-viewer/core";
 import { CertData } from "@/configs/LanfingPageConfigs/certificate.data";
 
-// Setting up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
 export default function CertContent() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
 
   return (
-    <div className="flex justify-center items-center w-full h-full bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]">
-      <div className="w-full max-w-3xl">
-        <Document
-          className="border-2 shadow-lg my-10 w-full h-full"
-          file={CertData.certificate}
-          onLoadSuccess={onDocumentLoadSuccess}
-        >
-          <Page
-            className="w-full"
-            pageNumber={pageNumber}
-            renderTextLayer={false}
-            renderAnnotationLayer={false}
-          />
-        </Document>
-      </div>
+    <div className="flex flex-col items-center  min-h-screen bg-gray-100 p-4 md:p-8 bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]">
+    <div className="w-full max-w-[50rem] h-full bg-white shadow-lg rounded-lg overflow-hidden mb-4">
+      <Worker
+        workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
+      >
+        <Viewer
+          
+          fileUrl={CertData.certificate}
+          renderTextLayer={false}
+          renderAnnotationLayer={false}
+        />
+      </Worker>
     </div>
+    <div className="flex w-full justify-end xl:px-[245px] lg:px-[70px]">
+      <a
+        href={CertData.certificate}
+        download="certificate.pdf"
+        className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+      >
+        Download PDF
+      </a>
+    </div>
+  </div>
   );
 }
