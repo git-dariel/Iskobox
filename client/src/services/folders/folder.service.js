@@ -12,16 +12,16 @@ import {
   arrayUnion,
   arrayRemove,
   onSnapshot,
-} from 'firebase/firestore';
-import { db } from '../../database/firebase-connection';
+} from "firebase/firestore";
+import { db } from "../../database/firebase-connection";
 
 export const fetchFolders = async (parentId = null) => {
   try {
     let folderQuery;
     if (parentId === undefined || parentId === null) {
-      folderQuery = query(collection(db, 'folders'), where('parentId', '==', null));
+      folderQuery = query(collection(db, "folders"), where("parentId", "==", null));
     } else {
-      folderQuery = query(collection(db, 'folders'), where('parentId', '==', parentId));
+      folderQuery = query(collection(db, "folders"), where("parentId", "==", parentId));
     }
 
     const folderSnapshot = await getDocs(folderQuery);
@@ -35,7 +35,7 @@ export const fetchFolders = async (parentId = null) => {
     folders = folders.sort((a, b) => a.createdAt - b.createdAt);
     return folders;
   } catch (error) {
-    console.error('Error fetching folders:', error);
+    console.error("Error fetching folders:", error);
     throw error;
   }
 };
@@ -44,7 +44,7 @@ export const addFolder = async (folderData) => {
   try {
     if (!folderData.name || folderData.name.length > 24 || /[^a-zA-Z0-9 ]/.test(folderData.name)) {
       throw new Error(
-        'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
+        "Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces."
       );
     }
     const folderPayload = {
@@ -55,32 +55,32 @@ export const addFolder = async (folderData) => {
       delete folderPayload.parentId;
     }
 
-    const docRef = await addDoc(collection(db, 'folders'), folderPayload);
+    const docRef = await addDoc(collection(db, "folders"), folderPayload);
     return { id: docRef.id, ...folderPayload, subfolders: [] };
   } catch (error) {
-    console.error('Error adding folder:', error);
+    console.error("Error adding folder:", error);
     throw error;
   }
 };
 
 export const deleteFolder = async (folderId) => {
   try {
-    const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+    const fileQuery = query(collection(db, "files"), where("folderId", "==", folderId));
     const fileSnapshot = await getDocs(fileQuery);
     const fileDeletions = fileSnapshot.docs.map((fileDoc) =>
-      deleteDoc(doc(db, 'files', fileDoc.id))
+      deleteDoc(doc(db, "files", fileDoc.id))
     );
     await Promise.all(fileDeletions);
 
-    const subfolderQuery = query(collection(db, 'folders'), where('parentId', '==', folderId));
+    const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", folderId));
     const subfolderSnapshot = await getDocs(subfolderQuery);
     const subfolderDeletions = subfolderSnapshot.docs.map((subfolderDoc) =>
       deleteFolder(subfolderDoc.id)
     );
     await Promise.all(subfolderDeletions);
-    await deleteDoc(doc(db, 'folders', folderId));
+    await deleteDoc(doc(db, "folders", folderId));
   } catch (error) {
-    console.error('Error deleting folder:', error);
+    console.error("Error deleting folder:", error);
     throw error;
   }
 };
@@ -90,26 +90,26 @@ export const handleUpdateFolder = async (folderId, updatedDetails) => {
     if (updatedDetails.name) {
       if (updatedDetails.name.length > 24 || /[^a-zA-Z0-9 ]/.test(updatedDetails.name)) {
         throw new Error(
-          'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
+          "Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces."
         );
       }
     }
 
-    const folderRef = doc(db, 'folders', folderId);
+    const folderRef = doc(db, "folders", folderId);
     await updateDoc(folderRef, updatedDetails);
     return { success: true };
   } catch (error) {
-    console.error('Error updating folder:', error);
+    console.error("Error updating folder:", error);
     throw error;
   }
 };
 
 export const fetchFolderDetails = async (folderId) => {
   try {
-    const folderDocRef = doc(db, 'folders', folderId);
+    const folderDocRef = doc(db, "folders", folderId);
     const folderDoc = await getDoc(folderDocRef);
     if (!folderDoc.exists()) {
-      console.log('No such folder!');
+      console.log("No such folder!");
       return null;
     }
     const data = folderDoc.data();
@@ -122,25 +122,25 @@ export const fetchFolderDetails = async (folderId) => {
 
     return folderDetails;
   } catch (error) {
-    console.error('Error fetching folder details:', error);
+    console.error("Error fetching folder details:", error);
     throw error;
   }
 };
 
 export const fetchFolderDetailsWithUploadLimit = async (folderId) => {
   try {
-    const folderDocRef = doc(db, 'folders', folderId);
+    const folderDocRef = doc(db, "folders", folderId);
     const folderDoc = await getDoc(folderDocRef);
     if (folderDoc.exists()) {
       const data = folderDoc.data();
-      console.log('Folder Details:', data);
+      console.log("Folder Details:", data);
       return { id: folderDoc.id, ...data };
     } else {
-      console.log('No such folder!');
+      console.log("No such folder!");
       return null;
     }
   } catch (error) {
-    console.error('Error fetching folder details:', error);
+    console.error("Error fetching folder details:", error);
     throw error;
   }
 };
@@ -159,26 +159,26 @@ export const processFolder = (folder) => {
 
 export const addAssigneeToFolder = async (folderId, assigneeData) => {
   try {
-    const folderRef = doc(db, 'folders', folderId);
+    const folderRef = doc(db, "folders", folderId);
     await updateDoc(folderRef, {
       assignees: arrayUnion(assigneeData),
     });
     return { success: true };
   } catch (error) {
-    console.error('Error adding assignee to folder:', error);
+    console.error("Error adding assignee to folder:", error);
     throw error;
   }
 };
 
 export const removeAssigneeFromFolder = async (folderId, assigneeData) => {
   try {
-    const folderRef = doc(db, 'folders', folderId);
+    const folderRef = doc(db, "folders", folderId);
     await updateDoc(folderRef, {
       assignees: arrayRemove(assigneeData),
     });
     return { success: true };
   } catch (error) {
-    console.error('Error removing assignee from folder:', error);
+    console.error("Error removing assignee from folder:", error);
     throw error;
   }
 };
@@ -231,7 +231,7 @@ export const removeAssigneeFromFolder = async (folderId, assigneeData) => {
 
 export const fetchFoldersForUser = async (userId, parentId = null) => {
   try {
-    const allFoldersQuery = query(collection(db, 'folders'));
+    const allFoldersQuery = query(collection(db, "folders"));
     const allFoldersSnapshot = await getDocs(allFoldersQuery);
     let allFolders = allFoldersSnapshot.docs.map((doc) => {
       const folderData = doc.data();
@@ -271,7 +271,7 @@ export const fetchFoldersForUser = async (userId, parentId = null) => {
     // Fetch files for these folders if parentId is specified
     const files = [];
     if (parentId) {
-      const fileQuery = query(collection(db, 'files'), where('folderId', '==', parentId));
+      const fileQuery = query(collection(db, "files"), where("folderId", "==", parentId));
       const fileSnapshot = await getDocs(fileQuery);
       const folderFiles = fileSnapshot.docs.map((doc) => {
         const fileData = doc.data();
@@ -289,24 +289,24 @@ export const fetchFoldersForUser = async (userId, parentId = null) => {
 
     return { folders: userFolders, files };
   } catch (error) {
-    console.error('Error fetching folders for user:', error);
+    console.error("Error fetching folders for user:", error);
     throw error;
   }
 };
 
 export const countAllFolders = async () => {
   try {
-    const q = query(collection(db, 'folders'));
+    const q = query(collection(db, "folders"));
     const querySnapshot = await getDocs(q);
     return querySnapshot.size;
   } catch (error) {
-    console.error('Error counting folders:', error);
+    console.error("Error counting folders:", error);
     throw error;
   }
 };
 
 export const countPendingFilesInFolders = (callback) => {
-  const folderQuery = query(collection(db, 'folders'));
+  const folderQuery = query(collection(db, "folders"));
   const unsubscribe = onSnapshot(
     folderQuery,
     async (folderSnapshot) => {
@@ -314,7 +314,7 @@ export const countPendingFilesInFolders = (callback) => {
 
       const checks = folderSnapshot.docs.map(async (folderDoc) => {
         const folderId = folderDoc.id;
-        const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", folderId));
         const fileSnapshot = await getDocs(fileQuery);
 
         if (fileSnapshot.empty) {
@@ -326,7 +326,7 @@ export const countPendingFilesInFolders = (callback) => {
       callback(totalPendingFiles);
     },
     (error) => {
-      console.error('Error tracking pending files in folders:', error);
+      console.error("Error tracking pending files in folders:", error);
     }
   );
 
@@ -334,7 +334,7 @@ export const countPendingFilesInFolders = (callback) => {
 };
 
 export const countCompletedFilesInFolders = (callback) => {
-  const folderQuery = query(collection(db, 'folders'));
+  const folderQuery = query(collection(db, "folders"));
   const unsubscribe = onSnapshot(
     folderQuery,
     async (folderSnapshot) => {
@@ -342,7 +342,7 @@ export const countCompletedFilesInFolders = (callback) => {
 
       const checks = folderSnapshot.docs.map(async (folderDoc) => {
         const folderId = folderDoc.id;
-        const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", folderId));
         const fileSnapshot = await getDocs(fileQuery);
 
         if (!fileSnapshot.empty) {
@@ -354,7 +354,7 @@ export const countCompletedFilesInFolders = (callback) => {
       callback(totalCompletedFiles);
     },
     (error) => {
-      console.error('Error tracking pending files in folders:', error);
+      console.error("Error tracking pending files in folders:", error);
     }
   );
 
@@ -363,14 +363,14 @@ export const countCompletedFilesInFolders = (callback) => {
 
 export const calculateOverallProgress = async () => {
   try {
-    const folderQuery = query(collection(db, 'folders'));
+    const folderQuery = query(collection(db, "folders"));
     const folderSnapshot = await getDocs(folderQuery);
     const totalFolders = folderSnapshot.size;
     let completedFolders = 0;
 
     const folderChecks = folderSnapshot.docs.map(async (folderDoc) => {
       const folderId = folderDoc.id;
-      const fileQuery = query(collection(db, 'files'), where('folderId', '==', folderId));
+      const fileQuery = query(collection(db, "files"), where("folderId", "==", folderId));
       const fileSnapshot = await getDocs(fileQuery);
       if (!fileSnapshot.empty) {
         completedFolders++;
@@ -383,10 +383,10 @@ export const calculateOverallProgress = async () => {
     return {
       totalFolders,
       completedFolders,
-      progressPercentage: progressPercentage.toFixed(2) + '%',
+      progressPercentage: progressPercentage.toFixed(2) + "%",
     };
   } catch (error) {
-    console.error('Error calculating overall progress:', error);
+    console.error("Error calculating overall progress:", error);
     throw error;
   }
 };
@@ -395,7 +395,7 @@ export const calculateOverallProgress = async () => {
 async function countFilesInFolderAndSubfolders(folderId, allFolders) {
   let totalFiles = 0;
   const fileSnapshot = await getDocs(
-    query(collection(db, 'files'), where('folderId', '==', folderId))
+    query(collection(db, "files"), where("folderId", "==", folderId))
   );
   totalFiles += fileSnapshot.size;
 
@@ -409,7 +409,7 @@ async function countFilesInFolderAndSubfolders(folderId, allFolders) {
 
 export const countFilesInRootFolders = async () => {
   try {
-    const allFoldersSnapshot = await getDocs(collection(db, 'folders'));
+    const allFoldersSnapshot = await getDocs(collection(db, "folders"));
     const allFolders = allFoldersSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -428,7 +428,48 @@ export const countFilesInRootFolders = async () => {
 
     return rootFolderFileCounts;
   } catch (error) {
-    console.error('Error counting files in root folders:', error);
+    console.error("Error counting files in root folders:", error);
+    throw error;
+  }
+};
+
+export const fetchEmptySubfoldersPerRootFolder = async () => {
+  try {
+    const allFoldersSnapshot = await getDocs(collection(db, "folders"));
+    const allFolders = allFoldersSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const rootFolders = allFolders.filter((folder) => !folder.parentId);
+    const subFolders = allFolders.filter((folder) => folder.parentId);
+
+    const emptySubfolders = await Promise.all(
+      rootFolders.map(async (rootFolder) => {
+        const subfoldersOfRoot = subFolders.filter(
+          (subFolder) => subFolder.parentId === rootFolder.id
+        );
+        const emptySubfolders = [];
+
+        for (const subfolder of subfoldersOfRoot) {
+          const fileSnapshot = await getDocs(
+            query(collection(db, "files"), where("folderId", "==", subfolder.id))
+          );
+          if (fileSnapshot.empty) {
+            emptySubfolders.push(subfolder.name);
+          }
+        }
+
+        return {
+          rootFolderName: rootFolder.name,
+          emptySubfolders: emptySubfolders,
+        };
+      })
+    );
+
+    return emptySubfolders.filter((item) => item.emptySubfolders.length > 0);
+  } catch (error) {
+    console.error("Error fetching empty subfolders per root folder:", error);
     throw error;
   }
 };
