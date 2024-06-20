@@ -3,6 +3,7 @@ import { AuthProvider } from "./helpers/auth.context";
 import ProtectedRoute from "./helpers/protected-routes";
 import Dashboard from "./pages/dashboard";
 import DashboardPending from "./pages/admin/dashboard.pending.file";
+import DashboardCompleted from "./pages/admin/dashboard.completed.file";
 import Home from "./pages/home";
 import Profile from "./pages/profile";
 import Settings from "./pages/settings";
@@ -68,6 +69,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <DashboardPending />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard-completed"
+              element={
+                <ProtectedRoute>
+                  <DashboardCompleted />
                 </ProtectedRoute>
               }
             />

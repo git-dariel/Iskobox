@@ -473,3 +473,44 @@ export const fetchEmptySubfoldersPerRootFolder = async () => {
     throw error;
   }
 };
+
+export const fetchSubfoldersWithFilesPerRootFolder = async () => {
+  try {
+    const allFoldersSnapshot = await getDocs(collection(db, "folders"));
+    const allFolders = allFoldersSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const rootFolders = allFolders.filter((folder) => !folder.parentId);
+    const subFolders = allFolders.filter((folder) => folder.parentId);
+
+    const subfoldersWithFiles = await Promise.all(
+      rootFolders.map(async (rootFolder) => {
+        const subfoldersOfRoot = subFolders.filter(
+          (subFolder) => subFolder.parentId === rootFolder.id
+        );
+        const subfoldersWithFiles = [];
+
+        for (const subfolder of subfoldersOfRoot) {
+          const fileSnapshot = await getDocs(
+            query(collection(db, "files"), where("folderId", "==", subfolder.id))
+          );
+          if (!fileSnapshot.empty) {
+            subfoldersWithFiles.push(subfolder.name);
+          }
+        }
+
+        return {
+          rootFolderName: rootFolder.name,
+          subfoldersWithFiles: subfoldersWithFiles,
+        };
+      })
+    );
+
+    return subfoldersWithFiles.filter((item) => item.subfoldersWithFiles.length > 0);
+  } catch (error) {
+    console.error("Error fetching subfolders with files per root folder:", error);
+    throw error;
+  }
+};
