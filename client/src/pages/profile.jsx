@@ -4,6 +4,7 @@ import SideBar from "@/components/layout/SideBar";
 import { editUserDetails, logoutUser, deleteUserAccount } from "@/services/users/user.service";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 const ProfilePage = () => {
   const { currentUser } = useAuth();
@@ -19,7 +20,12 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   const handleSave = async () => {
-    try {
+    if (!email || !password || !firstName || !lastName) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    const saveProcess = async () => {
       const result = await editUserDetails(currentUser.uid, email, password, firstName, lastName);
       if (typeof result === "string") {
         setMessage(result);
@@ -27,10 +33,17 @@ const ProfilePage = () => {
         setMessage("Profile updated successfully.");
       }
       console.log("Profile saved:", { firstName, lastName, email });
-    } catch (error) {
-      console.error("Error saving profile:", error);
-      setError(error.message);
-    }
+      return result;
+    };
+
+    toast.promise(saveProcess(), {
+      loading: "Saving profile...",
+      success: "Profile updated successfully.",
+      error: (err) => {
+        setError(err.message);
+        return "Error saving profile";
+      },
+    });
   };
 
   const handleLogout = async () => {
@@ -72,6 +85,7 @@ const ProfilePage = () => {
 
   return (
     <div className="flex w-full h-screen bg-gray-200">
+      <Toaster />
       <SideBar />
       <div className="flex justify-center items-center w-full ">
         <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden md:max-w-lg w-full py-5">
@@ -138,7 +152,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
               </div>
-              {error && <div className="mt-4 text-red-600">{error}</div>}
+              {error && <div className="mt-4 text-red-600">{error}/ or plase relogin</div>}
               {message && <div className="mt-4 text-green-600">{message}</div>}
 
               <div className="mt-6">
