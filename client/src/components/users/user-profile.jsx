@@ -1,20 +1,19 @@
-import { dummyProfile } from "../../test/mocked-data/user";
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/helpers/auth.context";
+import { dummyProfile } from "../../test/mocked-data/user";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null); // Ref for the dropdown menu
-  const { name, email, avatarSrc, menuItems } = dummyProfile;
-  const { logout } = useAuth();
+  const dropdownRef = useRef(null);
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const { menuItems, avatarSrc } = dummyProfile;
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  // Close dropdown when user clicks outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -35,6 +34,10 @@ const UserDropdown = () => {
     } catch (error) {}
   };
 
+  if (!currentUser) {
+    return null;
+  }
+
   return (
     <div className="relative ml-4" ref={dropdownRef}>
       {/* Toggle Profile */}
@@ -54,8 +57,10 @@ const UserDropdown = () => {
         } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
       >
         <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-          <div>{name}</div>
-          <div className="text-sm truncate">{email}</div>
+          <div>
+            {currentUser.firstname} {currentUser.lastname}
+          </div>
+          <div className="text-sm truncate">{currentUser.email}</div>
         </div>
         <ul
           className="py-2 text-sm text-gray-700 dark:text-gray-200"
