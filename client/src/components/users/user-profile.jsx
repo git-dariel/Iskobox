@@ -8,6 +8,7 @@ const UserDropdown = () => {
   const dropdownRef = useRef(null);
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const { menuItems, avatarSrc } = dummyProfile;
 
   const toggleDropdown = () => {
@@ -37,6 +38,14 @@ const UserDropdown = () => {
   if (!currentUser) {
     return null;
   }
+
+  const openLogoutModal = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const closeLogoutModal = () => {
+    setIsLogoutModalOpen(false);
+  };
 
   return (
     <div className="relative ml-4" ref={dropdownRef}>
@@ -79,13 +88,36 @@ const UserDropdown = () => {
         </ul>
         <div className="py-1">
           <button
-            onClick={handleLogout}
+            onClick={openLogoutModal}
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-left"
           >
             Sign out
           </button>
         </div>
       </div>
+      {isLogoutModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-black opacity-50"></div>
+          <div className="bg-white rounded-lg shadow-lg p-6 z-10">
+            <h2 className="text-lg font-semibold mb-4">Confirm Logout</h2>
+            <p className="mb-4">Are you sure you want to logout your account?</p>
+            <div className="flex justify-end">
+              <button
+                onClick={closeLogoutModal}
+                className="mr-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
