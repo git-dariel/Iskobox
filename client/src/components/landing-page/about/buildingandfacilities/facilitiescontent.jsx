@@ -155,7 +155,7 @@ export default function FacilitiesContent() {
                     </h2>
                   </header>
                   <div className=" h-full px-20  flex justify-center ">
-                    <div className=" h-full w-full max-w-screen-lg">
+                    <div className=" h-full w-full max-w-screen-lg"> 
                       <img
                         src={items.img}
                         className="flex object-center z-[10] shadow-lg rounded"

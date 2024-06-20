@@ -24,6 +24,7 @@ common.navItems = [
     items: [
       { name: "Mission And Vision", to: "/missionvisionpage" },
       { name: "History", to: "/historypage" },
+      { name: "Administration", to: "/administrationpage" },
       { name: "Buildings and Facilities", to: "/facilitiespage" },
       { name: "Laboratory Videos", to: "/laboratorypage" },
       { name: "Offices Videos", to: "/officesvideopage" },
