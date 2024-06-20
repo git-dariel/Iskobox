@@ -413,9 +413,13 @@ export const countFilesInRootFolders = async () => {
     const allFolders = allFoldersSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
+      createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : new Date(),
     }));
 
     const rootFolders = allFolders.filter((folder) => !folder.parentId);
+
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+
     const rootFolderFileCounts = await Promise.all(
       rootFolders.map(async (rootFolder) => {
         const totalFiles = await countFilesInFolderAndSubfolders(rootFolder.id, allFolders);
@@ -439,16 +443,24 @@ export const fetchEmptySubfoldersPerRootFolder = async () => {
     const allFolders = allFoldersSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
+      createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : new Date(),
     }));
 
     const rootFolders = allFolders.filter((folder) => !folder.parentId);
     const subFolders = allFolders.filter((folder) => folder.parentId);
+
+    // Sort root folders by createdAt
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
 
     const emptySubfolders = await Promise.all(
       rootFolders.map(async (rootFolder) => {
         const subfoldersOfRoot = subFolders.filter(
           (subFolder) => subFolder.parentId === rootFolder.id
         );
+
+        // Sort subfolders by createdAt
+        subfoldersOfRoot.sort((a, b) => a.createdAt - b.createdAt);
+
         const emptySubfolders = [];
 
         for (const subfolder of subfoldersOfRoot) {
@@ -470,6 +482,55 @@ export const fetchEmptySubfoldersPerRootFolder = async () => {
     return emptySubfolders.filter((item) => item.emptySubfolders.length > 0);
   } catch (error) {
     console.error("Error fetching empty subfolders per root folder:", error);
+    throw error;
+  }
+};
+
+export const fetchSubfoldersWithFilesPerRootFolder = async () => {
+  try {
+    const allFoldersSnapshot = await getDocs(collection(db, "folders"));
+    const allFolders = allFoldersSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : new Date(),
+    }));
+
+    const rootFolders = allFolders.filter((folder) => !folder.parentId);
+    const subFolders = allFolders.filter((folder) => folder.parentId);
+
+    // Sort root folders by createdAt
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+
+    const subfoldersWithFiles = await Promise.all(
+      rootFolders.map(async (rootFolder) => {
+        const subfoldersOfRoot = subFolders.filter(
+          (subFolder) => subFolder.parentId === rootFolder.id
+        );
+
+        // Sort subfolders by createdAt
+        subfoldersOfRoot.sort((a, b) => a.createdAt - b.createdAt);
+
+        const subfoldersWithFiles = [];
+
+        for (const subfolder of subfoldersOfRoot) {
+          const fileSnapshot = await getDocs(
+            query(collection(db, "files"), where("folderId", "==", subfolder.id))
+          );
+          if (!fileSnapshot.empty) {
+            subfoldersWithFiles.push(subfolder.name);
+          }
+        }
+
+        return {
+          rootFolderName: rootFolder.name,
+          subfoldersWithFiles: subfoldersWithFiles,
+        };
+      })
+    );
+
+    return subfoldersWithFiles.filter((item) => item.subfoldersWithFiles.length > 0);
+  } catch (error) {
+    console.error("Error fetching subfolders with files per root folder:", error);
     throw error;
   }
 };
