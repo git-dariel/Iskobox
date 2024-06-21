@@ -18,8 +18,6 @@ Welcome to the Iskobox App documentation
 3.  Define a route for a new page. In your main application file (usually `App.js` or `Router.js`), import the necessary components from `react-router-dom` and define a route for your new page using Route component (If your project don't have react-router-dom yet, do a `npm install react-router-dom`)
 4.  Link to the new page by creating links to navigate to it. Use the Link component from `react-router-dom`.
 
-_Comprehensive Developer Guide can be found_ [_here_](https://docs.google.com/presentation/d/19RcUj_BUpBeLLEiNNXnrmPyT2_UXarWj/edit?usp=sharing&ouid=101114335907570022669&rtpof=true&sd=true).
-
 ## Software Configuration Management (SCM)
 
 **"One Feature, One Branch"**
