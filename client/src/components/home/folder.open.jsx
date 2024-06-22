@@ -1,31 +1,30 @@
+import SideBar from "@/components/layout/SideBar";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { useAuth } from '@/helpers/auth.context';
-import { useUpdate } from '@/helpers/update.context';
-import { bouncy } from 'ldrs';
-import React, { useEffect, useState } from 'react';
+} from "@/components/ui/breadcrumb";
+import { useAuth } from "@/helpers/auth.context";
+import { useUpdate } from "@/helpers/update.context";
+import { bouncy } from "ldrs";
+import React, { useEffect, useState } from "react";
 import {
   fetchFolderDetails,
   fetchFolders,
   fetchFoldersForUser,
   processFolder,
-} from '../../services/folders/folder.service';
-import CommentForm from '../comment/commentform';
-import TopNavigation from '../layout/top-nav';
-import FileView from './file.view';
-import FolderItem from './folder.item';
-import Header from './home.header';
-import SideBar from '@/components/layout/SideBar';
+} from "../../services/folders/folder.service";
+import CommentForm from "../comment/commentform";
+import FileView from "./file.view";
+import FolderItem from "./folder.item";
+import Header from "./home.header";
 
 const FolderOpen = () => {
-  const [selectedView, setSelectedView] = useState('folders');
+  const [selectedView, setSelectedView] = useState("folders");
   const [isGridView, setIsGridView] = useState(
-    localStorage.getItem('isGridView') === 'true' || false
+    localStorage.getItem("isGridView") === "true" || false
   );
   const [folderStack, setFolderStack] = useState([]);
   const [folderContents, setFolderContents] = useState([]);
@@ -44,9 +43,9 @@ const FolderOpen = () => {
     setIsLoading(true);
     try {
       let folders;
-      if (currentUser.role === 'Admin') {
+      if (currentUser.role === "Admin") {
         folders = await fetchFolders(folderId);
-      } else if (currentUser.role === 'Faculty') {
+      } else if (currentUser.role === "Faculty") {
         const assignedData = await fetchFoldersForUser(currentUser.email, folderId);
         folders = assignedData.folders;
       }
@@ -54,7 +53,7 @@ const FolderOpen = () => {
       setFolderContents(processedFolders);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching folders:', error);
+      console.error("Error fetching folders:", error);
       setIsLoading(false);
     }
   };
@@ -76,7 +75,7 @@ const FolderOpen = () => {
     setCurrentFolderId(folderId);
     setFolderStack([...folderStack, folderId]);
     fetchFolderContents(folderId);
-    setSelectedView('files');
+    setSelectedView("files");
     updateBreadcrumb(folderId);
   };
 
@@ -93,18 +92,18 @@ const FolderOpen = () => {
     setFolderStack([]);
     setBreadcrumb([]);
     fetchFolderContents(null);
-    setSelectedView('folders');
+    setSelectedView("folders");
   };
 
   const handleViewChange = (view) => {
     setSelectedView(view);
-    localStorage.setItem('selectedView', view);
+    localStorage.setItem("selectedView", view);
   };
 
   const toggleView = () => {
     const newGridView = !isGridView;
     setIsGridView(newGridView);
-    localStorage.setItem('isGridView', newGridView.toString());
+    localStorage.setItem("isGridView", newGridView.toString());
   };
 
   const navigateBack = () => {
@@ -120,11 +119,11 @@ const FolderOpen = () => {
   };
 
   return (
-    <div className='flex w-full h-screen'>
+    <div className="flex w-full h-screen">
       <SideBar />
-      <div className='flex flex-col flex-1'>
-        <div className='flex flex-col flex-1'>
-          <div className='flex flex-col flex-1' style={{ scrollbarWidth: 'thin' }}>
+      <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1" style={{ scrollbarWidth: "thin" }}>
             <Header
               selectedButton={selectedView}
               handleButtonClick={handleViewChange}
@@ -137,7 +136,7 @@ const FolderOpen = () => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href='#' onClick={navigateToRoot}>
+                  <BreadcrumbLink href="#" onClick={navigateToRoot}>
                     Root
                   </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -147,9 +146,9 @@ const FolderOpen = () => {
                     {index > 0 && <BreadcrumbSeparator />}
                     <BreadcrumbItem>
                       <BreadcrumbLink
-                        href='#'
+                        href="#"
                         onClick={() => handleBreadcrumbClick(index)}
-                        className={index === breadcrumb.length - 1 ? 'font-bold' : ''}
+                        className={index === breadcrumb.length - 1 ? "font-bold" : ""}
                       >
                         {crumb.name}
                       </BreadcrumbLink>
@@ -159,31 +158,24 @@ const FolderOpen = () => {
               </BreadcrumbList>
             </Breadcrumb>
 
-            {/* <div className='w-[45rem]'>
-              <div className='flex w-full p-4 border-b text-sm font-semibold '>
-                <div className='w-1/3'>Name</div>
-                <div className='w-1/3'>Assigned to</div>
-                <div className='w-1/3'>Date</div>
-              </div>
-            </div> */}
-            <div className='flex h-[70vh] overflow-hidden'>
-              <div className='flex flex-col w-[70%] bg-white overflow-auto'>
+            <div className="flex h-[70vh] overflow-hidden">
+              <div className="flex flex-col w-full md:w-[70%] bg-white overflow-auto">
                 {isLoading ? (
-                  <div className='flex flex-col flex-1 items-center justify-center'>
-                    <l-bouncy size={40} color='black'></l-bouncy>
+                  <div className="flex flex-col flex-1 items-center justify-center">
+                    <l-bouncy size={40} color="black"></l-bouncy>
                   </div>
                 ) : (
-                  <div className='ml-3'>
-                    {folderContents.length === 0 && selectedView === 'folders' ? (
-                      <div className='flex flex-col flex-1 items-center justify-center'>
+                  <div className="ml-3">
+                    {folderContents.length === 0 && selectedView === "folders" ? (
+                      <div className="flex flex-col flex-1 items-center justify-center">
                         This folder is empty.
                       </div>
                     ) : (
                       <div
                         className={`${
                           isGridView
-                            ? 'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'
-                            : ''
+                            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
+                            : ""
                         } `}
                       >
                         {folderContents.map((folder) => (
@@ -192,14 +184,14 @@ const FolderOpen = () => {
                             folder={folder}
                             isGridView={isGridView}
                             onDoubleClick={handleFolderDoubleClick}
-                            usagePercentage={folder.usagePercentage}
+                            usagePercentage={folder.usageUsagePercentage}
                           />
                         ))}
                       </div>
                     )}
                   </div>
                 )}
-                {selectedView === 'files' && (
+                {selectedView === "files" && (
                   <FileView
                     currentFolderId={currentFolderId}
                     isGridView={isGridView}
@@ -207,7 +199,7 @@ const FolderOpen = () => {
                   />
                 )}
               </div>
-              <div className='w-[30%]'>
+              <div className="hidden md:block md:w-[30%]">
                 <CommentForm />
               </div>
             </div>
