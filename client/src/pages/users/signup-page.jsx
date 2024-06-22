@@ -55,7 +55,7 @@ const SignUp = () => {
     <div className="bg-[#F0F4F9] h-screen flex flex-col justify-center items-center">
       <Toaster />
       <div className=" bg-[#FFFFFF] w-[22rem] h-4/5 md:w-9/12 md:h-96 rounded-3xl md:flex md:justify-between mb-5">
-        <div className="px-5 pt-14 md:pt-5">
+        <div className="px-5 pt-10 md:pt-5">
           <img src={Image} alt="logo" className="w-20 h-20 md:w-28 md:h-auto" />
           <div className="px-5 md:px-15 ">
             <h1 className="text-2xl md:text-4xl md:pb-5 md:pt-0 pb-3 pt-0">
@@ -140,14 +140,14 @@ const SignUp = () => {
 
           <div className="flex items-center justify-center w-full gap-3 md:items-end md:justify-end">
             <Link to="/">
-              <button className=" text-[#DC5F00] font-medium text-[12px] px-4 py-2 md:px-8 md:py-3 rounded-3xl hover:bg-[#eeedeb] md:text-sm transition-all duration-300 cursor-pointer">
+              <button className="text-[#DC5F00] font-medium text-[13px] px-6 py-3 rounded-3xl hover:bg-[#eeedeb] transition-all duration-300 cursor-pointer md:px-8 md:py-3 md:text-sm">
                 Already have an account
               </button>
             </Link>
 
             <button
               onClick={handleSubmit}
-              className="bg-[#FF7D29] text-white text-[12px] px-4 py-2 md:px-8   md:py-3 rounded-3xl hover:bg-[#DC5F00] md:text-sm transition-all duration-300 cursor-pointer"
+              className="bg-[#FF7D29] text-white text-[13px] px-6 py-3 rounded-3xl hover:bg-[#DC5F00] transition-all duration-300 cursor-pointer md:px-8 md:py-3 md:text-sm"
             >
               Submit
             </button>
@@ -158,7 +158,7 @@ const SignUp = () => {
       <div className="text-right bg-slate-200 rounded-md">
         <div className="flex flex-row">
           <Link to="/homepage">
-            <p className="text-xs  hover:bg-slate-200 rounded-md transition-all duration-300 cursor-pointer mx-2 md:text-xs p-2 hover:px-4 hover:rounded-lg">
+            <p className="text-[13px] hover:bg-slate-200 rounded-md transition-all duration-300 cursor-pointer mx-2 md:text-[14px] p-2 hover:px-4 hover:rounded-lg">
               Visit accreditor portal
             </p>
           </Link>

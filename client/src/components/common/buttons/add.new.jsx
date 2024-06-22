@@ -1,13 +1,13 @@
-import React, { useState, useRef } from 'react';
-import { IoAdd } from 'react-icons/io5';
-import { MdOutlineCreateNewFolder, MdOutlineUploadFile } from 'react-icons/md';
-import ContextMenu from '@/components/contextmenu/add.menu';
-import NewFolderForm from '@/components/modals/new.folder';
-import { uploadFile } from '@/services/files/file-service';
-import { addFolder, fetchFolderDetailsWithUploadLimit } from '@/services/folders/folder.service';
-import { Toaster, toast } from 'sonner';
-import { useUpdate } from '@/helpers/update.context';
-import { useAuth } from '@/helpers/auth.context';
+import React, { useState, useRef } from "react";
+import { IoAdd } from "react-icons/io5";
+import { MdOutlineCreateNewFolder, MdOutlineUploadFile } from "react-icons/md";
+import ContextMenu from "@/components/contextmenu/add.menu";
+import NewFolderForm from "@/components/modals/new.folder";
+import { uploadFile } from "@/services/files/file-service";
+import { addFolder, fetchFolderDetailsWithUploadLimit } from "@/services/folders/folder.service";
+import { Toaster, toast } from "sonner";
+import { useUpdate } from "@/helpers/update.context";
+import { useAuth } from "@/helpers/auth.context";
 
 const AddNewButton = ({ parentId }) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
@@ -22,8 +22,8 @@ const AddNewButton = ({ parentId }) => {
   const { currentUser } = useAuth();
 
   const options = [
-    currentUser.role !== 'Faculty' && { label: 'New Folder', icon: MdOutlineCreateNewFolder },
-    { label: 'Upload File', icon: MdOutlineUploadFile },
+    currentUser.role !== "Faculty" && { label: "New Folder", icon: MdOutlineCreateNewFolder },
+    { label: "Upload File", icon: MdOutlineUploadFile },
   ].filter(Boolean);
 
   const handleButtonClick = () => {
@@ -40,9 +40,9 @@ const AddNewButton = ({ parentId }) => {
   };
 
   const handleOptionClick = (option) => {
-    if (option.label === 'New Folder') {
+    if (option.label === "New Folder") {
       setShowNewFolderForm(true);
-    } else if (option.label === 'Upload File') {
+    } else if (option.label === "Upload File") {
       fileInputRef.current.click();
     } else {
       console.log(`${option.label} clicked`);
@@ -57,14 +57,14 @@ const AddNewButton = ({ parentId }) => {
         (async () => {
           const folderDetails = await fetchFolderDetailsWithUploadLimit(parentId);
           if (folderDetails && folderDetails.fileCount >= folderDetails.uploadLimit) {
-            throw new Error('Upload limit reached for this folder');
+            throw new Error("Upload limit reached for this folder");
           }
           await uploadFile(file, parentId);
           triggerUpdate();
         })(),
         {
-          loading: 'Uploading file...',
-          success: 'File uploaded successfully',
+          loading: "Uploading file...",
+          success: "File uploaded successfully",
           error: (err) => `Failed to upload file: ${err.message}`,
         }
       );
@@ -74,11 +74,11 @@ const AddNewButton = ({ parentId }) => {
   const handleCreateFolder = async (folderData) => {
     const effectiveParentId = parentId === undefined ? null : parentId;
     toast.promise(addFolder({ ...folderData, parentId: effectiveParentId }), {
-      loading: 'Creating folder...',
+      loading: "Creating folder...",
       success: () => {
         triggerUpdate();
         setShowNewFolderForm(false);
-        return 'Folder created successfully';
+        return "Folder created successfully";
       },
       error: (err) => {
         setShowNewFolderForm(false);
@@ -90,28 +90,28 @@ const AddNewButton = ({ parentId }) => {
   return (
     <>
       <Toaster richColors />
-      <button
-        ref={buttonRef}
-        className='border border-gray-700 rounded-full shadow-md m-1 p-[1px] hover:bg-gray-100 transition-all duration-200 ease-in-out'
-        onClick={handleButtonClick}
-      >
-        <IoAdd />
-      </button>
-      <input
-        type='file'
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
-      {isContextMenuOpen && (
-        <ContextMenu
-          xPos={contextMenuPosition.x}
-          yPos={contextMenuPosition.y}
-          options={options}
-          onClose={closeContextMenu}
-          handleOptionClick={handleOptionClick}
+      <div className="flex space-x-2 m-1">
+        <button
+          className="border border-gray-700 rounded-md shadow-md p-1 hover:bg-gray-100 transition-all duration-200 ease-in-out flex items-center space-x-1 whitespace-nowrap md:p-2 md:border md:border-gray-700 md:rounded-md md:shadow-md md:hover:bg-gray-100 md:transition-all md:duration-200 md:ease-in-out md:flex md:items-center md:space-x-1 md:whitespace-nowrap"
+          onClick={() => setShowNewFolderForm(true)}
+        >
+          <MdOutlineCreateNewFolder size={20} />
+          <span className="hidden md:inline text-sm">New Folder</span>
+        </button>
+        <button
+          className="border border-gray-700 rounded-md shadow-md p-1 hover:bg-gray-100 transition-all duration-200 ease-in-out flex items-center space-x-1 whitespace-nowrap md:p-2 md:border md:border-gray-700 md:rounded-md md:shadow-md md:hover:bg-gray-100 md:transition-all md:duration-200 md:ease-in-out md:flex md:items-center md:space-x-1 md:whitespace-nowrap"
+          onClick={() => fileInputRef.current.click()}
+        >
+          <MdOutlineUploadFile size={20} />
+          <span className="hidden md:inline text-sm">Upload File</span>
+        </button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleFileChange}
         />
-      )}
+      </div>
       {showNewFolderForm && (
         <NewFolderForm
           onClose={() => setShowNewFolderForm(false)}

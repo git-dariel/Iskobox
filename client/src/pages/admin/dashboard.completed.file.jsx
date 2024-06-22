@@ -86,11 +86,13 @@ function DashboardCompleted() {
         style={{ scrollbarWidth: "none" }}
       >
         <div
-          className="flex flex-col h-full m-5 p-4 rounded-2xl overflow-y-auto scroll-m-0"
+          className="flex flex-col h-full p-4 rounded-2xl overflow-y-auto scroll-m-0 md:m-5 md:mb-0 mb-12"
           style={{ background: "rgba(255, 255, 255, 0.54)", scrollbarWidth: "none" }}
         >
           <div className="flex justify-between gap-2 mb-1">
-            <h1 className="text-2xl font-bold text-gray-800 mb-1">Completed Files Per Area</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-1">
+              Completed Files Per Area
+            </h1>
             <div className="relative">
               <UserDropdown />
             </div>
