@@ -1,13 +1,15 @@
-import React, { useState, useRef } from "react";
-import { IoAdd } from "react-icons/io5";
-import { MdOutlineCreateNewFolder, MdOutlineUploadFile } from "react-icons/md";
-import ContextMenu from "@/components/contextmenu/add.menu";
 import NewFolderForm from "@/components/modals/new.folder";
-import { uploadFile } from "@/services/files/file-service";
-import { addFolder, fetchFolderDetailsWithUploadLimit } from "@/services/folders/folder.service";
-import { Toaster, toast } from "sonner";
-import { useUpdate } from "@/helpers/update.context";
 import { useAuth } from "@/helpers/auth.context";
+import { useUpdate } from "@/helpers/update.context";
+import { uploadFile } from "@/services/files/file-service";
+import {
+  addAssigneeToFolder,
+  addFolder,
+  fetchFolderDetailsWithUploadLimit,
+} from "@/services/folders/folder.service";
+import React, { useRef, useState } from "react";
+import { MdOutlineCreateNewFolder, MdOutlineUploadFile } from "react-icons/md";
+import { Toaster, toast } from "sonner";
 
 const AddNewButton = ({ parentId }) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
@@ -75,9 +77,19 @@ const AddNewButton = ({ parentId }) => {
     const effectiveParentId = parentId === undefined ? null : parentId;
     toast.promise(addFolder({ ...folderData, parentId: effectiveParentId }), {
       loading: "Creating folder...",
-      success: () => {
+      success: async (folderResponse) => {
+        const newFolderId = folderResponse.id;
         triggerUpdate();
         setShowNewFolderForm(false);
+        if (currentUser.role === "Faculty") {
+          const fullName = `${currentUser.firstname} ${currentUser.lastname}`;
+          await addAssigneeToFolder(newFolderId, {
+            userId: currentUser.email,
+            name: fullName,
+            role: "Owner",
+            description: "Creator of the folder",
+          });
+        }
         return "Folder created successfully";
       },
       error: (err) => {
