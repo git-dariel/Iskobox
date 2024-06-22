@@ -118,7 +118,9 @@ export default function SignIn() {
                 className="form-radio h-5 w-5 cursor-pointer ml-2"
               />
               <label className="inline-flex items-center cursor-pointer flex-grow justify-center">
-                <span className="text-gray-700 font-sm md:font-medium">Admin</span>
+                <span className="text-gray-700 font-sm text-sm md:text-base md:font-medium">
+                  Admin
+                </span>
               </label>
             </div>
 
@@ -131,20 +133,22 @@ export default function SignIn() {
                 className="form-radio h-5 w-5 cursor-pointer ml-2"
               />
               <label className="inline-flex items-center cursor-pointer flex-grow justify-center">
-                <span className="text-gray-700 font-medium">Faculty</span>
+                <span className="text-gray-700 font-sm text-sm md:text-base md:font-medium">
+                  Faculty
+                </span>
               </label>
             </div>
           </div>
 
           <div className="flex items-center justify-center w-full gap-3 md:items-end md:justify-end">
             <Link to="/signup">
-              <button className="text-[#DC5F00] font-medium text-[12px] px-4 py-2 rounded-3xl hover:bg-[#eeedeb] transition-all duration-300 cursor-pointer md:px-8 md:py-3 md:text-sm">
+              <button className="text-[#DC5F00] font-medium text-[13px] px-6 py-3 rounded-3xl hover:bg-[#eeedeb] transition-all duration-300 cursor-pointer md:px-8 md:py-3 md:text-sm">
                 Create account
               </button>
             </Link>
             <button
               onClick={handleSignIn}
-              className="bg-[#FF7D29] text-white text-[12px] px-4 py-2 rounded-3xl hover:bg-[#DC5F00] transition-all duration-300 cursor-pointer md:px-8 md:py-3 md:text-sm"
+              className="bg-[#FF7D29] text-white text-[13px] px-6 py-3 rounded-3xl hover:bg-[#DC5F00] transition-all duration-300 cursor-pointer md:px-8 md:py-3 md:text-sm"
             >
               Sign in
             </button>
@@ -155,7 +159,7 @@ export default function SignIn() {
       <div className="text-right bg-slate-200 rounded-md">
         <div className="flex flex-row">
           <Link to="/homepage">
-            <p className="text-xs  hover:bg-slate-200 rounded-md transition-all duration-300 cursor-pointer mx-2 md:text-xs p-2 hover:px-4 hover:rounded-lg">
+            <p className="text-[13px] hover:bg-slate-200 rounded-md transition-all duration-300 cursor-pointer mx-2 md:text-[14px] p-2 hover:px-4 hover:rounded-lg">
               Visit accreditor portal
             </p>
           </Link>
