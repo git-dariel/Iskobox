@@ -15,36 +15,6 @@ common.roleOptions = [
   { id: 3, label: "Commenter" },
 ];
 
-common.navItems = [
-  { name: "Home", to: "/homepage", current: true },
-  {
-    name: "About PUP Lopez",
-    to: "/aboutpage",
-    dropdown: true,
-    items: [
-      { name: "Mission And Vision", to: "/missionvisionpage" },
-      { name: "History", to: "/historypage" },
-      { name: "Buildings and Facilities", to: "/facilitiespage" },
-      { name: "Laboratory Videos", to: "/laboratorypage" },
-      { name: "Offices Videos", to: "/officesvideopage" },
-      
-    ],
-  },
-  { name: "Certificate of Authenticity", to: "/certificate-of-authenticitypage" },
-  {
-    name: "Programs Under Survey",
-    to: "/programs-under-survey",
-    dropdown: true,
-    items: [{ name: "BSIT", to: "/bsit" }],
-  },
-  {
-    name: "Exhibit",
-    to: "/exhibit",
-    dropdown: true,
-    items: [{ name: "Exhibit", to: "/exhibit" }],
-  },
-];
-
 common.exhibitPaths = [
   {
     path: "/exhibit/citizens-charter",
@@ -71,6 +41,10 @@ common.exhibitPaths = [
     text: "Administrative Manual",
     image: admin_manual,
   },
+  {
+    path: "/exhibit/faculty-manual",
+    text: "Faculty Manual",
+  },
   { path: "/exhibit/syllabi", text: "Syllabi", image: syllabi },
   {
     path: "/exhibit/instructional-materials",
@@ -78,6 +52,44 @@ common.exhibitPaths = [
     image: instructional_mats,
   },
   { path: "/exhibit/cmo", text: "CMO 2015", image: cmo_2015 },
+];
+
+// Map exhibit paths to nav items
+const exhibitNavItems = common.exhibitPaths.map((item) => ({
+  name: item.text,
+  to: item.path,
+}));
+
+common.navItems = [
+  { name: "Home", to: "/homepage", current: true },
+  {
+    name: "About PUP Lopez",
+    to: "/aboutpage",
+    dropdown: true,
+    items: [
+      { name: "Mission And Vision", to: "/missionvisionpage" },
+      { name: "History", to: "/historypage" },
+      { name: "Buildings and Facilities", to: "/facilitiespage" },
+      { name: "Laboratory Videos", to: "/laboratorypage" },
+      { name: "Offices Videos", to: "/officesvideopage" },
+    ],
+  },
+  {
+    name: "Certificate of Authenticity",
+    to: "/certificate-of-authenticitypage",
+  },
+  {
+    name: "Programs Under Survey",
+    to: "/programs-under-survey",
+    dropdown: true,
+    items: [{ name: "BSIT", to: "/bsit" }],
+  },
+  {
+    name: "Exhibit",
+    to: "/exhibit",
+    dropdown: true,
+    items: exhibitNavItems,
+  },
 ];
 
 export default common;

@@ -32,6 +32,7 @@ import LaboratoryPage from "./components/landing-page/about/Laboratory/laborator
 import OfficeVideoPage from "./components/landing-page/about/officevideospage/officevideopage";
 import CertifcateOfAuthenticity from "./components/landing-page/CertofAuthenticity/certofAuthenticitypage";
 import FacilitiesPage from "./components/landing-page/about/buildingandfacilities/facilitiespage";
+import FacultyManual from "./pages/accreditors/accreditor.pages/exhibit/faculty.manual";
 
 function App() {
   return (
@@ -45,16 +46,32 @@ function App() {
             <Route path="/landingpage" element={<LandingPage />} />
             {/* Exhibit Routes */}
             <Route path="/exhibit" element={<ExhibitPage />} />
-            <Route path="/exhibit/citizens-charter" element={<CitizensCharter />} />
-            <Route path="/exhibit/student-handbook" element={<StudentHandbook />} />
-            <Route path="/exhibit/university-code" element={<UniversityCode />} />
+            <Route
+              path="/exhibit/citizens-charter"
+              element={<CitizensCharter />}
+            />
+            <Route
+              path="/exhibit/student-handbook"
+              element={<StudentHandbook />}
+            />
+            <Route
+              path="/exhibit/university-code"
+              element={<UniversityCode />}
+            />
             <Route
               path="/exhibit/university-policies-guidelines"
               element={<UnivPoliciesGuidelines />}
             />
-            <Route path="/exhibit/administrative-manual" element={<AdminManual />} />
+            <Route
+              path="/exhibit/administrative-manual"
+              element={<AdminManual />}
+            />
+            <Route path="/exhibit/faculty-manual" element={<FacultyManual />} />
             <Route path="/exhibit/syllabi" element={<Syllabi />} />
-            <Route path="/exhibit/instructional-materials" element={<InstructionalMaterials />} />
+            <Route
+              path="/exhibit/instructional-materials"
+              element={<InstructionalMaterials />}
+            />
             <Route path="/exhibit/cmo" element={<CMOpage />} />
             <Route
               path="/dashboard"
@@ -128,7 +145,10 @@ function App() {
             <Route path="/facilitiespage" element={<FacilitiesPage />} />
             <Route path="/laboratorypage" element={<LaboratoryPage />} />
             <Route path="/officesvideopage" element={<OfficeVideoPage />} />
-            <Route path="/certificate-of-authenticitypage" element={<CertifcateOfAuthenticity />} />
+            <Route
+              path="/certificate-of-authenticitypage"
+              element={<CertifcateOfAuthenticity />}
+            />
           </Routes>
         </CommentUpdateProvider>
       </UpdateProvider>
