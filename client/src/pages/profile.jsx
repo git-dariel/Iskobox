@@ -87,7 +87,7 @@ const ProfilePage = () => {
     <div className="flex w-full h-screen bg-gray-200">
       <Toaster />
       <SideBar />
-      <div className="flex justify-center items-center w-full ">
+      <div className="md:flex md:justify-center md:items-center md:mt-0 mt-10 w-full ">
         <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden md:max-w-lg w-full py-5">
           <div className="flex">
             <div className="w-full p-4">

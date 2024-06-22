@@ -1,10 +1,10 @@
-import { useAuth } from '@/helpers/auth.context';
-import React, { useEffect, useState } from 'react';
-import { fetchAllFiles, fetchFilesInFolder } from '../../services/files/file-service';
-import { fetchFolders, fetchFoldersForUser } from '../../services/folders/folder.service';
-import FileItem from './file.item';
-import FolderItem from './folder.item';
-import { useUpdate } from '@/helpers/update.context';
+import { useAuth } from "@/helpers/auth.context";
+import React, { useEffect, useState } from "react";
+import { fetchAllFiles, fetchFilesInFolder } from "../../services/files/file-service";
+import { fetchFolders, fetchFoldersForUser } from "../../services/folders/folder.service";
+import FileItem from "./file.item";
+import FolderItem from "./folder.item";
+import { useUpdate } from "@/helpers/update.context";
 
 const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   const [files, setFiles] = useState([]);
@@ -15,7 +15,7 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (currentUser && currentUser.role === 'Admin') {
+      if (currentUser && currentUser.role === "Admin") {
         const fetchedFolders = await fetchFolders(currentFolderId);
         setFolders(fetchedFolders);
         const fetchedFiles = await fetchFilesInFolder(currentFolderId);
@@ -27,7 +27,7 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
           const allFiles = await fetchAllFiles();
           setFiles(allFiles);
         }
-      } else if (currentUser && currentUser.role === 'Faculty') {
+      } else if (currentUser && currentUser.role === "Faculty") {
         const testData = await fetchFoldersForUser(currentUser.email, currentFolderId);
         setFolders(testData.folders);
         setFiles(testData.files);
@@ -44,41 +44,34 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   };
 
   return (
-    <div className='mt-4'>
-      {selectedView === 'files' && (
-        <div className='ml-3'>
-          <h2 className='text-sm m-2'>Files</h2>
+    <div className="mt-4">
+      {selectedView === "files" && (
+        <div className="ml-3">
+          <h2 className="text-sm m-2">Files</h2>
           <div
             className={`${
               isGridView
-                ? 'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'
-                : ' '
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
+                : " "
             } `}
           >
             {files.length > 0 ? (
               files.map((file) => <FileItem key={file.id} file={file} isGridView={isGridView} />)
             ) : (
-              <div className='flex flex-col flex-1 items-center justify-center mt-10'>Empty</div>
+              <div className="flex flex-col flex-1 items-center justify-center mt-10">Empty</div>
             )}
           </div>
         </div>
       )}
 
-      {selectedView === 'folders' && (
-        <div className='ml-2'>
-          <h2 className='text-sm m-2'>Folders</h2>
-          {/* <div className='w-full'>
-            <div className='flex w-full p-2 border-b text-sm font-semibold '>
-              <div className='w-1/3'>Name</div>
-              <div className='w-1/3'>Assigned to</div>
-              <div className='w-1/3'>Date</div>
-            </div>
-          </div> */}
+      {selectedView === "folders" && (
+        <div className="ml-2">
+          <h2 className="text-sm m-2">Folders</h2>
           <div
             className={`${
               isGridView
-                ? 'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'
-                : ' '
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center"
+                : " "
             } `}
           >
             {folders.length > 0 ? (
@@ -91,7 +84,7 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
                 />
               ))
             ) : (
-              <div className='flex flex-col flex-1 items-center justify-center mt-10'>Empty</div>
+              <div className="flex flex-col flex-1 items-center justify-center mt-10">Empty</div>
             )}
           </div>
         </div>
