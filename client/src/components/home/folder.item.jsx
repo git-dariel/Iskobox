@@ -161,11 +161,8 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                   <button
-                    className={`flex items-center w-full px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 ${
-                      isFaculty ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className="flex items-center w-full px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 "
                     onClick={toggleModal}
-                    disabled={isFaculty}
                   >
                     <FiEdit size={20} className="mr-2" />
                     Edit
