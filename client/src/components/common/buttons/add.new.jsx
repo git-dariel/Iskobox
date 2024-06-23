@@ -75,28 +75,29 @@ const AddNewButton = ({ parentId }) => {
 
   const handleCreateFolder = async (folderData) => {
     const effectiveParentId = parentId === undefined ? null : parentId;
-    toast.promise(addFolder({ ...folderData, parentId: effectiveParentId }), {
-      loading: "Creating folder...",
-      success: async (folderResponse) => {
-        const newFolderId = folderResponse.id;
+    const loadingToastId = toast.loading("Creating folder...");
+    try {
+      const folderResponse = await addFolder({ ...folderData, parentId: effectiveParentId });
+      const newFolderId = folderResponse.id;
+      triggerUpdate();
+      setShowNewFolderForm(false);
+      if (currentUser.role === "Faculty") {
+        const fullName = `${currentUser.firstname} ${currentUser.lastname}`;
+        await addAssigneeToFolder(newFolderId, {
+          userId: currentUser.email,
+          name: fullName,
+          role: "Owner",
+          description: "Creator of the folder",
+        });
         triggerUpdate();
-        setShowNewFolderForm(false);
-        if (currentUser.role === "Faculty") {
-          const fullName = `${currentUser.firstname} ${currentUser.lastname}`;
-          await addAssigneeToFolder(newFolderId, {
-            userId: currentUser.email,
-            name: fullName,
-            role: "Owner",
-            description: "Creator of the folder",
-          });
-        }
-        return "Folder created successfully";
-      },
-      error: (err) => {
-        setShowNewFolderForm(false);
-        return `Error: ${err.message}`;
-      },
-    });
+      }
+      toast.dismiss(loadingToastId);
+      toast.success("Folder created successfully");
+    } catch (err) {
+      toast.dismiss(loadingToastId);
+      setShowNewFolderForm(false);
+      toast.error(`Error: ${err.message}`);
+    }
   };
 
   return (
