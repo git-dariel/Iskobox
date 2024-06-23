@@ -22,19 +22,28 @@ function DashboardPending() {
   const [selectedRootFolder, setSelectedRootFolder] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedFolders = await fetchEmptySubfoldersPerRootFolder();
-        setRootFolders(fetchedFolders);
-      } catch (error) {
-        console.error("Error fetching empty subfolders:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const fetchedFolders = await fetchEmptySubfoldersPerRootFolder();
+  //       setRootFolders(fetchedFolders);
+  //     } catch (error) {
+  //       console.error("Error fetching empty subfolders:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    const unsubscribe = fetchEmptySubfoldersPerRootFolder((fetchedFolders) => {
+      setRootFolders(fetchedFolders);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const handleRootFolderChange = (value) => {
