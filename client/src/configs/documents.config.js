@@ -3,8 +3,8 @@ const documents_links = {
     "https://drive.google.com/file/d/1rmMgGlJH9Ok7xhAsArEPxUWwGLcdRD8l/view?usp=sharing",
   student_handbook:
     "https://drive.google.com/file/d/1GlrUoLvJul5LXBqGIcp-pkaDO3u_cJoB/view?usp=sharing",
-  univ_policies:
-    "https://drive.google.com/file/d/1eDLnFzQM4-SSOmd6rxJg0s4Szpo0vUC2/view?usp=sharing",
+  // univ_policies:
+  //   "https://drive.google.com/file/d/1eDLnFzQM4-SSOmd6rxJg0s4Szpo0vUC2/view?usp=sharing",
   admin_manual:
     "https://drive.google.com/file/d/1dzWu6o_9reGMSomTkEm5gXIgFXebGZ1H/view?usp=sharing",
   faculty_manual:

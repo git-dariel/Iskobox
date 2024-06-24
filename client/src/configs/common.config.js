@@ -6,6 +6,7 @@ import university_code from "../assets/exhibit/university_code.png";
 import syllabi from "../assets/exhibit/syllabi.png";
 import student_handbook from "../assets/exhibit/student_handbook.png";
 import admin_manual from "../assets/exhibit/admin_manual.png";
+import folder_doc from "../assets/exhibit/folder_doc.webp";
 
 const common = {};
 
@@ -89,6 +90,44 @@ common.navItems = [
     to: "/exhibit",
     dropdown: true,
     items: exhibitNavItems,
+  },
+];
+
+common.univ_policies_links = [
+  {
+    link: "https://drive.google.com/file/d/1eDLnFzQM4-SSOmd6rxJg0s4Szpo0vUC2/view?usp=sharing",
+    text: "Office of the President",
+    image: folder_doc,
+  },
+  {
+    link: "https://drive.google.com/file/d/1hasc_sNDreo9EkB-9o0dW1INqklT7abc/view?usp=sharing",
+    text: "Office of the Executive Vice President",
+    image: folder_doc,
+  },
+  {
+    link: "https://drive.google.com/file/d/1Ie3aTmgvigFiKpgZZE6lQu4WTEuKeLiS/view?usp=sharing",
+    text: "Office of the Vice President for Academic Affairs",
+    image: folder_doc,
+  },
+  {
+    link: "https://drive.google.com/file/d/1KnfF3VxS_Aljhtfy_eht_aA7ZhCv9hrS/view?usp=sharing",
+    text: "Office of the Vice President for Administration",
+    image: folder_doc,
+  },
+  {
+    link: "https://drive.google.com/file/d/1F0xypQ5co2D-x3GnTLcmL2zSRRdAyKk3/view?usp=sharing",
+    text: "Office of the Vice President for Student Affairs and Services",
+    image: folder_doc,
+  },
+  {
+    link: "https://drive.google.com/file/d/1ag9waXBkPoXbZDrNPBkvunzloh5048aN/view?usp=sharing",
+    text: "Office of the Vice President for Finance",
+    image: folder_doc,
+  },
+  {
+    link: "https://drive.google.com/file/d/1MDXPNZR_GhL7RVF-cH7_tVI1l47OWMUm/view?usp=sharing",
+    text: "Office of the Vice President for Branches and Satellite Campuses",
+    image: folder_doc,
   },
 ];
 
