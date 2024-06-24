@@ -1,34 +1,46 @@
 import React from "react";
 import MainLayout from "../../layout/main.layout";
-import documents_links from "@/configs/documents.config";
-import CertHeader from "@/components/landing-page/CertofAuthenticity/certicateheader";
 import imgSource from "@/configs/img.configs";
 import ImageTopBanner from "@/components/accreditors/image.top.banner";
+import common from "@/configs/common.config";
 
 const UnivPoliciesGuidelines = () => {
-  const googleDriveLink = documents_links.univ_policies;
-  const embedLink = googleDriveLink.replace("/view?usp=sharing", "/preview");
-
   return (
     <MainLayout>
-      {/* <CertHeader backgroundImage={imgSource.title_banner} /> */}
       <ImageTopBanner
         imgSource={imgSource.title_banner}
         banner_title={"university policies and guidelines"}
       />
       <div
-        className="flex items-center justify-center bg-transparent h-[90vh]"
+        className="flex items-center justify-center bg-transparent min-h-[90vh] py-10"
         style={{
           backgroundImage: `url(${imgSource.yellow_bg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}>
-        <iframe
-          src={embedLink}
-          width="50%"
-          height="100%"
-          allow="autoplay"
-          className="border-none"></iframe>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {common.univ_policies_links.map((item, index) => (
+            <a
+              key={index}
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transform hover:scale-105 transition-transform">
+              <div className="flex flex-col items-center justify-center">
+                <div className="p-5 bg-blue-50 rounded-full shadow-md">
+                  <img
+                    src={item.image}
+                    alt={item.text}
+                    className="w-32 h-32 object-cover mb-4"
+                  />
+                </div>
+                <span className="text-center max-w-[50%] text-yellow-700 font-bebas-neue text-3xl">
+                  {item.text}
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </MainLayout>
   );

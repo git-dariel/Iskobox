@@ -33,6 +33,12 @@ const ExhibitPage = () => {
   const handleMouseLeave = () => {
     api.start({ scale: 1 }); // Scale back down when hover ends
   };
+
+  // Filter out the "Faculty Manual" from exhibitPaths
+  const exhibitItems = common.exhibitPaths.filter(
+    (item) => item.text !== "Faculty Manual"
+  );
+
   return (
     <MainLayout>
       <ImageTopBanner
@@ -43,7 +49,7 @@ const ExhibitPage = () => {
         <div className="flex w-[57%] justify-between">
           <div className="flex flex-col gap-5">
             <h1 className="font-semibold text-3xl">Contents:</h1>
-            {common.exhibitPaths.map((item, index) => (
+            {exhibitItems.map((item, index) => (
               <Link
                 key={index}
                 to={item.path}
@@ -67,8 +73,9 @@ const ExhibitPage = () => {
         </div>
       </section>
 
-      {common.exhibitPaths.map((item, index) => (
+      {exhibitItems.map((item, index) => (
         <PortalSection
+          key={index}
           portalLink={item.path}
           sectionTitle={item.text}
           folderImage={item.image}
