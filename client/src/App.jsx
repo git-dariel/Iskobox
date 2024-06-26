@@ -27,6 +27,14 @@ import Workspace from "./pages/workspace";
 import ProgramsUnderSurvey from "./pages/accreditors/accreditor.pages/programs.under.survey";
 import BSIT from "./pages/accreditors/accreditor.pages/PUS-BSIT";
 import FacultyManual from "./pages/accreditors/accreditor.pages/exhibit/faculty.manual";
+import CitizensCharter from "./pages/accreditors/accreditor.pages/exhibit/citizens.charter.page";
+import StudentHandbook from "./pages/accreditors/accreditor.pages/exhibit/student.handbook";
+import UniversityCode from "./pages/accreditors/accreditor.pages/exhibit/university.code";
+import UnivPoliciesGuidelines from "./pages/accreditors/accreditor.pages/exhibit/univ.policies";
+import AdminManual from "./pages/accreditors/accreditor.pages/exhibit/admin.manual";
+import Syllabi from "./pages/accreditors/accreditor.pages/exhibit/syllabi";
+import InstructionalMaterials from "./pages/accreditors/accreditor.pages/exhibit/instructional.mats";
+import CMOpage from "./pages/accreditors/accreditor.pages/exhibit/cmo";
 
 function App() {
   return (
@@ -142,6 +150,12 @@ function App() {
               path="/certificate-of-authenticitypage"
               element={<CertifcateOfAuthenticity />}
             />
+            {/* Programs Under Survey */}
+            <Route
+              path="/programs-under-survey"
+              element={<ProgramsUnderSurvey />}
+            />
+            <Route path="/programs-under-survey/bsit" element={<BSIT />} />
           </Routes>
         </CommentUpdateProvider>
       </UpdateProvider>
