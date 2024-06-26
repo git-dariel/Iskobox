@@ -48,7 +48,8 @@ const Navbar = ({ logo, navTitle, navItems }) => {
       <div className="flex flex-wrap w-full items-center justify-between mx-auto p-4">
         <Link
           to="/"
-          className="flex items-center space-x-3 rtl:space-x-reverse">
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <img
             src={logo}
             className="w-10 h-10 border rounded-full p-1"
@@ -65,7 +66,8 @@ const Navbar = ({ logo, navTitle, navItems }) => {
           className="inline-flex items-center border p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           aria-controls="navbar-dropdown"
           aria-expanded={isMobileMenuOpen}
-          onClick={toggleMobileMenu}>
+          onClick={toggleMobileMenu}
+        >
           <span className="sr-only">Open main menu</span>
           <RxHamburgerMenu />
         </button>
@@ -74,26 +76,30 @@ const Navbar = ({ logo, navTitle, navItems }) => {
           className={`${
             isMobileMenuOpen ? "block" : "hidden"
           } w-full md:block md:w-auto`}
-          id="navbar-dropdown">
+          id="navbar-dropdown"
+        >
           <ul className="flex relative flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {navItems.map((item, index) => (
               <li
                 key={index}
                 className="relative"
                 onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={handleMouseLeave}>
+                onMouseLeave={handleMouseLeave}
+              >
                 {item.dropdown ? (
                   <>
                     <Link
                       to={item.to}
                       aria-haspopup="true"
-                      aria-expanded={openDropdownIndex === index}>
+                      aria-expanded={openDropdownIndex === index}
+                    >
                       <button
                         className={`flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent ${
                           isDropdownItemActive(item.items)
                             ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:bg-blue-600 md:dark:bg-transparent md:dark:text-blue-500"
                             : ""
-                        }`}>
+                        }`}
+                      >
                         {item.name}
                         {/* Render Chevron Down only for desktop */}
                         <IoChevronDownOutline
@@ -109,11 +115,13 @@ const Navbar = ({ logo, navTitle, navItems }) => {
                       ref={(el) => (dropdownRefs.current[index] = el)}
                       className={`${
                         openDropdownIndex === index ? "block" : "hidden"
-                      } absolute right-0 z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
+                      } absolute right-0 z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+                    >
                       <ul
                         className="py-2 text-sm text-gray-700 dark:text-gray-400"
                         aria-labelledby={`dropdownNavbarLink-${index}`}
-                        role="menu">
+                        role="menu"
+                      >
                         {item.items.map((dropdownItem, dropdownIndex) => (
                           <li key={dropdownIndex} role="menuitem">
                             <Link
@@ -122,7 +130,8 @@ const Navbar = ({ logo, navTitle, navItems }) => {
                                 location.pathname === dropdownItem.to
                                   ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:bg-blue-600 md:dark:bg-transparent md:dark:text-blue-500"
                                   : ""
-                              }`}>
+                              }`}
+                            >
                               {dropdownItem.name}
                             </Link>
                           </li>
@@ -137,7 +146,8 @@ const Navbar = ({ logo, navTitle, navItems }) => {
                       location.pathname === item.to
                         ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:bg-blue-600 md:dark:bg-transparent md:dark:text-blue-500"
                         : ""
-                    }`}>
+                    }`}
+                  >
                     {item.name}
                   </Link>
                 )}
