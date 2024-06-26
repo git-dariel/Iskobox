@@ -34,7 +34,7 @@ export default function HomeContent() {
         <div className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] select-none min-h-screen w-full">
           <div className="flex flex-col items-center">
             {/* Welcome Section */}
-            <section className="flex items-center justify-center px-10 py-10 min-h-screen">
+            {/* <section className="flex items-center justify-center px-10 py-10 min-h-screen">
               <div className="lg:w-[768px] lg:h-auto">
                 <animated.img
                   src={HomeData.welcome}
@@ -47,7 +47,7 @@ export default function HomeContent() {
                   alt="Welcome"
                 />
               </div>
-            </section>
+            </section> */}
 
             {/* Message from Director Section */}
             <section className="w-full flex flex-col items-center">
@@ -65,8 +65,11 @@ export default function HomeContent() {
               <div className="w-full h-full flex flex-col gap-8 lg:gap-0 lg:flex-row py-10">
                 <div className="flex flex-col items-center gap-4 w-full lg:w-[40%] h-full">
                   <div className="flex justify-center">
-                    <img src={HomeData.director} alt="Director" className="w-[300px] h-atuo rounded-md shadow-lg" />
-                    
+                    <img
+                      src={HomeData.director}
+                      alt="Director"
+                      className="w-[300px] h-atuo rounded-md shadow-lg"
+                    />
                   </div>
                   <div className="text-[#810101] flex justify-center items-center flex-col font-bold text-md">
                     <span className="text-md">{HomeData.name}</span>

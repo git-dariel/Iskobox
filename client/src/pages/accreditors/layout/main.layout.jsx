@@ -6,15 +6,8 @@ import Footer from "./footer";
 
 const MainLayout = ({ children }) => {
   return (
-    <div
-      className="flex flex-col h-screen overflow-y-scroll"
-      style={{ scrollbarWidth: "thin" }}
-    >
-      <Navbar
-        logo={pup_logo}
-        navTitle={"PUP Lopez Branch"}
-        navItems={common.navItems}
-      />
+    <div className="flex flex-col h-screen overflow-y-scroll" style={{ scrollbarWidth: "thin" }}>
+      <Navbar logo={pup_logo} navTitle={"PUP Lopez Campus"} navItems={common.navItems} />
       <div className="mt-[4.5rem]">{children}</div>
       <Footer />
     </div>
