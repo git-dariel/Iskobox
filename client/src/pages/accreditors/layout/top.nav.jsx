@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
+import common from "../../../configs/common.config";
 
 const Navbar = ({ logo, navTitle, navItems }) => {
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
@@ -38,26 +39,28 @@ const Navbar = ({ logo, navTitle, navItems }) => {
   }, [openDropdownIndex]);
 
   const isDropdownItemActive = (dropdownItems) => {
-    return dropdownItems.some(
-      (dropdownItem) => location.pathname === dropdownItem.to
-    );
+    return dropdownItems.some((dropdownItem) => location.pathname === dropdownItem.to);
   };
+
+  const updatedNavItems = navItems.map((item) => {
+    if (item.name === "Exhibit") {
+      return {
+        ...item,
+        items: common.exhibitPaths.map((exhibit) => ({
+          name: exhibit.text,
+          to: exhibit.path,
+        })),
+      };
+    }
+    return item;
+  });
 
   return (
     <nav className="absolute w-full bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 z-30">
       <div className="flex flex-wrap w-full items-center justify-between mx-auto p-4">
-        <Link
-          to="/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
-          <img
-            src={logo}
-            className="w-10 h-10 border rounded-full p-1"
-            alt="Logo"
-          />
-          <span className="self-center text-lg whitespace-nowrap dark:text-white">
-            {navTitle}
-          </span>
+        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src={logo} className="w-10 h-10 border rounded-full p-1" alt="Logo" />
+          <span className="self-center text-lg whitespace-nowrap dark:text-white">{navTitle}</span>
         </Link>
 
         <button
@@ -73,13 +76,11 @@ const Navbar = ({ logo, navTitle, navItems }) => {
         </button>
 
         <div
-          className={`${
-            isMobileMenuOpen ? "block" : "hidden"
-          } w-full md:block md:w-auto`}
+          className={`${isMobileMenuOpen ? "block" : "hidden"} w-full md:block md:w-auto`}
           id="navbar-dropdown"
         >
           <ul className="flex relative flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            {navItems.map((item, index) => (
+            {updatedNavItems.map((item, index) => (
               <li
                 key={index}
                 className="relative"
@@ -104,9 +105,7 @@ const Navbar = ({ logo, navTitle, navItems }) => {
                         {/* Render Chevron Down only for desktop */}
                         <IoChevronDownOutline
                           className={`ml-2 hidden md:block ${
-                            isDropdownItemActive(item.items)
-                              ? "text-white"
-                              : "text-gray-500"
+                            isDropdownItemActive(item.items) ? "text-white" : "text-gray-500"
                           }`}
                         />
                       </button>
