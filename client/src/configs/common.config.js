@@ -6,6 +6,7 @@ import university_code from "../assets/exhibit/university_code.png";
 import syllabi from "../assets/exhibit/syllabi.png";
 import student_handbook from "../assets/exhibit/student_handbook.png";
 import admin_manual from "../assets/exhibit/admin_manual.png";
+import folder_doc from "../assets/exhibit/folder_doc.webp";
 import OrgPic from "../assets/prog-und-survey/OrgPic.jpg";
 
 const common = {};
@@ -15,22 +16,6 @@ common.roleOptions = [
   { id: 2, label: "Viewer" },
   { id: 3, label: "Commenter" },
 ];
-
-common.PUS = {
-  span1: "PROGRAMS",
-  span2: "UNDER",
-  span3: "SURVEY",
-
-  icon: OrgPic,
-}
-
-common.BSIT = {
-  span1: "BACHELOR OF SCIENCE",
-  span2: "IN",
-  span3: "INFORMATION TECHNOLOGY",
-
-  icon: OrgPic,
-}
 
 common.navItems = [
   { name: "Home", to: "/homepage", current: true },
@@ -88,6 +73,10 @@ common.exhibitPaths = [
     text: "Administrative Manual",
     image: admin_manual,
   },
+  {
+    path: "/exhibit/faculty-manual",
+    text: "Faculty Manual",
+  },
   { path: "/exhibit/syllabi", text: "Syllabi", image: syllabi },
   {
     path: "/exhibit/instructional-materials",
@@ -95,29 +84,6 @@ common.exhibitPaths = [
     image: instructional_mats,
   },
   { path: "/exhibit/cmo", text: "CMO 2015", image: cmo_2015 },
-];
-
-common.undersurvey = [
-  {
-    path: "/system-under-survey/citizens-charter",
-    text: "Program Description",
-    image: citizens_charter,
-  },
-  {
-    path: "/system-under-survey/student-handbook",
-    text: "Objectives of the Program",
-    image: student_handbook,
-  },
-  {
-    path: "/system-under-survey/university-code",
-    text: "Areas under Survey",
-    image: university_code,
-  },
-  {
-    path: "/system-under-survey/university-policies-and-guidelines",
-    text: "Program Video Promotion",
-    image: univ_policies_guidelines,
-  },
 ];
 
 export default common;

@@ -11,7 +11,7 @@ const ImageTopBanner = ({ imgSource, banner_title }) => {
         alt="Banner Image"
       />
       {/* Overlaying text */}
-      <h1 className="relative z-10 text-neutral-100 text-center text-[5rem] font-bebas-neue flex w-full pl-[25rem]">
+      <h1 className="relative z-10 text-neutral-100 text-center text-[5rem] font-bebas-neue flex w-full pl-[22rem]">
         {banner_title}
       </h1>
     </div>

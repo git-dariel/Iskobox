@@ -1,12 +1,11 @@
+import UserProfile from "@/components/users/user-profile";
+import { useAuth } from "@/helpers/auth.context";
 import React, { useState } from "react";
 import AddNewButton from "../common/buttons/add.new";
 import FileFolderButton from "../common/buttons/file.folder";
+import Notification from "../common/buttons/notification";
 import ToggleViewButton from "../common/buttons/toggle.view";
 import FolderTagModal from "../modals/folder.tag";
-import { useAuth } from "@/helpers/auth.context";
-import SearchForm from "../common/searchbars/search";
-import UserProfile from "@/components/users/user-profile";
-import Notification from "../common/buttons/notification";
 
 const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, currentFolderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

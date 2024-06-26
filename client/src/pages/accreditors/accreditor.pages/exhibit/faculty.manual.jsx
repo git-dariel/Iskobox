@@ -1,18 +1,18 @@
 import React from "react";
 import MainLayout from "../../layout/main.layout";
-import documents_links from "@/configs/documents.config";
 import imgSource from "@/configs/img.configs";
+import documents_links from "@/configs/documents.config";
 import ImageTopBanner from "@/components/accreditors/image.top.banner";
 
-const AdminManual = () => {
-  const googleDriveLink = documents_links.admin_manual;
+const FacultyManual = () => {
+  const googleDriveLink = documents_links.faculty_manual;
   const embedLink = googleDriveLink.replace("/view?usp=sharing", "/preview");
 
   return (
     <MainLayout>
       <ImageTopBanner
         imgSource={imgSource.title_banner}
-        banner_title={"administrative manual"}
+        banner_title={"faculty manual"}
       />
       <div
         className="flex items-center justify-center bg-transparent h-[90vh]"
@@ -32,4 +32,4 @@ const AdminManual = () => {
   );
 };
 
-export default AdminManual;
+export default FacultyManual;

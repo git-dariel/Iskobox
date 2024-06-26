@@ -46,10 +46,10 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   };
 
   const handleDelete = () => {
-    if (isFaculty) {
-      toast.info("Faculty members cannot delete folders.");
-      return;
-    }
+    // if (isFaculty) {
+    //   toast.info("Faculty members cannot delete folders.");
+    //   return;
+    // }
 
     const deleteProcess = async () => {
       await deleteFolder(folder.id);
@@ -161,21 +161,15 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                   <button
-                    className={`flex items-center w-full px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 ${
-                      isFaculty ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className="flex items-center w-full px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 "
                     onClick={toggleModal}
-                    disabled={isFaculty}
                   >
                     <FiEdit size={20} className="mr-2" />
                     Edit
                   </button>
                   <button
-                    className={`flex items-center w-full px-4 pt-2 pb-3 text-sm text-red-600 hover:bg-gray-100 ${
-                      isFaculty ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className="flex items-center w-full px-4 pt-2 pb-3 text-sm text-red-600 hover:bg-gray-100"
                     onClick={openModal}
-                    disabled={isFaculty}
                   >
                     <MdDelete size={20} className="mr-2" />
                     Delete

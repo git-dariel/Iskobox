@@ -26,6 +26,7 @@ import SignUp from "./pages/users/signup-page";
 import Workspace from "./pages/workspace";
 import ProgramsUnderSurvey from "./pages/accreditors/accreditor.pages/programs.under.survey";
 import BSIT from "./pages/accreditors/accreditor.pages/PUS-BSIT";
+import FacultyManual from "./pages/accreditors/accreditor.pages/exhibit/faculty.manual";
 
 function App() {
   return (
@@ -37,7 +38,34 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/folder-page" element={<FolderPage />} />
             <Route path="/landingpage" element={<LandingPage />} />
-            <Route path="/pup-lq-accreditation" element={<ExhibitPage />} />
+            {/* Exhibit Routes */}
+            <Route path="/exhibit" element={<ExhibitPage />} />
+            <Route
+              path="/exhibit/citizens-charter"
+              element={<CitizensCharter />}
+            />
+            <Route
+              path="/exhibit/student-handbook"
+              element={<StudentHandbook />}
+            />
+            <Route
+              path="/exhibit/university-code"
+              element={<UniversityCode />}
+            />
+            <Route
+              path="/exhibit/university-policies-guidelines"
+              element={<UnivPoliciesGuidelines />}
+            />
+            <Route
+              path="/exhibit/administrative-manual"
+              element={<AdminManual />}
+            />
+            <Route path="/exhibit/syllabi" element={<Syllabi />} />
+            <Route
+              path="/exhibit/instructional-materials"
+              element={<InstructionalMaterials />}
+            />
+            <Route path="/exhibit/cmo" element={<CMOpage />} />
             <Route
               path="/dashboard"
               element={
@@ -114,11 +142,6 @@ function App() {
               path="/certificate-of-authenticitypage"
               element={<CertifcateOfAuthenticity />}
             />
-            <Route
-              path="/programs-under-survey"
-              element={<ProgramsUnderSurvey />}
-            />
-            <Route path="/bsit" element={<BSIT />} />
           </Routes>
         </CommentUpdateProvider>
       </UpdateProvider>
