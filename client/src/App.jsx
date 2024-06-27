@@ -42,37 +42,22 @@ function App() {
       <UpdateProvider>
         <CommentUpdateProvider>
           <Routes>
-            <Route path="/" element={<SignIn />} />
+            <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/folder-page" element={<FolderPage />} />
             <Route path="/landingpage" element={<LandingPage />} />
             {/* Exhibit Routes */}
             <Route path="/exhibit" element={<ExhibitPage />} />
-            <Route
-              path="/exhibit/citizens-charter"
-              element={<CitizensCharter />}
-            />
-            <Route
-              path="/exhibit/student-handbook"
-              element={<StudentHandbook />}
-            />
-            <Route
-              path="/exhibit/university-code"
-              element={<UniversityCode />}
-            />
+            <Route path="/exhibit/citizens-charter" element={<CitizensCharter />} />
+            <Route path="/exhibit/student-handbook" element={<StudentHandbook />} />
+            <Route path="/exhibit/university-code" element={<UniversityCode />} />
             <Route
               path="/exhibit/university-policies-guidelines"
               element={<UnivPoliciesGuidelines />}
             />
-            <Route
-              path="/exhibit/administrative-manual"
-              element={<AdminManual />}
-            />
+            <Route path="/exhibit/administrative-manual" element={<AdminManual />} />
             <Route path="/exhibit/syllabi" element={<Syllabi />} />
-            <Route
-              path="/exhibit/instructional-materials"
-              element={<InstructionalMaterials />}
-            />
+            <Route path="/exhibit/instructional-materials" element={<InstructionalMaterials />} />
             <Route path="/exhibit/cmo" element={<CMOpage />} />
             <Route
               path="/dashboard"
@@ -138,23 +123,16 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            //Landing Page
-            <Route path="/homepage" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/aboutpage" element={<AboutPage />} />
             <Route path="/historypage" element={<HistoryPage />} />
             <Route path="/missionvisionpage" element={<MissionVision />} />
             <Route path="/facilitiespage" element={<FacilitiesPage />} />
             <Route path="/laboratorypage" element={<LaboratoryPage />} />
             <Route path="/officesvideopage" element={<OfficeVideoPage />} />
-            <Route
-              path="/certificate-of-authenticitypage"
-              element={<CertifcateOfAuthenticity />}
-            />
+            <Route path="/certificate-of-authenticitypage" element={<CertifcateOfAuthenticity />} />
             {/* Programs Under Survey */}
-            <Route
-              path="/programs-under-survey"
-              element={<ProgramsUnderSurvey />}
-            />
+            <Route path="/programs-under-survey" element={<ProgramsUnderSurvey />} />
             <Route path="/programs-under-survey/bsit" element={<BSIT />} />
           </Routes>
         </CommentUpdateProvider>

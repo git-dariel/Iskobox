@@ -35,6 +35,7 @@ export default function Hero({ size = 1 }) {
             <h1 className="text-[#ffffff] text-center text-lg md:text-[1.8rem] font-extrabold leading-normal md:flex-1 md:text-left md:mt-0">
               {HomeData.puptitle}
             </h1>
+
             <div className="w-full h-auto md:flex-1 text-right mt-2 md:mt-0">
               <animated.img
                 src={HomeData.welcome}

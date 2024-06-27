@@ -1,18 +1,25 @@
-import React from "react";
-import HomeContent from "./homecontent";
-import Hero from "./hero";
-import CarouselHome from "./carouselhome";
+import React, { Suspense, lazy } from "react";
 import MainLayout from "@/pages/accreditors/layout/main.layout";
-import Footer from "@/pages/accreditors/layout/footer";
+import SplashLazy from "@/components/lazy-loading/animate.pulse";
+
+// Function to simulate a delay
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Lazy load the components with a delay
+const Hero = lazy(() => delay(3000).then(() => import("./hero")));
+const HomeContent = lazy(() => delay(3000).then(() => import("./homecontent")));
+const CarouselHome = lazy(() => delay(3000).then(() => import("./carouselhome")));
 
 export default function HomePage() {
   return (
     <>
-      <MainLayout>
-        <Hero />
-        <HomeContent />
-        <CarouselHome />
-      </MainLayout>
+      <Suspense fallback={<SplashLazy />}>
+        <MainLayout>
+          <Hero />
+          <HomeContent />
+          <CarouselHome />
+        </MainLayout>
+      </Suspense>
     </>
   );
 }
