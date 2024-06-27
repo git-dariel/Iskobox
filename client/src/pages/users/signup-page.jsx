@@ -139,7 +139,7 @@ const SignUp = () => {
           </div>
 
           <div className="flex items-center justify-center w-full gap-3 md:items-end md:justify-end">
-            <Link to="/">
+            <Link to="/signin">
               <button className="text-[#DC5F00] font-medium text-[13px] px-6 py-3 rounded-3xl hover:bg-[#eeedeb] transition-all duration-300 cursor-pointer md:px-8 md:py-3 md:text-sm">
                 Already have an account
               </button>
@@ -157,7 +157,7 @@ const SignUp = () => {
 
       <div className="text-right bg-slate-200 rounded-md">
         <div className="flex flex-row">
-          <Link to="/homepage">
+          <Link to="/">
             <p className="text-[13px] hover:bg-slate-200 rounded-md transition-all duration-300 cursor-pointer mx-2 md:text-[14px] p-2 hover:px-4 hover:rounded-lg">
               Visit accreditor portal
             </p>

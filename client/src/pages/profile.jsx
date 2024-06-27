@@ -49,7 +49,7 @@ const ProfilePage = () => {
   const handleLogout = async () => {
     try {
       await logoutUser();
-      navigate("/");
+      navigate("/signin");
     } catch (error) {
       console.error("Error logging out:", error);
       setError(error.message);
@@ -60,7 +60,7 @@ const ProfilePage = () => {
     try {
       await deleteUserAccount(currentUser.uid);
       console.log("User account deleted");
-      navigate("/");
+      navigate("/signin");
     } catch (error) {
       console.error("Error deleting account:", error);
       setError(error.message);

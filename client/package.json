@@ -23,6 +23,8 @@
     "@react-pdf-viewer/core": "^3.12.0",
     "@react-pdf-viewer/default-layout": "^3.12.0",
     "@react-spring/web": "^9.7.3",
+    "@react-three/drei": "^9.0.1",
+    "@react-three/fiber": "^8.16.8",
     "axios": "^1.6.5",
     "chart.js": "^4.4.1",
     "class-variance-authority": "^0.7.0",
@@ -35,6 +37,7 @@
     "ldrs": "^1.0.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.314.0",
+    "math-random": "^2.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
     "react-chartjs-2": "^5.2.0",
@@ -50,6 +53,7 @@
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
+    "three": "^0.165.0",
     "validator": "^13.11.0"
   },
   "devDependencies": {

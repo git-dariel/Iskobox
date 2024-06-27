@@ -158,7 +158,7 @@ export default function SignIn() {
 
       <div className="text-right bg-slate-200 rounded-md">
         <div className="flex flex-row">
-          <Link to="/homepage">
+          <Link to="/">
             <p className="text-[13px] hover:bg-slate-200 rounded-md transition-all duration-300 cursor-pointer mx-2 md:text-[14px] p-2 hover:px-4 hover:rounded-lg">
               Visit accreditor portal
             </p>

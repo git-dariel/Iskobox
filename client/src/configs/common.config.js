@@ -24,7 +24,7 @@ common.PUS = {
   span3: "SURVEY",
 
   icon: OrgPic,
-}
+};
 
 common.BSIT = {
   span1: "BACHELOR OF SCIENCE",
@@ -32,15 +32,16 @@ common.BSIT = {
   span3: "INFORMATION TECHNOLOGY",
 
   icon: OrgPic,
-}
+};
 
 common.programDescription = {
   title: "Program Description",
-  content: "  The Bachelor of Science in Information Technology (BSIT) program is a four-year degree program which focuses on the study of computer utilization and computer software to plan, install, customize, operate, manage, administer and maintain information technology infrastructure. It likewise deals with the design and development of computer-based information systems for real-world business solutions. The program prepares students to become IT professionals with primary competencies in the areas of systems analysis and design, applications development, database administration, network administration, and systems implementation and maintenance. The program also requires a Capstone project. It should be in the form of an IT applications development as a business solution for an industry need. "
-}
+  content:
+    "  The Bachelor of Science in Information Technology (BSIT) program is a four-year degree program which focuses on the study of computer utilization and computer software to plan, install, customize, operate, manage, administer and maintain information technology infrastructure. It likewise deals with the design and development of computer-based information systems for real-world business solutions. The program prepares students to become IT professionals with primary competencies in the areas of systems analysis and design, applications development, database administration, network administration, and systems implementation and maintenance. The program also requires a Capstone project. It should be in the form of an IT applications development as a business solution for an industry need. ",
+};
 
 common.navItems = [
-  { name: "Home", to: "/homepage", current: true },
+  { name: "Home", to: "/", current: true },
   {
     name: "About PUP Lopez",
     to: "/aboutpage",
@@ -51,7 +52,6 @@ common.navItems = [
       { name: "Buildings and Facilities", to: "/facilitiespage" },
       { name: "Laboratory Videos", to: "/laboratorypage" },
       { name: "Offices Videos", to: "/officesvideopage" },
-
     ],
   },
   { name: "Certificate of Authenticity", to: "/certificate-of-authenticitypage" },
@@ -146,13 +146,12 @@ common.univ_policies_links = [
   },
 ];
 
-common.PUScontents =
-{
+common.PUScontents = {
   pg: "PROGRAM DESCRIPTION",
   op: "OBJECTIVES OF THE PROGRAM",
   aus: "AREAS UNDER SURVEY",
-  pvp: "Program Video Promotion"
-}
+  pvp: "Program Video Promotion",
+};
 
 common.objOfTheProgram = {
   title: "OBJECTIVES OF THE PROGRAM",
@@ -163,8 +162,8 @@ common.objOfTheProgram = {
     obj4: "- To demonstrate awareness of how to methodically and practically approach a variety of technological and managerial issues to ultimately improve business strategies and attain competitive advantage.",
     obj5: "- To inculcate to students the essential virtues and attitudes, as well as develop necessary knowledge and competency levels required of an information technology professional.",
     obj6: "- To train students to systematically analyze and evaluate organizational systems and processes in order to recommend software solutions that properly address the organization's needs and goals.",
-  }
-}
+  },
+};
 
 common.underSurvey = {
   title: "AREAS UNDER SURVEY",
@@ -180,8 +179,7 @@ common.underSurvey = {
     aus8: "Physical Plant and Facilities",
     aus9: "Laboratories",
     aus10: "Administration",
-  }
-}
-
+  },
+};
 
 export default common;
