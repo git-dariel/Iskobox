@@ -31,7 +31,7 @@ const UserDropdown = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate("/");
+      navigate("/signin");
     } catch (error) {}
   };
 
