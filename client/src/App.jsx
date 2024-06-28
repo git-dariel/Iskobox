@@ -35,6 +35,7 @@ import AdminManual from "./pages/accreditors/accreditor.pages/exhibit/admin.manu
 import Syllabi from "./pages/accreditors/accreditor.pages/exhibit/syllabi";
 import InstructionalMaterials from "./pages/accreditors/accreditor.pages/exhibit/instructional.mats";
 import CMOpage from "./pages/accreditors/accreditor.pages/exhibit/cmo";
+import AreaOne from "./pages/accreditors/accreditor.pages/areas/area.one";
 
 function App() {
   return (
@@ -156,6 +157,7 @@ function App() {
               element={<ProgramsUnderSurvey />}
             />
             <Route path="/programs-under-survey/bsit" element={<BSIT />} />
+            <Route path="/programs-under-survey/areaone" element={<AreaOne />} />
           </Routes>
         </CommentUpdateProvider>
       </UpdateProvider>

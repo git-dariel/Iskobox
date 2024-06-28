@@ -544,3 +544,60 @@ export const fetchSubfoldersWithFilesPerRootFolder = (callback) => {
 
   return unsubscribe;
 };
+
+export const fetchAreaOneFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 1"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 1 folders and files:", error);
+    throw error;
+  }
+};
