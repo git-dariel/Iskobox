@@ -8,7 +8,16 @@ import student_handbook from "../assets/exhibit/student_handbook.png";
 import admin_manual from "../assets/exhibit/admin_manual.png";
 import folder_doc from "../assets/exhibit/folder_doc.webp";
 import OrgPic from "../assets/prog-und-survey/OrgPic.jpg";
-import PUSLogo from "../assets/prog-und-survey/PUSLogo.png";
+import Area1 from "../assets/prog-und-survey/areas/area1.png";
+import Area2 from "../assets/prog-und-survey/areas/area2.png";
+import Area3 from "../assets/prog-und-survey/areas/area3.png";
+import Area4 from "../assets/prog-und-survey/areas/area4.png";
+import Area5 from "../assets/prog-und-survey/areas/area5.png";
+import Area6 from "../assets/prog-und-survey/areas/area6.png";
+import Area7 from "../assets/prog-und-survey/areas/area7.png";
+import Area8 from "../assets/prog-und-survey/areas/area8.png";
+import Area9 from "../assets/prog-und-survey/areas/area9.png";
+import Area10 from "../assets/prog-und-survey/areas/area10.png";
 
 const common = {};
 
@@ -157,17 +166,28 @@ common.objOfTheProgram = {
   title: "OBJECTIVES OF THE PROGRAM",
   content: {
     obj1: "The Bachelor of Science in Information Technology aims to provide training and practice that will enable students:",
-    obj2: "- To introduce students to current technologies and tools while learning new methodologies that will lead to the development of better information systems.",
-    obj3: "- To enable students to understand the different components of the information technology field, including hardware, software, communication, networking, research, peopleware and management skills.",
-    obj4: "- To demonstrate awareness of how to methodically and practically approach a variety of technological and managerial issues to ultimately improve business strategies and attain competitive advantage.",
-    obj5: "- To inculcate to students the essential virtues and attitudes, as well as develop necessary knowledge and competency levels required of an information technology professional.",
-    obj6: "- To train students to systematically analyze and evaluate organizational systems and processes in order to recommend software solutions that properly address the organization's needs and goals.",
+    obj2: "• To introduce students to current technologies and tools while learning new methodologies that will lead to the development of better information systems.",
+    obj3: "• To enable students to understand the different components of the information technology field, including hardware, software, communication, networking, research, peopleware and management skills.",
+    obj4: "• To demonstrate awareness of how to methodically and practically approach a variety of technological and managerial issues to ultimately improve business strategies and attain competitive advantage.",
+    obj5: "• To inculcate to students the essential virtues and attitudes, as well as develop necessary knowledge and competency levels required of an information technology professional.",
+    obj6: "• To train students to systematically analyze and evaluate organizational systems and processes in order to recommend software solutions that properly address the organization's needs and goals.",
   },
 };
 
 common.underSurvey = {
   title: "AREAS UNDER SURVEY",
-  icon: PUSLogo,
+  icon: {
+    area1: Area1,
+    area2: Area2,
+    area3: Area3,
+    area4: Area4,
+    area5: Area5,
+    area6: Area6,
+    area7: Area7,
+    area8: Area8,
+    area9: Area9,
+    area10: Area10,
+  },
   content: {
     aus1: "Vision, Mission, Goals and Objectives",
     aus2: "Faculty",
@@ -182,4 +202,22 @@ common.underSurvey = {
   },
 };
 
+common.programvideo = {
+  title: "Program Video Promotion",
+};
+
+export const videos = [
+  {
+    id: 1,
+    video: "https://drive.google.com/file/d/1i-a-JooACnPQqr3ot2SH5ucjfHQy8T0L/preview",
+  },
+  {
+    id: 2,
+    video: "https://drive.google.com/file/d/1OWaxJCicXXCzF0NTBvsYzeV_zIzfylIH/preview",
+  },
+  {
+    id: 3,
+    video: "https://drive.google.com/file/d/19A1D6fapi0nBXldr1kacnOG_7K7Sxjld/preview",
+  },
+];
 export default common;

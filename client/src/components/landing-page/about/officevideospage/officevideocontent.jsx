@@ -18,10 +18,7 @@ export default function OfficeVideoContent() {
           </div>
 
           <div className="px-4 md:px-10 lg:px-40 py-10">
-            <div
-              className="relative border border-black "
-              style={{ paddingTop: "56.25%" }}
-            >
+            <div className="relative border border-black " style={{ paddingTop: "56.25%" }}>
               {/* 16:9 aspect ratio (h/w * 100) */}
               <iframe
                 src={item.video}
