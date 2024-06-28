@@ -7,6 +7,7 @@ import { fetchAreaThreeFoldersAndFiles } from "@/services/folders/folder.service
 import { Paperclip, File } from "lucide-react";
 import { getFileType } from "@/helpers/file-helpers";
 import { getFileUrl } from "@/services/files/file-service";
+import StarsCanvas from "@/components/layout/starcanvas";
 
 const AreaThree = () => {
   const [areaThreeData, setAreaThreeData] = useState([]);
@@ -43,9 +44,10 @@ const AreaThree = () => {
           className="relative min-h-[20rem] select-none bg-cover bg-no-repeat bg-center shadow-xl flex justify-center items-center"
           style={{ backgroundImage: `url(${common.BSIT.icon})` }}
         >
-          <div className="absolute inset-0 bg-teal-950 bg-opacity-50"></div>
+          <div className="absolute inset-0 bg-teal-950 bg-opacity-80"></div>
           <div className="relative w-full h-full flex items-center">
-            <h1 className="flex flex-col items-start px-20 md:px-32 lg:px-40 md:gap-3 xl:gap-6">
+            <h1 className="flex flex-col items-start px-20 md:px-32 lg:px-40 md:gap-3 xl:gap-6 animate-pulse duration-800">
+              <StarsCanvas />
               <div className="flex gap-4">
                 <span className="text-white text-4xl md:text-[4rem] xl:text-[5rem] font-bebas-neue mb-4">
                   {common.AREATHREE.span1}
