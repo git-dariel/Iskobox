@@ -60,7 +60,7 @@ const AreaOne = () => {
 
         <section className="flex w-full justify-center bg-gradient-to-r from-amber-300 to-yellow-50 min-h-[45vh] p-7">
           <div className="flex py-4 w-[75%] justify-between gap-5">
-            <div className="flex flex-col gap-3">
+            {/* <div className="flex flex-col gap-3">
               <h1 className="font-semibold text-3xl">Contents:</h1>
               <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
                 <p>{common.AREAONE_CONTENTS.DESC}</p>
@@ -71,9 +71,9 @@ const AreaOne = () => {
               <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
                 <p>{common.AREAONE_CONTENTS.PARAMETER_B}</p>
               </Link>
-            </div>
-            <div className="flex flex-col  w-[65%] text-justify">
-              <h1 className="text-4xl font-bold mb-3">{common.AREAONE_CONTENTS.DESC}</h1>
+            </div> */}
+            <div className="flex flex-col text-justify">
+              <h1 className="text-4xl font-bold mb-5">{common.AREAONE_CONTENTS.DESC}</h1>
               <p className="text-lg">{common.AREAONE_CONTENTS.DESC_CONTENT}</p>
             </div>
           </div>
