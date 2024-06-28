@@ -200,10 +200,38 @@ common.underSurvey = {
     aus9: "Laboratories",
     aus10: "Administration",
   },
+  links: {
+    aus1: "/programs-under-survey/areaone",
+    aus2: "/programs-under-survey/areatwo",
+    aus3: "/programs-under-survey/areathree",
+    aus4: "/programs-under-survey/areafour",
+    aus5: "/programs-under-survey/areafive",
+    aus6: "/programs-under-survey/areasix",
+    aus7: "/programs-under-survey/areaseven",
+    aus8: "/programs-under-survey/areaeight",
+    aus9: "/programs-under-survey/areanine",
+    aus10: "/programs-under-survey/areaten",
+  },
 };
 
 common.programvideo = {
   title: "Program Video Promotion",
+};
+
+common.AREAONE = {
+  span1: "AREA 1",
+  span2: "VISION, MISSION, GOALS, AND OBJECTIVES",
+
+  icon: OrgPic,
+};
+
+common.AREAONE_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "The area of Vision, Mission, Goals, and Objectives is the most fundamental of all the (10) areas to be surveyed. Everything in the Institution is justified only to the extent that it realizes its vision and mission. It is essential therefore, for the Institution to formulate the vision and mission which should be the bases of all its operations. The Institution is judged by the degree to which these are attained, not in comparison with others.",
 };
 
 export const videos = [

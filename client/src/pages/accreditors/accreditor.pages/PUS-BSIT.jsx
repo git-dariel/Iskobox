@@ -128,10 +128,12 @@ function BSIT() {
         <div className="text-center py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {Object.keys(common.underSurvey.content).map((key, index) => (
             <div key={index} className="flex flex-col items-center py-2">
-              <img
-                src={common.underSurvey.icon[key.replace("aus", "area")]}
-                className="w-60 h-60 mb-2 cursor-pointer hover:scale-110 transition-transform duration-300"
-              />
+              <Link to={common.underSurvey.links[key]}>
+                <img
+                  src={common.underSurvey.icon[key.replace("aus", "area")]}
+                  className="w-60 h-60 mb-2 cursor-pointer hover:scale-110 transition-transform duration-300"
+                />
+              </Link>
               <h3 className="text-xl md:text-md lg:text-xl">{common.underSurvey.content[key]}</h3>
             </div>
           ))}
