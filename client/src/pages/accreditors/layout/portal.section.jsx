@@ -19,7 +19,7 @@ const PortalSection = ({ sectionTitle, folderImage, portalLink }) => {
               className="flex items-center justify-center max-w-fit">
               <img
                 src={folderImage}
-                className="w-3/4 md:w-3/4 min-w-md rounded-lg z-50"
+                className="w-3/4 md:w-3/4 min-w-md rounded-lg z-10"
                 alt="Folder"
               />
             </Link>

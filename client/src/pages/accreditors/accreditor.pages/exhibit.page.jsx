@@ -7,6 +7,7 @@ import { default as React } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "../layout/main.layout";
 import PortalSection from "../layout/portal.section";
+import StarsCanvas from "@/components/layout/starcanvas";
 
 const ExhibitPage = () => {
   // Define the spring animation
@@ -45,27 +46,27 @@ const ExhibitPage = () => {
         imgSource={imgSource.title_banner}
         banner_title={"EXHIBIT"}
       />
-      <section className="flex w-full items-center justify-center bg-gradient-to-r from-amber-300 to-yellow-50 min-h-[50vh] p-7">
-        <div className="flex w-[57%] justify-between">
-          <div className="flex flex-col gap-5">
-            <h1 className="font-semibold text-3xl">Contents:</h1>
+      <section className="flex w-full items-center justify-center bg-gradient-to-r from-amber-300 to-yellow-50 min-h-[50vh] p-7 relative z-20">
+        <div className="flex flex-col xl:flex-row sm:justify-center md:justify-between w-full xl:w-[57%]">
+          <div className="flex flex-col gap-5 p-4 xl:p-0">
+            <h1 className="font-semibold text-2xl sm:text-3xl">Contents:</h1>
             {exhibitItems.map((item, index) => (
               <Link
                 key={index}
                 to={item.path}
-                className="text-xl text-green-950 hover:underline">
+                className="text-lg sm:text-xl text-green-950 hover:text-green-700 hover:bg-white rounded-full p-2 transition duration-200 ease-in-out transform hover:scale-105 z-10">
                 {item.text}
               </Link>
             ))}
           </div>
-          <div className="flex items-center justify-center w-[65%]">
+          <div className="flex items-center justify-center w-full xl:w-[65%] p-4 xl:p-0">
             {/* Apply the spring animation to the img element */}
             <animated.img
               src={imgSource.pylon_ngayon}
               style={{
                 transform: springs.scale.to((scale) => `scale(${scale})`),
               }}
-              className="flex object-center z-[10]"
+              className="object-center z-10 w-full"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />
