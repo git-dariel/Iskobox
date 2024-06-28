@@ -20,10 +20,8 @@ const CMOpage = () => {
         }}>
         <iframe
           src={embedLink}
-          width="50%"
-          height="100%"
-          allow="autoplay"
-          className="border-none"></iframe>
+          className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 h-full border-none"
+          allow="autoplay"></iframe>
       </div>
     </MainLayout>
   );
