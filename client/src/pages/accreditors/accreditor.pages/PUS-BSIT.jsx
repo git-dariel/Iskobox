@@ -18,7 +18,7 @@ function BSIT() {
               <span className="text-white text-4xl md:text-[4rem] xl:text-[5rem] font-bebas-neue">
                 {common.BSIT.span1}
               </span>
-              <span className="text-[#3d6969] text-4xl md:text-[4rem] xl:text-[5rem] font-bebas-neue">
+              <span className="text-white text-4xl md:text-[4rem] xl:text-[5rem] font-bebas-neue">
                 {common.BSIT.span2}
               </span>
             </div>

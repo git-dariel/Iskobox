@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { fetchAreaOneFoldersAndFiles } from "@/services/folders/folder.service";
 import { Paperclip, File } from "lucide-react";
+import { getFileType } from "@/helpers/file-helpers";
+import { getFileUrl } from "@/services/files/file-service";
 
 const AreaOne = () => {
   const [areaOneData, setAreaOneData] = useState([]);
@@ -17,6 +19,22 @@ const AreaOne = () => {
 
     fetchData();
   }, []);
+
+  const openFileInNewTab = async (file) => {
+    const url = await getFileUrl(file.id);
+    const fileType = getFileType(file.name);
+    if (
+      fileType === "image" ||
+      fileType === "pdf" ||
+      fileType === "docx" ||
+      fileType === "pptx" ||
+      fileType === "xlsx"
+    ) {
+      window.open(url, "_blank");
+    } else {
+      console.error("File format not supported for preview.");
+    }
+  };
 
   return (
     <>
@@ -83,7 +101,11 @@ const AreaOne = () => {
                         <ul>
                           {subfolder.files.length > 0 ? (
                             subfolder.files.map((file) => (
-                              <li key={file.id} className="flex gap-2 items-center">
+                              <li
+                                key={file.id}
+                                className="flex gap-2 items-center cursor-pointer hover:text-blue-500"
+                                onClick={() => openFileInNewTab(file)}
+                              >
                                 <Paperclip size={15} /> {file.name}
                               </li>
                             ))
@@ -108,7 +130,11 @@ const AreaOne = () => {
                     <ul>
                       {folder.files.length > 0 ? (
                         folder.files.map((file) => (
-                          <li key={file.id} className="flex gap-2 items-center">
+                          <li
+                            key={file.id}
+                            className="flex gap-2 items-center cursor-pointer hover:text-blue-500"
+                            onClick={() => openFileInNewTab(file)}
+                          >
                             <Paperclip size={15} /> {file.name}
                           </li>
                         ))
