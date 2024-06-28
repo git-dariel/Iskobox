@@ -4,6 +4,7 @@ import MainLayout from "../../layout/main.layout";
 import { Link } from "react-router-dom";
 import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { fetchAreaOneFoldersAndFiles } from "@/services/folders/folder.service";
+import { Paperclip, File } from "lucide-react";
 
 const AreaOne = () => {
   const [areaOneData, setAreaOneData] = useState([]);
@@ -62,38 +63,63 @@ const AreaOne = () => {
 
         <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] w-full flex flex-col">
           <div className="w-full flex flex-col justify-center items-center">
-            <div
-              className="w-full text-center select-none bg-no-repeat bg-cover bg-center shadow-xl"
-              style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
-            >
-              <header className="border w-full text-center h-full py-10">
-                <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
-                  {areaOneData.map((folder) => folder.name).join(", ")}
-                </h2>
-              </header>
-            </div>
-            <div className="flex w-9/12 text-justify py-10">
-              {areaOneData.map((folder) => (
-                <article key={folder.id}>
-                  <h3 className="text-2xl font-bold">{folder.name}</h3>
-                  <ul>
-                    {folder.files.map((file) => (
-                      <li key={file.id}>{file.name}</li>
-                    ))}
-                  </ul>
-                  {folder.subfolders.map((subfolder) => (
-                    <div key={subfolder.id}>
-                      <h4 className="text-xl font-semibold">{subfolder.name}</h4>
-                      <ul>
-                        {subfolder.files.map((file) => (
-                          <li key={file.id}>{file.name}</li>
-                        ))}
-                      </ul>
+            {areaOneData.map((folder) => (
+              <div key={folder.id} className="w-full">
+                {folder.subfolders.map((subfolder) => (
+                  <>
+                    <div
+                      className="w-full text-center select-none bg-no-repeat bg-cover bg-center shadow-xl"
+                      style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
+                    >
+                      <header className="border w-full text-center h-full py-10">
+                        <h3 className="text-3xl font-bold text-gray-700">{subfolder.name}</h3>
+                      </header>
                     </div>
-                  ))}
-                </article>
-              ))}
-            </div>
+                    <div
+                      key={subfolder.id}
+                      className="flex items-center justify-center text-justify py-10"
+                    >
+                      <div className="bg-white w-[50rem] p-10 rounded-lg">
+                        <ul>
+                          {subfolder.files.length > 0 ? (
+                            subfolder.files.map((file) => (
+                              <li key={file.id} className="flex gap-2 items-center">
+                                <Paperclip size={15} /> {file.name}
+                              </li>
+                            ))
+                          ) : (
+                            <li>No files</li>
+                          )}
+                        </ul>
+                      </div>
+                    </div>
+                  </>
+                ))}
+                <div
+                  className="w-full text-center select-none bg-no-repeat bg-cover bg-center shadow-xl"
+                  style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
+                >
+                  <header className="border w-full text-center h-full py-10">
+                    <h3 className="text-3xl font-bold text-gray-700">Other Files in Area 1</h3>
+                  </header>
+                </div>
+                <div className="flex items-center justify-center text-justify py-10">
+                  <div className="bg-white w-[50rem] p-10 rounded-lg">
+                    <ul>
+                      {folder.files.length > 0 ? (
+                        folder.files.map((file) => (
+                          <li key={file.id} className="flex gap-2 items-center">
+                            <Paperclip size={15} /> {file.name}
+                          </li>
+                        ))
+                      ) : (
+                        <li>No files</li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </MainLayout>
