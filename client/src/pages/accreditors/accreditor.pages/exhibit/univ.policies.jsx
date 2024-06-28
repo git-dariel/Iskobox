@@ -27,7 +27,7 @@ const UnivPoliciesGuidelines = () => {
               rel="noopener noreferrer"
               className="transform hover:scale-105 transition-transform">
               <div className="flex flex-col items-center justify-center">
-                <div className="p-5 bg-blue-50 rounded-full shadow-md">
+                <div className="hover:bg-white rounded-full p-5 transition duration-200 ease-in-out transform hover:scale-105 hover:animate-wiggle">
                   <img
                     src={item.image}
                     alt={item.text}

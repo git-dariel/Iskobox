@@ -42,11 +42,15 @@ export const StarBackground = () => {
     return () => cancelAnimationFrame(animate); // Cleanup animation on component unmount
   }, []);
 
-  return <canvas ref={canvasRef} className="w-full h-full absolute inset-0 z-0"></canvas>;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="w-full h-full absolute inset-0 z-0"></canvas>
+  );
 };
 
 const StarsCanvas = () => (
-  <div className="w-full h-full absolute inset-0 z-0">
+  <div className="w-full h-full absolute inset-0 z-auto">
     <StarBackground />
   </div>
 );
