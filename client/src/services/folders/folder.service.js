@@ -601,3 +601,516 @@ export const fetchAreaOneFoldersAndFiles = async () => {
     throw error;
   }
 };
+
+export const fetchAreaTwoFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 2"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};
+
+export const fetchAreaThreeFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 3"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};
+
+export const fetchAreaFourFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 4"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};
+
+export const fetchAreaFiveFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 5"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};
+
+export const fetchAreaSixFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 6"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};
+
+export const fetchAreaSevenFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 7"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};
+
+export const fetchAreaEightFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 8"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};
+
+export const fetchAreaNineFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 9"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};
+
+export const fetchAreaTenFoldersAndFiles = async () => {
+  try {
+    // Fetch the root folder named "Area 1"
+    const rootFolderQuery = query(collection(db, "folders"), where("name", "==", "Area 10"));
+    const rootFolderSnapshot = await getDocs(rootFolderQuery);
+    const rootFolders = await Promise.all(
+      rootFolderSnapshot.docs.map(async (doc) => {
+        const folderData = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+          subfolders: [],
+          files: [],
+        };
+
+        // Fetch files directly under the root folder
+        const fileQuery = query(collection(db, "files"), where("folderId", "==", doc.id));
+        const fileSnapshot = await getDocs(fileQuery);
+        folderData.files = fileSnapshot.docs.map((fileDoc) => ({
+          id: fileDoc.id,
+          ...fileDoc.data(),
+        }));
+
+        // Fetch subfolders and their files
+        const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
+        const subfolderSnapshot = await getDocs(subfolderQuery);
+        folderData.subfolders = await Promise.all(
+          subfolderSnapshot.docs.map(async (subDoc) => {
+            const subfolderData = {
+              id: subDoc.id,
+              ...subDoc.data(),
+              createdAt: subDoc.data().createdAt.toDate(),
+              files: [],
+            };
+
+            const subFileQuery = query(collection(db, "files"), where("folderId", "==", subDoc.id));
+            const subFileSnapshot = await getDocs(subFileQuery);
+            subfolderData.files = subFileSnapshot.docs.map((fileDoc) => ({
+              id: fileDoc.id,
+              ...fileDoc.data(),
+            }));
+
+            return subfolderData;
+          })
+        );
+        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        return folderData;
+      })
+    );
+    rootFolders.sort((a, b) => a.createdAt - b.createdAt);
+    return rootFolders;
+  } catch (error) {
+    console.error("Error fetching Area 2 folders and files:", error);
+    throw error;
+  }
+};

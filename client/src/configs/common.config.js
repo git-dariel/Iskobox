@@ -234,6 +234,150 @@ common.AREAONE_CONTENTS = {
     "The area of Vision, Mission, Goals, and Objectives is the most fundamental of all the (10) areas to be surveyed. Everything in the Institution is justified only to the extent that it realizes its vision and mission. It is essential therefore, for the Institution to formulate the vision and mission which should be the bases of all its operations. The Institution is judged by the degree to which these are attained, not in comparison with others.",
 };
 
+common.AREATWO = {
+  span1: "AREA 2",
+  span2: "FACULTY",
+
+  icon: OrgPic,
+};
+
+common.AREATWO_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "The standard or quality of an institution or program is greatly measured by the qualification of its faculty. In this light, the faculty should be composed of competent members in terms of academic qualifications, experience and professional expertise. In addition, they should manifest desirable personal qualities and high level of professionalism. To be effective, faculty members should be properly compensated and taken care of. They must be given opportunities for continuous personal and professional development. A policy of fair and equitable distribution of teaching assignments and workload should be practiced. Likewise, objective and clear promotion criteria/scheme should be adopted by the Institution.",
+};
+
+common.AREATHREE = {
+  span1: "AREA 3",
+  span2: "CURRICULUM AND INSTRUCTION",
+
+  icon: OrgPic,
+};
+
+common.AREATHREE_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "Curriculum and instruction occupy center stage in any educational program. These seek to research, develop, and implement curriculum changes that enhance student achievement within and outside of institutions. How students learn and the best ways to educate deserve much consideration.The quality of these two allied areas determine primarily the prestige and strength of the institution. Areas of concern are on six parameters. These are encompassing which are: [1]Curriculum and program of studies; [2]Instructional process, [3]methodologies and learning opportunities; [4]assessment of academic performance; [5]classroom management; [6]graduation requirements; [7]and administrative support for effective instruction",
+};
+
+common.AREAFOUR = {
+  span1: "AREA 4",
+  span2: "SUPPORT TO STUDENTS",
+
+  icon: OrgPic,
+};
+
+common.AREAFOUR_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "Students are the reason for the establishment of learning institutions. Thus, the school has the responsibility to support the family and other social institutions in the development of the total personality of the student. Towards this end, a program of student services is designed as an integral part of institutional effectiveness. All activities should be well planned and implemented to assist the student in attaining his/her maximum potential and become a worthy contributor in his/her social environment. Student support and services complement the Academic Program. ",
+};
+
+common.AREAFIVE = {
+  span1: "AREA 5",
+  span2: "RESEARCH",
+
+  icon: OrgPic,
+};
+
+common.AREAFIVE_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "Research is an avenue through which new knowledge is discovered, applied or verified and through which appropriate technologies are generated. Thus, it is a basic requirement for an educational institution to have a firmly established research and development program. Its thrusts and priorities should be congruent with those identified in the development plans of regional and national R and D-oriented agencies such as NEDA, DOST, CHED, etc. The institutional leadership in research should be proactive and developmental in orientation. It must provide adequate and sustained budget allocation annually for the academic Unit. Adequate physical facilities, laboratory equipment and supplies for research should be provided. The Academic unit has to maintain strong research linkages with various R and D agencies locally and internationally.",
+};
+
+common.AREASIX = {
+  span1: "AREA 6",
+  span2: "EXTENSION AND COMMUNITY INVOLVEMENT",
+
+  icon: OrgPic,
+};
+
+common.AREASIX_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "The extension function makes the institution's presence felt in the community. It involves the application of existing and new knowledge and technology and those generated in the Institution to improve the quality of life of the people. Through the extension program, people are empowered with appropriate knowledge, attitudes and skills. Thus, extension services cater to various aspects of the community life, e.g., economic growth, promotion of health, environmental management, and social transformation. The Institution plans and implements an extension program that is need and client-based. This program should have a budgetary support and other resource allocation. The faculty members may serve as experts, consultants, organizers, facilitators, coordinators, service providers, and change agents in the community as forms of extension and community involvement. Careful planning and coordination with other community outreach agencies should be considered to avoid duplication of services offered to the clientele.",
+};
+
+common.AREASEVEN = {
+  span1: "AREA 7",
+  span2: "LIBRARY",
+
+  icon: OrgPic,
+};
+
+common.AREASEVEN_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "The library is the heart of any learning institution. It is a synergy of people, hardware and software whose purpose is to assist clients in using knowledge and technology to transform and improve their lives. Information and knowledge are essential to the attainment of institutional goals. The ways in which they are selected, acquired, stored, accessed and distributed within the Institution will, in large measure, determine the success of teaching, research and other academic endeavors. The Institution thrives on clear policies concerning access to, and provision of, information. Thus, the library must take an active role in the development and implementation of these policies. Each institution has a unique vision, mission, goals and objectives. These are influenced by its philosophy, geographical location and social responsibility. Similarly, as a subsystem of the Institution, the library has a unique role to perform.",
+};
+
+common.AREAEIGHT = {
+  span1: "AREA 8",
+  span2: "PHYISICAL PLANT AND FACILITIES",
+
+  icon: OrgPic,
+};
+
+common.AREAEIGHT_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "The quality and adequacy of the physical plant and facilities of a learning institution determine to a large measure the successful implementation of its curricular programs. In a broad sense, physical plant and facilities include school campus, buildings and other physical infrastructures, equipment and services that complement institutional and program effectiveness.",
+};
+
+common.AREANINE = {
+  span1: "AREA 9",
+  span2: "LABORATORIES",
+
+  icon: OrgPic,
+};
+
+common.AREANINE_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "Laboratories are included in the support systems for any academic program. Broadly defined, they cover science laboratories, speech laboratories, demonstration farms, shops, and other facilities for practicum activities essential to the successful implementation of curricular programs inclusive of their use and functions.",
+};
+
+common.AREATEN = {
+  span1: "AREA 10",
+  span2: "ADMINISTRATION",
+
+  icon: OrgPic,
+};
+
+common.AREATEN_CONTENTS = {
+  DESC: "AREA DESCRIPTION",
+  PARAMETER_A: "PARAMETER A",
+  PARAMETER_B: "PARAMETER B",
+
+  DESC_CONTENT:
+    "The administration is the engine of the Institution in the attainment of its vision, mission, goals and objectives. It is concerned with the general affairs of the Institution and its organization performance. Thus, the administration adopts institutional processes and ensures that said processes are satisfactorily implemented.",
+};
+
 export const videos = [
   {
     id: 1,
