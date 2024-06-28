@@ -3,19 +3,19 @@ import common from "@/configs/common.config";
 import MainLayout from "../../layout/main.layout";
 import { Link } from "react-router-dom";
 import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
-import { fetchAreaOneFoldersAndFiles } from "@/services/folders/folder.service";
+import { fetchAreaSixFoldersAndFiles } from "@/services/folders/folder.service";
 import { Paperclip, File } from "lucide-react";
 import { getFileType } from "@/helpers/file-helpers";
 import { getFileUrl } from "@/services/files/file-service";
 import StarsCanvas from "@/components/layout/starcanvas";
 
-const AreaOne = () => {
-  const [areaOneData, setAreaOneData] = useState([]);
+const AreaSix = () => {
+  const [areaSixData, setAreaSixData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchAreaOneFoldersAndFiles();
-      setAreaOneData(data);
+      const data = await fetchAreaSixFoldersAndFiles();
+      setAreaSixData(data);
     };
 
     fetchData();
@@ -49,12 +49,12 @@ const AreaOne = () => {
             <h1 className="flex flex-col items-start px-20 md:px-32 lg:px-40 md:gap-3 xl:gap-6 animate-pulse duration-800">
               <StarsCanvas />
               <div className="flex gap-4">
-                <span className="text-white text-4xl md:text-[4rem] xl:text-[5rem] font-bebas-neue mb-2">
-                  {common.AREAONE.span1}
+                <span className="text-white text-4xl md:text-[4rem] xl:text-[5rem] font-bebas-neue mb-4">
+                  {common.AREASIX.span1}
                 </span>
               </div>
               <span className="text-white text-4xl md:text-[4rem] xl:text-[5rem] font-bebas-neue">
-                {common.AREAONE.span2}
+                {common.AREASIX.span2}
               </span>
             </h1>
           </div>
@@ -62,28 +62,16 @@ const AreaOne = () => {
 
         <section className="flex w-full justify-center bg-gradient-to-r from-amber-300 to-yellow-50 min-h-[40vh] p-7">
           <div className="flex py-4 w-[75%] justify-between gap-5">
-            {/* <div className="flex flex-col gap-3">
-              <h1 className="font-semibold text-3xl">Contents:</h1>
-              <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
-                <p>{common.AREAONE_CONTENTS.DESC}</p>
-              </Link>
-              <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
-                <p>{common.AREAONE_CONTENTS.PARAMETER_A}</p>
-              </Link>
-              <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
-                <p>{common.AREAONE_CONTENTS.PARAMETER_B}</p>
-              </Link>
-            </div> */}
             <div className="flex flex-col text-justify">
-              <h1 className="text-4xl font-bold mb-5">{common.AREAONE_CONTENTS.DESC}</h1>
-              <p className="text-lg">{common.AREAONE_CONTENTS.DESC_CONTENT}</p>
+              <h1 className="text-4xl font-bold mb-5">{common.AREASIX_CONTENTS.DESC}</h1>
+              <p className="text-lg">{common.AREASIX_CONTENTS.DESC_CONTENT}</p>
             </div>
           </div>
         </section>
 
         <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] w-full flex flex-col">
           <div className="w-full flex flex-col justify-center items-center">
-            {areaOneData.map((folder) => (
+            {areaSixData.map((folder) => (
               <div key={folder.id} className="w-full">
                 {folder.subfolders.map((subfolder) => (
                   <>
@@ -208,4 +196,4 @@ const AreaOne = () => {
   );
 };
 
-export default AreaOne;
+export default AreaSix;
