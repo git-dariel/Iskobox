@@ -221,8 +221,10 @@ common.programvideo = {
 common.AREAONE = {
   span1: "AREA 1",
   span2: "VISION, MISSION, GOALS, AND OBJECTIVES",
-
   icon: OrgPic,
+
+  ppp: "PROGRAM PERFORMANCE PROFILE",
+  slf: "SELF SURVEY",
 };
 
 common.AREAONE_CONTENTS = {
@@ -392,4 +394,5 @@ export const videos = [
     video: "https://drive.google.com/file/d/19A1D6fapi0nBXldr1kacnOG_7K7Sxjld/preview",
   },
 ];
+
 export default common;

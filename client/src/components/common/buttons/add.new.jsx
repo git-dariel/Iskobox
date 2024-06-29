@@ -53,21 +53,21 @@ const AddNewButton = ({ parentId }) => {
   };
 
   const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
+    const files = Array.from(event.target.files);
+    if (files.length > 0) {
       toast.promise(
         (async () => {
           const folderDetails = await fetchFolderDetailsWithUploadLimit(parentId);
-          if (folderDetails && folderDetails.fileCount >= folderDetails.uploadLimit) {
+          if (folderDetails && folderDetails.fileCount + files.length > folderDetails.uploadLimit) {
             throw new Error("Upload limit reached for this folder");
           }
-          await uploadFile(file, parentId);
+          await Promise.all(files.map((file) => uploadFile(file, parentId)));
           triggerUpdate();
         })(),
         {
-          loading: "Uploading file...",
-          success: "File uploaded successfully",
-          error: (err) => `Failed to upload file: ${err.message}`,
+          loading: "Uploading files...",
+          success: "Files uploaded successfully",
+          error: (err) => `Failed to upload files: ${err.message}`,
         }
       );
     }
@@ -120,6 +120,7 @@ const AddNewButton = ({ parentId }) => {
         </button>
         <input
           type="file"
+          multiple
           ref={fileInputRef}
           style={{ display: "none" }}
           onChange={handleFileChange}

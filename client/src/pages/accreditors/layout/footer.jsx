@@ -1,12 +1,9 @@
 import React from "react";
 import footer_bg_image from "../../../assets/exhibit/footer_bg_image.png";
-import {
-  FaGlobe,
-  FaFacebook,
-  FaMapMarkerAlt,
-  FaEnvelope,
-} from "react-icons/fa";
+import { FaGlobe, FaFacebook, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+  const lastYear = currentYear - 1;
   return (
     <footer
       className="relative w-full min-h-64 bg-cover bg-center text-white flex flex-col justify-center items-center"
@@ -32,10 +29,10 @@ const Footer = () => {
             <FaEnvelope size={24} />
           </a>
         </div>
+        <p className="text-sm">Address: Yumul St. Burgos (Poblacion) 4316 Lopez, Quezon</p>
         <p className="text-sm">
-          Address: Yumul St. Burgos (Poblacion) 4316 Lopez, Quezon
+          Academic Year {lastYear} - {currentYear}
         </p>
-        <p className="text-sm">Academic Year 2022 - 2023</p>
       </div>
     </footer>
   );
