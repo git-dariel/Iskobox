@@ -8,8 +8,13 @@ import { Paperclip, File } from "lucide-react";
 import { getFileType } from "@/helpers/file-helpers";
 import { getFileUrl } from "@/services/files/file-service";
 import StarsCanvas from "@/components/layout/starcanvas";
+import documents_links from "@/configs/documents.config";
 
 const AreaSeven = () => {
+  const googleDriveLinkPPP = documents_links.areaseven_ppp;
+  const embedLinkPPP = googleDriveLinkPPP.replace("/view?usp=sharing", "/preview");
+  const googleDriveLinkSLF = documents_links.areaseven_slf;
+  const embedLinkSLF = googleDriveLinkSLF.replace("/view?usp=sharing", "/preview");
   const [areaSevenData, setAreaSevenData] = useState([]);
 
   useEffect(() => {
@@ -65,6 +70,53 @@ const AreaSeven = () => {
             <div className="flex flex-col text-justify">
               <h1 className="text-4xl font-bold mb-5">{common.AREASEVEN_CONTENTS.DESC}</h1>
               <p className="text-lg">{common.AREASEVEN_CONTENTS.DESC_CONTENT}</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] w-full flex flex-col">
+          <div className="w-full flex flex-col justify-center items-center">
+            <div
+              className="w-full text-center select-none bg-no-repeat bg-cover bg-center shadow-xl"
+              style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
+            >
+              <header className="border w-full text-center h-full py-10">
+                <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+                  {common.AREAONE.ppp}
+                </h2>
+              </header>
+            </div>
+            <div className="w-[100vh] h-[90vh] flex items-center justify-center bg-transparent my-2">
+              <h1>No files yet</h1>
+              {/* <iframe
+                src={embedLinkPPP}
+                className="w-full h-full border-none"
+                allow="autoplay"
+              ></iframe> */}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] w-full flex flex-col">
+          <div className="w-full flex flex-col justify-center items-center">
+            <div
+              className="w-full text-center select-none bg-no-repeat bg-cover bg-center shadow-xl"
+              style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
+            >
+              <header className="border w-full text-center h-full py-10">
+                <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+                  {common.AREAONE.slf}
+                </h2>
+              </header>
+            </div>
+
+            <div className="w-[100vh] h-[90vh] flex items-center justify-center bg-transparent my-2">
+              <h1>No files yet</h1>
+              {/* <iframe
+                src={embedLinkSLF}
+                className="w-full h-full border-none"
+                allow="autoplay"
+              ></iframe> */}
             </div>
           </div>
         </section>
