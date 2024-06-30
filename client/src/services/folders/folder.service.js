@@ -568,6 +568,8 @@ export const fetchAreaOneFoldersAndFiles = async () => {
           ...fileDoc.data(),
         }));
 
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
         const subfolderSnapshot = await getDocs(subfolderQuery);
@@ -586,7 +588,7 @@ export const fetchAreaOneFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -624,6 +626,7 @@ export const fetchAreaTwoFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -643,7 +646,7 @@ export const fetchAreaTwoFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -681,6 +684,7 @@ export const fetchAreaThreeFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -700,7 +704,7 @@ export const fetchAreaThreeFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -738,6 +742,7 @@ export const fetchAreaFourFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -757,7 +762,7 @@ export const fetchAreaFourFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -795,6 +800,7 @@ export const fetchAreaFiveFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -814,7 +820,7 @@ export const fetchAreaFiveFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -852,6 +858,7 @@ export const fetchAreaSixFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -871,7 +878,7 @@ export const fetchAreaSixFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -909,6 +916,7 @@ export const fetchAreaSevenFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -928,7 +936,7 @@ export const fetchAreaSevenFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -966,6 +974,7 @@ export const fetchAreaEightFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -985,7 +994,7 @@ export const fetchAreaEightFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -1023,6 +1032,7 @@ export const fetchAreaNineFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -1042,7 +1052,7 @@ export const fetchAreaNineFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
@@ -1080,6 +1090,7 @@ export const fetchAreaTenFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
+        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -1099,7 +1110,7 @@ export const fetchAreaTenFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-
+            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
             return subfolderData;
           })
         );
