@@ -24,7 +24,7 @@ const InstructionalMaterials = () => {
             {/* Apply the spring animation to the img element */}
             <img
               src={imgSource.instructional_material}
-              className="flex object-center z-[10]"
+              className="flex object-center z-[10] sm:max-w-[30rem] md:max-w-[40rem] lg:max-w-[60rem] xl:max-w-[90rem]"
             />
           </div>
         </Link>
