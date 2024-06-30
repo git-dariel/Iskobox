@@ -31,7 +31,7 @@ export default function HomeContent() {
   return (
     <>
       <section>
-        <div className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] select-none min-h-screen w-full">
+        <div className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] select-none min-h-[70%] w-full">
           <div className="flex flex-col items-center">
             {/* Welcome Section */}
             {/* <section className="flex items-center justify-center px-10 py-10 min-h-screen">
@@ -53,8 +53,7 @@ export default function HomeContent() {
             <section className="w-full flex flex-col items-center">
               <div
                 className="w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl"
-                style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
-              >
+                style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}>
                 <div className="">
                   <h1 className="text-[#dca819] text-2xl font-extrabold md:text-3xl lg:text-4xl px-10 py-10 flex flex-col">
                     {HomeData.title3}
@@ -68,15 +67,15 @@ export default function HomeContent() {
                     <img
                       src={HomeData.director}
                       alt="Director"
-                      className="w-[300px] h-atuo rounded-md shadow-lg"
+                      className="w-[300px] h-auto rounded-md shadow-lg"
                     />
                   </div>
-                  <div className="text-[#810101] flex justify-center items-center flex-col font-bold text-md">
+                  <div className="text-[#810101] flex justify-center items-center flex-col font-bold text-xl">
                     <span className="text-md">{HomeData.name}</span>
                     <span className="text-sm">{HomeData.position}</span>
                   </div>
                 </div>
-                <div className="w-full h-full text-justify text-[#810101] px-10 lg:pr-28 lg:pl-0 lg:w-[60%]">
+                <div className="w-full h-full text-justify text-xl text-[#810101] px-10 lg:pr-28 lg:pl-0 lg:w-[60%]">
                   <div>
                     <p>{HomeData.paragraph1}</p>
                     <br />
