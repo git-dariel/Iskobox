@@ -18,7 +18,6 @@ export default function LabContent() {
     []
   );
 
-  // Event handlers for hover
   const handleMouseEnter = () => {
     api.start({ scale: 1.2 }); // Scale up on hover
   };
@@ -36,13 +35,11 @@ export default function LabContent() {
             style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
           >
             <header className="border w-full px-20 lg:px-30 xl:px-40 h-full py-10">
-              <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
-                {laboratory.title1}
-              </h2>
+              <h2 className="font-bold text-lg md:text-3xl text-[#dca819]">{laboratory.title1}</h2>
             </header>
           </div>
-          <div className=" h-full px-20 py-20 flex justify-center">
-            <div className=" h-full w-[768px]  max-w-screen-lg">
+          <div className=" h-full md:px-20 md:py-10 px-6 flex justify-center">
+            <div className=" h-full md:w-[50rem] w-[20rem]  max-w-screen-lg">
               <animated.img
                 src={laboratory.labimg}
                 style={{
@@ -63,13 +60,11 @@ export default function LabContent() {
             style={{ backgroundImage: `url(${bgHeader.bgheader2})` }}
           >
             <header className="border w-full px-20 lg:px-30 xl:px-40 h-full py-10">
-              <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
-                {laboratory.title2}
-              </h2>
+              <h2 className="font-bold text-lg md:text-3xl text-[#dca819]">{laboratory.title2}</h2>
             </header>
           </div>
-          <div className="px-20 lg:px-40 py-10">
-            <div className="relative   " style={{ paddingTop: "56.25%" }}>
+          <div className="md:px-20 md:py-10 px-6 py-6">
+            <div className="relative" style={{ paddingTop: "56.25%" }}>
               {/* 16:9 aspect ratio (h/w * 100) */}
               <iframe
                 src={laboratory.video3}

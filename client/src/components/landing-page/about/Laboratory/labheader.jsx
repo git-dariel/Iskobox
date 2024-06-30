@@ -2,7 +2,7 @@ import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { laboratory } from "@/configs/LanfingPageConfigs/labpage";
 
 export default function LabHeader() {
-  return ( 
+  return (
     <section
       className="min-h-[17rem] select-none bg-cover bg-no-repeat bg-center shadow-xl flex justify-center items-center"
       style={{ backgroundImage: `url(${bgHeader.bgbanner})` }}
@@ -17,6 +17,6 @@ export default function LabHeader() {
           </span>
         </h1>
       </div>
-    </section> 
+    </section>
   );
 }

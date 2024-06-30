@@ -33,22 +33,6 @@ export default function HomeContent() {
       <section>
         <div className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] select-none min-h-[70%] w-full">
           <div className="flex flex-col items-center">
-            {/* Welcome Section */}
-            {/* <section className="flex items-center justify-center px-10 py-10 min-h-screen">
-              <div className="lg:w-[768px] lg:h-auto">
-                <animated.img
-                  src={HomeData.welcome}
-                  style={{
-                    transform: springs.scale.to((scale) => `scale(${scale})`),
-                  }}
-                  className="flex object-center z-[10]"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  alt="Welcome"
-                />
-              </div>
-            </section> */}
-
             {/* Message from Director Section */}
             <section className="w-full flex flex-col items-center">
               <div
@@ -56,7 +40,7 @@ export default function HomeContent() {
                 style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
               >
                 <div className="">
-                  <h1 className="text-[#dca819] text-2xl font-extrabold md:text-3xl lg:text-4xl px-10 py-10 flex flex-col">
+                  <h1 className="text-[#dca819] text-lg font-extrabold md:text-3xl px-10 py-10 flex flex-col">
                     {HomeData.title3}
                   </h1>
                 </div>
@@ -76,7 +60,7 @@ export default function HomeContent() {
                     <span className="text-sm">{HomeData.position}</span>
                   </div>
                 </div>
-                <div className="w-full h-full text-justify text-xl text-[#810101] px-10 lg:pr-28 lg:pl-0 lg:w-[60%]">
+                <div className="w-full h-full text-justify text-sm md:text-lg text-[#810101] px-10 md:pr-28 md:pl-0 md:w-[60%]">
                   <div>
                     <p>{HomeData.paragraph1}</p>
                     <br />

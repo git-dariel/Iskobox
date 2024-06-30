@@ -28,20 +28,14 @@ export default function ProgramsUnderSurvey() {
       </section>
       <section className="bg-gradient-to-r from-amber-300 to-yellow-50 p-7">
         <div className="flex justify-center mb-3">
-          <Link
-            to="/programs-under-survey/bsit"
-            className="text-green-950 hover:underline"
-          >
-            <span className="inline-flex items-center rounded-md bg-rose-900 px-2 py-1 text-base font-medium text-white ring-1 ring-inset ring-gray-500/10">
+          <Link to="/programs-under-survey/bsit" className="text-green-950 hover:underline">
+            <span className="inline-flex items-center rounded-md bg-rose-900 px-2 py-1 text-sm md:text-base font-medium text-white ring-1 ring-inset ring-gray-500/10">
               BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY
             </span>
           </Link>
         </div>
         <div className="flex justify-center">
-          <Link
-            to="/programs-under-survey/bsit"
-            className="text-green-950 hover:underline"
-          >
+          <Link to="/programs-under-survey/bsit" className="text-green-950 hover:underline">
             <img src={common.PUS.icon} alt="" />
           </Link>
         </div>

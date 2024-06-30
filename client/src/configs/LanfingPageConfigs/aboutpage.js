@@ -1,4 +1,4 @@
-import bgimg from "@/assets/banners/title_banner.webp"
+import bgimg from "@/assets/banners/title_banner.webp";
 
 export const about = {
   // Header
@@ -9,7 +9,7 @@ export const about = {
   //bg image header
   bgimg: bgimg,
 
-  //paragraph 
+  //paragraph
   span3:
     "PUP Lopez Branch was established on February 13, 1979 during the Presidency of Dr. Pablo T. Mateo, Jr. At that time, Philippine Normal College (now PNU) and Eulogio Amang Rodriguez Institute of Science & Technology (EARIST) were then in consortia with PUP Lopez.",
   span4:
@@ -20,11 +20,5 @@ export const about = {
   span5: "Welcome to PUP Lopez ",
   span6: "Home of Board Passers and Topnotchers",
   //video about pup
-  video1: "https://drive.google.com/file/d/1I7_9mIQUmqI9AJzptEPmgYkfOAGf5VqG/preview",
-
-
-
-
-  
-
+  video1: "https://drive.google.com/file/d/1dB1NYbRLsx4txJtMKKZO7dcaCZLi3emY/preview",
 };
