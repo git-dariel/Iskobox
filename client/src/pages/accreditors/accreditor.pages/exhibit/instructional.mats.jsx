@@ -18,13 +18,14 @@ const InstructionalMaterials = () => {
           backgroundImage: `url(${imgSource.yellow_bg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-        }}>
+        }}
+      >
         <Link to={documents_links.instructional_mats}>
           <div className="flex items-center justify-center w-[100%]">
             {/* Apply the spring animation to the img element */}
             <img
               src={imgSource.instructional_material}
-              className="flex object-center z-[10] sm:max-w-[30rem] md:max-w-[40rem] lg:max-w-[60rem] xl:max-w-[90rem]"
+              className="flex object-center z-[10] sm:max-w-[40rem] md:max-w-[55rem] lg:max-w-[60rem] xl:max-w-[70rem]"
             />
           </div>
         </Link>

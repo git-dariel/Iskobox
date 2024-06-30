@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { HomeData, data } from "@/configs/LanfingPageConfigs/homepage.data";
 import { BiSolidLeftArrow, BiCaretRight } from "react-icons/bi";
 import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
+import { Link } from "react-router-dom";
 
 export default function CarouselHome() {
   const [current, setCurrent] = useState(0);
@@ -29,7 +30,7 @@ export default function CarouselHome() {
 
         <div className="flex items-center justify-center px-5 lg:px-10 gap-5 lg:gap-10 w-full  border lg:h-full ">
           {/* Previous Button */}
-          <button
+          {/* <button
             onClick={prevSlide}
             className={`p-4 bg-transparent hover:bg-[#EAD4CB] hover:bg-opacity-50 transition hover:animate-bounce rounded-lg ${
               current === 0
@@ -39,7 +40,7 @@ export default function CarouselHome() {
             disabled={current === 0}
           >
             <BiSolidLeftArrow className="text-xl" />
-          </button>
+          </button> */}
 
           {/* Carousel Container */}
           <div className="relative overflow-hidden w-full h-auto max-w-7xl ">
@@ -52,10 +53,10 @@ export default function CarouselHome() {
               {data.map((slide) => (
                 <div
                   key={slide.id}
-                  className="flex flex-col flex-shrink-0 w-full h-full md:w-full lg:flex-row gap-5 border border-[#810101] rounded-lg mt-10 "
+                  className="flex flex-col flex-shrink-0 w-full h-full md:w-full lg:flex-row gap-5 border-[#810101] rounded-lg mt-10 "
                 >
                   {/* Image */}
-                  <div className="flex flex-col lg:flex-row h-full px-5 py-5 gap-2 lg:gap-4 w-full ">
+                  <div className="flex flex-col lg:flex-row h-full px-5 py-5 gap-2 md:gap-10 w-full ">
                     <div className="w-full h-full flex justify-center items-center border">
                       <img
                         src={slide.image}
@@ -63,18 +64,26 @@ export default function CarouselHome() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="text-justify text-[#810101] flex flex-col w-full justify-around ">
-                      <h1 className="text-lg font-bold md:text-xl lg:text-2xl">
-                        {slide.title}
-                      </h1>
-                      <br />
-                      <p className="text-sm md:text-lg lg:text-xl">
-                        {slide.detail}
-                      </p>
-                      <br />
-                      <button className="border border-[#810101] hover:bg-[#ffffff] rounded">
-                        <a href={slide.goto}>{slide.goto}</a>
-                      </button>
+                    <div className=" text-[#810101] flex flex-col w-full justify-around ">
+                      <div>
+                        <h1 className="text-lg font-bold md:text-xl lg:text-2xl">
+                          {slide.title}
+                        </h1>
+                      </div>
+                      <div>
+                        <br />
+                        <p className="text-sm md:text-lg lg:text-xl">
+                          {slide.detail}
+                        </p>
+                        <br />
+                      </div>
+                      <div className="flex justify-end px-8">
+                        <Link to="/programs-under-survey/bsit">
+                          <button className="flex justify-center p-2 border border-[#810101] hover:bg-[#ffffff] rounded">
+                            <a href={slide.goto}>{slide.goto}</a>
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -83,7 +92,7 @@ export default function CarouselHome() {
           </div>
 
           {/* Next Button */}
-          <button
+          {/* <button
             onClick={nextSlide}
             className={`rounded-lg p-3 bg-transparent hover:bg-[#EAD4CB] hover:bg-opacity-50 transition hover:animate-bounce ${
               current === data.length - 1
@@ -93,7 +102,7 @@ export default function CarouselHome() {
             disabled={current === data.length - 1}
           >
             <BiCaretRight className="text-3xl" />
-          </button>
+          </button> */}
         </div>
       </div>
     </section>
