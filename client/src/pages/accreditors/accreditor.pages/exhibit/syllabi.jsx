@@ -37,12 +37,13 @@ const Syllabi = () => {
         banner_title={"syllabi"}
       />
       <div
-        className="flex items-center justify-center bg-gray-50 h-[69vh]"
+        className="flex items-center justify-center bg-gray-50 h-[80vh]"
         style={{
           backgroundImage: `url(${imgSource.yellow_bg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-        }}>
+        }}
+      >
         <Link to={documents_links.syllabi}>
           <div className="flex items-center justify-center w-[100%]">
             {/* Apply the spring animation to the img element */}
@@ -51,7 +52,7 @@ const Syllabi = () => {
               style={{
                 transform: springs.scale.to((scale) => `scale(${scale})`),
               }}
-              className="flex object-center z-[10] sm:max-w-[40rem] md:max-w-[55rem] lg:max-w-[70rem]"
+              className="flex object-center z-[10] sm:max-w-[40rem] md:max-w-[55rem] lg:max-w-[60rem]"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />
