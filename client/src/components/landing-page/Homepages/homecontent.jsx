@@ -63,7 +63,7 @@ export default function HomeContent() {
               </div>
 
               <div className="w-full h-full flex flex-col gap-8 lg:gap-0 lg:flex-row py-10">
-                <div className="flex flex-col items-center gap-4 w-full lg:w-[40%] h-full">
+                <div className="flex flex-col items-center gap-4 w-full lg:w-[40%] h-full py-4">
                   <div className="flex justify-center">
                     <img
                       src={HomeData.director}
