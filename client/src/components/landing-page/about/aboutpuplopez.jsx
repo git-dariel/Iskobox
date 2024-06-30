@@ -11,21 +11,14 @@ export default function AboutPUPLopez() {
         style={{ backgroundImage: `url(${bgHeader.bgheader0})` }}
       >
         <header className="bg-[#810101] bg-opacity-[40%] text-[#ffffff] w-full flex flex-col items-center justify-center py-10 ">
-          <h2 className="font-bold text-lg md:text-3xl lg:text-4xl">
-            {about.span5}
-          </h2>
-          <h2 className="font-bold text-lg md:text-3xl lg:text-4xl">
-            {about.span6}
-          </h2>
+          <h2 className="font-bold text-lg md:text-3xl lg:text-4xl">{about.span5}</h2>
+          <h2 className="font-bold text-lg md:text-3xl lg:text-4xl">{about.span6}</h2>
         </header>
       </div>
 
       {/* Video Section */}
       <div className="px-20 lg:px-40 py-10">
-        <div
-          className="relative  border border-black"
-          style={{ paddingTop: "56.25%" }}
-        >
+        <div className="relative  border border-black" style={{ paddingTop: "56.25%" }}>
           {/* 16:9 aspect ratio (h/w * 100) */}
           <iframe
             src={about.video1}

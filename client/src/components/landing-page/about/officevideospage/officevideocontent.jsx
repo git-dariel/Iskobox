@@ -11,15 +11,12 @@ export default function OfficeVideoContent() {
             style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
           >
             <header className="w-full text-center h-full py-10">
-              <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
-                {item.title}
-              </h2>
+              <h2 className="font-bold text-lg md:text-3xl text-[#dca819]">{item.title}</h2>
             </header>
           </div>
 
           <div className="px-4 md:px-10 lg:px-40 py-10">
             <div className="relative border border-black " style={{ paddingTop: "56.25%" }}>
-              {/* 16:9 aspect ratio (h/w * 100) */}
               <iframe
                 src={item.video}
                 className="absolute inset-0 w-full h-full"

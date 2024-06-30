@@ -25,12 +25,13 @@ export const HomeData = {
 
   //director message
   director: img2,
-  name: 'Assoc. Prof. Ronaldo G. Bulfa',
-  position: 'Branch Director',
-  title3: 'MESSAGE FROM THE DIRECTOR',
-  paragraph1: "MESSAGE SUBJECT TO REPLACE.............PUP Lopez was founded in the Fourth Congressional District of Quezon in 1979. Since then, it has always been aimed to become the leading Tertiary Institution in the community. Subsequently, in 2011, it started to embrace its goal to transform PUP Lopez into a Premiere University through productive institutional innovations and good governance. It anchored its bow and arrow on exploratory to experimental yet gainful activities. It also opened its doors to outside stakeholders who can help the University, and offered additional relevant academic programs with the objective of helping the youths achieve their dreams. At present, the Lopez Campus continues to play a role in improving the lives of the youth and their families and help in nation building.",
+  name: "Assoc. Prof. Ronaldo G. Bulfa",
+  position: "Branch Director",
+  title3: "Message from the Director",
+  paragraph1:
+    "PUP Lopez was established in the Fourth Congressional District of Quezon in 1979 with the goal of becoming the leading tertiary institution in the community. In 2011, it began pursuing its vision of transforming into a premiere university through innovative institutional practices and effective governance. The university focused on exploratory and experimental activities, welcoming external stakeholders and introducing new academic programs to support the aspirations of young people. Today, the Lopez Campus remains dedicated to enhancing the lives of youth and their families, contributing to nation-building efforts. ",
   paragraph2:
-    "MESSAGE SUBJECT TO REPLACE.............PUP Lopez was founded in the Fourth Congressional District of Quezon in 1979. Since then, it has always been aimed to become the leading Tertiary Institution in the community. Subsequently, in 2011, it started to embrace its goal to transform PUP Lopez into a Premiere University through productive institutional innovations and good governance. It anchored its bow and arrow on exploratory to experimental yet gainful activities. It also opened its doors to outside stakeholders who can help the University, and offered additional relevant academic programs with the objective of helping the youths achieve their dreams. At present, the Lopez Campus continues to play a role in improving the lives of the youth and their families and help in nation building.",
+    "As the first and largest PUP campus in Southern Luzon, the Lopez Campus, with its high-caliber faculty and dedicated staff, is dedicated to supporting the Administration in achieving its vision, mission, and objectives. Currently, it focuses on maintaining high performance in licensure exams, particularly in Engineering, where it has already produced topnotchers. The branch continues to enhance its campus infrastructure and facilities, including well-equipped laboratories, compliant buildings, and various student amenities. Additionally, it shows care for its faculty and staff and addresses societal needs through innovative research, extension, and outreach projects. ",
   // signature
   span1: "Rufo N. Bueza,",
   span2: "DPA Director",
@@ -52,55 +53,12 @@ export const HomeData = {
 export const data = [
   {
     id: 1,
-    image: BSIT,
-    title: 'BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY',
-    detail: 'The Bachelor of Science in Information Technology (BSIT) program is a four-year degree program which focuses on the study of computer utilization and computer software to plan, install, customize, operate, manage, administer and maintain information technology infrastructure.',
-    goto: 'See more',
+    image:
+      "https://lh3.googleusercontent.com/AFwZXmHRHP7vJumtGPEAWgaHrllKFrd_hG1b2Nd3fqa988Q-M6YRFyhIJL5UuY2X2955nC4JEOCcK-OMejCsHDM=w1280",
+    title: "BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY",
+    detail:
+      "The Bachelor of Science in Information Technology (BSIT) program is a four-year degree program which focuses on the study of computer utilization and computer software to plan, install, customize, operate, manage, administer and maintain information technology infrastructure.",
+    goto: "See more",
     path: "",
   },
-  // {
-  //   id: 2,
-  //   image: img3,
-  //   title: 'BACHELOR OF PUBLIC ADMINISTRATION',
-  //   detail:
-  //     'This program generally introduces the learner to the major concepts including politics, governance, autonomy, and power in the concepts are further crystallized in the learning process as it is seen by the learning...',
-  //   goto: 'Under Developt',
-  //   path: "/",
-  // },
-  // {
-  //   id: 3,
-  //   image: img4,
-  //   title: 'BACHELOR OF SCIENCE IN AGRIBUSINESS MANAGEMENT AND ENTREPRENEURSHIP',
-  //   detail:
-  //     'The Bachelor of Science in Agribusiness Management and Entrepreneurship is a 4-year degree program with a curriculum that is designed to a more relevant to domestic and global conditions and responsive to the fast-changing need of time. It is designed to complement...',
-  //   goto: 'Under Developt',
-  //   path: "/",
-  // },
-  // {
-  //   id: 4,
-  //   image: img5,
-  //   title: 'BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION',
-  //   detail:
-  //     'The Marketing Management program prepares the graduate for careers in marketing, market research, advertising, and public relations. The curriculum provides the graduate with both technical skills and competencies...',
-  //   goto: 'Under Developt',
-  //   path: "/",
-  // },
-  // {
-  //   id: 5,
-  //   image: img6,
-  //   title: 'BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION',
-  //   detail:
-  //     'The BSOA is a four-year degree program that prepares the students for a career in an outcome-focused, technology-rich professional environment. The curriculum is designed to equip its graduates the professional skills...',
-  //   goto: 'Under Developt',
-  //   path: "/",
-  // },
-  // {
-  //   id: 6,
-  //   image: img7,
-  //   title: 'BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT',
-  //   detail:
-  //     'The Bachelor of Science in Hospitality Management is a ladderized program that prepares students to have employable skills/competencies at every academic year level for them to be competitive in the hospitality industry locally and globally. This also prepares...',
-  //   goto: 'Under Developt',
-  //   path: "/",
-  // },
 ];

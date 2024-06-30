@@ -23,25 +23,10 @@ export default function CarouselHome() {
           className="w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl py-10"
           style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
         >
-          <h1 className="text-[#dca819] text-3xl font-extrabold  md:text-3xl lg:text-4xl">
-            {HomeData.title4}
-          </h1>
+          <h1 className="text-[#dca819] text-lg font-extrabold md:text-3xl">{HomeData.title4}</h1>
         </div>
 
         <div className="flex items-center justify-center px-5 lg:px-10 gap-5 lg:gap-10 w-full  border lg:h-full ">
-          {/* Previous Button */}
-          {/* <button
-            onClick={prevSlide}
-            className={`p-4 bg-transparent hover:bg-[#EAD4CB] hover:bg-opacity-50 transition hover:animate-bounce rounded-lg ${
-              current === 0
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : ""
-            }`}
-            disabled={current === 0}
-          >
-            <BiSolidLeftArrow className="text-xl" />
-          </button> */}
-
           {/* Carousel Container */}
           <div className="relative overflow-hidden w-full h-auto max-w-7xl ">
             {/* Form Container */}
@@ -61,20 +46,16 @@ export default function CarouselHome() {
                       <img
                         src={slide.image}
                         alt={`Slide ${slide.id}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover rounded-lg"
                       />
                     </div>
-                    <div className=" text-[#810101] flex flex-col w-full justify-around ">
+                    <div className=" text-[#810101] flex flex-col w-full justify-center">
                       <div>
-                        <h1 className="text-lg font-bold md:text-xl lg:text-2xl">
-                          {slide.title}
-                        </h1>
+                        <h1 className="text-base font-bold md:text-xl">{slide.title}</h1>
                       </div>
                       <div>
                         <br />
-                        <p className="text-sm md:text-lg lg:text-xl">
-                          {slide.detail}
-                        </p>
+                        <p className="text-sm text-justify md:text-lg">{slide.detail}</p>
                         <br />
                       </div>
                       <div className="flex justify-end px-8">
@@ -90,19 +71,6 @@ export default function CarouselHome() {
               ))}
             </div>
           </div>
-
-          {/* Next Button */}
-          {/* <button
-            onClick={nextSlide}
-            className={`rounded-lg p-3 bg-transparent hover:bg-[#EAD4CB] hover:bg-opacity-50 transition hover:animate-bounce ${
-              current === data.length - 1
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : ""
-            }`}
-            disabled={current === data.length - 1}
-          >
-            <BiCaretRight className="text-3xl" />
-          </button> */}
         </div>
       </div>
     </section>

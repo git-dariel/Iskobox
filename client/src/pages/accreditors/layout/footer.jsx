@@ -11,7 +11,7 @@ const Footer = () => {
     >
       {/* <div className="absolute inset-0 bg-black opacity-50"></div> */}
       <div className="relative z-10 text-center">
-        <h2 className="text-2xl font-bold">
+        <h2 className="text-base md:text-2xl font-bold">
           Polytechnic University of the Philippines - Lopez Branch
         </h2>
         <div className="flex justify-center space-x-4 my-4">

@@ -34,7 +34,7 @@ export default function Hero({ size = 1 }) {
         <StarsCanvas />
         <div className="w-full h-full flex">
           <div className="flex flex-col justify-center md:flex-row md:justify-between md:w-full text-center items-center mx-4 md:mx-10 gap-10">
-            <h1 className="text-[#ffffff] p-4 text-center text-lg md:text-[1.8rem] font-extrabold leading-normal md:flex-1 md:text-left md:mt-0">
+            <h1 className="text-[#ffffff] p-4 text-center text-lg md:text-[1.7rem] font-extrabold leading-normal md:flex-1 md:text-left md:mt-0">
               {HomeData.puptitle}
             </h1>
             <div className="w-full h-auto md:flex-1 text-right mt-2 md:mt-0">

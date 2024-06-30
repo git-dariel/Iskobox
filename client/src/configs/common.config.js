@@ -385,12 +385,9 @@ export const videos = [
     id: 1,
     video: "https://drive.google.com/file/d/1i-a-JooACnPQqr3ot2SH5ucjfHQy8T0L/preview",
   },
+
   {
     id: 2,
-    video: "https://drive.google.com/file/d/1OWaxJCicXXCzF0NTBvsYzeV_zIzfylIH/preview",
-  },
-  {
-    id: 3,
     video: "https://drive.google.com/file/d/19A1D6fapi0nBXldr1kacnOG_7K7Sxjld/preview",
   },
 ];

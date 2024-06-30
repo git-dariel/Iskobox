@@ -29,28 +29,30 @@ function BSIT() {
         </div>
       </section>
 
-      <section className="flex w-full justify-center bg-gradient-to-r from-amber-300 to-yellow-50 min-h-[75vh] p-7">
-        <div className="flex py-4 w-[75%] justify-between gap-5">
+      <section className="flex w-full justify-center bg-gradient-to-r from-amber-300 to-yellow-50 md:min-h-[75vh] p-7">
+        <div className="flex flex-col md:flex-row py-4 md:w-[75%] md:justify-between items-center gap-5">
           <div className="flex flex-col gap-3">
-            <h1 className="font-semibold text-3xl">Contents:</h1>
-            <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
+            <h1 className="font-semibold text-base text-center md:text-left md:text-2xl">
+              Contents:
+            </h1>
+            <Link className="font-medium text-sm md:text-lg text-center md:text-left text-green-950 hover:underline mt-2">
               <p>{common.PUScontents.pg}</p>
             </Link>
-            <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
+            <Link className="font-medium text-sm md:text-lg text-center md:text-left text-green-950 hover:underline mt-2">
               <p>{common.PUScontents.op}</p>
             </Link>
-            <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
+            <Link className="font-medium text-sm md:text-lg text-center md:text-left text-green-950 hover:underline mt-2">
               <p>{common.PUScontents.aus}</p>
             </Link>
-            <Link className="font-medium text-xl text-green-950 hover:underline mt-2">
+            <Link className="font-medium text-sm md:text-lg text-center md:text-left text-green-950 hover:underline mt-2">
               <p>{common.PUScontents.pvp}</p>
             </Link>
           </div>
-          <div className="flex justify-center w-[65%]">
+          <div className="flex justify-center md:w-[65%]">
             <iframe
               className="w-full aspect-video ..."
               allowFullScreen
-              src="https://drive.google.com/file/d/1i-a-JooACnPQqr3ot2SH5ucjfHQy8T0L/preview"
+              src="https://drive.google.com/file/d/1OWaxJCicXXCzF0NTBvsYzeV_zIzfylIH/preview"
             ></iframe>
           </div>
         </div>
@@ -63,15 +65,15 @@ function BSIT() {
             style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
           >
             <header className="border w-full text-center h-full py-10">
-              <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+              <h2 className="font-bold text-lg md:text-3xl text-[#dca819]">
                 {common.programDescription.title}
               </h2>
             </header>
           </div>
 
-          <div className="flex w-9/12 text-justify py-10">
-            <article className="">
-              <p className="text-2xl">{common.programDescription.content}</p>
+          <div className="flex px-6 md:w-9/12 md:text-justify py-10">
+            <article>
+              <p className="md:text-lg text-base">{common.programDescription.content}</p>
             </article>
           </div>
         </div>
@@ -84,31 +86,19 @@ function BSIT() {
             style={{ backgroundImage: `url(${bgHeader.bgheader2})` }}
           >
             <header className="border w-full text-center h-full py-10">
-              <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+              <h2 className="font-bold text-l md:text-3xl text-[#dca819]">
                 {common.objOfTheProgram.title}
               </h2>
             </header>
           </div>
-          <article className="w-full flex flex-col items-center justify-center py-16 px-32">
-            <div className="text-justify flex flex-col gap-3 ">
-              <p className="text-lg md:text-xl lg:text-2xl">
-                {common.objOfTheProgram.content.obj1}
-              </p>
-              <p className="text-lg md:text-xl lg:text-2xl">
-                {common.objOfTheProgram.content.obj2}
-              </p>
-              <p className="text-lg md:text-xl lg:text-2xl">
-                {common.objOfTheProgram.content.obj3}
-              </p>
-              <p className="text-lg md:text-xl lg:text-2xl">
-                {common.objOfTheProgram.content.obj4}
-              </p>
-              <p className="text-lg md:text-xl lg:text-2xl">
-                {common.objOfTheProgram.content.obj5}
-              </p>
-              <p className="text-lg md:text-xl lg:text-2xl">
-                {common.objOfTheProgram.content.obj6}
-              </p>
+          <article className="md:w-full flex flex-col items-center justify-center md:py-16 md:px-32 p-7">
+            <div className="md:text-justify flex flex-col gap-3 ">
+              <p className="text-base md:text-lg">{common.objOfTheProgram.content.obj1}</p>
+              <p className="text-base md:text-lg">{common.objOfTheProgram.content.obj2}</p>
+              <p className="text-base md:text-lg">{common.objOfTheProgram.content.obj3}</p>
+              <p className="text-base md:text-lg">{common.objOfTheProgram.content.obj4}</p>
+              <p className="text-base md:text-lg">{common.objOfTheProgram.content.obj5}</p>
+              <p className="text-base md:text-lg">{common.objOfTheProgram.content.obj6}</p>
             </div>
           </article>
         </div>
@@ -120,21 +110,21 @@ function BSIT() {
           style={{ backgroundImage: `url(${bgHeader.bgheader3})` }}
         >
           <header className="border w-full text-center h-full py-10">
-            <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+            <h2 className="font-bold text-lg md:text-3xl text-[#dca819]">
               {common.underSurvey.title}
             </h2>
           </header>
         </div>
-        <div className="text-center py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="text-center py-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {Object.keys(common.underSurvey.content).map((key, index) => (
             <div key={index} className="flex flex-col items-center py-2">
               <Link to={common.underSurvey.links[key]}>
                 <img
                   src={common.underSurvey.icon[key.replace("aus", "area")]}
-                  className="w-60 h-60 mb-2 cursor-pointer hover:scale-110 transition-transform duration-300"
+                  className="w-24 h-24 md:w-60 md:h-60 mb-2 cursor-pointer hover:scale-110 transition-transform duration-300"
                 />
               </Link>
-              <h3 className="text-xl md:text-md lg:text-xl">{common.underSurvey.content[key]}</h3>
+              <h3 className="text-sm md:text-lg">{common.underSurvey.content[key]}</h3>
             </div>
           ))}
         </div>
@@ -146,14 +136,14 @@ function BSIT() {
           style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
         >
           <header className="w-full text-center h-full py-10">
-            <h2 className="font-bold text-3xl md:text-3xl lg:text-4xl text-[#dca819]">
+            <h2 className="font-bold text-lg md:text-3xl text-[#dca819]">
               {common.programvideo.title}
             </h2>
           </header>
         </div>
         {videos.map((item) => (
           <div key={item.id} className="w-full flex flex-col justify-center">
-            <div className="px-4 md:px-10 lg:px-40 py-10">
+            <div className="p-4 md:px-10">
               <div className="relative border border-black " style={{ paddingTop: "56.25%" }}>
                 <iframe
                   src={item.video}
