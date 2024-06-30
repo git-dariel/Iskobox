@@ -53,7 +53,8 @@ export default function HomeContent() {
             <section className="w-full flex flex-col items-center">
               <div
                 className="w-full text-center select-none bg-cover bg-no-repeat bg-center shadow-xl"
-                style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}>
+                style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
+              >
                 <div className="">
                   <h1 className="text-[#dca819] text-2xl font-extrabold md:text-3xl lg:text-4xl px-10 py-10 flex flex-col">
                     {HomeData.title3}

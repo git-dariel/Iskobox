@@ -30,7 +30,7 @@ export default function Hero({ size = 1 }) {
 
   return (
     <>
-      <section className="bg-gradient-to-r from-red-800 to-orange-500  w-full min-h-[13%] max-h-screen relative">
+      <section className="bg-gradient-to-r from-red-800 to-orange-500  w-full h-screen relative">
         <StarsCanvas />
         <div className="w-full h-full flex">
           <div className="flex flex-col justify-center md:flex-row md:justify-between md:w-full text-center items-center mx-4 md:mx-10 gap-10">
