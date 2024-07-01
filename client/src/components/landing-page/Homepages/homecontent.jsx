@@ -66,6 +66,11 @@ export default function HomeContent() {
                     <br />
                     <p>{HomeData.paragraph2}</p>
                     <br />
+                    <p>{HomeData.paragraph3}</p>
+                    <br />
+                    <p>{HomeData.paragraph4}</p>
+                    
+
                   </div>
                 </div>
               </div>
