@@ -45,6 +45,7 @@ import AreaSeven from "./pages/accreditors/accreditor.pages/areas/area.seven";
 import AreaEight from "./pages/accreditors/accreditor.pages/areas/area.eight";
 import AreaNine from "./pages/accreditors/accreditor.pages/areas/area.nine";
 import AreaTen from "./pages/accreditors/accreditor.pages/areas/area.ten";
+import AdministrationPage from "./components/landing-page/about/administrationpage/administrationpage";
 
 function App() {
   return (
@@ -153,6 +154,7 @@ function App() {
             <Route path="/aboutpage" element={<AboutPage />} />
             <Route path="/historypage" element={<HistoryPage />} />
             <Route path="/missionvisionpage" element={<MissionVision />} />
+            <Route path="/administrationpage" element={<AdministrationPage/>} />
             <Route path="/facilitiespage" element={<FacilitiesPage />} />
             <Route path="/laboratorypage" element={<LaboratoryPage />} />
             <Route path="/officesvideopage" element={<OfficeVideoPage />} />

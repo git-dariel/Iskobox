@@ -29,12 +29,12 @@ export const HomeData = {
   position: "Branch Director",
   title3: "Message from the Director",
   paragraph1:
-    "PUP Lopez was established in the Fourth Congressional District of Quezon in 1979 with the goal of becoming the leading tertiary institution in the community. In 2011, it began pursuing its vision of transforming into a premiere university through innovative institutional practices and effective governance. The university focused on exploratory and experimental activities, welcoming external stakeholders and introducing new academic programs to support the aspirations of young people. Today, the Lopez Campus remains dedicated to enhancing the lives of youth and their families, contributing to nation-building efforts. ",
+    "ㅤㅤㅤThe founding of Polytechnic University of the Philippines in Lopez, Quezon in February 1979 provided lots of opportunities among youths in the third and fourth district of Quezon and other nearby provinces.  This is evident by numerous successful alumni of the university in different fields.  In almost all offices both public and private in Quezon Province and elsewhere, we can see graduates of PUP Lopez occupying different positions. ",
   paragraph2:
-    "As the first and largest PUP campus in Southern Luzon, the Lopez Campus, with its high-caliber faculty and dedicated staff, is dedicated to supporting the Administration in achieving its vision, mission, and objectives. Currently, it focuses on maintaining high performance in licensure exams, particularly in Engineering, where it has already produced topnotchers. The branch continues to enhance its campus infrastructure and facilities, including well-equipped laboratories, compliant buildings, and various student amenities. Additionally, it shows care for its faculty and staff and addresses societal needs through innovative research, extension, and outreach projects. ",
-  // signature
-  span1: "Rufo N. Bueza,",
-  span2: "DPA Director",
+    " The program initially offered were Bachelors in Accountancy, Business Management, Office Administration & Agribusiness Management.  Several years later other programs were offered to provide variety of options among students. With the increase of program offering, there was a concomitant increase in the number of enrollees making PUP Lopez one of the campuses in Southern Luzon with highest number of programs and enrollees. ",
+  paragraph3: "With the advent of technology and inevitable trend towards computerization/ automation complimented by survey among students & coordination with concerned stakeholders, another program – Bachelor of Science in Information Technology (BSIT) was offered during school year 2018.  The program attracted lots of student enrollees making it one of the most sought programs.",
+  paragraph4: "Currently, the administration in collaboration with stakeholders are trying to level up the program’s laboratory equipment, revisit program curriculum, and enhance faculty capability in order to comply with what is required upon the program and ultimately produce best quality graduates.",
+
 
   //program under eval
   title4: " Program Under Evaluation",
@@ -53,8 +53,7 @@ export const HomeData = {
 export const data = [
   {
     id: 1,
-    image:
-      "https://lh3.googleusercontent.com/AFwZXmHRHP7vJumtGPEAWgaHrllKFrd_hG1b2Nd3fqa988Q-M6YRFyhIJL5UuY2X2955nC4JEOCcK-OMejCsHDM=w1280",
+    image: BSIT,
     title: "BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY",
     detail:
       "The Bachelor of Science in Information Technology (BSIT) program is a four-year degree program which focuses on the study of computer utilization and computer software to plan, install, customize, operate, manage, administer and maintain information technology infrastructure.",
