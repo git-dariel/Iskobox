@@ -1,14 +1,14 @@
-import buildingA from "@/assets/facilities/buildingnewA.webp";
-import buildingB from "@/assets/facilities/BuildingB.webp";
-import buildingC from "@/assets/facilities/BuildingC.webp";
+import BuildingA from "@/assets/facilities/BuildingA.webp";
+import BuildingB from "@/assets/facilities/BuildingB.webp";
+import BuildingB2 from "@/assets/facilities/BuildingB-2.webp";
 import buildingD1 from "@/assets/facilities/BuildingD1.webp";
 import buildingD2 from "@/assets/facilities/BuildingD2.webp";
 import buildingD3 from "@/assets/facilities/BuildingD3.webp";
 import buildingD4 from "@/assets/facilities/BuildingD4.webp";
-import buildingE from "@/assets/facilities/BuildingE.webp";
+import ScienceBuilding from "@/assets/facilities/ScienceBuilding.webp";
 import buildingF from "@/assets/facilities/BuildingF.webp";
 import buildingG from "@/assets/facilities/buildingnewG.webp";
-import ICT from "@/assets/facilities/ictlab.webp";
+import ICT from "@/assets/facilities/ictlab.jpg";
 import GYM1 from "@/assets/facilities/Gym1.webp";
 import GYM2 from "@/assets/facilities/Gym2.webp";
 import GYM3 from "@/assets/facilities/Gym3.webp";
@@ -24,12 +24,13 @@ export const data = {
 
   //content
   title: "Virtual Tour",
-  video: "https://drive.google.com/file/d/1SpnWFVZ_P1FA-1fIxN6sztoJFgOXlUq4/preview",
+  video:
+    "https://drive.google.com/file/d/1SpnWFVZ_P1FA-1fIxN6sztoJFgOXlUq4/preview",
 
   buildingtitle: "Buildings",
   facilititestitle: "Facilitites",
 
-  buildingD: "BUILDING D: ",
+  buildingD: "BUILDING C: ",
   titleD: "Nantes Building",
   buildingDimg1: buildingD1,
   buildingDimg2: buildingD2,
@@ -41,39 +42,44 @@ export const building = [
   {
     id: 1,
     building: "BUILDING A: ",
-    title: " Don Gregorio Yumul Sr. Memorial Bldg  ",
-    img: buildingA,
+    title: " Administration Building   ",
+    img: [
+      {
+        id: 1,
+        img: BuildingA,
+      },
+    ],
   },
   {
     id: 2,
     building: "BUILDING B: ",
-    title: " Administration Building   ",
-    img: buildingB,
-  },
-  {
-    id: 3,
-    building: "BUILDING C: ",
     title: " Aristedes Yumul Sr. Building Administration Building   ",
-    img: buildingC,
+    img: [
+      {
+        id: 1,
+        img: BuildingB,
+      },
+      { id: 2, img: BuildingB2 },
+    ],
   },
 ];
 
 export const buildingv2 = [
   {
     id: 1,
-    building: "BUILDING E: ",
-    title: " Row Building  ",
-    img: buildingE,
+    building: "BUILDING D: ",
+    title: "Health Science Building",
+    img: ScienceBuilding,
   },
   {
     id: 2,
-    building: "BUILDING F: ",
+    building: "BUILDING E: ",
     title: "Cortuna Building    ",
     img: buildingF,
   },
   {
     id: 3,
-    building: "BUILDING G: ",
+    building: "BUILDING F: ",
     title: " STAN Building   ",
     img: buildingG,
   },

@@ -17,7 +17,9 @@ export default function FacilitiesContent() {
             style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
           >
             <header className="border w-full px-20 lg:px-30 xl:px-40 h-full py-10">
-              <h2 className="font-bold text-lg md:text-3xl text-[#dca819]">{data.title}</h2>
+              <h2 className="font-bold text-lg md:text-3xl text-[#dca819]">
+                {data.title}
+              </h2>
             </header>
           </div>
           <div className="px-20 lg:px-40 py-10">
@@ -44,27 +46,38 @@ export default function FacilitiesContent() {
               </h2>
             </header>
           </div>
+
           {building.map((items) => (
-            <div key={items.id} className=" ">
-              <div className="w-full">
-                <header className="w-full px-20 md:px-30 xl:px-40 h-full py-10 flex flex-col md:gap-8 text-center">
-                  <h2 className="font-bold text-lg md:text-3xl text-[#3a3834]">{items.building}</h2>
-                  <h2 className="font-bold text-base md:text-3xl pt-1 text-[#3a3834]">
-                    {items.title}
-                  </h2>
-                </header>
-                <div className="h-full md:px-10 px-5 flex justify-center">
-                  <div className="h-full w-full max-w-screen-lg">
-                    <img src={items.img} className="flex object-center z-[10] shadow-lg rounded" />
-                  </div>
+            <div key={items.id} className="w-full py-10">
+              <header className="w-full px-20 md:px-30 xl:px-40 h-full py-10 flex flex-col md:gap-8 text-center">
+                <h2 className="font-bold text-lg md:text-3xl text-[#3a3834]">
+                  {items.building}
+                </h2>
+                <h2 className="font-bold text-base md:text-3xl pt-1 text-[#3a3834]">
+                  {items.title}
+                </h2>
+              </header>
+              <div className="h-full md:px-10 px-5 flex flex-col items-center">
+                <div className="h-full w-full max-w-screen-lg flex flex-col gap-8">
+                  {items.img.map((image) => (
+                    <img
+                      key={image.id}
+                      src={image.img}
+                      alt={`${items.building} image ${image.id}`}
+                      className="object-center z-[10] shadow-lg rounded"
+                    />
+                  ))}
                 </div>
               </div>
             </div>
           ))}
 
+          
           <div className="w-full">
             <header className="w-full px-20 md:px-30 xl:px-40 h-full py-10 flex flex-col md:gap-8 text-center">
-              <h2 className="font-bold text-lg md:text-4xl text-[#3a3834]">{data.buildingD}</h2>
+              <h2 className="font-bold text-lg md:text-4xl text-[#3a3834]">
+                {data.buildingD}
+              </h2>
               <h2 className="font-bold text-base md:text-3xl pt-1 text-[#3a3834]">
                 {data.buildingtitle}
               </h2>
@@ -139,7 +152,9 @@ export default function FacilitiesContent() {
               <div key={items.id}>
                 <div className="w-full">
                   <header className="w-full md:px-20 xl:px-40 h-full md:py-10 py-6 text-center">
-                    <h2 className="font-bold text-lg md:text-3xl text-[#3a3834]">{items.title}</h2>
+                    <h2 className="font-bold text-lg md:text-3xl text-[#3a3834]">
+                      {items.title}
+                    </h2>
                   </header>
                   <div className=" h-full px-6 md:px-20  flex justify-center ">
                     <div className=" h-full w-full max-w-screen-lg">
@@ -157,7 +172,9 @@ export default function FacilitiesContent() {
               <div key={items.id}>
                 <div className="w-full">
                   <header className="w-full md:px-20 xl:px-40 h-full py-6 text-center">
-                    <h2 className="font-bold text-lg md:text-3xl text-[#3a3834]">{items.title}</h2>
+                    <h2 className="font-bold text-lg md:text-3xl text-[#3a3834]">
+                      {items.title}
+                    </h2>
                   </header>
                   <div className=" h-full px-6 md:px-20  flex justify-center gap-4 pb-6">
                     <div className=" flex lg:flex-row h-full w-full max-w-screen-lg">
