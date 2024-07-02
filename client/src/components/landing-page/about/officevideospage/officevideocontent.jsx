@@ -43,7 +43,7 @@ export default function OfficeVideoContent() {
                   {item.img.map((slide) => (
                     <div
                       key={slide.id}
-                      className="flex flex-col w-full flex-shrink-0  h-full  md:w-full  px-4 md:px-10 lg:px-[6rem] py-10 lg:flex-row  "
+                      className="flex flex-col w-full flex-shrink-0  items-center h-full  md:w-full  px-4 md:px-10 lg:px-[6rem] py-10 lg:flex-row  "
                     >
                       {/* Image */}
                       <div className="flex flex-col lg:flex-row h-full overflow-clip px-5 py-5 gap-2 lg:gap-4 w-full">
