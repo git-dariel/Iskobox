@@ -9,7 +9,7 @@ export default function Designees() {
         style={{ backgroundImage: `url(${bgHeader.bgheader2})` }}
       >
         <div className="">
-          <h1 className="text-[#dca819] text-lg font-extrabold md:text-3xl px-10 py-10 flex flex-col">
+          <h1 className="text-[#334747] text-lg font-extrabold md:text-3xl px-10 py-10 flex flex-col">
             {administration.designees}
           </h1>
         </div>
@@ -24,16 +24,16 @@ export default function Designees() {
               className="w-[300px] h-auto rounded-md shadow-lg"
             />
           </div>
-          <div className="text-[#810101] flex justify-center items-center flex-col font-bold text-xl">
+          <div className="text-[#810101] flex justify-center items-center flex-col font-bold text-xl text-center">
             <span className="text-md">{administration.directorname}</span>
             <span className="text-sm">{administration.directorposition}</span>
           </div>
         </div>
       </div>
       
-    <div className="flex flex-row px-10">
+    <div className="flex flex-col lg:flex-row justify-center items-center  px-10">
       {designees.map((item) => (
-        <div key={item.id} className=" w-[25%] justify-center items-center h-full flex flex-row gap-8 lg:gap-0  py-10">
+        <div key={item.id} className=" w-full  justify-center items-center h-full flex flex-row gap-10 lg:gap-0  py-10 text-center">
           <div className="flex flex-col items-center gap-4  py-4 ">
             <div className="flex justify-center">
               <img
