@@ -157,12 +157,26 @@ export const processFolder = (folder) => {
   };
 };
 
-export const addAssigneeToFolder = async (folderId, assigneeData) => {
+export const addAssigneeToFolder = async (folderId, assigneeData, assignSubfolders) => {
   try {
     const folderRef = doc(db, "folders", folderId);
     await updateDoc(folderRef, {
       assignees: arrayUnion(assigneeData),
     });
+
+    if (assignSubfolders) {
+      // Fetch subfolders
+      const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", folderId));
+      const subfolderSnapshot = await getDocs(subfolderQuery);
+      const subfolderAssignments = subfolderSnapshot.docs.map((subfolderDoc) =>
+        updateDoc(doc(db, "folders", subfolderDoc.id), {
+          assignees: arrayUnion(assigneeData),
+        })
+      );
+
+      await Promise.all(subfolderAssignments);
+    }
+
     return { success: true };
   } catch (error) {
     console.error("Error adding assignee to folder:", error);
