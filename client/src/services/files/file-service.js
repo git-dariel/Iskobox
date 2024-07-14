@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { db, storage } from "../../database/firebase-connection";
+import { logActivity } from "@/middleware/activity.logging";
 
 export const fetchAllFiles = async () => {
   const q = query(collection(db, "files"));
@@ -68,6 +69,8 @@ export const uploadFile = async (file, folderId) => {
     url: url,
   });
 
+  await logActivity("Upload file", { fileId: docRef.id, fileName: fileName, folderId: folderId });
+
   return {
     id: docRef.id,
     name: fileName,
@@ -94,6 +97,11 @@ export const deleteFile = async (fileId) => {
 
   // Delete the document from Firestore
   await deleteDoc(fileRef);
+  await logActivity("Delete file", {
+    fileId: fileId,
+    fileName: fileData.name,
+    folderId: fileData.folderId,
+  });
 };
 
 export const getFileUrl = async (fileId) => {

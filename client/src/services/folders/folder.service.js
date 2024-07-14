@@ -14,6 +14,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../database/firebase-connection";
+import { logActivity } from "@/middleware/activity.logging";
 
 export const fetchFolders = async (parentId = null) => {
   try {
@@ -56,6 +57,7 @@ export const addFolder = async (folderData) => {
     }
 
     const docRef = await addDoc(collection(db, "folders"), folderPayload);
+    await logActivity("Create folder", { folderId: docRef.id, folderName: folderData.name });
     return { id: docRef.id, ...folderPayload, subfolders: [] };
   } catch (error) {
     console.error("Error adding folder:", error);
@@ -79,6 +81,7 @@ export const deleteFolder = async (folderId) => {
     );
     await Promise.all(subfolderDeletions);
     await deleteDoc(doc(db, "folders", folderId));
+    await logActivity("Delete folder", { folderId });
   } catch (error) {
     console.error("Error deleting folder:", error);
     throw error;
