@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes, deleteObject } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable, deleteObject } from 'firebase/storage';
 import { db, storage } from '../../database/firebase-connection';
 
 export const fetchAllFiles = async () => {
@@ -29,22 +29,36 @@ export const fetchFilesInFolder = async (folderId) => {
   }));
 };
 
-export const uploadFile = async (file, folderId) => {
-  const storageRef = ref(storage, `folders/${folderId}/${file.name}`);
-  const snapshot = await uploadBytes(storageRef, file);
-  const url = await getDownloadURL(snapshot.ref);
-  const filesCollectionRef = collection(db, 'files');
-  const docRef = await addDoc(filesCollectionRef, {
-    name: file.name,
-    folderId: folderId,
-    url: url,
+export const uploadFile = (file, folderId, onProgress) => {
+  return new Promise((resolve, reject) => {
+    const storageRef = ref(storage, `folders/${folderId}/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (onProgress) onProgress(progress);
+      },
+      (error) => {
+        reject(error);
+      },
+      async () => {
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        const filesCollectionRef = collection(db, 'files');
+        const docRef = await addDoc(filesCollectionRef, {
+          name: file.name,
+          folderId: folderId,
+          url: url,
+        });
+        resolve({
+          id: docRef.id,
+          name: file.name,
+          folderId: folderId,
+          url: url,
+        });
+      }
+    );
   });
-  return {
-    id: docRef.id,
-    name: file.name,
-    folderId: folderId,
-    url: url,
-  };
 };
 
 export const deleteFile = async (fileId) => {

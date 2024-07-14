@@ -1,6 +1,6 @@
 import React from "react";
 import footer_bg_image from "../../../assets/exhibit/footer_bg_image.png";
-import { FaGlobe, FaFacebook, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
+import common from "@/configs/common.config";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const lastYear = currentYear - 1;
@@ -16,20 +16,21 @@ const Footer = () => {
         </h2>
         <div className="flex justify-center space-x-4 my-4">
           {/* Icons */}
-          <a href="#" className="text-white hover:text-gray-300">
-            <FaGlobe size={24} />
-          </a>
-          <a href="#" className="text-white hover:text-gray-300">
-            <FaFacebook size={24} />
-          </a>
-          <a href="#" className="text-white hover:text-gray-300">
-            <FaMapMarkerAlt size={24} />
-          </a>
-          <a href="#" className="text-white hover:text-gray-300">
-            <FaEnvelope size={24} />
-          </a>
+          {common.footerLinks.map((link, index) => (
+            <a
+              key={index}
+              href={link.url}
+              className="text-white hover:text-gray-300"
+              target={link.type === "external" ? "_blank" : "_self"}
+              rel={link.type === "external" ? "noopener noreferrer" : ""}
+            >
+              {link.icon}
+            </a>
+          ))}
         </div>
-        <p className="text-sm">Address: Yumul St. Burgos (Poblacion) 4316 Lopez, Quezon</p>
+        <p className="text-sm">
+          Address: Yumul St. Burgos (Poblacion) 4316 Lopez, Quezon
+        </p>
         <p className="text-sm">
           Academic Year {lastYear} - {currentYear}
         </p>
