@@ -28,7 +28,7 @@ export const addNewComment = async (commentData) => {
       throw new Error("Comment text too long. Ensure it is no longer than 200 characters.");
     }
     const docRef = await addDoc(collection(db, "comments"), commentData);
-    await logActivity("Add comment", { commentId: docRef.id, folder: commentData.folder });
+    await logActivity("Add notes", { commentId: docRef.id, folderName: commentData.folder });
     return { id: docRef.id, ...commentData };
   } catch (error) {
     console.error("Error adding comment:", error);
@@ -54,8 +54,19 @@ export const fetchComments = async () => {
 // Delete a comment
 export const deleteComment = async (commentId) => {
   try {
+    // Fetch the comment details to get the folderName
+    const commentDoc = await getDoc(doc(db, "comments", commentId));
+    if (!commentDoc.exists()) {
+      throw new Error("Comment not found");
+    }
+    const commentData = commentDoc.data();
+    const folderName = commentData.folder;
+
+    // Delete the comment
     await deleteDoc(doc(db, "comments", commentId));
-    await logActivity("Delete comment", { commentId });
+
+    // Log the activity with commentId and folderName
+    await logActivity("Delete comment", { commentId, folderName });
   } catch (error) {
     console.error("Error deleting comment:", error);
     throw error;

@@ -67,6 +67,15 @@ export const addFolder = async (folderData) => {
 
 export const deleteFolder = async (folderId) => {
   try {
+    // Fetch the folder details to get the folderName
+    const folderDoc = await getDoc(doc(db, "folders", folderId));
+    if (!folderDoc.exists()) {
+      throw new Error("Folder not found");
+    }
+    const folderData = folderDoc.data();
+    const folderName = folderData.name;
+
+    // Delete all files in the folder
     const fileQuery = query(collection(db, "files"), where("folderId", "==", folderId));
     const fileSnapshot = await getDocs(fileQuery);
     const fileDeletions = fileSnapshot.docs.map((fileDoc) =>
@@ -74,14 +83,19 @@ export const deleteFolder = async (folderId) => {
     );
     await Promise.all(fileDeletions);
 
+    // Delete all subfolders recursively
     const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", folderId));
     const subfolderSnapshot = await getDocs(subfolderQuery);
     const subfolderDeletions = subfolderSnapshot.docs.map((subfolderDoc) =>
       deleteFolder(subfolderDoc.id)
     );
     await Promise.all(subfolderDeletions);
+
+    // Delete the folder itself
     await deleteDoc(doc(db, "folders", folderId));
-    await logActivity("Delete folder", { folderId });
+
+    // Log the activity with folderId and folderName
+    await logActivity("Delete folder", { folderId, folderName });
   } catch (error) {
     console.error("Error deleting folder:", error);
     throw error;

@@ -46,6 +46,7 @@ import AreaEight from "./pages/accreditors/accreditor.pages/areas/area.eight";
 import AreaNine from "./pages/accreditors/accreditor.pages/areas/area.nine";
 import AreaTen from "./pages/accreditors/accreditor.pages/areas/area.ten";
 import AdministrationPage from "./components/landing-page/about/administrationpage/administrationpage";
+import ActivityLog from "./pages/admin/activitylog";
 
 function App() {
   return (
@@ -59,32 +60,17 @@ function App() {
             <Route path="/landingpage" element={<LandingPage />} />
             {/* Exhibit Routes */}
             <Route path="/exhibit" element={<ExhibitPage />} />
-            <Route
-              path="/exhibit/citizens-charter"
-              element={<CitizensCharter />}
-            />
-            <Route
-              path="/exhibit/student-handbook"
-              element={<StudentHandbook />}
-            />
-            <Route
-              path="/exhibit/university-code"
-              element={<UniversityCode />}
-            />
+            <Route path="/exhibit/citizens-charter" element={<CitizensCharter />} />
+            <Route path="/exhibit/student-handbook" element={<StudentHandbook />} />
+            <Route path="/exhibit/university-code" element={<UniversityCode />} />
             <Route
               path="/exhibit/university-policies-guidelines"
               element={<UnivPoliciesGuidelines />}
             />
             <Route path="/exhibit/faculty-manual" element={<FacultyManual />} />
-            <Route
-              path="/exhibit/administrative-manual"
-              element={<AdminManual />}
-            />
+            <Route path="/exhibit/administrative-manual" element={<AdminManual />} />
             <Route path="/exhibit/syllabi" element={<Syllabi />} />
-            <Route
-              path="/exhibit/instructional-materials"
-              element={<InstructionalMaterials />}
-            />
+            <Route path="/exhibit/instructional-materials" element={<InstructionalMaterials />} />
             <Route path="/exhibit/cmo" element={<CMOpage />} />
             <Route
               path="/dashboard"
@@ -107,6 +93,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <DashboardCompleted />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/activity-log"
+              element={
+                <ProtectedRoute>
+                  <ActivityLog />
                 </ProtectedRoute>
               }
             />
@@ -154,60 +148,24 @@ function App() {
             <Route path="/aboutpage" element={<AboutPage />} />
             <Route path="/historypage" element={<HistoryPage />} />
             <Route path="/missionvisionpage" element={<MissionVision />} />
-            <Route path="/administrationpage" element={<AdministrationPage/>} />
+            <Route path="/administrationpage" element={<AdministrationPage />} />
             <Route path="/facilitiespage" element={<FacilitiesPage />} />
             <Route path="/laboratorypage" element={<LaboratoryPage />} />
             <Route path="/officesvideopage" element={<OfficeVideoPage />} />
-            <Route
-              path="/certificate-of-authenticitypage"
-              element={<CertifcateOfAuthenticity />}
-            />
+            <Route path="/certificate-of-authenticitypage" element={<CertifcateOfAuthenticity />} />
             {/* Programs Under Survey */}
-            <Route
-              path="/programs-under-survey"
-              element={<ProgramsUnderSurvey />}
-            />
+            <Route path="/programs-under-survey" element={<ProgramsUnderSurvey />} />
             <Route path="/programs-under-survey/bsit" element={<BSIT />} />
-            <Route
-              path="/programs-under-survey/areaone"
-              element={<AreaOne />}
-            />
-            <Route
-              path="/programs-under-survey/areatwo"
-              element={<AreaTwo />}
-            />
-            <Route
-              path="/programs-under-survey/areathree"
-              element={<AreaThree />}
-            />
-            <Route
-              path="/programs-under-survey/areafour"
-              element={<AreaFour />}
-            />
-            <Route
-              path="/programs-under-survey/areafive"
-              element={<AreaFive />}
-            />
-            <Route
-              path="/programs-under-survey/areasix"
-              element={<AreaSix />}
-            />
-            <Route
-              path="/programs-under-survey/areaseven"
-              element={<AreaSeven />}
-            />
-            <Route
-              path="/programs-under-survey/areaeight"
-              element={<AreaEight />}
-            />
-            <Route
-              path="/programs-under-survey/areanine"
-              element={<AreaNine />}
-            />
-            <Route
-              path="/programs-under-survey/areaten"
-              element={<AreaTen />}
-            />
+            <Route path="/programs-under-survey/areaone" element={<AreaOne />} />
+            <Route path="/programs-under-survey/areatwo" element={<AreaTwo />} />
+            <Route path="/programs-under-survey/areathree" element={<AreaThree />} />
+            <Route path="/programs-under-survey/areafour" element={<AreaFour />} />
+            <Route path="/programs-under-survey/areafive" element={<AreaFive />} />
+            <Route path="/programs-under-survey/areasix" element={<AreaSix />} />
+            <Route path="/programs-under-survey/areaseven" element={<AreaSeven />} />
+            <Route path="/programs-under-survey/areaeight" element={<AreaEight />} />
+            <Route path="/programs-under-survey/areanine" element={<AreaNine />} />
+            <Route path="/programs-under-survey/areaten" element={<AreaTen />} />
           </Routes>
         </CommentUpdateProvider>
       </UpdateProvider>
