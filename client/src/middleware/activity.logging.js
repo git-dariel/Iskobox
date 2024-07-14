@@ -66,14 +66,14 @@ export const logActivity = async (action, details) => {
 //     throw error;
 //   }
 // };
-export const getAllActivityLogs = async (lastVisible = null, pageSize = 20, emailFilter = "") => {
+export const getAllActivityLogs = async (lastVisible = null, pageSize = 10, emailFilter = "") => {
   try {
     console.log("Fetching logs with parameters:", { lastVisible, pageSize, emailFilter });
 
     let logsQuery = collection(db, "activityLogs");
 
     if (emailFilter) {
-      const endEmailFilter = emailFilter + "\uf8ff"; // '\uf8ff' is a high Unicode character
+      const endEmailFilter = emailFilter + "\uf8ff";
       logsQuery = query(
         logsQuery,
         where("email", ">=", emailFilter),

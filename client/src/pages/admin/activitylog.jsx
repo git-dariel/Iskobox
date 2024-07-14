@@ -36,7 +36,7 @@ const ActivityLog = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [logToDelete, setLogToDelete] = useState(null);
   const [lastVisible, setLastVisible] = useState(null);
-  const [pageSize] = useState(20);
+  const [pageSize] = useState(10);
   const [pageHistory, setPageHistory] = useState([]);
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -262,8 +262,8 @@ const ActivityLog = () => {
         </div>
         <div className="flex items-center justify-between px-2 py-4">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {/* {table.getFilteredSelectedRowModel().rows.length} of{" "} */}
+            {table.getFilteredRowModel().rows.length} row(s) appear.
           </div>
           <div className="flex items-center space-x-2">
             <Button
