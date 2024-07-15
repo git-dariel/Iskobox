@@ -91,15 +91,20 @@ function DashboardPending() {
     <div className="flex w-full h-screen">
       <SideBar />
       <div
-        className="flex flex-col h-screen w-full relative bg-gradient-to-tl from-slate-50 to-slate-400 overflow-y-auto"
+        className="flex flex-col h-screen w-full relative bg-slate-100 overflow-y-auto"
         style={{ scrollbarWidth: "none" }}
       >
         <div
-          className="flex flex-col h-full p-4 rounded-2xl overflow-y-auto scroll-m-0 md:m-5 md:mb-0 mb-12"
-          style={{ background: "rgba(255, 255, 255, 0.54)", scrollbarWidth: "none" }}
+          className="flex flex-col h-full p-4 rounded-2xl overflow-y-auto scroll-m-0 md:m-5 md:mb-0 mb-12 border-2 border-orange-200"
+          style={{
+            background: "rgba(255, 255, 255, 0.54)",
+            scrollbarWidth: "none",
+          }}
         >
           <div className="flex justify-between gap-2 mb-1">
-            <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-1">Pending Files Per Area</h1>
+            <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-1">
+              Pending Files Per Area
+            </h1>
             <div className="relative">
               <UserDropdown />
             </div>
@@ -111,7 +116,10 @@ function DashboardPending() {
               </SelectTrigger>
               <SelectContent>
                 {rootFolders.map((folder) => (
-                  <SelectItem key={folder.rootFolderName} value={folder.rootFolderName}>
+                  <SelectItem
+                    key={folder.rootFolderName}
+                    value={folder.rootFolderName}
+                  >
                     {folder.rootFolderName}
                   </SelectItem>
                 ))}
@@ -120,7 +128,11 @@ function DashboardPending() {
 
             <RoundedContainer>
               <div className="flex w-full h-64 md:h-[30rem]">
-                {loading ? <LazyLoader /> : <Bar data={barData} options={barOptions} />}
+                {loading ? (
+                  <LazyLoader />
+                ) : (
+                  <Bar data={barData} options={barOptions} />
+                )}
               </div>
             </RoundedContainer>
           </div>
