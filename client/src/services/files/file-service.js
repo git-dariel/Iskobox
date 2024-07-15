@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
 import { db, storage } from "../../database/firebase-connection";
 import { logActivity } from "@/middleware/activity.logging";
 
@@ -30,7 +30,7 @@ export const fetchFilesInFolder = async (folderId) => {
   }));
 };
 
-export const uploadFile = async (file, folderId) => {
+export const uploadFile = async (file, folderId, onProgress) => {
   let fileName = file.name;
   const filesCollectionRef = collection(db, "files");
 
@@ -45,7 +45,7 @@ export const uploadFile = async (file, folderId) => {
   let counter = 1;
   while (!existingFilesSnapshot.empty) {
     // Increment the file name
-    const nameParts = file.name.split(".");
+    const nameParts = fileName.split(".");
     const extension = nameParts.pop();
     fileName = `${nameParts.join(".")} (${counter}).${extension}`;
 
@@ -60,17 +60,42 @@ export const uploadFile = async (file, folderId) => {
   }
 
   const storageRef = ref(storage, `folders/${folderId}/${fileName}`);
-  const snapshot = await uploadBytes(storageRef, file);
-  const url = await getDownloadURL(snapshot.ref);
+  const uploadTask = uploadBytesResumable(storageRef, file);
 
+  // Listen for state changes, errors, and completion of the upload.
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      // Calculate progress percentage
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      onProgress(Math.round(progress));
+    },
+    (error) => {
+      console.error("Error uploading file:", error);
+      throw error;
+    },
+    () => {
+      // Upload completed successfully, handle other operations if needed
+    }
+  );
+
+  // Await upload completion
+  await uploadTask;
+
+  // Get download URL for the uploaded file
+  const url = await getDownloadURL(storageRef);
+
+  // Add file metadata to Firestore
   const docRef = await addDoc(filesCollectionRef, {
     name: fileName,
     folderId: folderId,
     url: url,
   });
 
+  // Log activity for the file upload
   await logActivity("Upload file", { fileId: docRef.id, fileName: fileName, folderId: folderId });
 
+  // Return file metadata
   return {
     id: docRef.id,
     name: fileName,
@@ -78,6 +103,7 @@ export const uploadFile = async (file, folderId) => {
     url: url,
   };
 };
+
 
 export const deleteFile = async (fileId) => {
   const fileRef = doc(db, "files", fileId);

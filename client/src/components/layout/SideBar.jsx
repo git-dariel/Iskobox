@@ -128,7 +128,7 @@ function SideBar() {
                   to="/activity-log"
                   className={({ isActive }) =>
                     `flex items-center text-center justify-start px-4 py-4 md:text-base my-1 text-gray-800 ${
-                      isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-300 hover:text-orange-50'
+                      isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
                     } transition-all duration-200 mx-1 rounded-full`
                   }
                 >

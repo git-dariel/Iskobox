@@ -1,4 +1,5 @@
 import NewFolderForm from "@/components/modals/new.folder";
+import ProgressBar from "@/components/ui/line.progressbar";
 import { useAuth } from "@/helpers/auth.context";
 import { useUpdate } from "@/helpers/update.context";
 import { uploadFile } from "@/services/files/file-service";
@@ -18,6 +19,8 @@ const AddNewButton = ({ parentId }) => {
     y: 0,
   });
   const [showNewFolderForm, setShowNewFolderForm] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState({});
+
   const buttonRef = useRef(null);
   const fileInputRef = useRef(null);
   const { triggerUpdate } = useUpdate();
@@ -55,21 +58,34 @@ const AddNewButton = ({ parentId }) => {
   const handleFileChange = async (event) => {
     const files = Array.from(event.target.files);
     if (files.length > 0) {
-      toast.promise(
-        (async () => {
-          const folderDetails = await fetchFolderDetailsWithUploadLimit(parentId);
-          if (folderDetails && folderDetails.fileCount + files.length > folderDetails.uploadLimit) {
-            throw new Error("Upload limit reached for this folder");
-          }
-          await Promise.all(files.map((file) => uploadFile(file, parentId)));
-          triggerUpdate();
-        })(),
-        {
-          loading: "Uploading files...",
-          success: "Files uploaded successfully",
-          error: (err) => `Failed to upload files: ${err.message}`,
+      const newProgress = {};
+      files.forEach((file) => {
+        newProgress[file.name] = 0;
+      });
+      setUploadProgress(newProgress);
+
+      try {
+        const folderDetails = await fetchFolderDetailsWithUploadLimit(parentId);
+        if (folderDetails && folderDetails.fileCount + files.length > folderDetails.uploadLimit) {
+          throw new Error("Upload limit reached for this folder");
         }
-      );
+
+        await Promise.all(files.map((file) =>
+          uploadFile(file, parentId, (percentComplete) => {
+            setUploadProgress((prevProgress) => ({
+              ...prevProgress,
+              [file.name]: percentComplete,
+            }));
+          })
+        ));
+        
+        // Clear progress once all files are uploaded
+        setUploadProgress({});
+        triggerUpdate();
+        toast.success("Files uploaded successfully");
+      } catch (err) {
+        toast.error(`Failed to upload files: ${err.message}`);
+      }
     }
   };
 
@@ -133,6 +149,14 @@ const AddNewButton = ({ parentId }) => {
           parentId={parentId}
         />
       )}
+      <div className="fixed bottom-4 right-4 py-2 px-4 w-full md:w-1/3 lg:w-1/4 bg-white shadow-lg border rounded-lg">
+        {Object.keys(uploadProgress).map((fileName) => (
+          <div key={fileName} className="mb-2">
+            <span>Uploading {fileName}</span>
+            <ProgressBar progress={uploadProgress[fileName]} />
+          </div>
+        ))}
+      </div>
     </>
   );
 };
