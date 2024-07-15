@@ -106,7 +106,8 @@ const FolderTagModal = ({ folderId, onClose }) => {
           message: `You have been assigned to the folder "${folder.name}".`,
           timestamp: new Date().toISOString(),
         };
-        await addNewNotification(notificationData);
+        await addNewNotification(notificationData, person.email);
+        console.log(`Notification sent to ${person.email}`);
       }
       onClose();
       setEmail("");
