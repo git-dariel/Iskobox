@@ -20,7 +20,7 @@ const AddNewButton = ({ parentId }) => {
   });
   const [showNewFolderForm, setShowNewFolderForm] = useState(false);
   const [uploadProgress, setUploadProgress] = useState({});
-
+  const [showProgress, setShowProgress] = useState(false); // State to manage whether to show progress bar
   const buttonRef = useRef(null);
   const fileInputRef = useRef(null);
   const { triggerUpdate } = useUpdate();
@@ -63,6 +63,7 @@ const AddNewButton = ({ parentId }) => {
         newProgress[file.name] = 0;
       });
       setUploadProgress(newProgress);
+      setShowProgress(true); // Show progress bar when files are being uploaded
 
       try {
         const folderDetails = await fetchFolderDetailsWithUploadLimit(parentId);
@@ -81,10 +82,12 @@ const AddNewButton = ({ parentId }) => {
         
         // Clear progress once all files are uploaded
         setUploadProgress({});
+        setShowProgress(false); // Hide progress bar after successful upload
         triggerUpdate();
         toast.success("Files uploaded successfully");
       } catch (err) {
         toast.error(`Failed to upload files: ${err.message}`);
+        setShowProgress(false); // Hide progress bar if upload fails
       }
     }
   };
@@ -149,14 +152,16 @@ const AddNewButton = ({ parentId }) => {
           parentId={parentId}
         />
       )}
-      <div className="fixed bottom-4 right-4 py-2 px-4 w-full md:w-1/3 lg:w-1/4 bg-white shadow-lg border rounded-lg">
-        {Object.keys(uploadProgress).map((fileName) => (
-          <div key={fileName} className="mb-2">
-            <span>Uploading {fileName}</span>
-            <ProgressBar progress={uploadProgress[fileName]} />
-          </div>
-        ))}
-      </div>
+      {showProgress && ( // Conditionally render progress bar based on showProgress state
+        <div className="fixed bottom-4 right-4 py-2 px-4 w-full md:w-1/3 lg:w-1/4 bg-blue-50 shadow-lg border rounded-lg">
+          {Object.keys(uploadProgress).map((fileName) => (
+            <div key={fileName} className="mb-2">
+              <span>Uploading {fileName}</span>
+              <ProgressBar progress={uploadProgress[fileName]} />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };
