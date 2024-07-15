@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { BarChart3, BarChartBig, LayoutDashboard, Folders, FileClock } from "lucide-react";
+import { BarChart3, BarChartBig, LayoutDashboard, Folders, FileClock, FileClock } from "lucide-react";
+import { useAuth } from "@/helpers/auth.context";
 import { useAuth } from "@/helpers/auth.context";
 
 function SideBar() {
@@ -57,6 +58,14 @@ function SideBar() {
                 isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
               } transition-all duration-200 mx-1 rounded-full`
             }
+          >
+            <FileClock className="h-6 w-6 mx-auto" /> Activity Logs
+          </NavLink>
+        )}
+        {currentUser.role !== "Faculty" && (
+          <NavLink
+            to="/activity-log"
+            className="flex-grow text-center py-2 text-xs md:text-base text-gray-100 hover:text-gray-400 "
           >
             <FileClock className="h-6 w-6 mx-auto" /> Activity Logs
           </NavLink>
@@ -123,6 +132,14 @@ function SideBar() {
                       isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-300 hover:text-orange-50'
                     } transition-all duration-200 mx-1 rounded-full`
                   }
+                >
+                  <FileClock className="h-6 w-6 mr-2" /> Activity Logs
+                </NavLink>
+              )}
+              {currentUser.role !== "Faculty" && (
+                <NavLink
+                  to="/activity-log"
+                  className="flex items-center px-4 py-2 pb-5 md:text-base text-gray-100 hover:text-gray-400"
                 >
                   <FileClock className="h-6 w-6 mr-2" /> Activity Logs
                 </NavLink>
