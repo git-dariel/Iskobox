@@ -96,7 +96,9 @@ const FolderTagModal = ({ folderId, onClose }) => {
           role: selectedRole,
           description: description,
         };
-        await addAssigneeToFolder(folderId, assigneeData);
+
+        const assignSubFolders = !folder.parentId;
+        await addAssigneeToFolder(folderId, assigneeData, assignSubFolders);
         triggerUpdate();
         // Send a notification to the assigned user
         const notificationData = {

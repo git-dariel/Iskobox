@@ -7,8 +7,9 @@ import {
   getDocs,
   updateDoc,
   serverTimestamp,
-} from 'firebase/firestore';
-import { db } from '../../database/firebase-connection';
+} from "firebase/firestore";
+import { db } from "../../database/firebase-connection";
+import { logActivity } from "@/middleware/activity.logging";
 
 // Create a new comment
 export const addNewComment = async (commentData) => {
@@ -19,17 +20,18 @@ export const addNewComment = async (commentData) => {
       /[^a-zA-Z0-9 ]/.test(commentData.folder)
     ) {
       throw new Error(
-        'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
+        "Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces."
       );
     }
 
     if (!commentData.text || commentData.text.length > 200) {
-      throw new Error('Comment text too long. Ensure it is no longer than 200 characters.');
+      throw new Error("Comment text too long. Ensure it is no longer than 200 characters.");
     }
-    const docRef = await addDoc(collection(db, 'comments'), commentData);
+    const docRef = await addDoc(collection(db, "comments"), commentData);
+    await logActivity("Add notes", { commentId: docRef.id, folderName: commentData.folder });
     return { id: docRef.id, ...commentData };
   } catch (error) {
-    console.error('Error adding comment:', error);
+    console.error("Error adding comment:", error);
     throw error;
   }
 };
@@ -37,14 +39,14 @@ export const addNewComment = async (commentData) => {
 // Fetch all comments
 export const fetchComments = async () => {
   try {
-    const commentsSnapshot = await getDocs(collection(db, 'comments'));
+    const commentsSnapshot = await getDocs(collection(db, "comments"));
     const sortedComments = commentsSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
     return sortedComments;
   } catch (error) {
-    console.error('Error fetching comments:', error);
+    console.error("Error fetching comments:", error);
     throw error;
   }
 };
@@ -52,9 +54,21 @@ export const fetchComments = async () => {
 // Delete a comment
 export const deleteComment = async (commentId) => {
   try {
-    await deleteDoc(doc(db, 'comments', commentId));
+    // Fetch the comment details to get the folderName
+    const commentDoc = await getDoc(doc(db, "comments", commentId));
+    if (!commentDoc.exists()) {
+      throw new Error("Comment not found");
+    }
+    const commentData = commentDoc.data();
+    const folderName = commentData.folder;
+
+    // Delete the comment
+    await deleteDoc(doc(db, "comments", commentId));
+
+    // Log the activity with commentId and folderName
+    await logActivity("Delete comment", { commentId, folderName });
   } catch (error) {
-    console.error('Error deleting comment:', error);
+    console.error("Error deleting comment:", error);
     throw error;
   }
 };
@@ -67,17 +81,17 @@ export const updateComment = async (commentId, updateData) => {
       (updateData.folder.length > 24 || /[^a-zA-Z0-9 ]/.test(updateData.folder))
     ) {
       throw new Error(
-        'Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces.'
+        "Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces."
       );
     }
     if (updateData.text && updateData.text.length > 200) {
-      throw new Error('Comment text too long. Ensure it is no longer than 200 characters.');
+      throw new Error("Comment text too long. Ensure it is no longer than 200 characters.");
     }
 
-    const commentRef = doc(db, 'comments', commentId);
+    const commentRef = doc(db, "comments", commentId);
     await updateDoc(commentRef, updateData);
   } catch (error) {
-    console.error('Error updating comment:', error);
+    console.error("Error updating comment:", error);
     throw error;
   }
 };
@@ -85,16 +99,16 @@ export const updateComment = async (commentId, updateData) => {
 // Fetch a single comment details
 export const fetchCommentDetails = async (commentId) => {
   try {
-    const commentDocRef = doc(db, 'comments', commentId);
+    const commentDocRef = doc(db, "comments", commentId);
     const commentDoc = await getDoc(commentDocRef);
     if (commentDoc.exists()) {
       return { id: commentDoc.id, ...commentDoc.data() };
     } else {
-      console.log('No such comment!');
+      console.log("No such comment!");
       return null;
     }
   } catch (error) {
-    console.error('Error fetching comment details:', error);
+    console.error("Error fetching comment details:", error);
     throw error;
   }
 };

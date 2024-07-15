@@ -1,8 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { BarChart3, BarChartBig, LayoutDashboard, Folders } from "lucide-react";
+import { BarChart3, BarChartBig, LayoutDashboard, Folders, FileClock } from "lucide-react";
+import { useAuth } from "@/helpers/auth.context";
 
 function SideBar() {
+  const { currentUser } = useAuth();
+
   return (
     <>
       <div className="flex md:hidden fixed bottom-0 left-0 right-0 z-10 bg-gray-800 shadow-lg">
@@ -30,6 +33,14 @@ function SideBar() {
         >
           <BarChartBig className="h-6 w-6 mx-auto" /> Completed
         </NavLink>
+        {currentUser.role !== "Faculty" && (
+          <NavLink
+            to="/activity-log"
+            className="flex-grow text-center py-2 text-xs md:text-base text-gray-100 hover:text-gray-400 "
+          >
+            <FileClock className="h-6 w-6 mx-auto" /> Activity Logs
+          </NavLink>
+        )}
       </div>
       <div className="hidden md:flex flex-col min-w-64">
         <div className="flex items-center justify-center h-16 bg-gray-800">
@@ -65,6 +76,14 @@ function SideBar() {
               >
                 <BarChartBig className="h-6 w-6 mr-2" /> Completed Files Per Area
               </NavLink>
+              {currentUser.role !== "Faculty" && (
+                <NavLink
+                  to="/activity-log"
+                  className="flex items-center px-4 py-2 pb-5 md:text-base text-gray-100 hover:text-gray-400"
+                >
+                  <FileClock className="h-6 w-6 mr-2" /> Activity Logs
+                </NavLink>
+              )}
             </div>
           </nav>
         </div>
