@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { BarChart3, BarChartBig, LayoutDashboard, Folders, FileClock, FileClock } from "lucide-react";
-import { useAuth } from "@/helpers/auth.context";
+import { BarChart3, BarChartBig, LayoutDashboard, Folders, FileClock } from "lucide-react";
 import { useAuth } from "@/helpers/auth.context";
 
 function SideBar() {
