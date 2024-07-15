@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import common from "@/configs/common.config";
 import MainLayout from "../../layout/main.layout";
 import { Link } from "react-router-dom";
 import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { fetchAreaTwoFoldersAndFiles } from "@/services/folders/folder.service";
-import { Paperclip, File } from "lucide-react";
+import { Paperclip} from "lucide-react";
 import { getFileType } from "@/helpers/file-helpers";
 import { getFileUrl } from "@/services/files/file-service";
 import StarsCanvas from "@/components/layout/starcanvas";
@@ -26,9 +26,15 @@ const AreaTwo = () => {
     fetchData();
   }, []);
 
-  const openFileInNewTab = async (file) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [name, setName] = useState(null)
+  const iframeRef = useRef(null);
+
+  const openModal = async (file) => {
     const url = await getFileUrl(file.id);
     const fileType = getFileType(file.name);
+    const name = file.name;
     if (
       fileType === "image" ||
       fileType === "pdf" ||
@@ -36,9 +42,63 @@ const AreaTwo = () => {
       fileType === "pptx" ||
       fileType === "xlsx"
     ) {
-      window.open(url, "_blank");
+      let contentUrl = null;
+      if (fileType === "pdf") {
+        contentUrl = url;
+      } else {
+        contentUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
+          url
+        )}&embedded=true`;
+      }
+      setName(name);
+      setSelectedFile(contentUrl);
+      setModalOpen(true);
     } else {
       console.error("File format not supported for preview.");
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedFile(null);
+    setModalOpen(false);
+  };
+
+  const toggleFullScreen = () => {
+    if (iframeRef.current) {
+      if (
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+      ) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        }
+      } else {
+        if (iframeRef.current.requestFullscreen) {
+          iframeRef.current.requestFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (iframeRef.current.mozRequestFullScreen) {
+          iframeRef.current.mozRequestFullScreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (iframeRef.current.webkitRequestFullscreen) {
+          iframeRef.current.webkitRequestFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (iframeRef.current.msRequestFullscreen) {
+          iframeRef.current.msRequestFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        }
+      }
     }
   };
 
@@ -189,7 +249,7 @@ const AreaTwo = () => {
                               <li
                                 key={file.id}
                                 className="flex gap-2 items-center cursor-pointer hover:text-blue-500 md:text-base text-sm"
-                                onClick={() => openFileInNewTab(file)}
+                                onClick={() => openModal(file)}
                               >
                                 <Paperclip size={15} /> {file.name}
                               </li>
@@ -218,7 +278,7 @@ const AreaTwo = () => {
                           <li
                             key={file.id}
                             className="flex gap-2 items-center cursor-pointer hover:text-blue-500 md:text-base text-sm"
-                            onClick={() => openFileInNewTab(file)}
+                            onClick={() => openModal(file)}
                           >
                             <Paperclip size={15} /> {file.name}
                           </li>
@@ -287,6 +347,35 @@ const AreaTwo = () => {
           </Link>
         </div>
       </MainLayout>
+
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-2 relative max-w-full max-h-full overflow-auto">
+            <div className="flex justify-between">
+              <p>{name}</p>
+              <div className="flex justify-between gap-5">
+                <button onClick={toggleFullScreen}>Fullscreen</button>
+                <button
+                  className=" text-black border rounded-full px-2"
+                  onClick={closeModal}
+                >
+                  X
+                </button>
+              </div>
+            </div>
+
+            <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent mt-2">
+              <iframe
+                ref={iframeRef}
+                src={selectedFile}
+                className="w-full h-full border-none rounded-md "
+                allow="autoplay fullview justify"
+                style={{ margin: "auto" }}
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
