@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Paperclip, Fullscreen} from "lucide-react";
+import { FaRegWindowClose } from "react-icons/fa";
 import common from "@/configs/common.config";
 import MainLayout from "../../layout/main.layout";
 import { Link } from "react-router-dom";
 import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { fetchAreaTwoFoldersAndFiles } from "@/services/folders/folder.service";
-import { Paperclip} from "lucide-react";
 import { getFileType } from "@/helpers/file-helpers";
 import { getFileUrl } from "@/services/files/file-service";
 import StarsCanvas from "@/components/layout/starcanvas";
 import documents_links from "@/configs/documents.config";
+
 
 const AreaTwo = () => {
   const googleDriveLinkPPP = documents_links.areatwo_ppp;
@@ -16,6 +18,40 @@ const AreaTwo = () => {
   const googleDriveLinkSLF = documents_links.areatwo_slf;
   const embedLinkSLF = googleDriveLinkSLF.replace("/view?usp=sharing", "/preview");
   const [areaTwoData, setAreaTwoData] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [name, setName] = useState(null)
+  const iframeRef = useRef(null);
+
+  const slideInKeyframes = `
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+`;
+
+  const slideOutKeyframes = `
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+`;
+
+  // Add keyframes to the global styles
+  const GlobalStyles = () => (
+    <style>
+      {slideInKeyframes}
+      {slideOutKeyframes}
+    </style>
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,15 +62,13 @@ const AreaTwo = () => {
     fetchData();
   }, []);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [name, setName] = useState(null)
-  const iframeRef = useRef(null);
+
 
   const openModal = async (file) => {
     const url = await getFileUrl(file.id);
     const fileType = getFileType(file.name);
     const name = file.name;
+
     if (
       fileType === "image" ||
       fileType === "pdf" ||
@@ -52,7 +86,10 @@ const AreaTwo = () => {
       }
       setName(name);
       setSelectedFile(contentUrl);
-      setModalOpen(true);
+      setModalOpen(false); // Close the current modal
+      setTimeout(() => {
+        setModalOpen(true); // Open the new modal with slideIn animation
+      }, 100);
     } else {
       console.error("File format not supported for preview.");
     }
@@ -349,32 +386,41 @@ const AreaTwo = () => {
       </MainLayout>
 
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-2 relative max-w-full max-h-full overflow-auto">
-            <div className="flex justify-between">
-              <p>{name}</p>
-              <div className="flex justify-between gap-5">
-                <button onClick={toggleFullScreen}>Fullscreen</button>
-                <button
-                  className=" text-black border rounded-full px-2"
-                  onClick={closeModal}
-                >
-                  X
-                </button>
+        <>
+          <GlobalStyles />
+          <div
+            className="fixed inset-y-0 right-0 z-50 flex items-center shadow-2xl w-1/2 bg-black bg-opacity-0 transition-opacity duration-5000 ease-in-out"
+            style={{
+              animation: `${
+                modalOpen ? "slideIn 2s forwards" : "slideOut 2s forwards"
+              }`,
+            }}
+          >
+            <div className="bg-white w-full h-full p-4 overflow-y-auto">
+              <div className="flex justify-between">
+                <p>{name}</p>
+                <div className="flex justify-between gap-8">
+                  <button onClick={toggleFullScreen} className="flex gap-2">
+                    <Fullscreen />
+                    Fullscreen
+                  </button>
+                  <button className="text-black text-2xl" onClick={closeModal}>
+                    <FaRegWindowClose />
+                  </button>
+                </div>
+              </div>
+              <div className="mt-2">
+                <iframe
+                  ref={iframeRef}
+                  src={selectedFile}
+                  className="w-full h-[92vh] border-none rounded-md"
+                  allow="autoplay fullview justify"
+                  style={{ margin: "auto" }}
+                ></iframe>
               </div>
             </div>
-
-            <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent mt-2">
-              <iframe
-                ref={iframeRef}
-                src={selectedFile}
-                className="w-full h-full border-none rounded-md "
-                allow="autoplay fullview justify"
-                style={{ margin: "auto" }}
-              ></iframe>
-            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
