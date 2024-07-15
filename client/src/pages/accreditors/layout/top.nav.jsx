@@ -154,7 +154,7 @@ const Navbar = ({ logo, navTitle, navItems }) => {
             ))}
             <Link to="/signin">
               <button className="bg-orange-700 text-white px-2 rounded-md text-base py-2 hover:bg-orange-800 transition duration-300">
-                Open Iskobox
+                Open PUP-ADMS
               </button>
             </Link>
           </ul>
