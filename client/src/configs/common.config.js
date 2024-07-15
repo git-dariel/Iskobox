@@ -19,7 +19,33 @@ import Area8 from "../assets/prog-und-survey/areas/area8.png";
 import Area9 from "../assets/prog-und-survey/areas/area9.png";
 import Area10 from "../assets/prog-und-survey/areas/area10.png";
 
+import { FaGlobe, FaFacebook, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
+
+
 const common = {};
+
+common.footerLinks = [
+  {
+    icon: FaGlobe,
+    url: "https://www.pup.edu.ph/",
+    type: "external",
+  },
+  {
+    icon: FaFacebook,
+    url: "https://www.facebook.com/PUPLQ/",
+    type: "external",
+  },
+  {
+    icon: FaMapMarkerAlt,
+    url: "https://www.google.com/maps/place/Polytechnic+University+of+the+Philippines+Lopez/@13.8800711,122.2606709,17z/",
+    type: "external",
+  },
+  {
+    icon: FaEnvelope,
+    url: "mailto:info@pup.edu.ph", // Replace with the actual email address
+    type: "external",
+  },
+];
 
 common.roleOptions = [
   { id: 1, label: "Uploader" },
@@ -58,7 +84,7 @@ common.navItems = [
     items: [
       { name: "Mission And Vision", to: "/missionvisionpage" },
       { name: "History", to: "/historypage" },
-      { name: "Administration", to: "/administrationpage"},
+      { name: "Administration", to: "/administrationpage" },
       { name: "Buildings and Facilities", to: "/facilitiespage" },
       { name: "Laboratory Videos", to: "/laboratorypage" },
       { name: "Campus Offices", to: "/officesvideopage" },

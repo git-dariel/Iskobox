@@ -5,11 +5,14 @@ import { Toaster, toast } from "sonner";
 import CircleButton from "../common/buttons/reusable/circle.button";
 import { MdDelete, MdDownload, MdMoreVert } from "react-icons/md";
 import { useUpdate } from "@/helpers/update.context";
+import { CiHashtag } from "react-icons/ci";
+import FileTagModal from "../modals/file.tag";
 
 const FileItem = ({ file, isGridView }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { triggerUpdate } = useUpdate();
@@ -67,6 +70,11 @@ const FileItem = ({ file, isGridView }) => {
     document.body.removeChild(link);
   };
 
+  const handleAddTags = (e) => {
+    e.stopPropagation();
+    setIsTagModalOpen(true);
+  };
+
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
   };
@@ -94,7 +102,11 @@ const FileItem = ({ file, isGridView }) => {
           <img
             src={previewUrl}
             alt={file.name}
-            style={{ maxWidth: "100%", maxHeight: "90vh", objectFit: "contain" }}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "90vh",
+              objectFit: "contain",
+            }}
           />
         );
       case "pdf":
@@ -129,8 +141,13 @@ const FileItem = ({ file, isGridView }) => {
             : "w-full border-y"
         } text-sm flex items-center p-[0.30rem] justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
         onClick={() => {
+          if (isTagModalOpen) return;
           const fileType = getFileType(file.name);
-          if (fileType === "image" || fileType === "pdf" || fileType === "docx") {
+          if (
+            fileType === "image" ||
+            fileType === "pdf" ||
+            fileType === "docx"
+          ) {
             setIsModalOpen(true);
           } else if (fileType === "video" || fileType === "audio") {
             handleOpenMedia();
@@ -141,9 +158,14 @@ const FileItem = ({ file, isGridView }) => {
       >
         {getFileIcon(file.name)}
         <span className="truncate flex-grow overflow-hidden text-ellipsis md:whitespace-normal">
-          {file.name.length > 30 ? `${file.name.substring(0, 17)}...` : file.name}
+          {file.name.length > 30
+            ? `${file.name.substring(0, 17)}...`
+            : file.name}
         </span>
-        <div className={`relative ${isGridView ? "self-end" : ""}`} ref={dropdownRef}>
+        <div
+          className={`relative ${isGridView ? "self-end" : ""}`}
+          ref={dropdownRef}
+        >
           <MdMoreVert
             size={20}
             className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
@@ -173,10 +195,24 @@ const FileItem = ({ file, isGridView }) => {
                 <MdDownload size={20} className="mr-2" />
                 Download
               </button>
+              <button
+                className="flex items-center w-full px-4 pt-2 pb-3 text-sm text-gray-600 hover:bg-gray-100"
+                onClick={handleAddTags}
+              >
+                <CiHashtag size={20} className="mr-2" />
+                Add tags
+              </button>
             </div>
           )}
         </div>
       </div>
+
+      {isTagModalOpen && (
+        <FileTagModal
+          onClose={() => setIsTagModalOpen(false)}
+          fileName={file.name}
+        />
+      )}
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
@@ -219,7 +255,9 @@ const FileItem = ({ file, isGridView }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
           <div className="bg-gray-300 p-8 rounded-lg shadow-2xl">
             <h2 className="text-xl font-semibold mb-6">Delete {file.name}</h2>
-            <p className="mb-4">Are you sure you want to delete the file "{file.name}"?</p>
+            <p className="mb-4">
+              Are you sure you want to delete the file "{file.name}"?
+            </p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={handleDelete}

@@ -46,11 +46,11 @@ export default function OfficeVideoContent() {
           >
             {/* Image */}
             <div className="flex flex-col lg:flex-row h-full overflow-clip px-5 py-5 gap-2 lg:gap-4 w-full justify-center">
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center h-[300px] w-[400px] md:h-[500px] md:w-[700px] lg:h-[768px] lg:w-[1024px] overflow-hidden rounded-lg">
                 <img
                   src={slide.admissionimg}
                   alt={`Slide ${slide.id}`}
-                  className="object-contain w-full h-full"
+                  className="object-cover w-full h-full"
                 />
               </div>
             </div>
@@ -76,14 +76,14 @@ export default function OfficeVideoContent() {
 )}
 
 
-          <div className="px-4 md:px-10 lg:px-40 py-10">
+          <div className="px-4 md:px-10 lg:px-40 py-10 rounded-lg">
             <div
-              className="relative border border-black"
+              className="relative border border-black rounded-lg"
               style={{ paddingTop: "56.25%" }}
             >
               <iframe
                 src={item.video}
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full rounded-lg"
                 frameBorder="0"
                 allowFullScreen
               ></iframe>

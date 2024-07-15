@@ -96,7 +96,9 @@ const FolderTagModal = ({ folderId, onClose }) => {
           role: selectedRole,
           description: description,
         };
-        await addAssigneeToFolder(folderId, assigneeData);
+
+        const assignSubFolders = !folder.parentId;
+        await addAssigneeToFolder(folderId, assigneeData, assignSubFolders);
         triggerUpdate();
         // Send a notification to the assigned user
         const notificationData = {
@@ -104,7 +106,8 @@ const FolderTagModal = ({ folderId, onClose }) => {
           message: `You have been assigned to the folder "${folder.name}".`,
           timestamp: new Date().toISOString(),
         };
-        await addNewNotification(notificationData);
+        await addNewNotification(notificationData, person.email);
+        console.log(`Notification sent to ${person.email}`);
       }
       onClose();
       setEmail("");

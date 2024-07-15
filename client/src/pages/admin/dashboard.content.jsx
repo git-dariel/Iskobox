@@ -26,7 +26,10 @@ function DashboardContent() {
   const [cardData, setCardData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [overallProgress, setOverallProgress] = useState(0);
-  const [pieChartData, setPieChartData] = useState({ labels: [], datasets: [] });
+  const [pieChartData, setPieChartData] = useState({
+    labels: [],
+    datasets: [],
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,17 +60,19 @@ function DashboardContent() {
       });
     });
 
-    const unsubscribeCompleted = countCompletedFilesInFolders((completedFiles) => {
-      setCardData((prevData) => {
-        const newData = prevData.map((card) => {
-          if (card.title === "Completed Files") {
-            return { ...card, value: completedFiles };
-          }
-          return card;
+    const unsubscribeCompleted = countCompletedFilesInFolders(
+      (completedFiles) => {
+        setCardData((prevData) => {
+          const newData = prevData.map((card) => {
+            if (card.title === "Completed Files") {
+              return { ...card, value: completedFiles };
+            }
+            return card;
+          });
+          return newData;
         });
-        return newData;
-      });
-    });
+      }
+    );
 
     return () => {
       if (typeof unsubscribePending === "function") {
@@ -152,27 +157,40 @@ function DashboardContent() {
 
   return (
     <div
-      class="flex flex-col h-screen w-full relative bg-gradient-to-tl from-slate-50 to-slate-400 overflow-y-auto"
+      className="flex flex-col h-screen w-full relative bg-slate-100 overflow-y-auto"
       style={{ scrollbarWidth: "none" }}
     >
       <div
-        className="flex flex-col h-full p-4 rounded-2xl overflow-y-auto scroll-m-0 md:m-5 md:mb-0 mb-12"
-        style={{ background: "rgba(255, 255, 255, 0.54)", scrollbarWidth: "none" }}
+        className="flex flex-col h-full p-4 rounded-2xl overflow-y-auto scroll-m-0 md:m-5 md:mb-0 mb-12 border-2 border-orange-200"
+        style={{
+          background: "rgba(255, 255, 255, 0.54)",
+          scrollbarWidth: "none",
+        }}
       >
-        <div class="flex justify-between gap-2 mb-1">
-          <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-1">Dashboard</h1>
+        <div className="flex justify-between gap-2 mb-1">
+          <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-1">
+            Dashboard
+          </h1>
           <div className="relative">
             <UserDropdown />
           </div>
         </div>
         {isLoading ? <LoadingCards /> : <Cards data={cardData} />}
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-4 h-full">
           <RoundedContainer>
-            {isLoading ? <LoadingProgressBar /> : <ProgressBar progress={overallProgress} />}
+            {isLoading ? (
+              <LoadingProgressBar />
+            ) : (
+              <ProgressBar progress={overallProgress} />
+            )}
           </RoundedContainer>
           <RoundedContainer>
             <div className="flex w-full h-48 sm:h-64 md:h-96">
-              {isLoading ? <LoadingPie /> : <Pie data={pieChartData} options={pieOptions} />}
+              {isLoading ? (
+                <LoadingPie />
+              ) : (
+                <Pie data={pieChartData} options={pieOptions} />
+              )}
             </div>
           </RoundedContainer>
         </div>
