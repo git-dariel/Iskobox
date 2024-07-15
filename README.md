@@ -1,11 +1,11 @@
-# Iskobox (Web)
+# PUP-ADMS (PUP Accreditation Document Management System) (Web)
 
-Welcome to the Iskobox App documentation
+Welcome to the PUP-ADMS App documentation
 
 ## Setup
 
 1.  Clone the repository
-    `git clone https://github.com/git-dariel/Iskobox.git`
+    `git clone https://github.com/git-dariel/PUP-ADMS.git`
 2.  Install dependencies
     `npm install`
 3.  Run local server
@@ -48,7 +48,6 @@ e.g. You will add a feature called "Advance Analytics"
 ## Online References and Guides
 
 - [GitHub Desktop Doc](https://docs.github.com/en/desktop/overview/about-github-desktop)
-- [React Leaflet](https://react-leaflet.js.org/docs/start-installation/)
 - [How to Create a Express/Node + React Project | Node Backend + React Frontend](https://www.youtube.com/watch?v=w3vs4a03y3I&list=PLwCOqpI4WKFx_f-Fg3CHwF7n0080x-Yme&index=5&t=225s)
 - [Creating High-Quality React Components: Best Practices for Reusability](https://www.youtube.com/watch?v=eXRlVpw1SIQ&t=548s)
 - [Best ChatGPT prompts for coding](https://www.learnprompt.org/chat-gpt-prompts-for-coding/)

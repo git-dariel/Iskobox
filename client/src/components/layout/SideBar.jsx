@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { BarChart3, BarChartBig, LayoutDashboard, Folders, FileClock } from "lucide-react";
 import { useAuth } from "@/helpers/auth.context";
+import PUPLOGO from "../../assets/pup-logo.png";
 
 function SideBar() {
   const { currentUser } = useAuth();
@@ -13,7 +14,7 @@ function SideBar() {
           to="/dashboard"
           className={({ isActive }) =>
             `flex-grow text-center py-2 text-xs md:text-base text-gray-800 ${
-              isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+              isActive ? "bg-orange-500 text-white" : "hover:bg-orange-400 hover:text-orange-50"
             } transition-all duration-200 mx-1 rounded-full`
           }
         >
@@ -23,7 +24,7 @@ function SideBar() {
           to="/home"
           className={({ isActive }) =>
             `flex-grow text-center py-2 text-xs md:text-base text-gray-800 ${
-              isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+              isActive ? "bg-orange-500 text-white" : "hover:bg-orange-400 hover:text-orange-50"
             } transition-all duration-200 mx-1 rounded-full`
           }
         >
@@ -33,7 +34,7 @@ function SideBar() {
           to="/dashboard-pending"
           className={({ isActive }) =>
             `flex-grow text-center py-2 text-xs md:text-base text-gray-800 ${
-              isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+              isActive ? "bg-orange-500 text-white" : "hover:bg-orange-400 hover:text-orange-50"
             } transition-all duration-200 mx-1 rounded-full`
           }
         >
@@ -43,7 +44,7 @@ function SideBar() {
           to="/dashboard-completed"
           className={({ isActive }) =>
             `flex-grow text-center py-2 text-xs md:text-base text-gray-800 ${
-              isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+              isActive ? "bg-orange-500 text-white" : "hover:bg-orange-400 hover:text-orange-50"
             } transition-all duration-200 mx-1 rounded-full`
           }
         >
@@ -54,7 +55,7 @@ function SideBar() {
             to="/activity-log"
             className={({ isActive }) =>
               `flex-grow text-center py-2 text-xs md:text-base text-gray-800 ${
-                isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+                isActive ? "bg-orange-500 text-white" : "hover:bg-orange-400 hover:text-orange-50"
               } transition-all duration-200 mx-1 rounded-full`
             }
           >
@@ -72,8 +73,8 @@ function SideBar() {
       </div>
       <div className="hidden md:flex flex-col min-w-64">
         <div className="flex flex-col flex-1 relative bg-slate-100">
-          <span className="flex items-center justify-start h-16 p-4 w-full font-semibold text-xl text-gray-800 rounded-lg rounded-b-none">
-            Iskobox
+          <span className="flex items-center justify-start h-18 p-5 w-full font-black text-2xl text-gray-800 rounded-lg rounded-b-none">
+            <img src={PUPLOGO} alt="PUP Logo" className="h-10 w-10 mr-2" /> PUP-ADMS
           </span>
           <nav
             className="flex-1 overflow-y-auto rounded-lg rounded-t-none"
@@ -86,7 +87,7 @@ function SideBar() {
               to="/dashboard"
               className={({ isActive }) =>
                 `flex items-center text-center justify-start px-4 py-4 md:text-base my-1 text-gray-800 ${
-                  isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+                  isActive ? "bg-orange-500 text-white" : "hover:bg-orange-400 hover:text-orange-50"
                 } transition-all duration-200 mx-1 rounded-full`
               }
             >
@@ -97,7 +98,9 @@ function SideBar() {
                 to="/home"
                 className={({ isActive }) =>
                   `flex items-center text-center justify-start px-4 py-4 md:text-base my-1 text-gray-800 ${
-                    isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+                    isActive
+                      ? "bg-orange-500 text-white"
+                      : "hover:bg-orange-400 hover:text-orange-50"
                   } transition-all duration-200 mx-1 rounded-full`
                 }
               >
@@ -107,7 +110,9 @@ function SideBar() {
                 to="/dashboard-pending"
                 className={({ isActive }) =>
                   `flex items-center text-center justify-start px-4 py-4 md:text-base my-1 text-gray-800 ${
-                    isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+                    isActive
+                      ? "bg-orange-500 text-white"
+                      : "hover:bg-orange-400 hover:text-orange-50"
                   } transition-all duration-200 mx-1 rounded-full`
                 }
               >
@@ -117,7 +122,9 @@ function SideBar() {
                 to="/dashboard-completed"
                 className={({ isActive }) =>
                   `flex items-center text-center justify-start px-4 py-4 md:text-base my-1 text-gray-800 ${
-                    isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+                    isActive
+                      ? "bg-orange-500 text-white"
+                      : "hover:bg-orange-400 hover:text-orange-50"
                   } transition-all duration-200 mx-1 rounded-full`
                 }
               >
@@ -128,7 +135,9 @@ function SideBar() {
                   to="/activity-log"
                   className={({ isActive }) =>
                     `flex items-center text-center justify-start px-4 py-4 md:text-base my-1 text-gray-800 ${
-                      isActive ? 'bg-orange-500 text-white' : 'hover:bg-orange-400 hover:text-orange-50'
+                      isActive
+                        ? "bg-orange-500 text-white"
+                        : "hover:bg-orange-400 hover:text-orange-50"
                     } transition-all duration-200 mx-1 rounded-full`
                   }
                 >
