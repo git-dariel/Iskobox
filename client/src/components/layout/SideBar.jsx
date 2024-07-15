@@ -135,14 +135,6 @@ function SideBar() {
                   <FileClock className="h-6 w-6 mr-2" /> Activity Logs
                 </NavLink>
               )}
-              {currentUser.role !== "Faculty" && (
-                <NavLink
-                  to="/activity-log"
-                  className="flex items-center px-4 py-2 pb-5 md:text-base text-gray-100 hover:text-gray-400"
-                >
-                  <FileClock className="h-6 w-6 mr-2" /> Activity Logs
-                </NavLink>
-              )}
             </div>
           </nav>
         </div>
