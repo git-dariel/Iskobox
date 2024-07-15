@@ -14,6 +14,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../database/firebase-connection";
+import { logActivity } from "@/middleware/activity.logging";
 
 export const fetchFolders = async (parentId = null) => {
   try {
@@ -56,6 +57,7 @@ export const addFolder = async (folderData) => {
     }
 
     const docRef = await addDoc(collection(db, "folders"), folderPayload);
+    await logActivity("Create folder", { folderId: docRef.id, folderName: folderData.name });
     return { id: docRef.id, ...folderPayload, subfolders: [] };
   } catch (error) {
     console.error("Error adding folder:", error);
@@ -65,6 +67,15 @@ export const addFolder = async (folderData) => {
 
 export const deleteFolder = async (folderId) => {
   try {
+    // Fetch the folder details to get the folderName
+    const folderDoc = await getDoc(doc(db, "folders", folderId));
+    if (!folderDoc.exists()) {
+      throw new Error("Folder not found");
+    }
+    const folderData = folderDoc.data();
+    const folderName = folderData.name;
+
+    // Delete all files in the folder
     const fileQuery = query(collection(db, "files"), where("folderId", "==", folderId));
     const fileSnapshot = await getDocs(fileQuery);
     const fileDeletions = fileSnapshot.docs.map((fileDoc) =>
@@ -72,13 +83,19 @@ export const deleteFolder = async (folderId) => {
     );
     await Promise.all(fileDeletions);
 
+    // Delete all subfolders recursively
     const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", folderId));
     const subfolderSnapshot = await getDocs(subfolderQuery);
     const subfolderDeletions = subfolderSnapshot.docs.map((subfolderDoc) =>
       deleteFolder(subfolderDoc.id)
     );
     await Promise.all(subfolderDeletions);
+
+    // Delete the folder itself
     await deleteDoc(doc(db, "folders", folderId));
+
+    // Log the activity with folderId and folderName
+    await logActivity("Delete folder", { folderId, folderName });
   } catch (error) {
     console.error("Error deleting folder:", error);
     throw error;
@@ -157,12 +174,26 @@ export const processFolder = (folder) => {
   };
 };
 
-export const addAssigneeToFolder = async (folderId, assigneeData) => {
+export const addAssigneeToFolder = async (folderId, assigneeData, assignSubfolders) => {
   try {
     const folderRef = doc(db, "folders", folderId);
     await updateDoc(folderRef, {
       assignees: arrayUnion(assigneeData),
     });
+
+    if (assignSubfolders) {
+      // Fetch subfolders
+      const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", folderId));
+      const subfolderSnapshot = await getDocs(subfolderQuery);
+      const subfolderAssignments = subfolderSnapshot.docs.map((subfolderDoc) =>
+        updateDoc(doc(db, "folders", subfolderDoc.id), {
+          assignees: arrayUnion(assigneeData),
+        })
+      );
+
+      await Promise.all(subfolderAssignments);
+    }
+
     return { success: true };
   } catch (error) {
     console.error("Error adding assignee to folder:", error);

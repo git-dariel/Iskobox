@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { Toaster, toast } from "sonner";
 import OvalButton from "../common/buttons/reusable/oval.button";
 import CircleButton from "../common/buttons/reusable/circle.button";
 import { IoAdd } from "react-icons/io5";
@@ -25,7 +24,6 @@ const FileTagModal = ({ onClose, fileName }) => {
     const newTags = [...tags];
     newTags.splice(index, 1);
     setTags(newTags);
-    toast.success("Tag removed successfully!");
   };
 
   const handleInputChange = (e) => {
@@ -41,7 +39,6 @@ const FileTagModal = ({ onClose, fileName }) => {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-75 transition-opacity duration-300 ease-in-out z-[9999]">
-        <Toaster />
         <div
           ref={modalRef}
           className="bg-white rounded-md shadow-lg max-w-sm lg:max-w-xl w-full overflow-hidden"
