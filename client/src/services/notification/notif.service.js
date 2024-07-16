@@ -1,4 +1,14 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../database/firebase-connection";
 
 // Create a new notification
@@ -28,7 +38,8 @@ export const addNewNotification = async (notificationData, userEmail) => {
 // Fetch all notifications
 export const fetchNotifications = async () => {
   try {
-    const notificationsSnapshot = await getDocs(collection(db, "notifications"));
+    const q = query(collection(db, "notifications"));
+    const notificationsSnapshot = await getDocs(q);
     return notificationsSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -73,6 +84,17 @@ export const fetchNotificationDetails = async (notificationId) => {
     }
   } catch (error) {
     console.error("Error fetching notification details:", error);
+    throw error;
+  }
+};
+
+// Mark a notification as read
+export const markNotificationAsRead = async (notificationId) => {
+  try {
+    const notificationRef = doc(db, "notifications", notificationId);
+    await updateDoc(notificationRef, { read: true });
+  } catch (error) {
+    console.error("Error marking notification as read:", error);
     throw error;
   }
 };
