@@ -7,6 +7,8 @@ import {
   getDoc,
   query,
   where,
+  updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { db, storage } from "../../database/firebase-connection";
@@ -123,4 +125,14 @@ export const countAllFiles = async () => {
     console.error("Error counting files:", error);
     throw error;
   }
+};
+
+export const addTagsToFile = async (fileId, tags) => {
+  if (!fileId) {
+    throw new Error("File ID is required");
+  }
+  const filesRef = doc(db, "files", fileId);
+  await updateDoc(filesRef, {
+    tags: arrayUnion(...tags),
+  });
 };
