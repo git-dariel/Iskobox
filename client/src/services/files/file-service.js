@@ -9,6 +9,9 @@ import {
   where,
   updateDoc,
   arrayUnion,
+  arrayRemove,
+  serverTimestamp,
+  orderBy,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { db, storage } from "../../database/firebase-connection";
@@ -69,6 +72,7 @@ export const uploadFile = async (file, folderId) => {
     name: fileName,
     folderId: folderId,
     url: url,
+    createdAt: serverTimestamp(),
   });
 
   await logActivity("Upload file", { fileId: docRef.id, fileName: fileName, folderId: folderId });
@@ -78,6 +82,7 @@ export const uploadFile = async (file, folderId) => {
     name: fileName,
     folderId: folderId,
     url: url,
+    createdAt: serverTimestamp(),
   };
 };
 
@@ -158,4 +163,24 @@ export const getFileTags = async (fileId) => {
   }
   const fileData = fileSnapshot.data();
   return fileData.tags || [];
+};
+
+export const searchFilesByTag = async (tagFilter) => {
+  try {
+    console.log("Searching files with tag filter:", tagFilter);
+
+    const filesQuery = query(collection(db, "files"), where("tags", "array-contains", tagFilter));
+
+    const querySnapshot = await getDocs(filesQuery);
+    const files = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    console.log("Found files:", files);
+    return files;
+  } catch (error) {
+    console.error("Error searching files by tag:", error);
+    throw error;
+  }
 };
