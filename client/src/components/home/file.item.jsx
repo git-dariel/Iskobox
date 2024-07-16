@@ -302,7 +302,7 @@ const FileItem = ({ file, isGridView }) => {
             <div className="flex justify-end space-x-4">
               <button
                 onClick={handleDelete}
-                className="px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors"
+                className="px-6 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors"
               >
                 Yes
               </button>
