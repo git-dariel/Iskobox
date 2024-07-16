@@ -7,6 +7,11 @@ import {
   getDoc,
   query,
   where,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  serverTimestamp,
+  orderBy,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
 import { db, storage } from "../../database/firebase-connection";
@@ -90,6 +95,7 @@ export const uploadFile = async (file, folderId, onProgress) => {
     name: fileName,
     folderId: folderId,
     url: url,
+    createdAt: serverTimestamp(),
   });
 
   // Log activity for the file upload
@@ -101,6 +107,7 @@ export const uploadFile = async (file, folderId, onProgress) => {
     name: fileName,
     folderId: folderId,
     url: url,
+    createdAt: serverTimestamp(),
   };
 };
 
@@ -147,6 +154,59 @@ export const countAllFiles = async () => {
     return querySnapshot.size;
   } catch (error) {
     console.error("Error counting files:", error);
+    throw error;
+  }
+};
+
+export const addTagsToFile = async (fileId, tags) => {
+  if (!fileId) {
+    throw new Error("File ID is required");
+  }
+  const filesRef = doc(db, "files", fileId);
+  await updateDoc(filesRef, {
+    tags: arrayUnion(...tags),
+  });
+};
+
+export const removeTagsFromFile = async (fileId, tags) => {
+  if (!fileId) {
+    throw new Error("File ID is required");
+  }
+  const filesRef = doc(db, "files", fileId);
+  await updateDoc(filesRef, {
+    tags: arrayRemove(...tags),
+  });
+};
+
+export const getFileTags = async (fileId) => {
+  if (!fileId) {
+    throw new Error("File ID is required");
+  }
+  const fileRef = doc(db, "files", fileId);
+  const fileSnapshot = await getDoc(fileRef);
+  if (!fileSnapshot.exists()) {
+    throw new Error("File not found");
+  }
+  const fileData = fileSnapshot.data();
+  return fileData.tags || [];
+};
+
+export const searchFilesByTag = async (tagFilter) => {
+  try {
+    console.log("Searching files with tag filter:", tagFilter);
+
+    const filesQuery = query(collection(db, "files"), where("tags", "array-contains", tagFilter));
+
+    const querySnapshot = await getDocs(filesQuery);
+    const files = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    console.log("Found files:", files);
+    return files;
+  } catch (error) {
+    console.error("Error searching files by tag:", error);
     throw error;
   }
 };

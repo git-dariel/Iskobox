@@ -13,7 +13,7 @@ export const addNewNotification = async (notificationData, userEmail) => {
       message: {
         subject: "New PUP Accreditations Notification",
         text: `You have a new notification: ${notificationData.message}`,
-        html: `<p>You have a new notification: ${notificationData.message}</p>`,
+        html: `<p>You have a new notification: ${notificationData.message}</p><p>Open this link to redirect to our site: <a href="https://pup-adms.vercel.app/">https://pup-adms.vercel.app/</a></p>`,
       },
     });
     console.log("Mail document added with ID:", mailDocRef.id);
