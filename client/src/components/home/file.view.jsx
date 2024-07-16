@@ -1,7 +1,13 @@
 import { useAuth } from "@/helpers/auth.context";
 import React, { useEffect, useState } from "react";
-import { fetchAllFiles, fetchFilesInFolder } from "../../services/files/file-service";
-import { fetchFolders, fetchFoldersForUser } from "../../services/folders/folder.service";
+import {
+  fetchAllFiles,
+  fetchFilesInFolder,
+} from "../../services/files/file-service";
+import {
+  fetchFolders,
+  fetchFoldersForUser,
+} from "../../services/folders/folder.service";
 import FileItem from "./file.item";
 import FolderItem from "./folder.item";
 import { useUpdate } from "@/helpers/update.context";
@@ -28,7 +34,10 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
           setFiles(allFiles);
         }
       } else if (currentUser && currentUser.role === "Faculty") {
-        const testData = await fetchFoldersForUser(currentUser.email, currentFolderId);
+        const testData = await fetchFoldersForUser(
+          currentUser.email,
+          currentFolderId
+        );
         setFolders(testData.folders);
         setFiles(testData.files);
       }
@@ -46,7 +55,7 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
   return (
     <div className="mt-4">
       {selectedView === "files" && (
-        <div className="ml-3">
+        <div>
           <h2 className="text-sm m-2">Files</h2>
           <div
             className={`${
@@ -56,9 +65,13 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
             } `}
           >
             {files.length > 0 ? (
-              files.map((file) => <FileItem key={file.id} file={file} isGridView={isGridView} />)
+              files.map((file) => (
+                <FileItem key={file.id} file={file} isGridView={isGridView} />
+              ))
             ) : (
-              <div className="flex flex-col flex-1 items-center justify-center mt-10">Empty</div>
+              <div className="flex flex-col flex-1 items-center justify-center mt-10">
+                Empty
+              </div>
             )}
           </div>
         </div>
@@ -84,7 +97,9 @@ const FileView = ({ selectedView, isGridView, currentFolderId }) => {
                 />
               ))
             ) : (
-              <div className="flex flex-col flex-1 items-center justify-center mt-10">Empty</div>
+              <div className="flex flex-col flex-1 items-center justify-center mt-10">
+                Empty
+              </div>
             )}
           </div>
         </div>

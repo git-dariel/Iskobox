@@ -2,7 +2,10 @@ import React, { useRef, useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import OvalButton from "../common/buttons/reusable/oval.button";
 import CircleButton from "../common/buttons/reusable/circle.button";
-import { addTagsToFile } from "@/services/files/file-service";
+import {
+  addTagsToFile,
+  removeTagsFromFile,
+} from "@/services/files/file-service";
 import { Toaster, toast } from "sonner";
 import { IoIosAdd } from "react-icons/io";
 
@@ -37,8 +40,21 @@ const FileTagModal = ({
     }
   };
 
-  const handleCloseModal = () => {
-    onClose();
+  const handleRemoveTag = async (index) => {
+    const tagToRemove = tags[index];
+    const newTags = [...tags];
+    newTags.splice(index, 1);
+    setTags(newTags);
+    try {
+      await toast.promise(removeTagsFromFile(fileId, [tagToRemove]), {
+        loading: "Removing tag...",
+        success: "Tag removed successfully",
+        error: (err) => `Failed to remove tag: ${err.message}`,
+      });
+      onTagsUpdate(newTags);
+    } catch (error) {
+      console.error("Error removing tag from file:", error);
+    }
   };
 
   const handleAddTag = () => {
@@ -46,12 +62,6 @@ const FileTagModal = ({
       setTags([...tags, inputValue.trim()]);
       setInputValue("");
     }
-  };
-
-  const handleRemoveTag = (index) => {
-    const newTags = [...tags];
-    newTags.splice(index, 1);
-    setTags(newTags);
   };
 
   const handleInputChange = (e) => {
@@ -78,7 +88,7 @@ const FileTagModal = ({
             <CircleButton
               title={"Close modal"}
               icon={<IoClose />}
-              onClick={handleCloseModal}
+              onClick={onClose}
             />
           </div>
           <div className="p-4 md:p-5 space-y-4">
@@ -94,7 +104,7 @@ const FileTagModal = ({
               <CircleButton
                 title={"Add tag"}
                 icon={<IoIosAdd size={20} />}
-                onClick={() => handleAddTag()}
+                onClick={handleAddTag}
                 bgColor="bg-orange-200"
                 hoverBg="bg-orange-400"
               />

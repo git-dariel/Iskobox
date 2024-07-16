@@ -160,7 +160,7 @@ const FileItem = ({ file, isGridView }) => {
           isGridView
             ? "flex-col m-2 p-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg"
             : "w-full border-y"
-        } text-sm flex items-center p-[0.30rem] justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
+        } text-sm flex items-center px-1 py-2 justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
         onClick={() => {
           if (isTagModalOpen) return;
           const fileType = getFileType(file.name);
@@ -185,7 +185,7 @@ const FileItem = ({ file, isGridView }) => {
         </span>
 
         <div className="flex flex-wrap gap-1">
-          {tags.map((tag, index) => (
+          {tags.slice(0, 2).map((tag, index) => (
             <span
               key={index}
               className="bg-gray-200 rounded-full px-2 py-1 text-xs text-gray-700"
@@ -193,6 +193,11 @@ const FileItem = ({ file, isGridView }) => {
               #{tag}
             </span>
           ))}
+          {tags.length > 2 && (
+            <span className="bg-gray-200 rounded-full px-2 py-1 text-xs text-gray-700">
+              +{tags.length - 2} more
+            </span>
+          )}
         </div>
 
         <div
