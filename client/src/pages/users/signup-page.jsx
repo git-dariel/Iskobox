@@ -3,7 +3,7 @@ import { registerUser } from "@/services/users/user.service";
 import { Toaster, toast } from "sonner";
 import { Link } from "react-router-dom";
 import validator from "validator";
-import Image from "../../assets/shareehub.png";
+import Image from "../../assets/pup-logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
@@ -55,10 +55,13 @@ const SignUp = () => {
     <div className="bg-[#F0F4F9] h-screen flex flex-col justify-center items-center">
       <Toaster />
       <div className=" bg-[#FFFFFF] w-[22rem] h-4/5 md:w-9/12 md:h-96 rounded-3xl md:flex md:justify-between mb-5">
-        <div className="px-5 pt-10 md:pt-5">
-          <img src={Image} alt="logo" className="w-20 h-20 md:w-28 md:h-auto" />
-          <div className="px-5 md:px-15 ">
-            <h1 className="text-2xl md:text-4xl md:pb-5 md:pt-0 pb-3 pt-0">
+        <div className="px-5 pt-14 md:py-10">
+          <div className="flex items-center justify-center md:block">
+            <img src={Image} alt="logo" className="w-14 h-14 md:w-20 md:h-auto md:ml-3" />
+          </div>
+
+          <div className="px-5 py-3 md:px-15 md:py-5 text-center md:text-left">
+            <h1 className="text-xl md:text-3xl md:pb-5 md:pt-0 pb-3 pt-0">
               Create a PUP-ADMS Account
             </h1>
             <h1 className="text-sm md:text-base ">Enter your Information</h1>

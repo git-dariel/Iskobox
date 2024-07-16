@@ -6,6 +6,7 @@ import FileFolderButton from "../common/buttons/file.folder";
 import Notification from "../common/buttons/notification";
 import ToggleViewButton from "../common/buttons/toggle.view";
 import FolderTagModal from "../modals/folder.tag";
+import Search from "../common/searchbars/search";
 
 const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, currentFolderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,6 +38,7 @@ const Header = ({ selectedButton, handleButtonClick, isGridView, toggleView, cur
               : "Iskobox"}
           </h1>
           <div className="flex">
+            <Search />
             <Notification />
             <UserProfile />
           </div>
