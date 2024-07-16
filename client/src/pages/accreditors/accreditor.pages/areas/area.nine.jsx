@@ -355,6 +355,8 @@ const AreaNine = () => {
           </Link>
         </div>
       </MainLayout>
+      
+      
       {modalOpen && (
         <>
           <GlobalStyles />
