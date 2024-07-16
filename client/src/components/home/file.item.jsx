@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getFileIcon, getFileType } from "../../helpers/file-helpers";
-import { deleteFile, getFileUrl, getFileTags } from "../../services/files/file-service";
+import {
+  deleteFile,
+  getFileUrl,
+  getFileTags,
+} from "../../services/files/file-service";
 import { Toaster, toast } from "sonner";
 import CircleButton from "../common/buttons/reusable/circle.button";
 import { MdDelete, MdDownload, MdMoreVert } from "react-icons/md";
@@ -156,11 +160,15 @@ const FileItem = ({ file, isGridView }) => {
           isGridView
             ? "flex-col m-2 p-2 bg-[#F0F4F9] hover:bg-gray-200 rounded-lg"
             : "w-full border-y"
-        } text-sm flex items-center p-[0.30rem] justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
+        } text-sm flex items-center px-1 py-2 justify-between space-x-2 border-gray-200 hover:bg-gray-100 cursor-pointer`}
         onClick={() => {
           if (isTagModalOpen) return;
           const fileType = getFileType(file.name);
-          if (fileType === "image" || fileType === "pdf" || fileType === "docx") {
+          if (
+            fileType === "image" ||
+            fileType === "pdf" ||
+            fileType === "docx"
+          ) {
             setIsModalOpen(true);
           } else if (fileType === "video" || fileType === "audio") {
             handleOpenMedia();
@@ -171,18 +179,31 @@ const FileItem = ({ file, isGridView }) => {
       >
         {getFileIcon(file.name)}
         <span className="truncate flex-grow overflow-hidden text-ellipsis md:whitespace-normal">
-          {file.name.length > 30 ? `${file.name.substring(0, 17)}...` : file.name}
+          {file.name.length > 30
+            ? `${file.name.substring(0, 17)}...`
+            : file.name}
         </span>
 
         <div className="flex flex-wrap gap-1">
-          {tags.map((tag, index) => (
-            <span key={index} className="bg-gray-200 rounded-full px-2 py-1 text-xs text-gray-700">
+          {tags.slice(0, 2).map((tag, index) => (
+            <span
+              key={index}
+              className="bg-gray-200 rounded-full px-2 py-1 text-xs text-gray-700"
+            >
               #{tag}
             </span>
           ))}
+          {tags.length > 2 && (
+            <span className="bg-gray-200 rounded-full px-2 py-1 text-xs text-gray-700">
+              +{tags.length - 2} more
+            </span>
+          )}
         </div>
 
-        <div className={`relative ${isGridView ? "self-end" : ""}`} ref={dropdownRef}>
+        <div
+          className={`relative ${isGridView ? "self-end" : ""}`}
+          ref={dropdownRef}
+        >
           <MdMoreVert
             size={20}
             className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
@@ -230,6 +251,7 @@ const FileItem = ({ file, isGridView }) => {
           fileName={file.name}
           fileId={file.id}
           onTagsUpdate={handleTagsUpdate}
+          existingTags={tags}
         />
       )}
 
@@ -274,11 +296,13 @@ const FileItem = ({ file, isGridView }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
           <div className="bg-gray-300 p-8 rounded-lg shadow-2xl">
             <h2 className="text-xl font-semibold mb-6">Delete {file.name}</h2>
-            <p className="mb-4">Are you sure you want to delete the file "{file.name}"?</p>
+            <p className="mb-4">
+              Are you sure you want to delete the file "{file.name}"?
+            </p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={handleDelete}
-                className="px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors"
+                className="px-6 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors"
               >
                 Yes
               </button>

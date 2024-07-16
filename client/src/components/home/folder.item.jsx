@@ -4,7 +4,10 @@ import { FcFolder } from "react-icons/fc";
 import { MdDelete, MdMoreVert } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineTag } from "react-icons/ai";
-import { deleteFolder, removeAssigneeFromFolder } from "../../services/folders/folder.service";
+import {
+  deleteFolder,
+  removeAssigneeFromFolder,
+} from "../../services/folders/folder.service";
 import { Toaster, toast } from "sonner";
 import { useUpdate } from "@/helpers/update.context";
 import { useAuth } from "@/helpers/auth.context";
@@ -16,7 +19,8 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
-  const [isRemoveAssigneeModalOpen, setIsRemoveAssigneeModalOpen] = useState(false);
+  const [isRemoveAssigneeModalOpen, setIsRemoveAssigneeModalOpen] =
+    useState(false);
   const [assigneeToRemove, setAssigneeToRemove] = useState(null);
   const dropdownRef = useRef(null);
   const { triggerUpdate } = useUpdate();
@@ -61,7 +65,8 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
       .promise(deleteProcess(), {
         loading: "Removing folder...",
         success: "Folder successfully removed",
-        error: (err) => err.message || "Failed to remove folder. Please try again.",
+        error: (err) =>
+          err.message || "Failed to remove folder. Please try again.",
       })
       .finally(() => {
         setIsModalOpen(false);
@@ -127,7 +132,9 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
               }`}
             >
               <FcFolder size={25} />
-              <span className="truncate text-sm pl-2 font-medium text-gray-800">{folder.name}</span>
+              <span className="truncate text-sm pl-2 font-medium text-gray-800">
+                {folder.name}
+              </span>
             </div>
             <div
               className={`flex items-center w-1/3 space-x-1 text-gray-500 text-xs ${
@@ -136,9 +143,14 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
             >
               {folder.assignees && folder.assignees.length > 0 ? (
                 folder.assignees.map((assignee) => (
-                  <div key={assignee.userId} className="flex items-center space-x-1">
+                  <div
+                    key={assignee.userId}
+                    className="flex items-center space-x-1"
+                  >
                     <div className="w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center">
-                      <span className="text-xs font-medium">{getInitials(assignee.userId)}</span>
+                      <span className="text-xs font-medium">
+                        {getInitials(assignee.userId)}
+                      </span>
                     </div>
                     <span>{assignee.name}</span>
                   </div>
@@ -150,7 +162,10 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
             <div className="flex items-center w-1/3 space-x-1 text-gray-500 text-xs">
               <span>{new Date(folder.createdAt).toLocaleDateString()}</span>
             </div>
-            <div className={`relative ${isGridView ? "self-end" : ""}`} ref={dropdownRef}>
+            <div
+              className={`relative ${isGridView ? "self-end" : ""}`}
+              ref={dropdownRef}
+            >
               <MdMoreVert
                 size={18}
                 className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
@@ -210,12 +225,16 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
             <div className="bg-gray-300 p-8 rounded-lg shadow-2xl">
-              <h2 className="text-xl font-semibold mb-6">Delete {folder.name}</h2>
-              <p className="mb-4">Are you sure you want to delete the folder "{folder.name}"?</p>
+              <h2 className="text-xl font-semibold mb-6">
+                Delete {folder.name}
+              </h2>
+              <p className="mb-4">
+                Are you sure you want to delete the folder "{folder.name}"?
+              </p>
               <div className="flex justify-end space-x-4">
                 <button
                   onClick={handleDelete}
-                  className="px-6 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors"
+                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                 >
                   Yes
                 </button>
@@ -240,17 +259,22 @@ const FolderItem = ({ folder, onDoubleClick, isGridView }) => {
           />
         )}
         {isTagModalOpen && (
-          <FolderTagModal folderId={folder.id} onClose={() => setIsTagModalOpen(false)} />
+          <FolderTagModal
+            folderId={folder.id}
+            onClose={() => setIsTagModalOpen(false)}
+          />
         )}
 
         {isRemoveAssigneeModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
             <div className="bg-gray-300 p-8 rounded-lg shadow-2xl">
               <h2 className="text-xl font-semibold mb-6">Confirm Removal</h2>
-              <p className="mb-4">Are you sure you want to remove {assigneeToRemove?.name}?</p>
+              <p className="mb-4">
+                Are you sure you want to remove {assigneeToRemove?.name}?
+              </p>
               <div className="flex justify-end space-x-4">
                 <button
-                  className="px-6 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors"
+                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                   onClick={() => handleRemoveAssignee(assigneeToRemove)}
                 >
                   Remove

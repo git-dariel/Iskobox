@@ -1,23 +1,35 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import OvalButton from "../common/buttons/reusable/oval.button";
 import CircleButton from "../common/buttons/reusable/circle.button";
-import { IoAdd } from "react-icons/io5";
-import { addTagsToFile } from "@/services/files/file-service";
-import { add } from "lodash";
+import {
+  addTagsToFile,
+  removeTagsFromFile,
+} from "@/services/files/file-service";
 import { Toaster, toast } from "sonner";
+import { IoIosAdd } from "react-icons/io";
 
-const FileTagModal = ({ onClose, fileName, fileId, onTagsUpdate }) => {
+const FileTagModal = ({
+  onClose,
+  fileName,
+  fileId,
+  onTagsUpdate,
+  existingTags,
+}) => {
   const [tags, setTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const modalRef = useRef(null);
 
-  console.log("File ID:", fileId);
+  useEffect(() => {
+    if (existingTags) {
+      setTags(existingTags);
+    }
+  }, [existingTags]);
 
   const addTags = async () => {
     try {
       await toast.promise(addTagsToFile(fileId, tags), {
-        loading: "Adding tags...",
+        loading: "Updating tags...",
         success: "Tags added to file successfully",
         error: (err) => `Failed to add tags: ${err.message}`,
       });
@@ -28,8 +40,21 @@ const FileTagModal = ({ onClose, fileName, fileId, onTagsUpdate }) => {
     }
   };
 
-  const handleCloseModal = () => {
-    onClose();
+  const handleRemoveTag = async (index) => {
+    const tagToRemove = tags[index];
+    const newTags = [...tags];
+    newTags.splice(index, 1);
+    setTags(newTags);
+    try {
+      await toast.promise(removeTagsFromFile(fileId, [tagToRemove]), {
+        loading: "Removing tag...",
+        success: "Tag removed successfully",
+        error: (err) => `Failed to remove tag: ${err.message}`,
+      });
+      onTagsUpdate(newTags);
+    } catch (error) {
+      console.error("Error removing tag from file:", error);
+    }
   };
 
   const handleAddTag = () => {
@@ -37,12 +62,6 @@ const FileTagModal = ({ onClose, fileName, fileId, onTagsUpdate }) => {
       setTags([...tags, inputValue.trim()]);
       setInputValue("");
     }
-  };
-
-  const handleRemoveTag = (index) => {
-    const newTags = [...tags];
-    newTags.splice(index, 1);
-    setTags(newTags);
   };
 
   const handleInputChange = (e) => {
@@ -66,7 +85,11 @@ const FileTagModal = ({ onClose, fileName, fileId, onTagsUpdate }) => {
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 rounded-t">
             <h3 className="text-lg text-gray-600">Add tags to "{fileName}"</h3>
-            <CircleButton title={"Close modal"} icon={<IoClose />} onClick={handleCloseModal} />
+            <CircleButton
+              title={"Close modal"}
+              icon={<IoClose />}
+              onClick={onClose}
+            />
           </div>
           <div className="p-4 md:p-5 space-y-4">
             <div className="flex gap-1">
@@ -78,10 +101,20 @@ const FileTagModal = ({ onClose, fileName, fileId, onTagsUpdate }) => {
                 onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
               />
+              <CircleButton
+                title={"Add tag"}
+                icon={<IoIosAdd size={20} />}
+                onClick={handleAddTag}
+                bgColor="bg-orange-200"
+                hoverBg="bg-orange-400"
+              />
             </div>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag, index) => (
-                <div key={index} className="flex items-center bg-gray-200 rounded-full px-3 py-1">
+                <div
+                  key={index}
+                  className="flex items-center bg-gray-200 rounded-full px-3 py-1"
+                >
                   <span className="text-gray-700"># {tag}</span>
                   <CircleButton
                     title={"Remove tag"}
@@ -95,7 +128,7 @@ const FileTagModal = ({ onClose, fileName, fileId, onTagsUpdate }) => {
           </div>
           {/* Modal footer */}
           <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b">
-            <OvalButton text={"Done"} onClick={addTags} />
+            <OvalButton text={"Save"} onClick={addTags} />
           </div>
         </div>
       </div>

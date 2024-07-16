@@ -46,7 +46,10 @@ const FolderOpen = () => {
       if (currentUser.role === "Admin") {
         folders = await fetchFolders(folderId);
       } else if (currentUser.role === "Faculty") {
-        const assignedData = await fetchFoldersForUser(currentUser.email, folderId);
+        const assignedData = await fetchFoldersForUser(
+          currentUser.email,
+          folderId
+        );
         folders = assignedData.folders;
       }
       const processedFolders = folders.map((folder) => processFolder(folder));
@@ -64,7 +67,10 @@ const FolderOpen = () => {
       const newBreadcrumb = [];
       let currentFolder = folderDetails;
       while (currentFolder) {
-        newBreadcrumb.unshift({ id: currentFolder.id, name: currentFolder.name });
+        newBreadcrumb.unshift({
+          id: currentFolder.id,
+          name: currentFolder.name,
+        });
         currentFolder = currentFolder.parent;
       }
       setBreadcrumb(newBreadcrumb);
@@ -123,7 +129,10 @@ const FolderOpen = () => {
       <SideBar />
       <div className="flex flex-col flex-1">
         <div className="flex flex-col flex-1">
-          <div className="flex flex-col flex-1" style={{ scrollbarWidth: "thin" }}>
+          <div
+            className="flex flex-col flex-1"
+            style={{ scrollbarWidth: "thin" }}
+          >
             <Header
               selectedButton={selectedView}
               handleButtonClick={handleViewChange}
@@ -148,7 +157,9 @@ const FolderOpen = () => {
                       <BreadcrumbLink
                         href="#"
                         onClick={() => handleBreadcrumbClick(index)}
-                        className={index === breadcrumb.length - 1 ? "font-bold" : ""}
+                        className={
+                          index === breadcrumb.length - 1 ? "font-bold" : ""
+                        }
                       >
                         {crumb.name}
                       </BreadcrumbLink>
@@ -165,8 +176,9 @@ const FolderOpen = () => {
                     <l-bouncy size={40} color="black"></l-bouncy>
                   </div>
                 ) : (
-                  <div className="ml-3">
-                    {folderContents.length === 0 && selectedView === "folders" ? (
+                  <div className="">
+                    {folderContents.length === 0 &&
+                    selectedView === "folders" ? (
                       <div className="flex flex-col flex-1 items-center justify-center">
                         This folder is empty.
                       </div>
