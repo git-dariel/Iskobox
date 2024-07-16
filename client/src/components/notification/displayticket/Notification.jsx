@@ -1,9 +1,13 @@
-import { deleteNotification, fetchNotifications } from "@/services/notification/notif.service";
+import {
+  deleteNotification,
+  fetchNotifications,
+  markNotificationAsRead,
+} from "@/services/notification/notif.service";
 import React, { useState, useEffect } from "react";
 import { IoPersonCircleSharp, IoClose, IoTrashBin } from "react-icons/io5";
 import { Toaster, toast } from "sonner";
 
-const DisplayFetchedData = ({ setNotificationCount }) => {
+const DisplayFetchedData = () => {
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
@@ -14,7 +18,6 @@ const DisplayFetchedData = ({ setNotificationCount }) => {
       try {
         const fetchedNotifications = await fetchNotifications();
         setNotifications(fetchedNotifications);
-        setNotificationCount(fetchedNotifications.length);
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
@@ -42,6 +45,12 @@ const DisplayFetchedData = ({ setNotificationCount }) => {
         error: (err) => `Failed to delete notification: ${err.message}`,
       }
     );
+  };
+
+  const handleOpenNotification = async (notification) => {
+    setShowModal(true);
+    setSelectedNotification(notification);
+    await markNotificationAsRead(notification.id);
   };
 
   const formatDate = (timestamp) => {
@@ -109,16 +118,13 @@ const DisplayFetchedData = ({ setNotificationCount }) => {
         <div className="mb-4">
           <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Notifications</h1>
         </div>
-        <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="divide-y divide-gray-200 dark:divide-gray-700 max-h-96 overflow-y-auto">
           {notifications.length > 0 ? (
             notifications.map((notification, index) => (
               <div
                 key={index}
                 className="flex items-center p-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                onClick={() => {
-                  setShowModal(true);
-                  setSelectedNotification(notification);
-                }}
+                onClick={() => handleOpenNotification(notification)}
               >
                 <div className="flex-shrink-0">
                   <IoPersonCircleSharp className="text-3xl text-gray-500 dark:text-gray-400" />
