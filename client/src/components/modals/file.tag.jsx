@@ -7,7 +7,7 @@ import { addTagsToFile } from "@/services/files/file-service";
 import { add } from "lodash";
 import { Toaster, toast } from "sonner";
 
-const FileTagModal = ({ onClose, fileName, fileId }) => {
+const FileTagModal = ({ onClose, fileName, fileId, onTagsUpdate }) => {
   const [tags, setTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const modalRef = useRef(null);
@@ -21,6 +21,7 @@ const FileTagModal = ({ onClose, fileName, fileId }) => {
         success: "Tags added to file successfully",
         error: (err) => `Failed to add tags: ${err.message}`,
       });
+      onTagsUpdate(tags);
       onClose();
     } catch (error) {
       console.error("Error adding tags to file:", error);

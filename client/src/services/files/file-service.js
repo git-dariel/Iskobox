@@ -136,3 +136,26 @@ export const addTagsToFile = async (fileId, tags) => {
     tags: arrayUnion(...tags),
   });
 };
+
+export const removeTagsFromFile = async (fileId, tags) => {
+  if (!fileId) {
+    throw new Error("File ID is required");
+  }
+  const filesRef = doc(db, "files", fileId);
+  await updateDoc(filesRef, {
+    tags: arrayRemove(...tags),
+  });
+};
+
+export const getFileTags = async (fileId) => {
+  if (!fileId) {
+    throw new Error("File ID is required");
+  }
+  const fileRef = doc(db, "files", fileId);
+  const fileSnapshot = await getDoc(fileRef);
+  if (!fileSnapshot.exists()) {
+    throw new Error("File not found");
+  }
+  const fileData = fileSnapshot.data();
+  return fileData.tags || [];
+};

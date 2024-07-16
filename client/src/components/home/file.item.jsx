@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getFileIcon, getFileType } from "../../helpers/file-helpers";
-import { deleteFile, getFileUrl } from "../../services/files/file-service";
+import { deleteFile, getFileUrl, getFileTags } from "../../services/files/file-service";
 import { Toaster, toast } from "sonner";
 import CircleButton from "../common/buttons/reusable/circle.button";
 import { MdDelete, MdDownload, MdMoreVert } from "react-icons/md";
@@ -14,8 +14,21 @@ const FileItem = ({ file, isGridView }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [tags, setTags] = useState([]);
   const dropdownRef = useRef(null);
   const { triggerUpdate } = useUpdate();
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const fetchedTags = await getFileTags(file.id);
+        setTags(fetchedTags);
+      } catch (error) {
+        console.error("Error fetching file tags:", error);
+      }
+    };
+    fetchTags();
+  }, [file.id]);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -39,6 +52,10 @@ const FileItem = ({ file, isGridView }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleTagsUpdate = (newTags) => {
+    setTags(newTags);
+  };
 
   const handleDelete = async () => {
     toast.promise(deleteFile(file.id), {
@@ -156,6 +173,15 @@ const FileItem = ({ file, isGridView }) => {
         <span className="truncate flex-grow overflow-hidden text-ellipsis md:whitespace-normal">
           {file.name.length > 30 ? `${file.name.substring(0, 17)}...` : file.name}
         </span>
+
+        <div className="flex flex-wrap gap-1">
+          {tags.map((tag, index) => (
+            <span key={index} className="bg-gray-200 rounded-full px-2 py-1 text-xs text-gray-700">
+              #{tag}
+            </span>
+          ))}
+        </div>
+
         <div className={`relative ${isGridView ? "self-end" : ""}`} ref={dropdownRef}>
           <MdMoreVert
             size={20}
@@ -203,6 +229,7 @@ const FileItem = ({ file, isGridView }) => {
           onClose={() => setIsTagModalOpen(false)}
           fileName={file.name}
           fileId={file.id}
+          onTagsUpdate={handleTagsUpdate}
         />
       )}
 
