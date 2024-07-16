@@ -1,21 +1,99 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import common from "@/configs/common.config";
 import MainLayout from "../../layout/main.layout";
 import { Link } from "react-router-dom";
 import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 import { fetchAreaOneFoldersAndFiles } from "@/services/folders/folder.service";
-import { Paperclip, File } from "lucide-react";
+import { Paperclip, Fullscreen } from "lucide-react";
 import { getFileType } from "@/helpers/file-helpers";
 import { getFileUrl } from "@/services/files/file-service";
 import StarsCanvas from "@/components/layout/starcanvas";
 import documents_links from "@/configs/documents.config";
+import { FaRegWindowClose } from "react-icons/fa";
 
 const AreaOne = () => {
+
+  const slideInKeyframes = `
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+`;
+
+  const slideOutKeyframes = `
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+`;
+
+  // Add keyframes to the global styles
+  const GlobalStyles = () => (
+    <style>
+      {slideInKeyframes}
+      {slideOutKeyframes}
+    </style>
+  );
+
   const googleDriveLinkPPP = documents_links.areaone_ppp;
-  const embedLinkPPP = googleDriveLinkPPP.replace("/view?usp=sharing", "/preview");
+  const embedLinkPPP = googleDriveLinkPPP.replace(
+    "/view?usp=sharing",
+    "/preview"
+  );
   const googleDriveLinkSLF = documents_links.areaone_slf;
-  const embedLinkSLF = googleDriveLinkSLF.replace("/view?usp=sharing", "/preview");
+  const embedLinkSLF = googleDriveLinkSLF.replace(
+    "/view?usp=sharing",
+    "/preview"
+  );
   const [areaOneData, setAreaOneData] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [name, setName] = useState(null);
+  const iframeRef = useRef(null);
+
+  const openModal = async (file) => {
+    const url = await getFileUrl(file.id);
+    const fileType = getFileType(file.name);
+    const name = file.name;
+
+    if (
+      fileType === "image" ||
+      fileType === "pdf" ||
+      fileType === "docx" ||
+      fileType === "pptx" ||
+      fileType === "xlsx"
+    ) {
+      let contentUrl = null;
+      if (fileType === "pdf") {
+        contentUrl = url;
+      } else {
+        contentUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
+          url
+        )}&embedded=true`;
+      }
+      setName(name);
+      setSelectedFile(contentUrl);
+      setModalOpen(false); // Close the current modal
+      setTimeout(() => {
+        setModalOpen(true); // Open the new modal with slideIn animation
+      }, 100);
+    } else {
+      console.error("File format not supported for preview.");
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedFile(null);
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,19 +104,42 @@ const AreaOne = () => {
     fetchData();
   }, []);
 
-  const openFileInNewTab = async (file) => {
-    const url = await getFileUrl(file.id);
-    const fileType = getFileType(file.name);
-    if (
-      fileType === "image" ||
-      fileType === "pdf" ||
-      fileType === "docx" ||
-      fileType === "pptx" ||
-      fileType === "xlsx"
-    ) {
-      window.open(url, "_blank");
-    } else {
-      console.error("File format not supported for preview.");
+  const toggleFullScreen = () => {
+    if (iframeRef.current) {
+      if (
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+      ) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        }
+      } else {
+        if (iframeRef.current.requestFullscreen) {
+          iframeRef.current.requestFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (iframeRef.current.mozRequestFullScreen) {
+          iframeRef.current.mozRequestFullScreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (iframeRef.current.webkitRequestFullscreen) {
+          iframeRef.current.webkitRequestFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        } else if (iframeRef.current.msRequestFullscreen) {
+          iframeRef.current.msRequestFullscreen();
+          iframeRef.current.style.transform = "scale(1)"; // Reset zoom to normal size
+        }
+      }
     }
   };
 
@@ -71,7 +172,9 @@ const AreaOne = () => {
               <h1 className="md:text-2xl text-base font-bold mb-5">
                 {common.AREAONE_CONTENTS.DESC}
               </h1>
-              <p className="md:text-lg text-sm">{common.AREAONE_CONTENTS.DESC_CONTENT}</p>
+              <p className="md:text-lg text-sm">
+                {common.AREAONE_CONTENTS.DESC_CONTENT}
+              </p>
             </div>
           </div>
         </section>
@@ -89,7 +192,7 @@ const AreaOne = () => {
               </header>
             </div>
 
-            <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
+            <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-10">
               <iframe
                 src={embedLinkPPP}
                 className="w-full h-full border-none"
@@ -112,7 +215,7 @@ const AreaOne = () => {
               </header>
             </div>
 
-            <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
+            <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-10">
               <iframe
                 src={embedLinkSLF}
                 className="w-full h-full border-none"
@@ -140,12 +243,15 @@ const AreaOne = () => {
 
                           {subfolder.name === "Parameter A" && (
                             <p className="text-sm md:text-base">
-                              Statement of Vision, Mission, Goals, and Objectives
+                              Statement of Vision, Mission, Goals, and
+                              Objectives
                             </p>
                           )}
 
                           {subfolder.name === "Parameter B" && (
-                            <p className="text-sm md:text-base">Dissemination and acceptability</p>
+                            <p className="text-sm md:text-base">
+                              Dissemination and acceptability
+                            </p>
                           )}
                         </div>
                       </header>
@@ -161,7 +267,7 @@ const AreaOne = () => {
                               <li
                                 key={file.id}
                                 className="flex gap-2 items-center cursor-pointer hover:text-blue-500 md:text-base text-sm"
-                                onClick={() => openFileInNewTab(file)}
+                                onClick={() => openModal(file)}
                               >
                                 <Paperclip size={15} /> {file.name}
                               </li>
@@ -179,7 +285,9 @@ const AreaOne = () => {
                   style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
                 >
                   <header className="border w-full text-center h-full py-10">
-                    <h3 className="text-lg md:text-3xl font-bold text-gray-700">Other Files</h3>
+                    <h3 className="text-lg md:text-3xl font-bold text-gray-700">
+                      Other Files
+                    </h3>
                   </header>
                 </div>
                 <div className="flex items-center justify-center text-justify py-10">
@@ -190,7 +298,7 @@ const AreaOne = () => {
                           <li
                             key={file.id}
                             className="flex gap-2 items-center cursor-pointer hover:text-blue-500 md:text-base text-sm"
-                            onClick={() => openFileInNewTab(file)}
+                            onClick={() => openModal(file)}
                           >
                             <Paperclip size={15} /> {file.name}
                           </li>
@@ -254,11 +362,49 @@ const AreaOne = () => {
           </Link>
           <Link to="/programs-under-survey/areaten">
             <button className="bg-orange-700 p-3 w-[8rem] rounded-md text-white transition duration-300 ease-in-out hover:bg-orange-600 hover:scale-105">
-              Area 10
+              Area 10s
             </button>
           </Link>
         </div>
       </MainLayout>
+
+      {modalOpen && (
+        <>
+          <GlobalStyles />
+          <div
+            className="fixed inset-y-0 right-0 z-50 flex items-center shadow-2xl w-1/2 bg-black bg-opacity-0 transition-opacity duration-5000 ease-in-out"
+            style={{
+              animation: `${
+                modalOpen ? "slideIn 2s forwards" : "slideOut 2s forwards"
+              }`,
+            }}
+          >
+            <div className="bg-white w-full h-full p-4 overflow-y-auto">
+              <div className="flex justify-between">
+                <p>{name}</p>
+                <div className="flex justify-between gap-8">
+                  <button onClick={toggleFullScreen} className="flex gap-2">
+                    <Fullscreen />
+                    Fullscreen
+                  </button>
+                  <button className="text-black text-2xl" onClick={closeModal}>
+                    <FaRegWindowClose />
+                  </button>
+                </div>
+              </div>
+              <div className="mt-2">
+                <iframe
+                  ref={iframeRef}
+                  src={selectedFile}
+                  className="w-full h-[92vh] border-none rounded-md"
+                  allow="autoplay fullview justify"
+                  style={{ margin: "auto" }}
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
