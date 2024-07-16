@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FiSearch, FiMic } from "react-icons/fi";
-import { searchFilesByTag } from "../../../services/files/file-service";
+import { searchFilesByTag, getFileUrl } from "../../../services/files/file-service";
 
 const SearchForm = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,6 +42,15 @@ const SearchForm = () => {
     };
   }, [searchResults]);
 
+  const handleResultClick = async (fileId) => {
+    try {
+      const url = await getFileUrl(fileId);
+      window.open(url, "_blank");
+    } catch (error) {
+      console.error("Error opening file:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center">
       <form className="flex items-center mx-auto h-auto" onSubmit={(e) => e.preventDefault()}>
@@ -69,7 +78,8 @@ const SearchForm = () => {
             {searchResults.map((result) => (
               <li
                 key={result.id}
-                className="p-2 border-b last:border-b-0 border-gray-200 dark:border-gray-700 hover:bg-gray-100 rounded-md"
+                className="p-2 border-b last:border-b-0 border-gray-200 dark:border-gray-700 hover:bg-gray-100 rounded-md cursor-pointer"
+                onClick={() => handleResultClick(result.id)}
               >
                 {result.type === "folder" ? "📁" : "📄"} {result.name}
               </li>
