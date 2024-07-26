@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Paperclip, Fullscreen} from "lucide-react";
+import { Paperclip, Fullscreen } from "lucide-react";
 import { FaRegWindowClose } from "react-icons/fa";
 import common from "@/configs/common.config";
 import MainLayout from "../../layout/main.layout";
@@ -29,7 +29,7 @@ const AreaSeven = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [name, setName] = useState(null)
+  const [name, setName] = useState(null);
   const iframeRef = useRef(null);
 
   const slideInKeyframes = `
@@ -77,9 +77,7 @@ const AreaSeven = () => {
       if (fileType === "pdf") {
         contentUrl = url;
       } else {
-        contentUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
-          url
-        )}&embedded=true`;
+        contentUrl = `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
       }
       setName(name);
       setSelectedFile(contentUrl);
@@ -180,12 +178,12 @@ const AreaSeven = () => {
               </header>
             </div>
             <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
-              <h1>No files yet</h1>
-              {/* <iframe
+              {/* <h1>No files yet</h1> */}
+              <iframe
                 src={embedLinkPPP}
                 className="w-full h-full border-none"
                 allow="autoplay"
-              ></iframe> */}
+              ></iframe>
             </div>
           </div>
         </section>
@@ -204,12 +202,12 @@ const AreaSeven = () => {
             </div>
 
             <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
-              <h1>No files yet</h1>
-              {/* <iframe
+              {/* <h1>No files yet</h1> */}
+              <iframe
                 src={embedLinkSLF}
                 className="w-full h-full border-none"
                 allow="autoplay"
-              ></iframe> */}
+              ></iframe>
             </div>
           </div>
         </section>
@@ -369,16 +367,14 @@ const AreaSeven = () => {
           </Link>
         </div>
       </MainLayout>
-      
+
       {modalOpen && (
         <>
           <GlobalStyles />
           <div
             className="fixed inset-y-0 right-0 z-50 flex items-center shadow-2xl w-1/2 bg-black bg-opacity-0 transition-opacity duration-5000 ease-in-out"
             style={{
-              animation: `${
-                modalOpen ? "slideIn 2s forwards" : "slideOut 2s forwards"
-              }`,
+              animation: `${modalOpen ? "slideIn 2s forwards" : "slideOut 2s forwards"}`,
             }}
           >
             <div className="bg-white w-full h-full p-4 overflow-y-auto">

@@ -33,7 +33,12 @@ export const fetchFolders = async (parentId = null) => {
       subfolders: [],
     }));
 
-    folders = folders.sort((a, b) => a.createdAt - b.createdAt);
+    folders = folders.sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+
+      return nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: "base" });
+    });
     return folders;
   } catch (error) {
     console.error("Error fetching folders:", error);
@@ -599,7 +604,7 @@ export const fetchAreaOneFoldersAndFiles = async () => {
           ...fileDoc.data(),
         }));
 
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -619,11 +624,11 @@ export const fetchAreaOneFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -657,7 +662,7 @@ export const fetchAreaTwoFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -677,11 +682,11 @@ export const fetchAreaTwoFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -715,7 +720,7 @@ export const fetchAreaThreeFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -735,11 +740,11 @@ export const fetchAreaThreeFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -773,7 +778,7 @@ export const fetchAreaFourFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -793,11 +798,11 @@ export const fetchAreaFourFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -831,7 +836,7 @@ export const fetchAreaFiveFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -851,11 +856,11 @@ export const fetchAreaFiveFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -889,7 +894,7 @@ export const fetchAreaSixFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -909,11 +914,11 @@ export const fetchAreaSixFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -947,7 +952,7 @@ export const fetchAreaSevenFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -967,11 +972,11 @@ export const fetchAreaSevenFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -1005,7 +1010,7 @@ export const fetchAreaEightFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -1025,11 +1030,11 @@ export const fetchAreaEightFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -1063,7 +1068,7 @@ export const fetchAreaNineFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -1083,11 +1088,11 @@ export const fetchAreaNineFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -1121,7 +1126,7 @@ export const fetchAreaTenFoldersAndFiles = async () => {
           id: fileDoc.id,
           ...fileDoc.data(),
         }));
-        folderData.files.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.files.sort((a, b) => a.name.localeCompare(b.name));
 
         // Fetch subfolders and their files
         const subfolderQuery = query(collection(db, "folders"), where("parentId", "==", doc.id));
@@ -1141,11 +1146,11 @@ export const fetchAreaTenFoldersAndFiles = async () => {
               id: fileDoc.id,
               ...fileDoc.data(),
             }));
-            subfolderData.files.sort((a, b) => a.createdAt - b.createdAt);
+            subfolderData.files.sort((a, b) => a.name.localeCompare(b.name));
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );

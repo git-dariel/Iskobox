@@ -12,7 +12,7 @@ const Footer = () => {
       {/* <div className="absolute inset-0 bg-black opacity-50"></div> */}
       <div className="relative z-10 text-center">
         <h2 className="text-base md:text-2xl font-bold">
-          Polytechnic University of the Philippines - Lopez Branch
+          Polytechnic University of the Philippines - Lopez Campus
         </h2>
         <div className="flex justify-center space-x-4 my-4">
           {/* Icons */}
@@ -28,9 +28,7 @@ const Footer = () => {
             </a>
           ))}
         </div>
-        <p className="text-sm">
-          Address: Yumul St. Burgos (Poblacion) 4316 Lopez, Quezon
-        </p>
+        <p className="text-sm">Address: Yumul St. Burgos (Poblacion) 4316 Lopez, Quezon</p>
         <p className="text-sm">
           Academic Year {lastYear} - {currentYear}
         </p>
