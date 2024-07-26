@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Paperclip, Fullscreen, List, ListX} from "lucide-react";
+import { Paperclip, Fullscreen} from "lucide-react";
 import { FaRegWindowClose } from "react-icons/fa";
 import common from "@/configs/common.config";
 import MainLayout from "../../layout/main.layout";
@@ -13,15 +13,9 @@ import documents_links from "@/configs/documents.config";
 
 const AreaFour = () => {
   const googleDriveLinkPPP = documents_links.areafour_ppp;
-  const embedLinkPPP = googleDriveLinkPPP.replace(
-    "/view?usp=sharing",
-    "/preview"
-  );
+  const embedLinkPPP = googleDriveLinkPPP.replace("/view?usp=sharing", "/preview");
   const googleDriveLinkSLF = documents_links.areafour_slf;
-  const embedLinkSLF = googleDriveLinkSLF.replace(
-    "/view?usp=sharing",
-    "/preview"
-  );
+  const embedLinkSLF = googleDriveLinkSLF.replace("/view?usp=sharing", "/preview");
   const [areaFourData, setAreaFourData] = useState([]);
 
   useEffect(() => {
@@ -34,16 +28,11 @@ const AreaFour = () => {
   }, []);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [name, setName] = useState(null);
+  const [name, setName] = useState(null)
   const iframeRef = useRef(null);
-  const [subfolderOpen, setSubfolderOpen] = useState(false);
 
-  const handleSubfolderClick = (subfolder) => {
-    setSubfolderOpen((prevState) => ({
-      ...prevState,
-      [subfolder.id]: !prevState[subfolder.id],
-    }));
-  };
+  
+
   const slideInKeyframes = `
   @keyframes slideIn {
     from {
@@ -73,6 +62,10 @@ const AreaFour = () => {
       {slideOutKeyframes}
     </style>
   );
+
+  
+
+
 
   const openModal = async (file) => {
     const url = await getFileUrl(file.id);
@@ -175,12 +168,8 @@ const AreaFour = () => {
         <section className="flex w-full justify-center bg-gradient-to-r from-amber-300 to-yellow-50 min-h-[40vh] p-7">
           <div className="flex py-4 md:w-[75%] justify-between gap-5">
             <div className="flex flex-col text-justify">
-              <h1 className="md:text-2xl font-bold mb-5">
-                {common.AREAFOUR_CONTENTS.DESC}
-              </h1>
-              <p className="md:text-lg text-sm">
-                {common.AREAFOUR_CONTENTS.DESC_CONTENT}
-              </p>
+              <h1 className="md:text-2xl font-bold mb-5">{common.AREAFOUR_CONTENTS.DESC}</h1>
+              <p className="md:text-lg text-sm">{common.AREAFOUR_CONTENTS.DESC_CONTENT}</p>
             </div>
           </div>
         </section>
@@ -247,21 +236,15 @@ const AreaFour = () => {
                         </h3>
 
                         {subfolder.name === "Parameter A" && (
-                          <p className="text-sm md:text-base">
-                            Student Services Program (SSP)
-                          </p>
+                          <p className="text-sm md:text-base">Student Services Program (SSP)</p>
                         )}
 
                         {subfolder.name === "Parameter B" && (
-                          <p className="text-sm md:text-base">
-                            Student Welfare
-                          </p>
+                          <p className="text-sm md:text-base">Student Welfare</p>
                         )}
 
                         {subfolder.name === "Parameter C" && (
-                          <p className="text-sm md:text-base">
-                            Student Development
-                          </p>
+                          <p className="text-sm md:text-base">Student Development</p>
                         )}
 
                         {subfolder.name === "Parameter D" && (
@@ -283,37 +266,7 @@ const AreaFour = () => {
                     >
                       <div className="bg-white w-[50rem] p-10 rounded-lg">
                         <ul>
-                          {subfolder.files.length > 3 ? (
-                            <div>
-                              <button
-                                className="flex gap-2 items-center m-y border-b-2 w-full mb-2"
-                                onClick={() => {
-                                  handleSubfolderClick(subfolder); // Toggle the subfolderOpen state
-                                }}
-                              > 
-                                
-                                {subfolderOpen[subfolder.id] ?  (
-                                  <ListX  size={17}/> 
-                                ) : (
-                                  <List size={15}/> 
-                                )
-                                }
-                                
-                                {" "}
-                                {subfolder.files.length} Files 
-                              </button>
-                              {subfolderOpen[subfolder.id] &&
-                                subfolder.files.map((file) => (
-                                  <li
-                                    key={file.id}
-                                    className="flex gap-2 items-center cursor-pointer hover:text-blue-500 md:text-base text-sm"
-                                    onClick={() => openModal(file)}
-                                  >
-                                    <Paperclip size={15} /> {file.name}
-                                  </li>
-                                ))}
-                            </div>
-                          ) : (
+                          {subfolder.files.length > 0 ? (
                             subfolder.files.map((file) => (
                               <li
                                 key={file.id}
@@ -323,6 +276,8 @@ const AreaFour = () => {
                                 <Paperclip size={15} /> {file.name}
                               </li>
                             ))
+                          ) : (
+                            <li>No files</li>
                           )}
                         </ul>
                       </div>
@@ -334,9 +289,7 @@ const AreaFour = () => {
                   style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
                 >
                   <header className="border w-full text-center h-full py-10">
-                    <h3 className="text-lg md:text-3xl font-bold text-gray-700">
-                      Other Files
-                    </h3>
+                    <h3 className="text-lg md:text-3xl font-bold text-gray-700">Other Files</h3>
                   </header>
                 </div>
                 <div className="flex items-center justify-center text-justify py-10">
@@ -416,6 +369,7 @@ const AreaFour = () => {
           </Link>
         </div>
       </MainLayout>
+
 
       {modalOpen && (
         <>

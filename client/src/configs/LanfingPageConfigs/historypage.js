@@ -192,8 +192,13 @@ export const HAP = [
   },
   {
     id: 8,
-    details: "8. Prof. Rufo N. Bueza - October 21, 2012 to present",
+    details: "8. Prof. Rufo N. Bueza - October 21, 2012",
   },
+  {
+    id: 9,
+    details: "9. Assoc. Prof. Lourdes B. Avila - (2020  to present) ",
+  },
+
 ];
 
 //branch director
@@ -228,6 +233,10 @@ export const BD = [
   },
   {
     id: 8,
-    details: "8. Prof. Rufo N. Bueza - October 21, 2012 to present",
+    details: "8. Prof. Rufo N. Bueza - October 21, 2012 to 2023",
+  },
+  {
+    id: 9,
+    details: "9. Assoc. Prof Ronaldo G. Bulfa (2023 - up to present)",
   },
 ];

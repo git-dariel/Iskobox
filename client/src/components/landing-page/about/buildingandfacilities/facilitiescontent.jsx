@@ -11,7 +11,7 @@ export default function FacilitiesContent() {
   return (
     <>
       <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]  w-full ">
-        <div className=" w-full flex flex-col  justify-center  ">
+        {/* <div className=" w-full flex flex-col  justify-center  ">
           <div
             className="w-full text-center select-none bg-no-repeat bg-cover  bg-center shadow-xl "
             style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
@@ -24,7 +24,6 @@ export default function FacilitiesContent() {
           </div>
           <div className="px-20 lg:px-40 py-10">
             <div className="relative   " style={{ paddingTop: "56.25%" }}>
-              {/* 16:9 aspect ratio (h/w * 100) */}
               <iframe
                 src={data.video}
                 className="absolute inset-0 w-full h-full rounded-md shadow-xl"
@@ -33,7 +32,7 @@ export default function FacilitiesContent() {
               ></iframe>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div>
           <div
