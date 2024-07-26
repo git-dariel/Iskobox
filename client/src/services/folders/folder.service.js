@@ -628,7 +628,7 @@ export const fetchAreaOneFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -686,7 +686,7 @@ export const fetchAreaTwoFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -744,7 +744,7 @@ export const fetchAreaThreeFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -802,7 +802,7 @@ export const fetchAreaFourFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -860,7 +860,7 @@ export const fetchAreaFiveFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -918,7 +918,7 @@ export const fetchAreaSixFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -976,7 +976,7 @@ export const fetchAreaSevenFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -1034,7 +1034,7 @@ export const fetchAreaEightFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -1092,7 +1092,7 @@ export const fetchAreaNineFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );
@@ -1150,7 +1150,7 @@ export const fetchAreaTenFoldersAndFiles = async () => {
             return subfolderData;
           })
         );
-        folderData.subfolders.sort((a, b) => a.createdAt - b.createdAt);
+        folderData.subfolders.sort((a, b) => a.name.localeCompare(b.name));
         return folderData;
       })
     );

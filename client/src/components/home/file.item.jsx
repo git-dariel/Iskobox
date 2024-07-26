@@ -329,7 +329,7 @@ const FileItem = ({ file, isGridView }) => {
       )}
       {isRenameModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-          <div className="bg-white p-8 rounded-lg shadow-xl">
+          <div className="bg-gray-300 p-8 rounded-lg shadow-xl md:w-96 w-full">
             <h2 className="text-xl font-semibold mb-4">Rename File</h2>
             <input
               type="text"
@@ -340,7 +340,7 @@ const FileItem = ({ file, isGridView }) => {
             <div className="flex justify-end space-x-4 mt-4">
               <button
                 onClick={handleRename} // Updated to call handleRename without arguments
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-6 py-2 bg-[#EA580C] text-white rounded-lg hover:bg-[#ca4e0b] transition-colors"
               >
                 Rename
               </button>

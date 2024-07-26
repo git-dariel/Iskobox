@@ -19,7 +19,7 @@ const documents_links = {
     "https://drive.google.com/file/d/1C4ybo51kGfSAvmxBtzm7x2v9ZMRBscMk/view?usp=sharing", //video
   areaone_ppp: "https://drive.google.com/file/d/1n4hiUyxcdJuY5LLVOyneC91Ylo7lwNeW/view?usp=sharing",
   areaone_slf: "https://drive.google.com/file/d/1e1Y3C21zI8hPVKj9hQFzRGb1-Hb5F8BW/view?usp=sharing",
-  areatwo_ppp: "https://drive.google.com/file/d/1ScBIAO0wkTVdy5RkYhni20tAIlJlTVyq/view?usp=sharing",
+  areatwo_ppp: "https://drive.google.com/file/d/1DeVekXvmK2M8jzCaN_akAesPmVcDV2LI/view?usp=sharing",
   areatwo_slf: "https://drive.google.com/file/d/1a9BHVbpi3HfAhvvJi1FHbmsOumwkc1O_/view?usp=sharing",
   areathree_ppp: "no file",
   areathree_slf: "no file",
