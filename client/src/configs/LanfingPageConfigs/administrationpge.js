@@ -615,14 +615,14 @@ export const CARO = [
   {
     id: 1,
     img: img15,
-    name: "Marian B. Reynales, RPm",
-    position: "Guidance Advocate",
+    name: "Tito Ernesto Z. Loreto",
+    position: "Admission Officer",
   },
   {
     id: 2,
     img: img16,
-    name: "Marian B. Reynales, RPm",
-    position: "Guidance Advocate",
+    name: "Wilbor B. De Asis",
+    position: "Students Record Officers",
   },
 ];
 
