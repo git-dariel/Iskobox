@@ -32,8 +32,10 @@ const documents_links = {
     "https://drive.google.com/file/d/1UK6Wu2rT6kgwiFhIbGy_VIZYpcFlkgf-/view?usp=sharing",
   areasix_ppp: "no file",
   areasix_slf: "no file",
-  areaseven_ppp: "no file",
-  areaseven_slf: "no file",
+  areaseven_ppp:
+    "https://drive.google.com/file/d/1nfkYFlnsY4oQGma7ltD2BkdZ9AmOVEc0/view?usp=sharing",
+  areaseven_slf:
+    "https://drive.google.com/file/d/1vOfEHd-jO-qbjYXtBjKPINIAmujDGNHA/view?usp=sharing",
   areaeight_ppp: "no file",
   areaeight_slf: "no file",
   areanine_ppp:

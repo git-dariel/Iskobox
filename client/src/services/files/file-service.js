@@ -13,26 +13,30 @@ import {
   serverTimestamp,
   orderBy,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable, deleteObject, getBlob } from "firebase/storage";
 import { db, storage } from "../../database/firebase-connection";
 import { logActivity } from "@/middleware/activity.logging";
 
 export const fetchAllFiles = async () => {
   const q = query(collection(db, "files"));
   const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  return querySnapshot.docs
+    .map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 };
 
 export const fetchFilesInFolder = async (folderId) => {
   const q = query(collection(db, "files"), where("folderId", "==", folderId));
   const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  return querySnapshot.docs
+    .map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 };
 
 export const uploadFile = async (file, folderId, onProgress) => {
@@ -110,7 +114,6 @@ export const uploadFile = async (file, folderId, onProgress) => {
     createdAt: serverTimestamp(),
   };
 };
-
 
 export const deleteFile = async (fileId) => {
   const fileRef = doc(db, "files", fileId);
@@ -209,4 +212,45 @@ export const searchFilesByTag = async (tagFilter) => {
     console.error("Error searching files by tag:", error);
     throw error;
   }
+};
+
+export const renameFile = async (fileId, newName) => {
+  const fileRef = doc(db, "files", fileId);
+  const fileSnapshot = await getDoc(fileRef);
+  if (!fileSnapshot.exists()) {
+    throw new Error("File not found");
+  }
+  const fileData = fileSnapshot.data();
+  const oldPath = `folders/${fileData.folderId}/${fileData.name}`;
+  const newPath = `folders/${fileData.folderId}/${newName}`;
+
+  // Rename the file in Firebase Storage
+  const oldStorageRef = ref(storage, oldPath);
+  const newStorageRef = ref(storage, newPath);
+  await getBlob(oldStorageRef)
+    .then((blob) => {
+      return uploadBytesResumable(newStorageRef, blob);
+    })
+    .catch((error) => {
+      console.error("Error moving file in storage:", error);
+      throw error;
+    });
+  await deleteObject(oldStorageRef).catch((error) => {
+    console.error("Error deleting old file in storage:", error);
+    throw error;
+  });
+
+  // Get the new download URL for the renamed file
+  const newUrl = await getDownloadURL(newStorageRef);
+
+  // Update the file name and URL in Firestore
+  await updateDoc(fileRef, { name: newName, url: newUrl }).catch((error) => {
+    console.error("Error updating document:", error);
+    throw error;
+  });
+
+  // Log activity for the file rename
+  await logActivity("Rename file", { fileId: fileId, oldName: fileData.name, newName: newName });
+
+  return newName;
 };

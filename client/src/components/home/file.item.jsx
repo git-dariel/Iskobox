@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getFileIcon, getFileType } from "../../helpers/file-helpers";
-import {
-  deleteFile,
-  getFileUrl,
-  getFileTags,
-} from "../../services/files/file-service";
+import { deleteFile, getFileUrl, getFileTags, renameFile } from "../../services/files/file-service";
 import { Toaster, toast } from "sonner";
 import CircleButton from "../common/buttons/reusable/circle.button";
-import { MdDelete, MdDownload, MdMoreVert } from "react-icons/md";
+import { MdDelete, MdDownload, MdMoreVert, MdEdit } from "react-icons/md";
 import { useUpdate } from "@/helpers/update.context";
 import { CiHashtag } from "react-icons/ci";
 import FileTagModal from "../modals/file.tag";
@@ -18,6 +14,8 @@ const FileItem = ({ file, isGridView }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [newFileName, setNewFileName] = useState(file.name);
   const [tags, setTags] = useState([]);
   const dropdownRef = useRef(null);
   const { triggerUpdate } = useUpdate();
@@ -152,6 +150,23 @@ const FileItem = ({ file, isGridView }) => {
     }
   };
 
+  const handleRename = async () => {
+    toast.promise(renameFile(file.id, newFileName), {
+      loading: "Renaming file...",
+      success: () => {
+        toast.success("File renamed successfully");
+        triggerUpdate();
+        setIsRenameModalOpen(false);
+        return "File renamed successfully";
+      },
+      error: (err) => {
+        console.error("Error renaming file:", err);
+        setIsRenameModalOpen(false);
+        return `Failed to rename file. Please try again. ${err.message}`;
+      },
+    });
+  };
+
   return (
     <>
       <Toaster richColors />
@@ -164,11 +179,7 @@ const FileItem = ({ file, isGridView }) => {
         onClick={() => {
           if (isTagModalOpen) return;
           const fileType = getFileType(file.name);
-          if (
-            fileType === "image" ||
-            fileType === "pdf" ||
-            fileType === "docx"
-          ) {
+          if (fileType === "image" || fileType === "pdf" || fileType === "docx") {
             setIsModalOpen(true);
           } else if (fileType === "video" || fileType === "audio") {
             handleOpenMedia();
@@ -179,17 +190,12 @@ const FileItem = ({ file, isGridView }) => {
       >
         {getFileIcon(file.name)}
         <span className="truncate flex-grow overflow-hidden text-ellipsis md:whitespace-normal">
-          {file.name.length > 30
-            ? `${file.name.substring(0, 17)}...`
-            : file.name}
+          {file.name.length > 30 ? `${file.name.substring(0, 17)}...` : file.name}
         </span>
 
         <div className="flex flex-wrap gap-1">
           {tags.slice(0, 2).map((tag, index) => (
-            <span
-              key={index}
-              className="bg-gray-200 rounded-full px-2 py-1 text-xs text-gray-700"
-            >
+            <span key={index} className="bg-gray-200 rounded-full px-2 py-1 text-xs text-gray-700">
               #{tag}
             </span>
           ))}
@@ -200,10 +206,7 @@ const FileItem = ({ file, isGridView }) => {
           )}
         </div>
 
-        <div
-          className={`relative ${isGridView ? "self-end" : ""}`}
-          ref={dropdownRef}
-        >
+        <div className={`relative ${isGridView ? "self-end" : ""}`} ref={dropdownRef}>
           <MdMoreVert
             size={20}
             className={`cursor-pointer hover:bg-gray-300 rounded-full transition-all duration-150 ${
@@ -239,6 +242,16 @@ const FileItem = ({ file, isGridView }) => {
               >
                 <CiHashtag size={20} className="mr-2" />
                 Add tags
+              </button>
+              <button
+                className="flex items-center w-full px-4 pt-2 pb-3 text-sm text-blue-600 hover:bg-gray-100"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsRenameModalOpen(true);
+                }}
+              >
+                <MdEdit size={20} className="mr-2" />
+                Rename
               </button>
             </div>
           )}
@@ -296,9 +309,7 @@ const FileItem = ({ file, isGridView }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
           <div className="bg-gray-300 p-8 rounded-lg shadow-2xl">
             <h2 className="text-xl font-semibold mb-6">Delete {file.name}</h2>
-            <p className="mb-4">
-              Are you sure you want to delete the file "{file.name}"?
-            </p>
+            <p className="mb-4">Are you sure you want to delete the file "{file.name}"?</p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={handleDelete}
@@ -308,6 +319,33 @@ const FileItem = ({ file, isGridView }) => {
               </button>
               <button
                 onClick={closeDeleteModal}
+                className="px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isRenameModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="bg-white p-8 rounded-lg shadow-xl">
+            <h2 className="text-xl font-semibold mb-4">Rename File</h2>
+            <input
+              type="text"
+              value={newFileName}
+              onChange={(e) => setNewFileName(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+            <div className="flex justify-end space-x-4 mt-4">
+              <button
+                onClick={handleRename} // Updated to call handleRename without arguments
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Rename
+              </button>
+              <button
+                onClick={() => setIsRenameModalOpen(false)}
                 className="px-6 py-2 border bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 Cancel
