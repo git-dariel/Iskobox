@@ -21,26 +21,26 @@ const documents_links = {
   areaone_slf: "https://drive.google.com/file/d/1e1Y3C21zI8hPVKj9hQFzRGb1-Hb5F8BW/view?usp=sharing",
   areatwo_ppp: "https://drive.google.com/file/d/1DeVekXvmK2M8jzCaN_akAesPmVcDV2LI/view?usp=sharing",
   areatwo_slf: "https://drive.google.com/file/d/1a9BHVbpi3HfAhvvJi1FHbmsOumwkc1O_/view?usp=sharing",
-  areathree_ppp: "no file",
-  areathree_slf: "no file",
+  areathree_ppp: "https://drive.google.com/file/d/19ifa2yfNTl_ONmtWIILzJaD-EK5Y8CmU/view?usp=sharing",
+  areathree_slf: "https://drive.google.com/file/d/11yYzJGJc32c5UZCsAXBLSYW2CBFt415j/view?usp=sharing",
   areafour_ppp:
     "https://drive.google.com/file/d/1-PwXINpJ3dW6TY_4_j7j3Ktf6PRVqgHE/view?usp=sharing",
-  areafour_slf: "no file",
+  areafour_slf: "https://drive.google.com/file/d/1TK8SHhvuTelfZYGF8VEW39x1rdwdi4D2/view?usp=sharing",
   areafive_ppp:
     "https://drive.google.com/file/d/19Bl4ZuQ-1yQzhPO0AKOMiM9vzOF5kn_4/view?usp=sharing",
   areafive_slf:
     "https://drive.google.com/file/d/1UK6Wu2rT6kgwiFhIbGy_VIZYpcFlkgf-/view?usp=sharing",
-  areasix_ppp: "no file",
-  areasix_slf: "no file",
+  areasix_ppp: "https://drive.google.com/file/d/1s4rvvQCkJ3y3s3AcKgETHxKV1Y1YepFQ/view?usp=sharing",
+  areasix_slf: "https://drive.google.com/file/d/1Y16YyIPErX2hFOBFiRKGXUDZqmdSYyUz/view?usp=sharing",
   areaseven_ppp:
     "https://drive.google.com/file/d/1nfkYFlnsY4oQGma7ltD2BkdZ9AmOVEc0/view?usp=sharing",
   areaseven_slf:
     "https://drive.google.com/file/d/1vOfEHd-jO-qbjYXtBjKPINIAmujDGNHA/view?usp=sharing",
   areaeight_ppp: "no file",
-  areaeight_slf: "no file",
+  areaeight_slf: "https://drive.google.com/file/d/1B5bPwZFDLPJ3WuMtjisL-dlEjyCL0OEW/view?usp=sharing",
   areanine_ppp:
-    "https://drive.google.com/file/d/13QOMeY97iTn5Gva069VWE6PrGIa3ews4/view?usp=sharing",
-  areanine_slf: "no file",
+    "https://drive.google.com/file/d/1EzM6VvZ1VJpdbtuXdjhN6QfwYMEQqmBR/view?usp=sharing",
+  areanine_slf: "https://drive.google.com/file/d/1WoeCKrdxSVKs4VN6YHf6qtidJnExxaF_/view?usp=sharing",
   areaten_ppp: "no file",
   areaten_slf: "no file",
 };

@@ -188,12 +188,12 @@ const AreaSix = () => {
               </header>
             </div>
             <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
-              <h1>No files yet</h1>
-              {/* <iframe
+           
+              <iframe
                 src={embedLinkPPP}
                 className="w-full h-full border-none"
                 allow="autoplay"
-              ></iframe> */}
+              ></iframe>
             </div>
           </div>
         </section>
@@ -212,12 +212,12 @@ const AreaSix = () => {
             </div>
 
             <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
-              <h1>No files yet</h1>
-              {/* <iframe
+            
+              <iframe
                 src={embedLinkSLF}
                 className="w-full h-full border-none"
                 allow="autoplay"
-              ></iframe> */}
+              ></iframe>
             </div>
           </div>
         </section>
