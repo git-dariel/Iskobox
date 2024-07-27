@@ -29,7 +29,7 @@ const documents_links = {
   areafive_ppp:
     "https://drive.google.com/file/d/19Bl4ZuQ-1yQzhPO0AKOMiM9vzOF5kn_4/view?usp=sharing",
   areafive_slf:
-    "https://drive.google.com/file/d/1UK6Wu2rT6kgwiFhIbGy_VIZYpcFlkgf-/view?usp=sharing",
+    "https://drive.google.com/file/d/19Bl4ZuQ-1yQzhPO0AKOMiM9vzOF5kn_4/view?usp=sharing",
   areasix_ppp: "no file",
   areasix_slf: "no file",
   areaseven_ppp:
@@ -39,8 +39,8 @@ const documents_links = {
   areaeight_ppp: "no file",
   areaeight_slf: "no file",
   areanine_ppp:
-    "https://drive.google.com/file/d/13QOMeY97iTn5Gva069VWE6PrGIa3ews4/view?usp=sharing",
-  areanine_slf: "no file",
+    "https://drive.google.com/file/d/1p16rZzbJ5aSgDjGzwY9_cOGu_o_pxgMQ/view?usp=sharing",
+  areanine_slf: "https://drive.google.com/file/d/1WoeCKrdxSVKs4VN6YHf6qtidJnExxaF_/view?usp=sharing",
   areaten_ppp: "no file",
   areaten_slf: "no file",
 };
