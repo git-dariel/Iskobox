@@ -4,7 +4,7 @@ import yellow_bg from "@/assets/exhibit/yellow_bg.png";
 import waving_boy from "@/assets/gifs/waving-boy.gif";
 import waving_girl from "@/assets/gifs/waving-girl.gif";
 import instructional_material from "@/assets/exhibit/instructional_material.png";
-import syllabi from "@/assets/exhibit/syllabi.jpeg";
+import syllabi from "@/assets/exhibit/syllabi.png";
 
 const imgSource = {};
 

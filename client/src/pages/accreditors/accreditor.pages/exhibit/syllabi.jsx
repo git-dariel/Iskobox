@@ -52,7 +52,7 @@ const Syllabi = () => {
               style={{
                 transform: springs.scale.to((scale) => `scale(${scale})`),
               }}
-              className="flex object-center z-[10] sm:max-w-[40rem] md:max-w-[55rem] lg:max-w-[60rem]"
+              className="flex object-center z-[10] sm:max-w-[40rem] md:max-w-[55rem] lg:max-w-[60rem] rounded"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />
