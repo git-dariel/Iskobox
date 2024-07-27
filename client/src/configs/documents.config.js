@@ -9,7 +9,7 @@ const documents_links = {
     "https://drive.google.com/file/d/1dzWu6o_9reGMSomTkEm5gXIgFXebGZ1H/view?usp=sharing",
   faculty_manual:
     "https://drive.google.com/file/d/1wJ6jamQM0LWvvkMcEHcu-hNBqfTlcbVc/view?usp=sharing",
-  syllabi: "https://drive.google.com/drive/folders/1CjJ_CwnTO9jVCLqMKInH3C6KGuc_BwI9?usp=sharing", //folder
+  syllabi: "https://drive.google.com/drive/folders/1dDe7Z0kO9xCd4NmwRF-SDrmzqHzShExO?usp=sharing", //folder
   instructional_mats:
     "https://drive.google.com/drive/folders/1yB9-dChr-DTEPYSD_u10GbYyCp2y0qAd?usp=sharing", //folder
   cmo: "https://drive.google.com/file/d/11909zaVaqG_0bAQejn7MsmkJ6MVkGH9d/view?usp=sharing",
