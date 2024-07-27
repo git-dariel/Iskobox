@@ -41,7 +41,7 @@ const documents_links = {
   areanine_ppp:
     "https://drive.google.com/file/d/1EzM6VvZ1VJpdbtuXdjhN6QfwYMEQqmBR/view?usp=sharing",
   areanine_slf: "https://drive.google.com/file/d/1WoeCKrdxSVKs4VN6YHf6qtidJnExxaF_/view?usp=sharing",
-  areaten_ppp: "no file",
+  areaten_ppp: "https://drive.google.com/file/d/17Y_pP2IbrgqRPOPPz5gaAMsSWJSeJs3u/view?usp=sharing",
   areaten_slf: "no file",
 };
 

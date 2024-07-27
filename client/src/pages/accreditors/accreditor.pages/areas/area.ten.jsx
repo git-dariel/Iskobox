@@ -182,12 +182,12 @@ const AreaTen = () => {
               </header>
             </div>
             <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
-              <h1>No files yet</h1>
-              {/* <iframe
+              {/* <h1>No files yet</h1> */}
+              <iframe
                 src={embedLinkPPP}
                 className="w-full h-full border-none"
                 allow="autoplay"
-              ></iframe> */}
+              ></iframe>
             </div>
           </div>
         </section>
@@ -292,7 +292,7 @@ const AreaTen = () => {
                     </div>
                   </>
                 ))}
-                <div
+                {/* <div
                   className="w-full text-center select-none bg-no-repeat bg-cover bg-center shadow-xl"
                   style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
                 >
@@ -318,7 +318,7 @@ const AreaTen = () => {
                       )}
                     </ul>
                   </div>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
