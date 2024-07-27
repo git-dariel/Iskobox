@@ -20,5 +20,5 @@ export const about = {
   span5: "Welcome to PUP Lopez ",
   span6: "Home of Board Passers and Topnotchers",
   //video about pup
-  video1: "https://drive.google.com/file/d/1dB1NYbRLsx4txJtMKKZO7dcaCZLi3emY/preview",
+  video1: "https://drive.google.com/file/d/1xnAGcZ01Dleqaeof3Vwy-xny-D6zHt6_/preview",
 };
