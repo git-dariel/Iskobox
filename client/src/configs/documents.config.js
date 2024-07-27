@@ -42,7 +42,7 @@ const documents_links = {
     "https://drive.google.com/file/d/1EzM6VvZ1VJpdbtuXdjhN6QfwYMEQqmBR/view?usp=sharing",
   areanine_slf: "https://drive.google.com/file/d/1WoeCKrdxSVKs4VN6YHf6qtidJnExxaF_/view?usp=sharing",
   areaten_ppp: "https://drive.google.com/file/d/17Y_pP2IbrgqRPOPPz5gaAMsSWJSeJs3u/view?usp=sharing",
-  areaten_slf: "no file",
+  areaten_slf: "https://drive.google.com/file/d/1PaCJeiAQp0MqrEDu7KsAqQAQftj9kmb4/view?usp=sharing",
 };
 
 export default documents_links;
