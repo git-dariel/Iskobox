@@ -270,7 +270,7 @@ const AreaNine = () => {
                     </div>
                   </>
                 ))}
-                <div
+                {/* <div
                   className="w-full text-center select-none bg-no-repeat bg-cover bg-center shadow-xl"
                   style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
                 >
@@ -296,7 +296,7 @@ const AreaNine = () => {
                       )}
                     </ul>
                   </div>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
