@@ -11,7 +11,7 @@ export default function FacilitiesContent() {
   return (
     <>
       <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb]  w-full ">
-        {/* <div className=" w-full flex flex-col  justify-center  ">
+        <div className=" w-full flex flex-col  justify-center  ">
           <div
             className="w-full text-center select-none bg-no-repeat bg-cover  bg-center shadow-xl "
             style={{ backgroundImage: `url(${bgHeader.bgheader1})` }}
@@ -32,7 +32,7 @@ export default function FacilitiesContent() {
               ></iframe>
             </div>
           </div>
-        </div> */}
+        </div>
 
         <div>
           <div

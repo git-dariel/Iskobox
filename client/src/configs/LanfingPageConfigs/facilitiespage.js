@@ -25,7 +25,7 @@ export const data = {
   //content
   title: "Virtual Tour",
   video:
-    "https://drive.google.com/file/d/1SpnWFVZ_P1FA-1fIxN6sztoJFgOXlUq4/preview",
+    "https://drive.google.com/file/d/19QlkNlmzc8sabNlmv104D0uAv4rVFVtG/preview",
 
   buildingtitle: "Buildings",
   facilititestitle: "Facilitites",
