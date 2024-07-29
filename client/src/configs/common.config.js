@@ -21,7 +21,6 @@ import Area10 from "../assets/prog-und-survey/areas/area10.png";
 
 import { FaGlobe, FaFacebook, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
 
-
 const common = {};
 
 common.footerLinks = [
@@ -361,7 +360,7 @@ common.AREASEVEN_CONTENTS = {
 
 common.AREAEIGHT = {
   span1: "AREA 8",
-  span2: "PHYISICAL PLANT AND FACILITIES",
+  span2: "PHYSICAL PLANT AND FACILITIES",
 
   icon: OrgPic,
 };
