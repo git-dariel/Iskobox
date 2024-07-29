@@ -19,6 +19,8 @@ import img17 from "@/assets/administration/adminOfficer/img17.png";
 import img18 from "@/assets/administration/adminOfficer/img18.png";
 import img19 from "@/assets/administration/adminOfficer/img19.png";
 import img20 from "@/assets/administration/adminOfficer/img20.png";
+import img0 from "@/assets/administration/faculties/img.png";
+import fimg from "@/assets/administration/faculties/fimg.png";
 import fimg1 from "@/assets/administration/faculties/fimg1.png";
 import fimg2 from "@/assets/administration/faculties/fimg2.png";
 import fimg3 from "@/assets/administration/faculties/fimg3.png";
@@ -104,12 +106,10 @@ import fimg82 from "@/assets/administration/faculties/fimg82.png";
 import fimg83 from "@/assets/administration/faculties/fimg83.png";
 import fimg84 from "@/assets/administration/faculties/fimg84.png";
 import fimg85 from "@/assets/administration/faculties/fimg85.png";
-
-
-
-
-
-
+import ruperto from "@/assets/administration/faculties/ruperto.png";
+import fabi from "@/assets/administration/faculties/fabi.png";
+import argosino from "@/assets/administration/faculties/argosino.png";
+import judith from "@/assets/administration/faculties/JUDITH.png";
 
 export const administration = {
   //Header
@@ -121,6 +121,7 @@ export const administration = {
   studentaffair: "STUDENT AFFAIRS & SERVICES",
   adminofficer: "ADMINISTRATIVE OFFICERS",
   facultiest: "FACULTIES",
+  accretaskforce: "AREA ACCREDITATION TASK FORCE",
 
   directorimg: Director,
   directorname: "Asso. Prof. Ronaldo G. Bulfa",
@@ -141,7 +142,322 @@ export const administration = {
   Aoimg: img3,
   Aoname: "Engr. Antonio P. Curva",
   Aoposition: "Administrative Officer and QMS Head",
+
+  qacimg: img5,
+  qacname: "Assoc. Prof. Maria Asuncion R. Del Castillo",
+  qacposition: "Quality Assurance Coordinator",
 };
+
+export const Area = [
+  {
+    id: 1,
+    title: "Area I",
+    Img: [
+      {
+        id: 1,
+        img: fimg62,
+        name: "Prof. Mildred M. Mondragon",
+      },
+      {
+        id: 1,
+        img: fimg73,
+        name: "Prof. Riza Rizalina A. Quincina",
+      },
+      {
+        id: 1,
+        img: fimg79,
+        name: "Prof. Maria Villa A. Sarmiento",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Area II",
+    Img: [
+      {
+        id: 1,
+        img: fimg6,
+        name: "Prof. MAY ANNE F. ARAZA",
+      },
+      {
+        id: 2,
+        img: fimg9,
+        name: "Prof. Lourdes B. Avila",
+      },
+      {
+        id: 3,
+        img: fimg36,
+        name: "Prof. Maria Asuncion R. Del Castillo",
+      },
+      {
+        id: 4,
+        img: fimg19,
+        name: "Prof. Dionysus A. Velasquez",
+      },
+      {
+        id: 5,
+        img: fimg18,
+        name: "Prof. Christopher B. Valencia",
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Area III",
+    Img: [
+      {
+        id: 1,
+        img: fimg10,
+        name: "Prof. Josefina P. Babiera",
+      },
+      {
+        id: 2,
+        img: fimg57,
+        name: "Prof. Hiroshi Sen T. Mera",
+      },
+      {
+        id: 3,
+        img: fimg24,
+        name: "Prof. Marie Andrea E. Zurbano",
+      },
+      {
+        id: 4,
+        img: fimg60,
+        name: "Prof. Icon C. Obmerga",
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Area IV",
+    Img: [
+      {
+        id: 1,
+        img: fimg22,
+        name: "Prof. TRISTAN KIRT O. YUMUL",
+      },
+      {
+        id: 2,
+        img: fimg68,
+        name: "Prof. Kent B. Pitero",
+      },
+      {
+        id: 3,
+        img: fimg81,
+        name: "Prof. Mark Rey U. Tan",
+      },
+      {
+        id: 4,
+        img: img15,
+        name: "Prof.Tito Ernesto Z. Loreto",
+      },
+      {
+        id: 5,
+        img: fimg72,
+        name: "Prof. MarianR. Garduña",
+      },
+      {
+        id: 6,
+        img: fimg23,
+        name: "Prof. Leilidyn Y. Zurbano",
+      },
+      {
+        id: 7,
+        img: fimg,
+        name: "Marite P. Imperio",
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "Area V",
+    Img: [
+      {
+        id: 1,
+        img: fimg51,
+        name: "Prof. Lesley Ann C. Magtibay",
+      },
+      {
+        id: 2,
+        img: fimg1,
+        name: "Prof. Vince Czar S. Abel",
+      },
+      {
+        id: 3,
+        img: fimg69,
+        name: "Prof. Elenita R. Portez",
+      },
+      {
+        id: 4,
+        img: fimg42,
+        name: "Prof. Jayson C. Jucom",
+      },
+      {
+        id: 5,
+        img: fimg77,
+        name: "Prof. Altagracia A. Silaya",
+      },
+      {
+        id: 6,
+        img: fimg23,
+        name: "Prof. Leilidyn Y. Zurbano",
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "Area VI",
+    Img: [
+      {
+        id: 1,
+        img: fimg7,
+        name: "Prof. Tadeus L. Arche Jr.",
+      },
+      {
+        id: 2,
+        img: fimg44,
+        name: "Prof. Ma. Luisa N. Francisco",
+      },
+      {
+        id: 3,
+        img: fimg85,
+        name: "Prof. Bernie D. Teguenos",
+      },
+      {
+        id: 4,
+        img: fimg16,
+        name: "Prof. Jay Lexter D. Umali",
+      },
+      {
+        id: 5,
+        img: fimg12,
+        name: "Prof. Salvador U. Barros ll",
+      },
+      {
+        id: 6,
+        img: fimg80,
+        name: "Prof. Sarah G. Tabien",
+      },
+      {
+        id: 7,
+        img: fimg53,
+        name: "Prof. Joel C. Magtibay",
+      },
+    ],
+  },
+  {
+    id: 7,
+    title: "Area VII",
+    Img: [
+      {
+        id: 1,
+        img: img10,
+        name: "Cherry D. Landicho",
+      },
+      {
+        id: 2,
+        img: fimg18,
+        name: "Wilfredo Malabanan",
+      },
+      {
+        id: 3,
+        img: img0,
+        name: "Mary Ann D. Padua",
+      },
+    ],
+  },
+  {
+    id: 8,
+    title: "Area VIII",
+    Img: [
+      {
+        id: 1,
+        img: img17,
+        name: "Dr. Victoria Alma V. Conti",
+      },
+      {
+        id: 2,
+        img: img3,
+        name: "Prof. Antonio P. Curva",
+      },
+      {
+        id: 3,
+        img: fimg40,
+        name: "Prof. Nelson N. Entienza",
+      },
+      {
+        id: 4,
+        img: img19,
+        name: "Ruwena M. Yumul, RN",
+      },
+      {
+        id: 5,
+        img: ruperto,
+        name: "Ruperto I. Almase",
+      },
+      {
+        id: 6,
+        img: argosino,
+        name: "Alvin A. Argosino",
+      },
+      {
+        id: 7,
+        img: img16,
+        name: "Wilbor B. De Asis",
+      },
+      {
+        id: 8,
+        img: fabi,
+        name: "Garito E. Fabi",
+      },
+    ],
+  },
+  {
+    id: 9,
+    title: "Area IX",
+    Img: [
+      {
+        id: 1,
+        img: fimg82,
+        name: "Prof. Lynel P. Tabien",
+      },
+      {
+        id: 2,
+        img: fimg20,
+        name: "Prof. Gilberto A. Villanueva",
+      },
+      
+    ],
+  },
+  {
+    id: 10,
+    title: "Area X",
+    Img: [
+      {
+        id: 1,
+        img: Director,
+        name: "Prof. Ronaldo G. Bulfa",
+      },
+      {
+        id: 2,
+        img: fimg46,
+        name: "Prof. Joanne Michelle D. Lee",
+      },
+      {
+        id: 3,
+        img: fimg58,
+        name: "Prof. Devimar V. Marcaida",
+      },
+      {
+        id: 4,
+        img: judith,
+        name: "Judith M. Marjalino",
+      },
+      
+      
+    ],
+  },
+];
 
 export const faculties = [
   {
@@ -372,7 +688,7 @@ export const faculties = [
   {
     id: 46,
     img: fimg46,
-    name: "Prof. JOANNE D. MICHELLE ",
+    name: "Prof. JOANNE MICHELLE D. LEE ",
   },
   {
     id: 47,
@@ -569,10 +885,6 @@ export const faculties = [
     img: fimg85,
     name: "Prof. BERNIE D. TEGUENOS",
   },
-
-
-
-
 ];
 
 export const Ao2 = [
@@ -718,3 +1030,5 @@ export const designees = [
     position: "Collecting and Disbursing Officer",
   },
 ];
+
+export const title = [];
