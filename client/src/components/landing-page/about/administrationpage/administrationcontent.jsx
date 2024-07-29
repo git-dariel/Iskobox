@@ -3,6 +3,7 @@ import AdministrativeOfficers from "./administrative";
 import Designees from "./designees";
 import Faculties from "./faculties";
 import StudentAffair from "./studentaffair";
+import TaskForce from "./taskforce";
 
 
 export default function AdministrationContent(){
@@ -13,6 +14,7 @@ export default function AdministrationContent(){
         <StudentAffair/>
         <AdministrativeOfficers/>
         <Faculties/>
+        <TaskForce/>
         </>
     );
 }

@@ -3,7 +3,7 @@ import { bgHeader } from "@/configs/LanfingPageConfigs/bgheader";
 
 export default function Designees() {
   return (
-    <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] ">
+    <section className="bg-gradient-to-r from-[#e9cf5e] to-[#fffbfb] flex flex-col">
       <div
         className="w-full h-auto text-center select-none bg-cover bg-no-repeat bg-center shadow-xl"
         style={{ backgroundImage: `url(${bgHeader.bgheader2})` }}
