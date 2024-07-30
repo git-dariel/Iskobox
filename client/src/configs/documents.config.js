@@ -36,7 +36,7 @@ const documents_links = {
   areasix_ppp: "https://drive.google.com/file/d/1s4rvvQCkJ3y3s3AcKgETHxKV1Y1YepFQ/view?usp=sharing",
   areasix_slf: "https://drive.google.com/file/d/1Y16YyIPErX2hFOBFiRKGXUDZqmdSYyUz/view?usp=sharing",
   areaseven_ppp:
-    "https://drive.google.com/file/d/1nfkYFlnsY4oQGma7ltD2BkdZ9AmOVEc0/view?usp=sharing",
+    "https://drive.google.com/file/d/1yMNpuNBb_JzRq8k7wJl124xpsKfxBOog/view?usp=sharing",
   areaseven_slf:
     "https://drive.google.com/file/d/1vOfEHd-jO-qbjYXtBjKPINIAmujDGNHA/view?usp=sharing",
   areaeight_ppp:
