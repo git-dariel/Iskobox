@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Paperclip, Fullscreen} from "lucide-react";
+import { Paperclip, Fullscreen } from "lucide-react";
 import { FaRegWindowClose } from "react-icons/fa";
 import common from "@/configs/common.config";
 import MainLayout from "../../layout/main.layout";
@@ -29,10 +29,8 @@ const AreaSix = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [name, setName] = useState(null)
+  const [name, setName] = useState(null);
   const iframeRef = useRef(null);
-
-  
 
   const slideInKeyframes = `
   @keyframes slideIn {
@@ -64,10 +62,6 @@ const AreaSix = () => {
     </style>
   );
 
-  
-
-
-
   const openModal = async (file) => {
     const url = await getFileUrl(file.id);
     const fileType = getFileType(file.name);
@@ -78,15 +72,14 @@ const AreaSix = () => {
       fileType === "pdf" ||
       fileType === "docx" ||
       fileType === "pptx" ||
-      fileType === "xlsx"
+      fileType === "xlsx" ||
+      fileType === "video"
     ) {
       let contentUrl = null;
-      if (fileType === "pdf") {
+      if (fileType === "pdf" || fileType === "video") {
         contentUrl = url;
       } else {
-        contentUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
-          url
-        )}&embedded=true`;
+        contentUrl = `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
       }
       setName(name);
       setSelectedFile(contentUrl);
@@ -188,7 +181,6 @@ const AreaSix = () => {
               </header>
             </div>
             <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
-           
               <iframe
                 src={embedLinkPPP}
                 className="w-full h-full border-none"
@@ -212,7 +204,6 @@ const AreaSix = () => {
             </div>
 
             <div className="md:w-[100vh] md:h-[90vh] w-[40vh] h-[50vh] flex items-center justify-center bg-transparent my-2">
-            
               <iframe
                 src={embedLinkSLF}
                 className="w-full h-full border-none"
@@ -367,16 +358,13 @@ const AreaSix = () => {
           </Link>
         </div>
       </MainLayout>
-
       {modalOpen && (
         <>
           <GlobalStyles />
           <div
             className="fixed inset-y-0 right-0 z-50 flex items-center shadow-2xl w-1/2 bg-black bg-opacity-0 transition-opacity duration-5000 ease-in-out"
             style={{
-              animation: `${
-                modalOpen ? "slideIn 2s forwards" : "slideOut 2s forwards"
-              }`,
+              animation: `${modalOpen ? "slideIn 2s forwards" : "slideOut 2s forwards"}`,
             }}
           >
             <div className="bg-white w-full h-full p-4 overflow-y-auto">
@@ -393,13 +381,20 @@ const AreaSix = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <iframe
-                  ref={iframeRef}
-                  src={selectedFile}
-                  className="w-full h-[92vh] border-none rounded-md"
-                  allow="autoplay fullview justify"
-                  style={{ margin: "auto" }}
-                ></iframe>
+                {getFileType(name) === "video" ? (
+                  <video controls className="w-full h-[92vh] border-none rounded-md">
+                    <source src={selectedFile} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <iframe
+                    ref={iframeRef}
+                    src={selectedFile}
+                    className="w-full h-[92vh] border-none rounded-md"
+                    allow="autoplay fullview justify"
+                    style={{ margin: "auto" }}
+                  ></iframe>
+                )}
               </div>
             </div>
           </div>
