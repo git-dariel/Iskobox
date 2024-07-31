@@ -48,9 +48,9 @@ export const fetchFolders = async (parentId = null) => {
 
 export const addFolder = async (folderData) => {
   try {
-    if (!folderData.name || folderData.name.length > 24 || /[^a-zA-Z0-9 ]/.test(folderData.name)) {
+    if (!folderData.name || folderData.name.length > 34 || /[^a-zA-Z0-9 ]/.test(folderData.name)) {
       throw new Error(
-        "Invalid folder name. Ensure it is no longer than 24 characters and contains only alphanumeric characters and spaces."
+        "Invalid folder name. Ensure it is no longer than 34 characters and contains only alphanumeric characters and spaces."
       );
     }
     const folderPayload = {
